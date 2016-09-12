@@ -1,0 +1,503 @@
+\section{Complexidade computacional} \label{complexidade}
+
+Na seção anterior nós vimos que Turing nos deu uma definição formal do que nós intuitivamente pensamos ser computável. Porém, no mundo real, um problema ter um processo computacional finito que o resolva não é suficiente. Também queremos que a computação seja feita num tempo que seja útil para nós. O que foi observado é que o tempo de execução de algoritmos em computadores cresce a medida em que o tamanho da entrada também cresce. Pense no tamanho da entrada sendo medido como, por exemplo, o número de bits na representação binária de um número ou o número de vértices em um grafo. Como normalmente é desejável que um algoritmo seja eficiente para entradas de tamanho razoavelmente grande (em alguns casos o tamanho da entrada pode ser $10^6$, por exemplo), nós queremos que a função de crescimento do algoritmo não cresça muito rápido --- para que até para entradas de tamanho ``razoavelmente grande'' o número de passos necessários para realizar o algoritmo não seja muito grande. Portanto foi importante definir uma forma de medir a complexidade de algoritmos e também o que nos queremos dizer por uma "função eficiente" para o tempo de execução de um algoritmo.
+
+Talvez o primeiro artigo que definiu uma medição de complexidade para problema computacionais foi~\cite{hartmanis1965computational}, onde Hartmarnis e Stearns definiram que uma sequência binária $\alpha$ é computável em tempo $T$, onde $T$ é uma função computável monotônica crescente de $\mathbb{N}$ para $\mathbb{N}$, se existe uma máquina de Turing que dá como saída o n-ésimo bit de $\alpha$ em menos do que $T(n)$ passos. Em \cite{edmonds1965paths}, Edmonds propõe que devemos considerar funções polinomiais como sendo sinônimo de eficiência.
+
+Nós dizemos que uma máquina de Turing $M$ roda em tempo $T(n)$ se $M$, ao receber uma entrada de tamanho $n$, executa no máximo $T(n)$ passos (um passo da computação da máquina de Turing envolve escrever símbolos em suas fitas de trabalho, movimentar os cabeçotes de suas fitas e mudar o seu estado atual).
+
+Nós vimos no teorema~\ref{teo:MTuni1} que existe uma máquina de Turing que pode simular a execução de todas as outras máquinas de Turing sobre qualquer entrada. Também foi dito que a simulação é ``eficiente'' e que segundo Edmonds isto deveria significar que a simulação pode ser feito em tempo polinomial. E nós podemos verificar que o número de passos que $\mathcal{U}$ precisa para simular uma máquina de Turing $M$ de tempo $T(n)$ é $\mathcal{O}(T(n)^{2})$. Para provar isto temos que ver quanto passos $\mathcal{U}$ necessita para simular um único passo de $M$. Em cada simulação de um passo, $\mathcal{U}$ visita cada ``espaço'' que representa uma fita de $M$, e como uma computação que executa menos do que $T(n)$ passos não pode usar mais do que $T(n)$ células de sua fita, temos que cada espaço contém no máximo $T(n)$ células. Então para simular um passo de $M$, $\mathcal{U}$ visita algo em torno de $kT(n)$ células de sua fita de trabalho, onde $k$ é o número de fitas de $M$, e portanto o ``slowdown'' de simular $M$ é apenas $\mathcal{O}(T(n))$.
+
+Nós podemos fazer melhor do que $T(n)^{2}$, nós podemos simular uma máquina de Turing com ``slowdown'' logarítmico.
+
+\begin{teo} \label{teo:MTuni2}
+
+Existe uma máquina de Turing $~\mathcal{U}^{*}$ que sobre a entrada $(\alpha, x)$, $~\mathcal{U}^{*}$ dá como saída $M_{\alpha}(x)$. Além disso, se $T(\lvert x \rvert)$ é o tempo que $M_{\alpha}$ leva para executar sua computação sobre a entrada $x$, então $\mathcal{U}^{*}$ roda em tempo $\mathcal{O}(T(\lvert x \rvert)\log T(\lvert x \rvert))$ ao receber $(\alpha, x)$ em sua fita de entrada.
+
+\end{teo}
+
+Uma prova do teorema \ref{teo:MTuni2} pode ser encontrada em~\cite{arora2009computational} (Teorema 1.9). O resultado foi originalmente proposto por Hennie e Stearns~\cite{hennie1966two}.
+
+%Em algum lugar aqui falar de máquinas de Turing oblivous
+
+Construindo sobre o resultado acima nós podemos provar o seguinte resultado que nos será útil mais para frente.
+
+\begin{defi} \label{defi: oblivious}
+
+Uma máquina de Turing \emph{oblivious} é uma máquina de Turing cuja o movimento de seus cabeçotes de fita só dependem do tamanho da entrada, e não no conteúdo das células e estado atual.
+
+\end{defi}
+
+Desta forma, a função de transição de uma máquina de Turing \emph{oblivious} $A = \{\Gamma, Q, \delta\}$ de $k$ fitas é $\delta: Q \times \Gamma^{k} \to Q \times \Gamma^{k - 1}$. Nós podemos imaginar que existe uma função $m: \mathbb{N} \to \{\{E, N, D\}^{k}\}^{*}$ tal que ao receber uma entrada $x$, os movimentos dos cabeçotes das fitas de $A$ é dado por $m(\lvert x \rvert) = (z_{1}, \dots, z_{T(\lvert x \rvert)})$, onde cada $z_{i} \in \{E, N, D\}^{k}$ representa os movimentos dos cabeçotes de fita de $A$ no $i$-ésimo passo e $T(\lvert x \rvert)$ é o tempo em que $A$ para ao receber entradas de tamanho $\lvert x \rvert$.
+
+\begin{teo}
+
+Se $M$ é uma máquina de Turing que roda em tempo $T(n)$ para entradas de tamanho $n$, então existe uma máquina de Turing \emph{oblivious} $A$ de duas fitas que roda em tempo $\mathcal{O}(T(n)\log T(n))$ tal que $A(x) = M(x)$, para todo $x \in \{0, 1\}^{*}$.
+
+\end{teo}
+
+\begin{proof}
+
+Nós podemos modificar a MT $\mathcal{U}^{*}$ no teorema~\ref{teo:MTuni2} de forma que ela seja uma máquina de Turing \emph{oblivious} sem aumentar significativamente o seu tempo de execução. E além disso, $\mathcal{U}^{*}$ pode ser construida usando somente 2 fitas.
+
+Então, $A$ simplesmente executa a simulação de $\mathcal{U}^{*}$ sobre entradas $(\langle M \rangle, x)$, para qualquer $x \in \{0, 1\}^{*}$.
+
+\end{proof}
+
+\subsection{Classes de complexidade}
+
+Uma das contribuições de Hartmanis e Stearns em~\cite{hartmanis1965computational} foi que eles mostraram como podemos agrupar problemas computacionais de acordo com o número de passos que um máquina de Turing necessita para resolve-los. Nesta seção iremos nos preocupar apenas com o tempo e espaço necessários para resolver problemas computacionais. Algumas classes de complexidade de tempo são definidas a seguir, e no fim desta seção iremos ver algumas classes de complexidade de espaço. Ao longo deste trabalho nós sempre vamos deixar implícito que todas as funções $T$ que usamos para definir uma classe de complexidade é \emph{tempo-construtivel}, o que significa que $T(n) \geq n$ e existe uma máquina de Turing que computa o valor $T(\lvert x \rvert)$ sobre a entrada $x$ em menos do que $T(\lvert x \rvert)$ passos.
+
+\begin{defi}
+
+Para uma função $T: \mathbb{N} \to \mathbb{N}$, nós definimos as seguintes classes de problemas:
+
+\begin{itemize}
+
+\item $\text{\DTIME}(T(n))$: a classe de todas linguagens $L$ tal que existe uma máquina de Turing determinística $M$ de tempo $T(n)$ que decide $L$.
+
+\item $\text{\NTIME}(T(n))$: a classe de todas linguagens $L$ tal que existe uma máquina de Turing não-determinística $N$ que decide $L$ e que $N$ executa no máximo $T(n)$ passos ao receber uma entrada de tamanho $n$, indepedente das escolhas das funções de transição que $N$ faça.
+
+\item $\text{\co\DTIME}(T(n))$: a classe de todas linguagens $L$ tal que $\overline{L} \in \text{\DTIME}(T(n))$, onde $\overline{L}$ é o complemento da linguagem $L$ (ou seja, $x \in L \iff x \notin \overline{L}$). Da mesma forma nós definimos $\text{\co\NTIME}(T(n))$.
+
+\end{itemize}
+
+\end{defi}
+
+
+\subsubsection{As classes $\P$ e $\NP$}
+
+%Devo apresentar a classe P
+
+Como já vimos, iremos usar tempo polinomial como sinônimo de eficiência. Uma linguagem $L$ é decidida em tempo polinomial se existe um polinômio $p$ tal que o tempo necessário para decidir a pertinência de uma string $x$ em $L$ é menor do que $p(\lvert x \rvert)$. A classe de linguagens decididas em tempo polinomial é chamada de $\P$.
+
+\begin{defi} [A classe $\P$]
+
+Uma linguagem $L$ é dita estar em $\P$ se e somente se existe $c \geq 1$ tal que $L \in \text{\DTIME}(n^{c}$).
+
+\end{defi}
+
+Um dos grandes objetivos de designers de algoritmos é provar que um determinado problema está em $\P$ pois então geralmente ele pode ser implementado eficientemente em um computador. Alguém poderia dizer que talvez exista um problema (natural) que esteja em $\P$ mas o tempo de execução do algoritmo para este problema é algo do tipo $10^{1000}n$ ou $n^{1000}$, o que com certeza não seria eficiente nem mesmo para $n = 2$. É verdade que um problema estar em $\P$ não implica necessariamente em ele poder ser resolvido eficientemente. Na verdade, nem mesmo a não existência de um algoritmo de tempo polinomial para um problema implica em ele não poder ser resolvido eficientemente na prática. Mas usar a convenção de tempo polinomial = eficiência é conveniente quando estamos estudando classes de complexidade e a relação entre elas, por alguns motivos como por exemplo algumas modificações na definição de máquinas de Turing e até mesmo outros modelos computacionais mais realistas (como máquinas de acesso aleatório) não alteram a classe $\P$, entre outros motivos.
+
+%NP
+
+Enquanto que $\P$ procura capturar linguagens que podem ser decididas eficientemente, a classe $\NP$ por sua vez procura capturar linguagens cuja suas instâncias sejam eficientemente verificáveis.
+
+\begin{defi} [A classe $\NP$]
+
+Uma linguagem $L$ está em $\NP$ se e somente se existe um polinômio $p$ e uma máquina de Turing de tempo polinomial $M$ tal que $x \in L \iff \exists u \in \{0, 1\}^{p(\lvert x \rvert)} M(x, u) = 1$. 
+
+\end{defi}
+
+Dizemos que $u$ é um certificado da pertinência de $x$ em $L$. Nós podemos definir $\NP$ de uma outra forma:
+
+\begin{defi}
+
+$\NP = \bigcup_{c \geq 1} \NTIME(n^{c})$.
+
+\end{defi}
+
+Para ver que as duas definições são equivalentes note que as escolhas da máquina de Turing não-determinística podem servir como um certificado, enquanto que uma máquina de Turing não-determinística poderia ``adivinhar'' um certificado para $x$.
+
+
+
+A questão em aberto mais importante em complexidade computacional pergunta se as classes $\P$ e $\NP$ são iguais. Esse problema tem alguma importância histórica já que vários problemas que são importante em aplicações práticas que estão em $\NP$ não parecem, pelo que sabemos até agora, ter solução melhor do que tentar exaustivamente todas as possibilidades, a busca por uma solução para esses problemas melhor do que a busca exaustiva esteve no coração de algumas das primeiras pesquisas em complexidade computacional.
+
+\begin{defi} [A classe $\co\NP$]
+
+$\co\NP = \bigcup_{c \geq 1} \co\NTIME(n^{c})$.
+
+\end{defi}
+
+Note que $\P$ = $\co\P$, já que um procedimento que decide eficientemente a pertinência de uma \emph{string} em uma linguagem também pode ser usada para decidir a não pertinência (simplesmente inverta a saída), e portanto $\P = \NP$ implica em $\NP = \co\NP$.
+
+%Reduções
+\subsubsection{Reduções}
+
+Um dos principais conceitos em teoria da computação é o de uma \emph{redução}. Uma redução é basicamente um procedimento que transforma uma instância de um problema $A$ em uma instância de um outro problema $B$.
+
+\begin{defi} [Reduções] \label{defi:reducoes}
+
+Uma redução de um problema $L \subseteq \{0, 1\}^{*}$ para um problema $L^{\prime} \subseteq \{0, 1\}^{*}$ é uma função $f: \{0, 1\}^{*} \to \{0, 1\}^{*}$ tal que $x \in L \iff f(x) \in L^{\prime}$, para todo $x \in \{0, 1\}^{*}$.
+
+Além disso, $L$ é dita ser redutível em tempo polinomial para $L^{\prime}$, o que denotamos por $L \leq_{p} L^{\prime}$, se a redução $f$ pode ser computada em tempo polinomial.
+
+\end{defi}
+
+Reduções de tempo polinomial vão ser útil quando formos ver o próximo assunto. Se $L$ é redutível em tempo polinomial para $L^{\prime}$, então um algoritmo de tempo polinomial para $L^{\prime}$ implica em um algoritmo de tempo polinomial para $L$, já que podemos usar a redução $f$ para mapear uma string $x \in \{0, 1\}^{*}$ em uma instâcia $f(x)$ de $L^{\prime}$ e depois usamos o algoritmo $A$ de tempo polinomial que decida $L^{\prime}$ para computar $A(f(x))$. Se o tempo necessário para computar $A$ sobre entradas de tamanho $n$ for $p(n)$, onde $p$ é um polinômio, e $q$ for o tempo necessário para computar $f$ então acabamos de mostrar que podemos decidir $L$ em tempo menor do que $q(\lvert x \rvert) + p(q(\lvert x \rvert))$. 
+
+%NP-completude e teorema de Cook-Levin
+
+\subsubsection{$\NP$-completude e o teorema de Cook-Levin}
+
+Algumas linguagens em uma determinada classe de complexidade tem uma propriedade interessante em que elas capturam toda a dificuldade daquela classe. Um linguagem $L$ é completa para uma classe sobre uma determinada ``classe de reduções'' $\leq_{R}$ (por exemplo, reduções em tempo polinomial como vimos na definição~\ref{defi:reducoes}) se ela pertence à classe e todos os outros problemas dentro desta classe são redutíveis através de $\leq_{R}$ para $L$.
+
+\begin{defi} [$\NP$-completude] \label{defi:NPC}
+
+Uma linguagem $L$ é dita ser $\NP$-difícil sse para todas linguagens $A \in \NP$, $A \leq_{p} L$.
+
+Se além de ser $\NP$-difícil $L$ também está em $\NP$ então dizemos que $L$ é $\NP$-completa.
+
+\end{defi}
+
+Problemas $\NP$-completos (que sejam naturais) existem, como foi provado por Stephen Cook e Leonid Levin, independentemente, no começo da década de 70.~\cite{cook1971complexity, levin1973universal} O primeiro problema que foi provado ser $\NP$-completo foi o problema da satisfazibilidade booleana.
+
+\begin{defi} [O problema da satisfazibilidade booleana] \label{defi:SAT}
+
+No problema da satisfazibilidade booleana, que chamaremos de $\SAT$, é dado uma fórmula $\phi$ com variáveis $x_{1}, \dots, x_{n}$ e queremos de decidir se existe uma atribuição $(x_{1}^{\prime}, \dots, x_{n}^{\prime})$ às variáves $x_{1}, \dots, x_{n}$ tal que $\phi(x_{1}^{\prime}, \dots, x_{n}^{\prime}) = 1$.
+
+\end{defi}
+
+\begin{teo} [Teorema de Cook-Levin] \label{teo:cooklevin}
+
+$\SAT$ é $\NP$-completo.
+
+\end{teo}
+
+Apesar de poder ser um pouco longa, a prova do teorema \ref{teo:cooklevin} é bem simples de entender. Basicamente, nós temos que se $A$ é uma linguagem em $\NP$, então existe uma máquina de Turing $M$ (que podemos assumir ter apenas uma fita) que aceita uma entrada $x \in \{0, 1\}^{n}$ com um certificado $u \in \{0, 1\}^{\text{poly}(n)}$ se e somente se $x \in A$ e $u$ é um certificado da pertinência de $x$ em $A$. A função $f: \{0, 1\}^{*} \to \{0, 1\}^{*}$
+que transforma $x$ em uma fórmula $\phi_{x}$ que é satisfazível se e somente se $x \in A$ faz o seguinte:
+
+\begin{enumerate}
+
+\item Se para todo $n > 0$ $M$ roda em tempo menor do que $T(n)$ sobre entradas de tamanho $n$ então $f$ constroi um tableau $T(\lvert x \rvert) \times T(\lvert x \rvert)$ onde a $i$-ésima linha deste tableau guardará a configuração de $M$ no seu $i$-ésimo passo.
+
+\item A fórmula $\phi_{x}$ tem $T(\lvert x \rvert)^{2}$ variáveis que chamaremos de $v_{ij}$, $1 \leq i, j \leq T(\lvert x \rvert)$. O valor da variável $v_{ij}$ é o conteúdo da célula na linha $i$ e coluna $j$ do tableau. 
+
+\item Pela computação de uma máquina de Turing ser local, o que significa dizer que o conteúdo de uma das células em um passo da computação depende somente do estado atual, da posição do cabeçote da fita e do conteúdo das duas células adjacente à ela, podemos construir uma fórmula booleana que decide o valor da variável $v_{ij}$ em função das variáveis $v_{(i - 1)(j - 1)}, v_{(i - 1)j}$ e $v_{(i - 1)(j + 1)}$. Esta fórmula depende somente da função de transição de $M$ e portanto tem tamanho constante.
+
+\item Precisamos assegurar algumas outras coisas, como por exemplo que a primeira linha do tableau é uma configuração inicial válida e que a última linha é uma configuração de aceitação (isto é, uma configuração onde o estado atual é $q_{aceita}$).
+
+\end{enumerate}
+
+Pela natureza ``repetitiva'' da redução e pela fórmula ter tamanho polinomial ($\mathcal{O}(T(n)^{2})$) podemos ver que ela pode ser feita em tempo polinomial. Finalmente, $\text{SAT} \in \NP$ já que uma atribuição das variáveis que satisfazem uma fórmula pode servir como certificado.
+
+Agora que nós temos um único problema que sabemos ser $\NP$-completo, nós podemos provar que outros problemas são também $\NP$-completo mostrando que $\SAT$ é redutível em tempo polinomial para eles. Isso segue pois a relação $\leq_{p}$ é transitiva. Por exemplo, podemos provar que a linguagem 3-$\SAT$, que pergunta se uma fórmula na 3-FNC é satisfazível, é $\NP$-completa. Em 1972, Richard Karp publicou~\cite{karp1972reducibility} onde 21 problemas importantes foram provados serem $\NP$-completos e deste então milhares de problemas que aparecem em aplicações práticas já foram provados serem $\NP$-completos. O livro de Garey e Johnson é uma excelente referência para o fenômeno da $\NP$-completude.~\cite{garey2002computers}
+
+Como já observamos antes, se existe uma linguagem $\NP$-completa em $\P$ então $\P$ = $\NP$, pois poderiamos usar a redução de tempo polinomial para $L$ e depois o seu algoritmo de tempo polinomial para decidir qualquer outra linguagem em $\NP$ em tempo polinomial.
+
+%SAT e ETH
+
+%Intratabilidade (ou seja, teorema de hierarquias)
+
+%Complexidade de espaço
+
+%Problemas PSPACE-completos e EXP-completos
+
+%Hierarquia polinomial (incluir em algum lugar máquinas de Turing alternantes)
+
+\subsubsection{Hierarquia polinomial}
+
+Considere o seguinte problema em $\NP$:
+
+\begin{clique}
+
+Dado um inteiro $k > 0$ e um grafo $G$, aceite se $G$ tem um clique de tamanho maior ou igual a $k$.
+
+\end{clique}
+
+Podemos ver que $\CLIQUE$ está em $\NP$ pois um clique de tamanho maior ou igual a $k$ em $G$ é obviamente um certificado que $G$ tem um clique de tamanho maior ou igual a $k$. Mas se ao invés de decidir se $G$ tem um clique de tamanho pelo menos $k$ nós queremos decidir se o maior clique em $G$ tem tamanho $k$, como no problema $\MAXCLIQUE$:
+
+\begin{maxclique}
+
+Dado um inteiro $k > 0$ e um grafo $G$, aceite se o maior clique em $G$ tem tamanho igual a $k$.
+
+\end{maxclique}
+
+Agora não fica tão óbvio para nós o que seria um certificado para $\MAXCLIQUE$. Além de termos que mostrar um clique de tamanho $k$, também devemos mostrar que nenhum subconjunto de tamanho maior do que $k$ dos vértices de $G$ formam um clique. Porém, adicionando um quantificador $\forall$ parece ser o suficiente para nós podermos capturar problemas como $\MAXCLIQUE$, o que a classe $\NP$ não parece conseguir fazer pelo o que nós sabemos até agora.
+
+\begin{defi} [A classe $\Sigma_{2}^{p}$]
+
+Uma linguagem $L$ é dita estar em $\Sigma_{2}^{p}$ se e somente se existe um polinômio $p$ e uma máquina de Turing $M$ que roda em tempo $p(n)$ tal que $L$ pode ser escrita como:
+
+\begin{equation*}
+    \text{Para todo } x \in \{0, 1\}^{*} \text{, } x \in L \iff \exists x_{1} \in \{0, 1\}^{p(\lvert x \rvert)} \forall x_{2} \in \{0, 1\}^{p(\lvert x \rvert)} M(x, x_{1}, x_{2}) = 1
+\end{equation*}
+
+\end{defi}
+
+Se as instâncias $\MAXCLIQUE$ são da forma $\langle G, k \rangle$, onde $G$ é um grafo e $k > 0$ um inteiro, então dizer $\langle G, k \rangle \in \MAXCLIQUE$ é o mesmo que dizer que \emph{existe} um clique de tamanho $k$ e que \emph{todos} subconjuntos de tamanho maior do que $k$ dos vértices de $G$ não formam um clique.
+
+Nós podemos ainda generalizar as classes $\NP$ e $\Sigma_{2}^{p}$, o que nós chamamos de hierarquia polinomial:
+
+\begin{defi} [Hierarquia polinomial] \label{defi: PH}
+
+Para $k \geq 1$, uma linguagem $L$ é dita estar em $\Sigma_{k}^{p}$ se $L$ pode ser expressa da seguinte forma:
+
+\begin{equation*}
+    x \in L \iff \exists x_{1} \in \{0, 1\}^{p(\lvert x \rvert)} \forall x_{2} \in \{0, 1\}^{p(\lvert x \rvert)} \dots Q_{k} x_{k} \in \{0, 1\}^{p(\lvert x \rvert)} M(x, x_{1}, x_{2}, \dots, x_{k}) = 1
+\end{equation*}
+
+Onde $Q_{k}$ é $\exists$ se $k$ é ímpar ou $\forall$ se $k$ é par. $M$ é uma máquina de Turing de tempo $p(n)$.
+
+A hierarquia polinomial é $\PH$ = $\bigcup_{k \geq 1} \Sigma_{k}^{p}$.
+
+\end{defi}
+
+Note que $\NP$ = $\Sigma_{1}^{p}$ e também podemos chamar $\P$ de $\Sigma_{0}^{p}$.
+
+Assim como fizemos com $\NP$, também podemos generilizar a classe $\co\NP$ através de quantificadores alternantes. A diferença é que o primeiro quantificador é um $\forall$.
+
+\begin{defi}
+
+Para todo $k \geq 1$ a classe $\co\Sigma_{k}^{p}$ consiste de todas as linguagens $L$ que podem ser expressas como:
+
+\begin{equation*}
+    x \in L \iff \forall x_{1} \in \{0, 1\}^{p(\lvert x \rvert)} \exists x_{2} \in \{0, 1\}^{p(\lvert x \rvert)} \dots Q_{k} x_{k} \in \{0, 1\}^{p(\lvert x \rvert)} M(x, x_{1}, x_{2}, \dots, x_{k})
+\end{equation*}
+
+Onde agora $Q_{k}$ é $\forall$ se $k$ é ímpar e $\exists$ caso contrário. E de novo, $M$ é uma máquina de Turing de tempo $p(n)$. Para cada $k$, nós chamamos $\co\Sigma_{k}^{p}$ de $\Pi_{k}^{p}$.
+
+\end{defi}
+
+E nós temos que $\co\NP = \Pi_{1}^{p}$.
+
+É fácil ver que para todo $k \geq 1$ nós temos as seguintes desigualdades:
+
+\begin{equation*}
+    \Sigma_{k}^{p} \subseteq \Pi_{k + 1}^{p} \subseteq \Sigma_{k + 2}^{p}
+\end{equation*}
+
+Portanto $\PH = \bigcup_{k \geq 1} \Pi_{k}^{p}$
+
+Nós dizemos que a hierarquia polinomial \emph{colapsa} se para algum $k$, $\PH = \Sigma_{k}^{p}$. Neste caso dizemos que a hierarquia polinomial colapsa para o seu $k$-ésimo level e também temos que $\Sigma_{k}^{p} = \Sigma_{l}^{p}$, para todo $l > k$.
+
+\begin{teo} \label{teo: phcollapse}
+
+Para todo $k \geq 1$, se $\Sigma_{k}^{p} = \Pi_{k}^{p}$ então $\PH = \Sigma_{k}^{p}$.
+
+\end{teo}
+
+\begin{proof}
+
+\hfill
+
+Assuma que para algum $k \geq 1$, $\Sigma_{k}^{p} = \Pi_{k}^{p}$.
+
+Nós mostramos por indução que para todo $l > k$, $\Sigma_{l}^{p} = \Pi_{l}^{p} = \Sigma_{k}^{p}$. Para isso só precisamos mostrar que $\Sigma_{l}^{p} \subseteq \Sigma_{k}^{p}$, pois por nós termos assumido que $\Sigma_{k}^{p} = \Pi_{k}^{p}$, $\Sigma_{l}^{p} = \Sigma_{k}^{p}$ implica em $\Sigma_{l}^{p}$ estar fechada sob complemento.
+
+Para $l = k + 1$, nós temos que toda linguagem $L$ em $\Sigma_{k + 1}^{p}$ pode ser expressa como:
+
+\begin{equation} \label{eq:phcolapse1}
+    x \in L \iff \exists x_{1} \in \{0, 1\}^{p(\lvert x \rvert)} \forall x_{2} \in \{0, 1\}^{p(\lvert x \rvert)} \dots Q_{k + 1} x_{k + 1} \{0, 1\}^{p(\lvert x \rvert)} M(x, x_{1}, x_{2}, \dots, x_{k + 1}) = 1
+\end{equation}
+
+para alguma polinômio $p$ e máquina de Turing de tempo polinomial $M$.
+
+Então considere a seguinte linguagem $L^{\prime}$:
+
+\begin{equation*}
+    (x, x_{1}) \in L^{\prime} \iff \forall x_{2} \in \{0, 1\}^{p(\lvert x \rvert)} \dots Q_{k + 1} x_{k + 1} \{0, 1\}^{p(\lvert x \rvert)} M(x, x_{1}, x_{2}, \dots, x_{k + 1}) = 1
+\end{equation*}
+
+$L^{\prime}$ está em $\Pi_{k}^{p} = \Sigma_{k}^{p}$ portanto podemos reescrever $L^{\prime}$ como:
+
+\begin{equation} \label{eq:phcolapse2}
+    (x, x_{1}) \in L^{\prime} \iff \exists y_{1} \in \{0, 1\}^{p(\lvert x \rvert)} \forall y_{2} \in \{0, 1\}^{p(\lvert x \rvert)} \dots Q_{k} x_{k} \in \{0, 1\}^{p(\lvert x \rvert)} M^{\prime}(x, x_{1}, y_{1}, y_{2}, \dots, y_{k}) = 1
+\end{equation}
+
+Então podemos trocar toda parte a partir do primeiro quantificador $\forall$ de~\ref{eq:phcolapse1} pelo lado direito de~\ref{eq:phcolapse2} e temos o seguinte:
+
+\begin{equation*}
+    x \in L \iff \exists x_{1}, y_{1} \in \{0, 1\}^{p(\lvert x \rvert)} \forall y_{2} \in \{0, 1\}^{p(\lvert x \rvert)} \dots Q_{k} y_{k} \in \{0, 1\}^{p(\lvert x \rvert)} M^{\prime}(x, x_{1}, y_{1}, y_{2}, \dots, y_{k}) = 1
+\end{equation*}
+
+
+Portanto $L \in \Sigma_{k}^{p}$.
+
+Para provar para outros valores de $l > k + 1$, nós provamos da mesma maneira mas assumindo que $\Sigma_{l - 1}^{p} = \Pi_{l - 1}^{p}$ que agora sabemos que são iguais a $\Sigma_{k}^{p}$.
+
+\end{proof}
+
+Assim como vimos que a classe $\NP$ tem problemas completos, podemos provar que cada level da hierarquia tem seu próprio problema completo. Uma linguagem $L$ é $\Sigma_{k}^{p}$-completa se e somente se $L \in \Sigma_{k}^{p}$ e para todo $L^{\prime} \in \Sigma_{k}^{p}$, $L^{\prime} \leq_{p} L$.  
+
+Cada level da hierarquia polinomial tem a sua própria versão do problema $\SAT$.
+
+\begin{defi}
+
+Para todo $k > 0$, a linguagem $\Sigma_{k}^{p}\SAT$ consiste de todas as fórmulas lógicas $\phi$ tal que:
+
+\begin{equation*}
+    \exists u_{1} \in \{0, 1\}^{p(\lvert \langle \phi \rangle \rvert)} \forall u_{2} \in \{0, 1\}^{p(\lvert \langle \phi \rangle \rvert)} \exists \dots Q_{k} u_{k} \in \{0, 1\}^{p(\lvert \langle \phi \rangle \rvert)} \phi(u_{1}, u_{2}, \dots, u_{k})
+\end{equation*}
+
+é verdadeiro, onde $Q_{k}$ é $\exists$ se $k$ é ímpar e $\forall$ se $k$ é par.
+
+Da mesma forma, uma fórmula lógica está em $\Pi_{k}^{p}\SAT$ se e somente o seguinte predicato quantificado é verdadeiro:
+
+\begin{equation*}
+    \forall u_{1} \in \{0, 1\}^{p(\lvert \langle \phi \rangle \rvert)} \exists u_{2} \in \{0, 1\}^{p(\lvert \langle \phi \rangle \rvert)} \forall \dots Q_{k} u_{k} \in \{0, 1\}^{p(\lvert \langle \phi \rangle \rvert)} \phi(u_{1}, u_{2}, \dots, u_{k})
+\end{equation*}
+
+Onde $Q_{k}$ é $\forall$ se $k$ é ímpar e $\exists$ se $k$ é par.
+
+\end{defi}
+
+E como é de se esperar, cada $\Sigma_{k}^{p}\SAT$ é $\Sigma_{k}^{p}$-completo. A prova que $\Pi_{k}^{p}\SAT$ é $\Pi_{k}^{p}$-completo, para cada $k \geq 1$, é análoga.
+
+\begin{teo}
+
+Para todo $k \geq 1$, $\Sigma_{k}^{p}\SAT$ é $\Sigma_{k}^{p}$-completo.
+
+\end{teo}
+
+\begin{proof}
+
+Para algum $k \geq 1$, seja $L$ uma linguagem em $\Sigma_{k}^{p}$. Para toda string $x^{\prime} \in \{0, 1\}^{*}$, nós temos que mostrar que existe uma redução em tempo polinomial que transforma $x^{\prime}$ em uma instância $\phi_{x^{\prime}}$ de $\Sigma_{k}^{p}\SAT$ tal que $\phi_{x^{\prime}} \in \Sigma_{k}^{p}\SAT \iff x^{\prime} \in L$. Sabemos que podemos expressar $L$ como:
+
+\begin{equation*}
+    x \in L \iff \exists x_{1} \in \{0, 1\}^{p(\lvert x \rvert)} \forall x_{2} \in \{0, 1\}^{p(\lvert x \rvert)} \exists \dots Q_{k} x_{k} \in \{0, 1\}^{p(\lvert x \rvert)} M(x, x_{1}, x_{2}, \dots, x_{k}) = 1
+\end{equation*}
+
+Usando a redução do teorema~\ref{teo:cooklevin}, nós podemos transformar a máquina de Turing $M$ em uma fórmula $\phi$ tal que $\phi(x, x_{1}, x_{2}, \dots, x_{k}) = 1 \iff M(x, x_{1}, x_{2}, \dots, x_{k}) = 1$ em tempo polinomial. Para cada $x^{\prime} \in \{0, 1\}^{*}$ nós criamos a fórmula $\phi_{x^{\prime}}(x_{1}, x_{2}, \dots, x_{k}) = \phi(x^{\prime}, x_{1}, x_{2}, \dots, x_{k})$ e temos que
+
+\begin{equation*}
+    \exists x_{1} \in \{0, 1\}^{p(\lvert x \rvert)} \forall x_{2} \in \{0, 1\}^{p(\lvert x \rvert)} \exists \dots Q_{k} x_{k} \in \{0, 1\}^{p(\lvert x \rvert)} \phi_{x^{\prime}}(x_{1}, x_{2}, \dots, x_{k})
+\end{equation*}
+
+é verdade se e somente se
+
+\begin{equation*}
+     \exists x_{1} \in \{0, 1\}^{p(\lvert x \rvert)} \forall x_{2} \in \{0, 1\}^{p(\lvert x \rvert)} \exists \dots Q_{k} x_{k} \in \{0, 1\}^{p(\lvert x \rvert)} M(x^{\prime}, x_{1}, x_{2}, \dots, x_{k})
+\end{equation*}
+
+também é verdade. Ou seja, $\phi_{x^{\prime}} \in \Sigma_{k}^{p}\SAT$ se e somente se $x^{\prime} \in L$, como queriamos mostrar.
+
+\end{proof}
+
+\subsubsection{Teoremas de hierarquia}
+
+Como foi dito na introdução, um dos principais desafios da complexidade computacional é demonstrar limites inferiores para problemas computacionais. Intuitivamente podemos acreditar que problemas intrinsecamente difíceis devem existir pois se dermos mais recursos para uma máquina de Turing computar deveriamos também sermos capaz de decidir mais linguagens. Os teoremas de hierarquia é uma série de teoremas que provam exatamente isso. Geralmente, iremos usar o fato que máquinas de Turing que usam mais tempo podem simular máquinas de Turing que usam menos tempo para montar uma máquina de Turing ``diagonalizadora'', e então mostramos que essa máquina deve discordar com todas as máquinas que usam menos tempo em pelo menos um ponto.
+
+
+\begin{teo} (Teorema da hierarquia de tempo determinístico~\cite{hartmanis1965computational})
+
+Para todas funções $f, g: \mathbb{N} \to \mathbb{N}$ tempo-construtíveis satisfazendo $g(n)\log g(n) = o(f(n))$, temos que $\DTIME(g(n)) \subsetneq \DTIME(f(n))$.
+
+\end{teo}
+
+\begin{proof}
+
+Seja $L \in \DTIME(g(n))$, note que pelo teorema \ref{teo:MTuni2} existe uma máquina de Turing que simula a execução de uma máquina de Turing que decide $L$ em tempo $\mathcal{O}(g(n)\log g(n)) = o(f(n))$. Então temos que deve existir uma máquina de Turing $\mathcal{D}$ que funciona da seguinte maneira:
+
+\begin{itemize}
+
+\item Sobre entrada $\langle M \rangle$:
+
+\item Simule $M$ sobre a entrada $\langle M \rangle$ por $g(\lvert \langle M \rangle \rvert)$ passos.
+
+\item Se em algum momento $M$ aceita, rejeite a entrada; caso contrário, aceite.
+
+\end{itemize} 
+
+Note que $\mathcal{D}$ roda em tempo $\mathcal{O}(g(n)\log g(n))$ e portanto $L(\mathcal{D}) \in \DTIME(f(n))$.
+
+Nós afirmamos que $L(\mathcal{D}) \notin \DTIME(g(n))$. Assuma o contrário, que $L(\mathcal{D}) \in \DTIME(g(n))$ e chame de $\mathcal{D}^{\prime}$ uma máquina de Turing que decida $L(\mathcal{D})$ em tempo $g(n)$. Então usamos o mesmo argumento que usamos para mostrar que $\HALT$ não é decidível para mostrar que $L(\mathcal{D}) \notin \DTIME(g(n))$ (ou equivalentemente, que tal máquina de Turing $\mathcal{D}^{\prime}$ não pode existir): nós rodamos $\mathcal{D}^{\prime}$ sobre a sua própria descrição e vemos o que acontece.
+
+\begin{itemize}
+
+\item Se $\mathcal{D}^{\prime}(\langle \mathcal{D}^{\prime} \rangle) = 1$ então $\mathcal{D}(\langle \mathcal{D}^{\prime} \rangle) = 0$
+
+\item Se $\mathcal{D}^{\prime}(\langle \mathcal{D}^{\prime} \rangle) = 0$ então $\mathcal{D}(\langle \mathcal{D}^{\prime} \rangle) = 1$
+
+\end{itemize}
+
+Nos dois itens acima nós temos que assumir que a descrição de $\mathcal{D}^{\prime}$ seja grande o suficiente para que $D$ possa simular a toda a tua execução sobre a entrada $\langle \mathcal{D}^{\prime} \rangle$, mas isso não é problema já que $D^{\prime}$ possui descrições arbitrariamente grandes.
+
+\end{proof}
+
+Agora nós vamos considerar o caso não-determinístico. Se tentarmos provar da mesma forma um teorema de hierarquia de tempo não-determinístico nós esbarrariamos no seguinte problema: não é óbvio o modo como podemos negar uma computação não-determinística, pois deveriamos ter um conhecimento ''universal`` sobre todas os ramos da computação. A única forma óbvia de fazer isso seria simular todos os ramos da computação, o que leva tempo exponencial. Porém, ainda pode-se usar essa simulação determinística para diagonalizar máquinas de Turing não-determinística, dado que a simulação seja feita numa entrada exponencialmente menor do que a entrada original. O truque é fazer que uma máquina ''diagonalizadora`` $\mathcal{D}$ ou discorde com uma máquina de Turing não-determinística $M$ em alguma string unária de tamanho em um intervalo de comprimento exponencial ou que ela discorde nos extremos deste intervalo. Na prova do teorema abaixo nós usamos o fato que uma simulação não-deterministica pode ser feita com ''slowdown`` constante.
+
+\begin{teo} (Teorema da hierarquia de tempo não-determinístico~\cite{cook1973hierarchy})
+
+Sejam $f, g: \mathbb{N} \to \mathbb{N}$ funções tempo-construtíveis satisfazendo $g(n + 1) = o(f(n))$, então $\NTIME(g(n)) \subsetneq \NTIME(f(n))$.
+
+\end{teo}
+
+\begin{proof}
+
+Nesta prova, $\{M_{i}\}_{i \in \mathbb{N}}$ representa uma enumeração de todas as máquinas de Turing não-determinísticas.
+
+Considere a função $h$ definida como $h(1) = 2$ e $h(i + 1) = 2^{g(h(i) + 1)}$, para $i > 1$. Nós construimos uma máquina de Turing não-determinística $\mathcal{D}$ que inicialmente assumismo concordar com $M_{i}$ em todas as strings unárias $1^{n}$ satisfazendo $h(i) < n \leq h(i + 1)$, daí ela diagonaliza na entrada $1^{h(i + 1)}$ e a partir disso nós obtemos uma contradição. Como $h(i + 1)$ é exponencialmente maior do que $h(i) + 1$, $\mathcal{D}$ pode simular todos os ramos da computação de $M_{i}$ sobre a entrada $1^{h(i) + 1}$ deterministicamente. A máquina de Turing $\mathcal{D}$ é definida da seguinte maneira (qualquer entrada que não seja da forma $1^{n}$ para $n \in \mathbb{N}$ é imediatamente rejeitada):
+
+\begin{enumerate}
+
+\item Sobre a entrada $1^{n}$, ache $i$ tal que $h(i) < n \leq h(i + 1)$.
+
+\item Se $h(i) < n < h(i + 1)$, $\mathcal{D}$ não-deterministicamente simula $M_{i}$ sobre a entrada $1^{n + 1}$ por $g(n + 1)$ passos e aceita se e somente se $M_{i}$ aceita.
+
+\item Se $n = h(i + 1)$, $\mathcal{D}$ deterministicamente simula $M_{i}$ sobre a entrada $1^{h(i) + 1}$ por $g(h(i) + 1)$ passos e aceita se e somente se $M_{i}$ rejeita.
+
+\end{enumerate}
+
+Dessa forma, como estamos assumindo que $\mathcal{D}$ e $M_{i}$ concordam em todas as entradas $1^{n}$ com $h(i) < n < h(i + 1)$, nós temos que $M_{i}(1^{h(i) + 1}) = \mathcal{B}(1^{h(i + 1)})$, uma contradição. 
+
+
+\end{proof}
+
+\subsubsection{Limites da diagonalização}
+
+Podemos nos perguntar se a estratégia de diagonalização usadas nas provas dos teoremas de hierarquia pode também nos dar limites inferiores mais interessantes. Podemos separar as classes $\P$ e $\NP$ usando diagonalização?
+
+Vamos imaginar que nós temos uma prova que $\P \neq \NP$ que usa diagonalização da forma que usamos para provar o teoremas de hierarquia. Ou seja, nós temos uma máquina de Turing $\mathcal{D}$ construida de forma que ela difere de todas as máquina de Turing $M$ ``em $\P$'' em pelo menos um ponto, simulando a execução de $M$ e depois invertendo a saída de $M$ sobre alguma entrada. Como podemos também enumerar e simular máquinas de Turing com qualquer oráculo $\mathcal{O}$ da mesma forma que podemos enumerar e simular máquinas de Turing convencionais, ao adicionar o oráculo $\mathcal{O}$ à $\mathcal{D}$ nós podemos também separar $\mathcal{D}^{\mathcal{O}}$ de todas as outras máquinas de Turing em $\P^{\mathcal{O}}$ de forma análoga. Portanto uma prova que $\P \neq \NP$ que usa diagonalização deve também provar que $\P^{\mathcal{O}} \neq \NP^{\mathcal{O}}$. Porém, o objetivo desta seção é mostrar que existem oráculos $\mathcal{A}$ e $\mathcal{B}$ tal que $\P^{\mathcal{A}} = \NP^{\mathcal{A}}$ e $\P^{\mathcal{B}} \neq \NP^{\mathcal{B}}$.
+
+\begin{teo} \label{teo: bgs}
+
+Existem oráculos $\mathcal{A}$ e $\mathcal{B}$ tais que:
+
+\begin{enumerate}
+
+\item $\P^{\mathcal{A}} = \NP^{\mathcal{A}}$.
+
+\item $\P^{\mathcal{B}} \neq \NP^{\mathcal{B}}$.
+
+\end{enumerate}
+
+\end{teo}
+
+\begin{proof}
+
+Para provar 1 nós fazemos $\mathcal{A}$ ser um oráculo para a linguagem $\SAT$. $\SAT$ obviamente está em $\P^{\SAT}$, portanto podemos reduzir qualquer instância de uma linguagem $L \in \NP^{SAT}$ para uma instância de $\SAT$ em tempo polinomial, colocando $L$ em $\P^{\SAT}$.
+
+O oráculo $B$ nós vamos contruí-lo de forma que nenhuma máquina de Turing que executa menos do que $2^{n}/10$ passos possa decidir a linguagem $L_{\mathcal{B}}$ definida como
+
+\begin{equation*}
+    L_{\mathcal{B}} = \{x \lvert \exists y \in \mathcal{B} \text{ satisfazendo } \lvert y \rvert = \lvert x \rvert \}
+\end{equation*}
+
+Note que $L_{\mathcal{B}} \in \NP^{\mathcal{B}}$.
+
+Nós contruimos $\mathcal{B}$ em estágios onde no $i$-ésimo estágio nós apenas decidimos a pertinência de um número finito de strings em $\mathcal{B}$. Daí, seja $n$ o menor inteiro tal que nenhuma string de tamanho pelo menos $n$ esteja em $\mathcal{B}$ no começo do estágio $i$, então consideramos a execução de $M_{i}$ sobre a entrada $1^{n}$ e para cada consulta ao oráculo $\mathcal{B}$ à pertinência de uma string de tamanho pelo menos $n$, declaramos $x$ como não estando em $\mathcal{B}$. Se $M_{i}$ para em menos do que $2^{n}/10$ passos sobre a entrada $1^{n}$ nós temos o seguinte:
+
+\begin{enumerate}
+
+    \item $M_{i}$ aceita $1^{n} \rightarrow$ declare cada string de tamanho $n$ como não estando em $\mathcal{B}$.
+
+    \item $M_{i}$ rejeita $1^{n} \rightarrow$ declare alguma das (pelo menos) $2^{n} - 2^{n}/10$ strings de tamanho $n$ que não foram consultadas como estando em $\mathcal{B}$.
+
+\end{enumerate} 
+
+\end{proof}
+
+%\subsubsection{Hipótese do tempo exponencial e algoritmos para o problema SAT}
+
+%A hipótese do tempo exponencia basicamente diz que força-bruta é o melhor que podemos fazer contra o problema CNF-SAT.
+
+%\begin{ETH}
+
+%Existe $\epsilon > 0$ tal que $3-SAT$ não é decidível em tempo $2^{\epsilon n}$.
+
+%\end{ETH}
+
+%E também temos a tua versão mais forte.
+
+%\begin{SETH}
+
+%Não existe $\delta < 1$ tal que $k$-SAT possa ser resolvido em tempo $2^{\delta n}$ para infinitos valores de $k$.
+
+%\end{SETH}
+
+%Assumindo que algoritmos eficientes para certo problemas computacionais existem, nós podemos falsificar a versão forte da hípotese do tempo exponencial, ou por outro lado, se assurmirmos que a ETH é verdadeira, limites inferiores para estes mesmos problemas seguem como consequência.
+
+%Este tópico de algoritmos não-triviais para o problema da satisfibilidade e suas variantes aparecerá mais a frente neste trabalho. Por hora, nós vemos algumas estratégias para obter algoritmos não triviais para CNF-SAT.
+
+

@@ -1,0 +1,450 @@
+\section{Análise de Fourier de Funções Booleanas} \label{funcoes_booleanas}
+
+Uma função Booleana é uma função $f: \binalphn \to \binalph$, porém nesta seção nós vamos na maior parte das vezes considerar funções com domínio $\{-1, 1\}^{n}$ e contradomínio $\{-1, 1\}$. O motivo para isso é que os resultados desta seção são geralmente mais intuitivos quando consideramos $\{-1, 1\}$ ao invés de $\{0, 1\}$. Para passar uma string $x \in \binalphn$ para uma string $x^{\prime} \in \pmonen$ usamos a transformação $x^{\prime}_{i} = (-1)^{x_{i}}$, então para cada função $f: \pmonen \to \pmone$ temos a função $f^{*}: \binalphn \to \binalph$ onde $f^{*}(x) = 1 - 2f(x^{\prime})$ que é ''equivalente`` à $f$ e também estruturalmente semelhante como vamos ver.
+
+Alguém interessado em saber mais sobre a Análise de funções Booleanas pode ler o livro do Ryan O'Donnell~\cite{o2014analysis}.
+
+Qualquer função $f: \pmonen \to \mathbb{R}$ pode ser representada da seguinte forma:
+
+\begin{equation} \label{eq: interpol}
+f(x) = \sum_{x^{\prime} \in \pmone} g(x^{\prime}, x)f(x^{\prime})
+\end{equation}
+
+Onde $g(x^{\prime}, x) = 1$ quando $x^{\prime} = x$ e 0 quando $x^{\prime} \neq x$, e é fácil verificar que $g(x^{\prime}, x) = \prod_{i = 1}^{n}\frac{1}{2}(1 + x_{i}x_{i}^{\prime})$ satisfaz exatamente isso. Seja $\mathcal{V}$ o espaço vetorial de todas funções de $\pmonen$ para $\mathbb{R}$ com produto interno $\langle f, g \rangle = 2^{-n}\sum_{x \in \pmonen}f(x)g(x) = \uniE[f(x)g(x)]$, nós queremos mostrar que as \emph{funções paridade} $\chi_{S}(x) = \prod_{i \in S}x_{i}$, $S \subseteq [n]$ e com $\chi_{\emptyset} = 1$, formam uma base de $\mathcal{V}$. Ou seja, podemos escrever $f$ como
+
+\begin{equation} \label{eq: fexpan}
+f(x) = \sum_{S \subseteq[n]}\widehat{f}(S)\chi_{S}(x)
+\end{equation}
+
+Onde $\widehat{f}(S)$ é a coordenada de $f$ na ''direção $S$``, o que nós vamos chamar de coeficiente de Fourier em $S$ de $f$.
+
+\begin{prop}
+Seja $f: \pmonen \to \mathbb{R}$. Podemos escrever $f$ como \ref{eq: fexpan} onde para cada $S \subseteq [n]$, $\widehat{f}(S) = \langle f, \chi_{S} \rangle$.
+\end{prop}
+
+\begin{proof}
+
+Nós expandimos \ref{eq: interpol} com $g(x, x^{\prime}) = \prod_{i = 1}^{n}\frac{1}{2}(1 + x_{i}x_{i}^{\prime})$.
+
+\begin{IEEEeqnarray*}{rCl}
+    f(x) & = & \sum_{x^{\prime} \in \pmonen}f(x^{\prime})\prod_{i = 1}^{n}\frac{1 + x_{i}x_{i}^{\prime}}{2} \\
+         & = & \sum_{x^{\prime} \in \pmonen} \sum_{S \subseteq [n]} 2^{-n} f(x^{\prime})\chi_{S}(x^{\prime})\chi_{S}(x) \\
+         & = & \sum_{S \subseteq [n]} \chi_{S}(x) \Bigg(2^{-n}\sum_{x^{\prime} \in \pmonen} f(x^{\prime})\chi_{S}(x^{\prime})\Bigg) \\
+         & = & \sum_{S \subseteq [n]} \langle f, \chi_{S} \rangle \chi_{S}(x)
+\end{IEEEeqnarray*}
+
+Então, para cada $S \subseteq [n]$, fazemos $\widehat{f}(S) = \langle f, \chi_{S} \rangle$ e obtemos \ref{eq: interpol}.
+
+\end{proof}
+
+Além disso, como existem $2^{n}$ funções paridades temos que elas formam uma base de $\mathcal{V}$. A base formada pelas funções paridade é ortornomal, basta observar que $\uniE[\chi_{S}(x)] = 0$ para qualquer $S \subseteq [n]$ que não seja $\emptyset$ e $\chi_{S}\chi_{S^{\prime}}$ é uma função paridade diferente de $\chi_{\emptyset}$ (mais especificamente, $\chi_{S \triangle S^{\prime}}$) sempre que $S$ e $S^{\prime}$ não são iguais. Quando $S = S^{\prime}$ temos $\uniE[\chi_{S}(x)\chi_{S}(x)] = \uniE[\chi_{\emptyset}] = 1$.
+
+Nós denotamos por $\lVert f \rVert_{2}$ o valor $\sqrt{\langle f, f \rangle}$, e em geral $\lVert f \rVert_{p} = \uniE[\vert f(x) \vert^{p}]^{1/p}$.
+
+Note que
+
+\begin{IEEEeqnarray*}{rCl}
+    \UniE[f(x)g(x)] & = & \UniE[\Bigg(\sum_{S \subseteq [n]}\widehat{f}(S)\chi_{S}(x) \Bigg)g(x)] \\
+                & = & \sum_{S \subseteq [n]} \widehat{f}(S) \UniE[\chi_{S}(x)g(x)] \\
+                & = & \sum_{S \subseteq [n]} \widehat{f}(S)\widehat{g}(S)
+\end{IEEEeqnarray*}
+
+Este resultado é o \emph{teorema de Plancherel}. Do teorema de Plancherel podemos obter o \emph{teorema de Parseval}: $\uniE[f(x)^{2}] = \sum_{S \subseteq [n]} \widehat{f}(S)^{2}$. No caso especial em que $f: \{-1, 1\}^{n} \to \{-1 ,1\}$ segue do teorema de Parseval que $\sum_{S \subseteq [n]} \widehat{f}(S)^{2} = 1$.
+
+O valor esperado $\uniE[f(x)]$ de $f: \pmonen \to \mathbb{R}$ é igual a $\widehat{f}(\emptyset)$. Isto segue pela fórmula do coeficiente de Fourier: $\uniE[f(x)] = \uniE[f(x).1] = \uniE[f(x)\chi_{\emptyset}] = \widehat{f}(\emptyset)$. A variância de $f$ é $Var[f] = \E[f^{2}] - \E[f]^{2} = \sum_{S \neq \emptyset} \widehat{f}(S)^{2}$. O peso de $f$ em $k$, onde $0 \leq k \leq n$, é $\sum_{S \subseteq [n], \vert S \vert = k} \widehat{f}(S)^{2}$ que denotamos por $W^{k}[f]$. Daí podemos reescrever a fórmula para a variância de $f$ como $Var[f] = \sum_{k > 0}W^{k}[f]$. Nós iremos dizer que $f: \pmonen \to \pmone$ é balanceada se $\E_{x \sim \pmonen}[f(x)] = \widehat{f}(\emptyset) = 0$, se dissermos que $f$ é essencialmente balanceada nós geralmente queremos dizer que $f$ não está ``próxima'' de uma das funções constantes, o que pode significar algo como $1/10 \leq \Pr_{x \sim \pmonen}[f(x) = -1] \leq 9/10$ (ou, $\lvert \widehat{f}(\emptyset) \rvert \leq 4/5)$. Se $f: \binalphn \to \binalph$ então $f$ é balanceada sse $\E_{x \sim \binalphn}[f(x)] = \widehat{f}(\emptyset) = 1/2$, e essencialmente balanceada é definida analogamente ao caso $\pmone$.  O grau de $f$, que denotamos por $deg(f)$, é o maior valor $d \in [n]$ tal que $W^{d}[f] > 0$.
+
+\subsubsection{Influência individual e total}
+
+Nós dizemos que uma variável $i$ é \emph{pivotal} para uma string $x \in \pmone$ em $f$ se $f(x) \neq f(x^{\oplus i})$, onde $x^{\oplus i}$ é a string $x$ com a $i$-ésima coordenada invertida. 
+
+\begin{defi}(Influência individual) \label{defi: inf}
+
+A influência de $i$ em $f$, denotada por $Inf_{i}[f]$, é:
+
+\begin{equation*}
+    \uniPr[i \text{ é pivotal para } x \text{ em f }].
+\end{equation*}
+
+Ou seja,
+
+\begin{equation*}
+    Inf_{i}[f] = \uniPr[f(x) \neq f(x^{\oplus i})]
+\end{equation*}
+
+\end{defi}
+
+Para funções Booleanas $f: \{-1, 1\}^{n} \to \{-1, 1\}$ nós fazemos a seguinte definição.
+
+\begin{defi}
+
+Seja $f: \{-1, 1\}^{n} \to \{-1, 1\}$. A derivada na direção $i$ de $f$ é definida como
+
+\begin{equation*}
+    D_{i}f(x) = \frac{f(x^{(i \rightarrow 1)}) - f(x^{(i \rightarrow - 1)}) }{2}
+\end{equation*}
+
+onde $x^{(i \rightarrow b)}$ é a string $x$ com a coordenada $i$ ''forçada`` como $b$.
+
+\end{defi}
+
+Note que para todo $i \in [n]$, $D_{i}f(x)^{2}$ é 1 quando a coordenada $i$ é pivotal para $x$ em $f$ e 0 caso contrário, portanto $\E[D_{i}f(x)^{2}] = Inf_{i}[f]$ e podemos generalizar a noção de influência para funções $g: \pmonen \to \mathbb{R}$ definindo $Inf_{i}[g] = \E[D_{i}g(x)^{2}]$.
+
+\begin{prop} \label{prop: derivative_inf}
+
+Seja $f: \pmonen \to \mathbb{R}$ e $i \in [n]$, então:
+
+\begin{enumerate}
+
+    \item $D_{i}f(x) = \sum_{S \ni i} \widehat{f}(S) \chi_{S \setminus \{i\}}(x)$;
+
+    \item $Inf_{i}[f] = \sum_{S \ni i} \widehat{f}(S)^{2}$.
+
+\end{enumerate}
+
+\end{prop}
+
+\begin{proof}
+
+Primeiros nós provamos (1). Como $D_{i}$ é um operador linear, precisamos apenas mostrar que $D_{i}\chi_{S}$ é igual a $\chi_{S \setminus \{i\}}$ quando $i \in S$ e 0 caso contrário.
+
+Se $i \in S$ então $\chi_{S}(x^{(i \rightarrow 1)}) = 1\times \prod_{i \in S \setminus \{i\}}x_{i} = \chi_{S \setminus \{i\}}(x)$. Na mesma forma vemos que $\chi_{S}(x^{(i \rightarrow -1)}) = -\chi_{S \setminus \{i\}}(x)$. Portanto
+
+\begin{IEEEeqnarray*}{rCl}
+    D_{i}\chi_{S}(x) & = & \frac{1}{2}(\chi_{S \setminus \{i\}}(x) - (-\chi_{S \setminus \{i\}}(x))) \\
+                     & = & \frac{1}{2}(2\chi_{S \setminus \{i\}}(x)) \\
+                     & = & \chi_{S \setminus \{i\}}(x)
+\end{IEEEeqnarray*}
+
+Por outro lado, se $i \notin S$ então $\chi_{S}(x^{(i \rightarrow 1)}) = \chi_{S}(x^{(i \rightarrow -1)})$ e portanto $D_{i}\chi_{S}(x) = 0$. O item (2) é só uma aplicação do teorema de Parseval e $Inf_{i}[f] = E[D_{i}f(x)^{2}]$.
+
+\end{proof}
+
+Nós podemos meio que generalizar o operador $D_{i}$ para funções $f: \binalphn \to \mathbb{R}$ com o operador de Laplace definido a seguir.
+
+\begin{defi} (Operador de Laplace)
+
+Seja $f: \binalphn \to \mathbb{R}$. O operador de expectativa $E_{i}$ é definido como
+
+\begin{equation*}
+E_{i}f(x) = \E_{b \in \binalph}[f(x^{(i \rightarrow b)})]
+\end{equation*}
+
+O operador de Laplace $L_{i}$ é
+
+\begin{equation*}
+L_{i}f = f - E_{i}f
+\end{equation*}
+
+\end{defi}
+
+Ou seja, o operador de Laplace subtrai de $f$ a parte de $f$ que não depende da $i$-ésima coordenada, então parece razoável medir a ''importância`` da $i$-ésima coordenada usando $L_{i}$, assim como fizemos com $D_{i}$. Nós podemos provar o seguinte.
+
+\begin{prop}
+
+Seja $f: \binalph \to \mathbb{R}$, então
+
+\begin{equation*}
+L_{i}f = \sum_{S \ni i} \widehat{f}(S)\chi_{S}
+\end{equation*}
+
+\end{prop}
+
+\begin{proof}
+
+Para isso precisamos apenas mostrar que
+
+\begin{equation} \label{eq: Ei_fexpan}
+E_{i}f = \sum_{S \not\ni i}\widehat{f}(S)\chi_{S}
+\end{equation}
+
+e portanto o resultado segue pela definição do operador de Laplace.
+
+Para mostrar que a fórmula \ref{eq: Ei_fexpan} é verdadeira nós só precisamos considerar o caso em que $f$ é uma das funções paridades por $E_{i}$ se tratar de um operador linear. Então, seja $S \subseteq [n]$. Se $S = \emptyset$ então $E_{i}\chi_{\emptyset} = 1 = \chi_{\emptyset}$. Se $S \neq \emptyset$:
+
+\begin{IEEEeqnarray*}{rCl}
+    E_{i}\chi_{S}(x) & = & \E_{b \in \binalph}[\chi_{S}(x^{(i \rightarrow b)})] \\
+                     & = & \frac{1}{2}\big( \chi_{S}(x^{(i \rightarrow 0)}) + \chi_{S}(x^{(i \rightarrow 1)}) \big)
+\end{IEEEeqnarray*}
+
+Se $i \in S$ então $\chi_{S}(x^{(i \rightarrow 0)}) + \chi_{S}(x^{(i \rightarrow 1)})$ = 0 e caso contrário é igual a $2\chi_{S}(x)$, e portanto
+
+\begin{equation*}
+E_{i}\chi_{S} = \begin{cases}
+                    \chi_{S} \text{ se } i \notin S \\
+                    0 \text{ caso contrário}
+                \end{cases}
+\end{equation*}
+
+\end{proof}
+
+Note que se $f: \{-1, 1\}^{n} \to \mathbb{R}$ então $L_{i}f = x_{i}D_{i}f$ e portanto $\E[L_{i}f^{2}] = \E[D_{i}f^{2}] = Inf_{i}[f]$. Para funções $f: \binalphn \to \binalph$ temos somente que $E[L_{i}f^{2}] = \frac{1}{4}Inf_{i}[f]$, se adaptarmos a forma como influências individuais foram definidas em \ref{defi: inf}.
+
+\begin{prop}
+Seja $f: \binalphn \to \binalph$ então $\E[L_{i}f^{2}] = \frac{1}{4}\Pr_{x \sim \binalphn}[f(x) \neq f(x^{\oplus i})]$.
+\end{prop}
+
+\begin{proof}
+
+Primeiro note que $\Pr_{x \in \binalphn}[f(x) \neq f(x^{\oplus i})] = \E_{x \in \binalphn}\big[\big(f(x) - f(x^{\oplus i})\big)^{2}\big]$. Portanto
+
+\begin{IEEEeqnarray*}{rCl}
+    \Pr_{x \in \binalphn}[f(x) \neq f(x^{\oplus i})] & = & \E_{x \in \binalphn}\big[\big(f(x) - f(x^{\oplus i})\big)^{2}\big] \\
+                                                   & = & 4\E_{x \in \binalphn}\Bigg[\Bigg(\frac{f(x) - f(x^{\oplus i})}{2}\Bigg)^{2}\Bigg] \\
+                                                   & = & 4\E[L_{i}f^{2}]
+\end{IEEEeqnarray*}
+
+\end{proof}
+
+Por convenção, neste trabalho nós iremos usar $\E[L_{i}f^{2}]$ como a definição de $Inf_{i}[f]$ para funções $f: \binalphn \to \binalph$, ao invés de $\Pr_{x \in \binalphn}[f(x) \neq f(x^{\oplus i})]$. O mesmo vale para funções de $\binalphn$ para $\mathbb{R}$. A vantagem disso é podermos usar a fórmula que aparece em \ref{prop: derivative_inf} como a definição da influência da $i$-ésima coordenada independente se o domínio é $\binalphn$ ou $\pmonen$.
+
+A influência total de $f$ é a soma das influências individuais de todas as coordenadas: $\I[f] = \sum_{i \in [n]} Inf_{i}[f]$. Levando em conta que $Inf_{i}[f] = \sum_{i \ni S} \widehat{f}(S)^{2}$, cada coeficiente de Fourier $\widehat{f}(S)$ aparece $\lvert S \rvert$ vezes na soma da influência total, portanto temos a seguinte fórmula: $\I[f] = \sum_{k > 0} kW^{k}[f]$.
+
+
+\subsubsection{Estabilidade de ruído}
+
+Seja $\rho \in [0, 1]$ e considere a string $y$ formada a partir de $x$ onde:
+
+\begin{equation*}
+y_{i} = \begin{cases}
+            x_{i} \text{ com probabilidade } \rho \\
+            \text{uniformente distribuido com probabilidade } 1 - \rho
+        \end{cases}
+\end{equation*}
+
+Dizemos que $x$ e $y$ são $\rho$-correlacionados e denotamos $y \sim N_{\rho}(x)$.
+
+\begin{defi}(Estabilidade de ruído)
+
+Seja $f: \pmonen \to \mathbb{R}$ e $\rho \in [0, 1]$. A estabilidade de ruído de $f$ sobre $\rho$ é
+
+\begin{equation*}
+Stab_{\rho}[f] = \underset{\substack{x \sim \pmonen \\ y \sim N_{\rho}(x)}}{\E}[f(x)f(y)]
+\end{equation*}
+
+\end{defi}
+
+Pela definição da estabilidade de ruído, nós temos o seguinte:
+
+\begin{IEEEeqnarray*}{rCl}
+    Stab_{\rho}[f] & = & \E[f(x)f(y)] \\
+                   & = & \Pr[f(x) = f(y)] - \Pr[f(x) \neq f(y)] \\
+                   & = & 1 - 2\Pr[f(x) \neq f(y)]
+\end{IEEEeqnarray*}
+
+Onde $x$ e $y$ são strings $\rho$-correlacionadas. Esse valor, $\Pr[f(x) \neq f(y)]$ é a \emph{sensitividade de ruído} de $f$ que denotamos por $NS_{\rho}[f]$. Ou seja, 
+
+\begin{equation*}
+NS_{\rho}[f] = \frac{1}{2} - \frac{Stab_{\rho}[f]}{2}.
+\end{equation*}
+
+Assim como fizemos para a influência também é conveniente ter uma interpretação baseada na expansão de Fourier para a estabilidade de ruído e sensitividade de ruído de uma função. Para isso consideramos o operador de ruído $T_{\rho}$ definido como
+
+\begin{equation*}
+    T_{\rho}f(x) = \E_{y \sim N_{\rho}(x)}[f(y)].
+\end{equation*}
+
+\begin{prop} \label{prop: T_fexpan}
+    Seja $f: \pmonen \to \mathbb{R}$, a expansão de Fourier de $T_{\rho}f$ é dada por:
+
+    \begin{equation*}
+        T_{\rho}f = \sum_{S \subseteq [n]} \rho^{\lvert S \rvert}\widehat{f}(S)\chi_{S}
+    \end{equation*}
+
+\end{prop}
+
+\begin{proof}
+
+    De novo, como $T_{\rho}$ é um operador linear precisamos apenas provar para o caso $f = \chi_{S}$, $S \subseteq [n]$:
+
+    \begin{equation*}
+        T_{\rho}\chi_{S}(x) = \underset{y \sim N_{\rho}(x)}{\E}[\chi_{S}(y)] = \prod_{i \in S}\underset{y \sim N_{\rho}(x)}{\E}[y_{i}] = \prod_{i \in S}(\rho x_{i}) = \rho^{\lvert S \rvert}\chi_{S}(x)
+    \end{equation*}  
+
+    Donde nós usamos que os bits $y_{i}$ são mutualmente independentes e têm expectativa $\rho x_{i}$.  
+
+\end{proof}
+
+Daí nós temos que
+
+\begin{equation*}
+    Stab_{\rho}[f] = \underset{\substack{x \sim \pmonen \\ y \sim N_{\rho}(x)}}{\E}[f(x)f(y)] = \underset{x \sim \pmonen }{\E}\Big[f(x)\underset{y \sim N_{\rho}(x)}{\E}[f(y)]\Big] = \underset{x \sim \pmonen}{\E}[f(x)T_{\rho}f(x)] = \langle f, T_{\rho}f \rangle
+\end{equation*}
+
+E portanto, pelo teorema de Plancherel e proposição \ref{prop: T_fexpan}:
+
+\begin{equation*}
+    Stab_{\rho}[f] = \langle f, T_{\rho}f \rangle = \sum_{S \subseteq [n]} \widehat{f}(S) \widehat{T_{\rho}f}(S)
+                                                  = \sum_{S \subseteq [n]} \rho^{\lvert S \rvert} \widehat{f}(S)^{2}
+                                                  = \sum_{k = 0}^{n} \rho^{k} W^{k}[f]
+\end{equation*}
+
+%Ainda nesta seção nós discutimos brevemente sobre hipercontratividade. Primeiro, citamos o teorema da hipercontratividade.
+
+%\begin{teo} (Teorema da hipercontratividade)
+
+%Seja $f \in \pmonen \to \mathbb{R}$ e sejam $1 \leq p \leq q \leq \infty$. Então $\lVert T_{\rho}f \rVert_{q} \leq \lVert f \rVert_{p}$, onde $\rho$ satisfaz $0 \leq \rho \leq \sqrt{\frac{p - 1}{q - 1}}$.
+
+%\end{teo}
+
+%###########################################################################Tribes_N########################################################
+
+\subsubsection{Tribes$_{N}$}
+
+A função Tribes$_{w, s}: \binalph^{ws} \to \binalph$ é definida como sendo $\bigvee_{i = 1}^{s}\bigwedge_{j = 1}^{w} x_{i, j}$. Nós chamamos cada termo de \emph{tribo} e portanto $Tribes_{w, s} = 1$ se e somente se pelo menos uma tribo é unanimamente 1.
+
+Essa função (até onde eu saiba) apareceu primeiro em \cite{ben1990collective}, em que Ben-Or e Linial a usaram como exemplo de uma função que é ao mesmo tempo equilibrada e que tem influência máxima pequena, mais ou menos próxima do mínimo imposto pela desigualdade de Poincaré: $\underset{i \in [n]}{max}\{Inf_{i}[f]\} \geq \frac{1}{n}$.
+
+Fixando $w \geq 1$, nós vamos considerar a função Tribes$_{n}$ = Tribes$_{s, w}$, onde $n = sw$ e $s$ é o maior inteiro tal que $(1 - 2^{-w})^{s} \geq 1/2$. Com essas escolhas de $s$ e $w$ nós temos o seguinte.
+
+\begin{prop} \label{prop: tribes_n}
+
+    Seja $w \geq 1$, $s$ o maior inteiro satisfazendo $(1 - 2^{-w})^{s} \geq 1/2$ e $n = ws$, então: 
+
+    \begin{itemize}
+
+        \item $w = logn - loglogn - o(1)$.
+
+        \item $s = \Theta(\frac{n}{logn})$.
+
+    \end{itemize}
+
+\end{prop}
+
+\begin{proof}
+
+    Primeiro nós achamos uma expressão para $s$. Usando a desigualdade $e^{x} \geq 1 + x$, para todo $x \in \mathbb{R}$, temos que $e^{-s2^{-w}} \geq (1 - 2^{-w})^{s} \geq 1/2$, e portanto quanto tiramos o logaritmos de ambos os lados obtemos $-s2^{-w} \geq -ln(2)$ e rearranjando:
+
+    \begin{equation*}
+        s \leq 2^{w}ln(2)
+    \end{equation*}
+
+    E também, como escolhemos $s$ de forma que $(1 - 2^{-w})^{s + 1} < 1/2$:
+
+    \begin{equation*}
+        s + 1 \geq \frac{-ln(2)}{ln(1 - 2^{-w})} \geq (2^{w} - 1)ln(2)
+    \end{equation*}
+
+    Donde nós usamos que $ln(1 - 2^{-w}) \geq \frac{1}{1 - 2^{w}}$. Juntando tudo temos que 
+
+    \begin{equation*}
+       2^{w}ln(2) - ln(2) - 1 \leq s \leq 2^{w}ln(2)
+    \end{equation*} 
+
+    Então, para algum $\alpha_{w} \in [0, 2]$ apropriado, temos que $s = 2^{w}ln(2) - \alpha_{w}$. 
+
+    Agora, $n = ws = w2^{w}ln(2) - w\alpha_{w}$ e consequentemente $n \leq w2^{w}ln(2)$ e $n \geq w2^{w}ln(2) - 2w$, ou seja:
+
+    \begin{equation*}
+        \frac{n}{ln(2)} \leq w2^{w} \leq \frac{n}{ln(2) - 2^{-w + 1}}
+    \end{equation*}
+
+    E vemos que com $w$ tendendo ao infinito, $n/ln(2) = w2^{w}$ e portanto $w = logn - loglogn - o(1)$. Quando substituimos este valor $w$ na expressão que encontramos para $s$ temos que $s = \Theta(\frac{n}{logn})$.
+
+\end{proof}
+
+Da forma que definimos $n$ para um $w$ fixo nós temos na verdade uma sequência $\{n_{w}\}_{w \geq 1}$, e podemos verificar que $n_{w + 1} > 2w_{w}$.
+
+Agora também podemos computar a influência total de Tribes$_{n}$.
+
+\begin{prop}
+
+    Para todo $i \in [n]$, Inf$_{i}$[Tribes$_{n}$] = $\mathcal{O}(\frac{logn}{n})$.
+
+\end{prop}
+
+\begin{proof}
+
+    Usando a nossa definição para as influências individuais para funções de $\binalphn$ para $\binalph$, temos que
+
+\begin{equation*}
+Inf_{i}[\Tribes_{n}] = \E[L_{i}\Tribes_{n}^{2}] = \frac{1}{4}\Pr_{x \sim \binalphn}[\Tribes_{n}(x) \neq \Tribes_{n}(x^{\oplus i})]
+\end{equation*}
+
+    Para que uma coordenada $i$ seja pivotal para uma entrada $x \in \binalphn$ é suficiente e necessário que todas as outras coordenadas na mesma tribo que $i$ sejam 1 e que nenhuma outra tribo seja 1 unanimamente. Traduzindo:
+
+    \begin{equation*}
+        Inf_{i}[\Tribes_{n}] = \frac{1}{4}(2^{-w + 1}(1 - 2^{-w})^{s - 1}) = \frac{1}{2^{w + 1} - 2}Pr[Tribes_{n}(x) = 0]
+    \end{equation*}
+
+    Agora, seja $s^{\prime} \in \mathbb{R}$ tal que $(1 - 2^{-w})^{s^{\prime}} = 1/2$ e $\epsilon \in [0, 1)$ tal que $s^{\prime} = s + \epsilon$. Então temos:
+
+    \begin{IEEEeqnarray*}{rCl}
+        Pr[Tribes_{n}(x) = 1] & = & (1 - 2^{-w})^{s} \\
+                               & = & (1 - 2^{-w})^{s^{\prime}}(1 - 2^{-w})^{-\epsilon} \\
+                               & = & \frac{1}{2}(1 + \epsilon 2^{-w} + \mathcal{O}(2^{-2w})) \\
+    \end{IEEEeqnarray*}
+
+    E como $w = logn - loglogn - o(1)$,
+
+    \begin{equation*}
+        Pr[Tribes_{n}(x) = 1] = \frac{1}{2} + \mathcal{O}(\frac{logn}{n})
+    \end{equation*}
+    
+    E como $\frac{1}{2^{w + 1} - 2} = \mathcal{O}(\frac{logn}{n})$ o resultado segue.
+
+\end{proof}
+
+Para cada $i \in [s]$ denotaremos por $T_{i}$ o conjunto de índices das variáveis na $i$-ésima tribo e definimos $f_{i}$ como
+
+\begin{equation*}
+    f_{i}(x) = \begin{cases}
+                    1 \text{ se a } i\text{-ésima tribo não é unanimamente 1 sobre a entrada } x \\
+                    0 \text{ caso contrário}
+               \end{cases}
+\end{equation*}
+
+Desta forma Tribes$_{n}(x) = 1 - \prod_{i = 1}^{s} f_{i}(x)$ e usamos esta forma de representar Tribes$_{n}$ para calcular seus coeficientes de Fourier.
+
+\begin{prop} \label{prop: tribes_fourier_coef}
+
+    Seja $S \subseteq [n]$, $(S_{1}, S_{2}, \dots, S_{s})$ uma partição de $S$ tal que $S_{i} = S \cap T_{i}$, para cada $i \in [s]$, e k = $\#\{i \rvert S_{i} \neq \emptyset\}$ então
+
+    \begin{equation*}
+    \widehat{Tribes_{n}}(S) = \begin{cases}
+                                   1 - (1 - 2^{-w})^{s} \text{ se } S = \emptyset \\
+                                   (-1)^{\lvert S \rvert + k + 1}2^{-kw}(1 - 2^{-w})^{s - k} \text{ se } S \neq \emptyset
+                               \end{cases}
+    \end{equation*}
+
+\end{prop}
+
+\begin{proof}
+
+    O caso $S = \emptyset$ é verdade pois
+
+    \begin{equation*}
+        \widehat{\Tribes_{n}}(\emptyset) = \E_{x \sim \binalphn}[\Tribes_{n}(x)] = \Pr_{x \sim \binalphn}[\Tribes_{n}(x) = 1] = 1 - (1 - 2^{-w})^{s}
+    \end{equation*}
+
+    Para o caso geral nós temos
+
+    \begin{IEEEeqnarray*}{rCl}
+        \widehat{Tribes_{n}}(S) & = & \underset{x \sim \binalphn}{\E}[\Tribes_{n}(x)\chi_{S}(x)] \\
+                                & = & \underset{x \sim \binalphn}{\E}\big[(1 - \prod_{i = 1}^{n}f_{i}(x))\chi_{S}(x)\big] \\
+                                & = & -\prod_{i = 1}^{s} \underset{x \sim \binalphn}{\E}[f_{i}(x)\chi_{S_{i}}(x)] \\
+                                & = & -\prod_{i = 1}^{s} \widehat{f_{i}}(S_{i})
+    \end{IEEEeqnarray*}
+
+    Então só precisamos analizar $\widehat{f_{i}}(S_{i})$.
+
+    \begin{IEEEeqnarray*}{rCl}
+        \widehat{f_{i}}(S_{i}) & = & 2^{-n} \sum_{x \in \binalphn} f_{i}(x)\chi_{S_{i}}(x) \\
+                               & = & 2^{-n} \sum_{\substack{x \in \binalphn \\ x_{j} = 1 \text{ para todo } j \in T_{i}}} (-1)^{\lvert S_{i} \rvert}f_{i}(x) + 2^{-n} \sum_{\substack{x \in \binalphn \\ x_{j} \neq 1 \text{ para algum } j \in T_{i}}}\chi_{S_{i}}(x)
+    \end{IEEEeqnarray*}
+
+    Cada termo da primeira soma é 1 sempre que pelo menos uma das $w - \lvert S_{i} \rvert$ variáveis em $T_{i} \setminus S_{i}$ é 1, o que acontece com probabilidade $(1 - 2^{-w + \lvert S_{i} \rvert})$. A segunda soma pode ser decomposta pela quantidade de variáveis com índices em $S_{i}$ que são 0:
+
+    \begin{IEEEeqnarray*}{rCl}
+        \widehat{f_{i}}(S_{i}) & = & (-1)^{\lvert S_{i} \rvert}2^{-\lvert S_{i} \rvert}(1 - 2^{-w + \lvert S_{i} \rvert}) + 2^{-n}\sum_{k = 1}^{\lvert S_{i} \rvert}(-1)^{\lvert S_{i} \rvert - k}\binom{\lvert S_{i} \rvert}{k}2^{n - \lvert S_{i} \rvert} \\
+                               & = & (-1)^{\lvert S_{i} \rvert + 1}2^{-w} + (-1/2)^{\lvert S_{i} \rvert}\sum_{k = 0}^{\lvert S_{i} \rvert}(-1)^{k}\binom{\lvert S_{i} \rvert}{k} \\
+                               & = & (-1)^{\lvert S_{i} \rvert + 1}2^{-w}
+    \end{IEEEeqnarray*}
+    Lembrando que $k = \#\{i \lvert S_{i} \neq \emptyset\}$, podemos concluir:
+
+    \begin{IEEEeqnarray*}{rCl}
+        \widehat{Tribes_{n}}(S) & = & -\prod_{i = 1}^{s}\widehat{f_{i}}(S_{i}) \\
+                                & = & -\Bigg(\prod_{i : S_{i} \neq \emptyset}(-1)^{\lvert S_{i} \rvert + 1}2^{-w}\Bigg)(1 - 2^{-w})^{s - k} \\
+                                & = & (-1)^{\lvert S \rvert + k + 1}2^{-kw}(1 - 2^{-w})^{s - k}
+    \end{IEEEeqnarray*}
+
+\end{proof}

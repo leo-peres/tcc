@@ -1,0 +1,77 @@
+\documentclass[11pt]{report}
+\usepackage[utf8]{inputenc}
+\usepackage[brazil]{babel}
+
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{latexsym}
+\usepackage{complexity}
+
+\usepackage[retainorgcmds]{IEEEtrantools}
+
+\usepackage{hyperref}
+
+\usepackage{xcolor}
+
+\newtheorem{teo}{Teorema}[chapter]
+\newtheorem{defi}[teo]{Definição}
+\newtheorem{lema}[teo]{Lema}
+\newtheorem{cor}[teo]{Corolário}
+\newtheorem{prop}[teo]{Proposição}
+\newtheorem{fato}[teo]{Fato}
+\newtheorem*{clique}{CLIQUE}
+\newtheorem*{maxclique}{MAX-CLIQUE}
+\newtheorem*{ETH}{Hipótese do tempo exponencial}
+\newtheorem*{SETH}{Hipótese do tempo exponencial forte}
+
+%newcommands
+
+\newcommand{\binalph}{\{0, 1\}}
+\newcommand{\binalphn}{\binalph^{n}}
+\newcommand{\pmone}{\{-1, 1\}}
+\newcommand{\pmonen}{\pmone^{n}}
+\newcommand{\uniE}{\E_{x \sim \pmonen}}
+\newcommand{\UniE}{\underset{x \sim \pmonen}{\E}}
+\newcommand{\uniPr}{\Pr_{x \sim \pmonen}}
+\newcommand{\I}{\mathrm{I}}
+\newcommand{\Tribes}{\text{Tribes}}
+\newcommand{\Parity}{\text{Parity}}
+
+\mathchardef\mhyphen="2D
+
+%newlangs
+
+\newlang{\HALT}{HALT}
+\newlang{\UHALT}{UHALT}
+\newlang{\CLIQUE}{CLIQUE}
+\newlang{\MAXCLIQUE}{MAX\mhyphen CLIQUE}
+\newlang{\CIRCUITEVAL}{CIRCUIT\mhyphen EVAL}
+\newlang{\CIRCUITSAT}{CIRCUIT\mhyphen SAT}
+
+%newclasses
+
+\newclass{\DEPTH}{DEPTH}
+\newclass{\Puniform}{\P\mhyphen uniforme}
+\newclass{\loguniform}{logspace\mhyphen uniforme}
+
+%newfunctions
+
+\newfunc{\subexp}{subexp}
+
+\setlength{\textwidth}{480pt}
+\setlength{\hoffset}{-60pt}
+\setlength{\parskip}{4pt}
+
+\input{capa}
+
+\input{abstract}
+
+\input{proposta}
+\input{teoria_da_computacao}
+\input{complexidade_computacional}
+\input{complexidade_de_circuitos}
+\input{funcoes_booleanas}
+\input{oraculos_e_circuitos}
+\input{ref}
+

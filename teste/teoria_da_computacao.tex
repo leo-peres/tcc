@@ -1,0 +1,376 @@
+\chapter{Fundamentos}
+
+Neste capítulo nós introduzimos algumas convenções e conceitos fundamentais para entender este trabalho. Muitas das convenções usadas aqui são as mesmas encontradas em alguns dos principais livros de teoria da computação~\cite{arora2009computational, goldreich2000computational, savage1998models, lewis1997elements, sipser2012introduction}. 
+
+Introduzimos primeiro linguagens e como representar problemas computacionais como linguagens. Depois falamos de máquinas de Turings e suas variantes, e mostramos alguns resultados de fundamental importância. Na seção \ref{circuitos} nós vemos circuitos Booelanos como um modelo de computação. Nas seções \ref{complexidade} e \ref{complexidade_circuitos} nós discutiremos complexidade computacional pela primeira vez em algum detalhe. Finalmente, na seção \ref{funcoes_booleanas} veremos um introdução elementar à análise de Fourier de funções Booleanas.
+
+
+\section{Linguagens} \label{linguagens}
+
+Um \emph{alfabeto} $\Sigma$ é um conjunto finito e não vazio de símbolos como $\{0, 1\}$ ou $\{a, b, c\}$. Uma \emph{palavra} construída sobre um alfabeto $\Sigma$ é uma sequência de símbolos de $\Sigma$. Como exemplo, se $\Sigma$ for o alfabeto binário $\{0, 1\}$, então $0011$ e $0101$ são palavras sobre $\Sigma$. Finalmente, denotamos por $\Sigma^{*}$ o conjunto de todas as palavras formada por símbolos de $\Sigma$ e definimos uma \emph{linguagem} como um subconjunto qualquer de $\Sigma^{*}$.
+
+Permitimos uma palavra vazia que não contém nenhum símbolo e denotamos esta palavra por $\varepsilon$ e temos que $\varepsilon \in \Sigma^{*}$, para qualquer alfabeto $\Sigma$. O tamanho de uma palavra $w$ é o número de símbolos que a compõem e é denotada por $\lvert w \rvert$ --- desta forma $\lvert \varepsilon \rvert = 0$. Para representar o i-ésimo símbolo que compõe uma palavra $w$ nós escreveremos $w_{i}$. Para algum inteiro $n \geq 0$, $\Sigma^{n}$ denota o conjunto de todas as palavras de tamanho $n$ sobre o alfabeto $\Sigma$.
+
+Nós também queremos representar objetos como grafos, vetores, etc, através de palavras. Neste caso, se $x$ é um objeto qualquer, então sua representação em binário será denotada por $\langle x \rangle$.
+
+O que mais nos importa aqui é que podemos representar problemas computacionais através de linguagens, o que nos chamamos de problemas de decisão. Após problemas de decisão, nós veremos problemas de busca que diferem de problemas de decisão na maneira em que ele são representados e no número de soluções admitidas.
+
+\subsection{Problemas de decisão}
+
+Em problemas de decisão nós queremos decidir se um determinado elemento pertence a um conjunto $S$ ou não. Como exemplo de um problema de decisão: dado um número natural $p$, nós queremos decidir se $p$ é primo. Neste caso $S$ é o conjunto de todos os números primos. 
+
+Para solucionar o problema de decisão de $S \subseteq \{0, 1\}^{*}$ nós usamos uma função $f: \{0, 1\}^{*} \to \{0, 1\}$ tal que $S = \{x \mid f(x) = 1\}$. Chamamos $f$ de \emph{função característica} de $S$. Dessa forma, solucionar um problema de decisão é análogo a decidir se uma palavra pertence à uma linguagem, dado uma representação das instâncias do problema como strings binárias.
+
+\subsection{Problemas de busca}
+
+Em problemas de busca, é dada uma instância e queremos achar uma solução do problema para aquela instância. Por exemplo, dado um grafo $G$ e vértices $u$ e $v$, achar o caminho mais curto entre $u$ e $v$ seguindo as arestas de $G$.
+
+Nós vamos representar um problema de busca por uma relação $R \subseteq \{0, 1\}^{*} \times \{0, 1\}^{*}$, onde $R(x, y)$ sse $y$ é uma solução para a instância $x$, e para cada $x$ temos $R(x) = \{y \mid R(x, y)$\}, ou seja, $R(x)$ é conjunto de todas as soluções para $x$. Um solucionador para $R$ é uma função $f: \{0, 1\}^{*} \to \{0, 1\}^{*} \cup \{ \perp \}$ onde
+
+\begin{equation*}
+    f(x) =
+    \begin{cases}
+        y \in R(x) & \text{ se } R(x) \neq \emptyset \\
+        \perp & \text{ caso contrário}.
+    \end{cases}
+\end{equation*}
+
+
+%\section{Algoritmos e modelos de computação}
+
+%Na definição acima, um solucionador para um problema de decisão é uma função binária que nos diz se uma determinada string pertence a um subconjunto de $\{0, 1\}^{*}$. Porém, ainda não temos informação suficiente para resolver o problema em si. Nós queremos um \emph{procedimento}, como os que nós usamos para achar o produto de dois números ou resolver um sistema de equações lineares. O que estes tipos de procedimentos têm em comum é que recebe-se uma entrada, e a partir dela segue-se um conjunto de instruções até ter-se a solução do problema que queremos resolver. 
+
+%Um \emph{algoritmo} é um procedimento para resolver um problema computacional. Intuitivamente, um algoritmo $A$ recebe uma entrada $x$ e após uma sequência finita de passos simples e locais, nós obtemos a saída $A(x)$. O que nós queremos dizer por passos simples e locais é que a qualquer momento o algoritmo trabalha apenas em uma área limitada de seu ambiente de trabalho e o trabalho realizado pelo algortimo deve ser elementar. Se um algoritmo $A$ resolve o problema computacional de uma função $f$, temos então que para todo $x$, $A(x) = f(x)$.
+
+%Por se tratar de um conceito intuitivo nós não podemos dar uma definição formal equivalente a nossa noção intuitiva de um algoritmo. Porém, acreditamos que qualquer sistema formal que satisfaça as condições acima capture o que intuitivamente pensamos ser este sistema formal. Na decáda de 30, alguns pesquisadores chegaram a propor tais sistemas formais. A seguir nós apresentamos modelo formais de computação. Em especial, na seção seguinte nós apresentamos uma máquina proposta por Alan Turing~\cite{turing1936computable} que acreditamos ser capaz de realizar qualquer algoritmo.
+
+
+
+\section{Máquinas de Turing} \label{MT}
+
+
+Uma visão intuitiva de uma máquina de Turing é a de um matemático que tem consigo uma folha de rascunho em que ele pode escrever os resultados parciais de sua computação e um conjunto finito de instruções que ele deve seguir. Formalmente, uma máquina de Turing é composta por três unidades:
+
+\begin{itemize}
+
+\item $k$ fitas infinitas à direita que contêm células adjacentes e um cabeçote que em um dado momento se localiza em uma única célula de sua fita e que pode realizar as seguintes funções: a) escrever ou apagar um símbolo na célula em que ele se encontra b) se mover para uma das células adjacentes à sua célula atual;
+
+\item um registrador que guarda o estado atual da computação;
+
+\item um conjunto de instruções.
+
+\end{itemize}
+
+A computação inicia com os $k$ cabeçotes na célula mais à esquerda de suas respectivas fitas e em um estado inicial que é o mesmo para todas as entradas. Daí em cada passo da computação os $k$ cabeçotes irão ler o conteúdo atual das células em que eles se encontram e conforme o estado atual e o conjunto de instruções eles decidem se escrevem ou apagam um símbolo na sua célula atual (sendo que o símbolo escrito pode ser o mesmo que já se encontra naquela célula) e para qual direção eles irão se movimentar (ou se permanecerão na mesma célula). Após cada passo o registrador de estado passa a guardar um novo estado (ou seja, o próximo estado da computação) que depende do estado atual e o símbolo lido pelos cabeçotes. A computação termina quando o registrador de estado guarda um estado de parada.
+
+Das $k$ fitas da máquina de Turing, a primeira é de somente leitura e a chamaremos de \emph{fita de entrada}. As últimas $k - 1$ fitas são de escrita e leitura e elas são chamadas de \emph{fitas de trabalho}, sendo a última fita a \emph{fita de saída}.
+
+A seguir nós vemos uma definição formal de máquina de Turing.
+
+\begin{defi}(Máquinas de Turing) \label{defi:MT}
+
+Uma máquina de Turing $M$ é uma tripla $(\Gamma, Q, \delta)$ onde $\Gamma$ é o alfabeto de fita, $Q$ é o conjunto de estados de $M$ que contém o estado inicial $q_{0}$ e o estado de parada $q_{h}$ e $\delta: Q \times \Gamma^{k} \to Q \times \Gamma^{k - 1} \times \{E, N, D\}^{k}$ é a função de transição.
+
+A função de transição e interpretada como $\delta(q, (\sigma_{1}, \text{ ..., } \sigma_{k})) = (q^{\prime}, (\sigma_{2}^{\prime}, \text{ ..., } \sigma_{k}^{\prime}), z)$, $z \in \{E, N, D\}^{k}$, significando que quando o estado atual de $M$ for $q$ e os símbolos sendo lidos pelos cabeçotes das $k$ fitas forem $\sigma_{1}, \text{ ..., } \sigma_{k}$ então $M$ muda o seu estado atual para $q^{\prime}$, muda o conteúdo das suas últimas $k - 1$ fitas para $\sigma_{2}^{\prime}, \text{ ..., } \sigma_{k}^{\prime}$ e os $k$ cabeçotes da fita se movimentam conforme $z$ (a i-ésima fita se move para a esquerda, permanece na mesma célula ou se move para direita se o valor de $z_{i}$ for $E$, $N$ ou $D$, respectivamente). Sempre que um cabeçote que estiver na célula mais à esquerda de sua fita tentar se mover para esquerda, este permanecerá na mesma célula.
+
+A entrada de uma máquina de Turing é o conteúdo da fita de entrada antes do ínicio da computação. Denotamos o resultado da computação de $M$ sobre uma entrada $x$ por $M(x)$.
+
+\end{defi}
+
+Neste trabalho vamos na maior parte das vezes assumir que $\Gamma = \{0, 1, \vartriangleright, \square\}$, onde $\vartriangleright$ é o símbolo que marca o começo das fitas e $\square$ é um símbolo que denota uma célula vazia.
+
+Nós podemos representar cada passo da computação de uma máquina de Turing levando em conta o conteúdo atual das $k$ fitas, as posições dos cabeçotes e o estado atual. Essa representação de um passo da computação de uma máquina de Turing é chamada de \emph{configuração} e podemos mapear uma configuração para uma palavra em $\{0, 1\}^{*}$. No ínicio da computação a máquina de Turing se encontra na \emph{configuração inicial}. A sequência de todas as configurações que uma máquina de Turing entra durante a computação é chamada de \emph{história de computação}. Essa visão dos passos da computação de uma máquina de Turing é útil quando queremos representar toda a computação de uma máquina de Turing como uma string. Sem nos preocurpamos com os detalhes de uma representação das configurações, vamos convencionar que a configuração inicial de qualquer computação terá o seguinte:
+
+\begin{itemize}
+
+\item Todas as fitas têm o símbolo $\vartriangleright$ em sua célula mais à esquerda;
+
+\item A primeira fita irá conter uma string $x \in \{0, 1\}^{*}$ após a sua primeira célula;
+
+\item Todas as outras células de todas as fitas serão marcadas com $\square$.
+
+\end{itemize}
+
+
+\subsection{Máquina de Turing universal}
+
+Note que precisamos somente da função de transição para descrever uma máquina de Turing. Dessa forma podemos representar máquinas de Turing como strings binárias e fazemos duas suposições:
+
+\begin{itemize}
+
+\item Cada string $\alpha \in \{0, 1\}^{*}$ descreve uma máquina de Turing
+
+\item Cada máquina de Turing é descrita por infinitas strings
+
+\end{itemize}
+
+A primeira condição pode ser alcançada se mapearmos todas as strings que não são descrição válidas de máquinas de Turing para uma máquina canônica qualquer --- como a máquina de Turing que rejeita todas as entradas. A segunda condição pode ser obtida se concatenarmos uma sequência de símbolos inúteis ao fim da descrição da máquina de Turing, isto não irá mudar o conjunto de instruções sendo representado se usarmos alguma sequência de bits para demarcar o fim da descrição.
+
+De acordo com a nossa notação, denotaremos a string que descreve uma máquina de Turing $M$ por $\langle M \rangle$. Se $\alpha$ é uma string, então denotaremos por $M_{\alpha}$ a máquina de Turing descrita por $\alpha$.
+
+Essa representação de máquinas de Turing como strings é útil quando queremos usar descrições de máquinas de Turing como entrada para uma máquina de Turing. O teorema a seguir nos diz que existe uma máquina de Turing capaz de simular a execução de qualquer máquina de Turing sobre uma entrada arbitrária.
+
+\begin{teo}(Máquina de Turing universal) \label{teo:MTuni1}
+
+Existe uma máquina de Turing $\mathcal{U}$ que ao receber $\langle \alpha, x \rangle$ em sua fita de entrada, $\mathcal{U}$ dá como saída o resultado da computação de $M_{\alpha}$ sobre a entrada $x$.
+
+\end{teo}
+
+\begin{proof}
+
+Precisamos apenas nos convencer que uma vez que podemos extrair da descrição de $M_{\alpha}$ (ou seja, a string $\alpha$) o seu conjunto de estados e sua função de transição temos então toda informação necessária para simular a execução de $M_{\alpha}$ sobre a entrada $x$ usando as fitas de trabalho de $\mathcal{U}$. 
+
+Porém, o número de fitas de $\mathcal{U}$ é finito (somente 3 fitas são necessárias), e $\mathcal{U}$ deve ser capaz de simular qualquer máquina de Turing com um número arbitrário de fitas. Se $k$ é o número de fitas de $M_{\alpha}$, então é possível fazer isto guardando o conteúdo de $k - 1$ fitas (nós podemos usar a fita de saída de $\mathcal{U}$ para simular a fita de saída de $M_{\alpha}$) de $M_{\alpha}$ em uma das fitas de trabalho de $\mathcal{U}$ particionando esta fita em $k - 1$ espaços $E_{1}, E_{2}, \dots, E_{k - 1}$, onde cada espaços consecutivos são separados por um símbolo especial (como $\text{`}\#\text{'}$). Sempre que a $i$-ésima fita de $M_{\alpha}$ precisar de mais espaço, movemos todos símbolos que aparecem após a última célula de $E_{i}$ uma posição para a direita.
+
+Dessa forma, após a simulação teremos $M_{\alpha}(x)$ escrito sobre a fita de saída de $\mathcal{U}$.
+
+\end{proof}
+
+Um ponto importante sobre o resultado acima é que a simulação pode ser feita de forma eficiente. No capítulo seguinte iremos definir o que queremos dizer por eficiente e também veremos em detalhe uma máquina de Turing universal ainda mais eficiente do que a máquina de Turing esboçada na prova do teorema anterior.
+
+%máquinas de Turing não-deterministica
+
+\subsection{Máquina de Turing não-determinística}
+
+Na nossa definição de máquinas de Turing acima, o próximo passo de uma máquina de Turing é definido somente pelos símbolos sendo lidos pelos seus cabeçotes de fita e o estado atual da máquina. Nós chamamos estas máquinas de Turing cujo o próximo passo é estritamento único de máquinas de Turing determinísticas. Por outro lado, uma máquina de Turing não-determinística tem sempre duas alternativas de próximos passos que ela deve decidir tomar.
+
+\begin{defi} (Máquina de Turing não-determinística)
+
+Uma máquina de Turing não-determinística $N$ é uma máquina de Turing convencional como definida em ~\ref{defi:MT} mas com duas funções de transições $\delta_{1}$ e $\delta_{2}$. A cada passo de sua execução $N$ deve escolher usar uma de suas duas funções.
+
+Dizemos que $N$ aceita a entrada $x$ se existe pelo menos uma sequência de escolha das funções de transição tal que $N(x) = 1$.
+
+\end{defi}
+
+O conjunto de linguagens decididas por máquinas de Turing não-determinística é o mesmo que o conjunto de linguagens decididas por máquinas de Turing determinística, isso segue pois podemos simular uma máquina de Turing não-determinística $N$ por uma máquina de Turing $M$ que tenta todas as possíveis sequência de escolhas da função de transição que $N$ faz. Além disso, máquinas de Turing determinística são uma classe específica de máquinas de Turing não-determinísticas (onde $\delta_{1}$ e $\delta_{2}$ são idênticas).
+
+%MÁQUINAS DE TURING E ORÁCULOS
+
+\subsection{Máquinas de Turing com oráculo}
+
+Um oráculo $O$ para uma linguagem $L$ é um dispositivo que recebe uma entrada $x$ e dá como resposta $1$ se $x \in L$ e $0$ caso contrário. Nós não estamos preocupados com o funcionamento interno de um oráculo, nós vemos oráculos como ``caixas pretas'' donde nós simplesmente colocamos a entrada em um lado e recebemos a saída em outro lado. Máquinas de Turing com oráculo são máquinas de Turing convencionais que têm acesso a um oráculo.
+
+
+\begin{defi} (Máquina de Turing com oráculo)
+
+Uma máquina de Turing $M$ com acesso a um oráculo para $L$ é uma máquina de Turing convencional com a adição de uma fita que chamaremos de \emph{fita de oráculo} e três estados $q_{consulta}$, $q_{sim}$ e $q_{\text{não}}$. Sempre que $M$ quiser consultar o oráculo para saber se uma string $x^{\prime}$ pertence a $L$ ou não, $M$ escreve $x^{\prime}$ sobre  sua fita de oráculo e muda seu estado para $q_{consulta}$. Daí, o próximo estado de $M$ será $q_{sim}$ caso $x^{\prime} \in L$, ou $q_{\text{não}}$ caso contrário.
+
+A partir de agora denotaremos uma máquina de Turing $M$ com acesso a um oráculo para uma linguagem $L$ por $M^{L}$ e o resultado da computação de $M^{L}$ sobre $x$ por $M^{L}(x)$.
+
+\end{defi}
+
+Se uma linguagem $L^{\prime}$ é decidida por uma máquina de Turing com acesso a um oráculo $O$ nós dizemos que $L$ é decidível em relação a $O$.
+
+A seguir nós vemos que, como esperado, a adição de um oráculo nos dar um poder adicional em relação a máquinas de Turing convencionais.
+
+\begin{teo}
+
+Existe uma linguagem que é decidível em relação a algum oráculo mas que não é decidível por uma máquina de Turing sem acesso a nenhum oráculo.
+
+\end{teo}
+
+\begin{proof}
+
+Considere a seguinte linguagem:
+\begin{equation*}
+    \HALT = \{\langle \alpha, x \rangle \vert \text{ $M_{\alpha}$ para após um número finito de passos quando recebe x como entrada} \}
+\end{equation*}
+
+Podemos decidir $\HALT$ com um oráculo para $\HALT$. $M^{\HALT}$ simplesmente copia o conteúdo de sua fita de entrada para a sua fita de oráculo e faz uma consulta ao oráculo. Após isso $M^{\HALT}$ escreve em sua fita de saída $1$ se ela estiver no estado $q_{sim}$, ou 0 caso esteja no estado $q_{\text{não}}$.
+
+Pelo teorema seguinte nós vemos que nenhuma máquina de Turing convencional decide $\HALT$.
+
+\end{proof}
+
+\begin{teo}
+
+$\HALT$ não é decidida por nenhuma máquina de Turing sem acesso a um oráculo.
+
+\end{teo}
+
+\begin{proof}
+
+Assuma que $H$ decida $\HALT$, então existe uma máquina de Turing $H^{\prime}$ que se comporta da seguinte maneira:
+
+\begin{equation*}
+    H^{\prime}(\alpha) =
+    \begin{cases}
+        1 & \text{ caso } H(\alpha, \alpha) = 0, \\
+        1 - M_{\alpha}(\alpha) & \text{ caso contrário}.
+    \end{cases}
+\end{equation*}
+
+Então temos duas possibilidades para quando $H^{\prime}$ recebe $\langle H^{\prime} \rangle$ como entrada:
+
+\begin{enumerate}
+
+\item Se $H(\langle H^{\prime} \rangle, \langle H^{\prime} \rangle) = 1$, então $H^{\prime}(\langle H^{\prime} \rangle) = 1 - H^{\prime}(\langle H^{\prime} \rangle)$.
+
+\item Se $H(\langle H^{\prime} \rangle, \langle H^{\prime} \rangle) = 0$, então $H^{\prime}(\langle H^{\prime} \rangle) = 1$.
+
+\end{enumerate}
+
+Daí chegamos a uma contradição.
+
+\end{proof}
+
+A técnica de prova usada acima se chama \emph{diagonalização}. Esta técnica foi inventada por Georg Cantor que a usou para provar que existe diferente níveis de infinito. Mais precisamente, ele provou que a cardinalidade do conjuntos de todas as string binárias de tamanho infinito tem cardinalidade maior do que o conjunto de todos os números naturais, apesar de ambos os conjuntos serem infinitos.
+
+\section{Circuitos booleanos} \label{circuitos}
+
+Agora nós vamos ver circuitos booleanos que é o principal modelo de computação para o propósito deste trabalho. Nós também iremos ver como circuito booleanos estão naturalmente relacionados com fórmulas booleanas. Ambos os modelos são ``flexíveis'' no sentido em que eles não estão somente restritos a um conjunto fixo de operações permitidas. Também iremos ver que os dois modelos são equivalentes dado que as operações primitivas permitidas são as mesmas.
+
+Um circuito booleano é um grafo direcionado acíclico. Nós particionamos os vértices do circuito em três partes: 1) n entradas do cirtuito 2) $k$ portas lógicas 3) uma porta de saída. As entradas do circuito têm grau de entrada zero e os vértice de saída têm grau de saída também zero.
+
+Uma base $\Omega$ é uma coleção finita e não vazia de funções booleanas. Cada porta lógica de um circuito (incluindo a porta de saída) deve computar uma função booleana tirada de uma base $\Omega$. Os vértices de entrada guardam algum valor booleano (0 ou 1).
+
+O valor da computação de um circuito vai depender dos valores das variáveis de entrada e de uma sequência de valores de funções tirada de $\Omega$ que dependem das variáves de entrada e/ou de funções previamente computadas.
+
+\begin{defi} (Circuitos booleanos) \label{defi:boolcircuits}
+
+Um circuito booleano $C$ sobre uma base $\Omega$ é um grafo direcionado acíclico com $m$ vértices donde $n$ vértices de grau de entrada zero são as variáveis de entrada $v_{1}, \dots, v_{n}$, e todos os outros vértices $v_{n + 1}, \dots, v_{m}$ são portas lógicas que computam alguma função em $\Omega$ e que têm grau de entrada e grau de saída maior ou igual a um com a exceção de $v_{m}$ que é a saída do circuito e tem grau de saída zero.
+
+Cada vértice $v$ do circuito terá um valor associado a ele que denotamos por $val(v)$. As arestas que chegam em uma porta lógica são suas entradas enquanto que as arestas que saem dela são as suas saídas. Dessa forma, se dois vértices $u$ e $v$, onde $u$ é uma porta lógica ou uma variável de entrada e $v$ é uma porta lógica, são ligados por uma aresta que sai de $u$ e chega em $v$, então temos que $val(v)$ depende de $val(u)$. Mais precisamente, se $v$ é uma porta lógica que computa uma função $g \in \Omega$ e $u_{1}, \dots, u_{l}$ são todos os vértices que são predecessores de $v$, então o valor de $v$ é definido por $val(v) = g(val(u_{1}), \dots, val(u_{l}))$.
+
+Como um circuito é um grafo direcionado acíclico e os $n$ primeiros vértices $v_{1}$ até $v_{n}$ são fontes e o último vértice $v_{m}$ é um sumidouro, podemos assumir que o ordenamento $(v_{1}, v_{2}, \dots, v_{m})$ é um ordenamento topológico dos vértices do circuito. Portanto podemos formalizar o funcionamento do circuito da seguinte maneira: Assume-se que os vértices de entradas $v_{1}, \dots, v_{n}$ recebem valores booleanos arbitrários e $x = val(v_{1})\cdot val(v_{2})\dots val(v_{n - 1})\cdot val(v_{n})$ é a entrada do circuito e queremos computar o valor $C(x) = val(v_{m})$. Para isso segue-se em m - n passos onde no $i\text{-ésimo}$ passo é computado $val(v_{n + i})$. Note que em cada passo os valores dos vértices dos quais $v_{n + i}$ depende já foram decididos por causa da nossa hipótese que $(v_{1}, \dots, v_{m})$ é um ordenamento topológico dos vértices do circuito.
+
+%Agora vamos entender o funcionamento do circuito. As variáveis de entrada são independentes, portanto pode-se arbitrariamente associar um valor $x_{i} \in \{0, 1\}$ para cada $v_{i}$. Seja $x = x_{1}x_{2}\dots x_{n}$, então se diz que a string $x$ é a entrada do circuito e queremos obter o valor $C(x) = val(s_{1})val(s_{2})\dots val(s_{m})$. A computação segue em passos em que cada passo é decidido o valor de alguns dos vértices do circuito. No primeiro passo é decidido o valor de cada vértice que depende somente das variáveis de entrada. A partir daí, em cada passo decide-se o valor de todos os vértices tal que o valor de cadade vértice que este depende já tenha sido decidido. Eventualmente, todos os vértices terão seus valores decididos e pode-se então obter $C(x)$.
+
+
+
+Se $f: \{0, 1\}^{n} \to \{0, 1\}$ é a função booleana $f(x) = C(x), \text{ para todo } x \in \{0, 1\}^{n}$, então é dito que $C$ computa $f$.
+
+\end{defi}
+
+O fan-in de uma porta lógica é o número de entradas que ela aceita e o fan-out é o número de saídas (ou seja, o grau de saída). Geralmente o fan-in das porta lógicas de um circuito vão ser limitados por uma constante mas em alguns casos nós vamos considerar classes de circuitos onde não há nenhuma restrição quanto ao fan-in máximo das portas lógicas.
+
+Para superar a limitação de circuitos aceitarem somente entradas de um tamanho fixo nós definimos uma sequência infinita de circuitos onde o $n\text{-ésimo}$ circuito da sequência computa uma função com entradas de tamanho $n$. Desta forma podemos falar de circuitos (ou família de circuitos) que decidem uma dada linguagem, ao invés de somente computar uma função com domínio nas string binárias de um determinado tamanho.
+
+\begin{defi} (Família de circuitos)
+
+Uma família de circuitos é uma sequência $\{C_{n}\}_{n \in \mathbb{N}}$\footnote{A notação $\{\}_{n \in \mathbb{N}}$ significa uma sequência $\{C_{1}, C_{2}, \dots \}$} de circuitos booleanos onde cada $C_{n}$ computa uma função $f_{n}: \{0, 1\}^{n} \to \{0, 1\}$.
+
+Dizemos que $\{C_{n}\}_{n \in \mathbb{N}}$ computa uma função $f: \{0, 1\}^{*} \to \{0, 1\}$ se $f(x) = C_{\lvert x \rvert}(x)$, $\forall x \in \{0, 1\}^{*}$.
+
+\end{defi}
+
+Adicionalmente, se uma família de circuitos $\{C_{n}\}_{n \in \mathbb{N}}$ computa a função característica de uma linguagem $L$ qualquer, então dizemos que $\{C_{n}\}_{n \in \mathbb{N}}$ decide $L$. 
+
+\subsection{Fórmulas booleanas}
+
+Uma \emph{fórmula booleana} é um circuito onde todas as porta lógicas têm fan-out igual a $1$. Todos circuitos booleanos podem ser convertidos para uma fórmula se substituirmos todas portas lógicas com fan-out maior do que um por um número suficiente de cópias dessas portas lógica com somente uma saída. E como fórmulas são um caso especial de circuitos temos que os dois modelos são equivalentes. Geralmente descrevemos fórmulas lógicas através de variáves, conectivos e parênteses para denotar a sequência correta de operações. Por exemplo, considere os seguintes operadores lógicos:
+
+\begin{center}
+
+\begin{tabular}{ c c | c }
+
+    $a$ & $b$ & $a \lor b$ \\
+    \hline
+    0 & 0 & 0 \\
+    0 & 1 & 1 \\
+    1 & 0 & 1 \\
+    1 & 1 & 1
+
+\end{tabular}
+\quad
+\begin{tabular}{c c | c }
+
+    $a$ & $b$ & $a \land b$ \\
+    \hline
+    0 & 0 & 0 \\
+    0 & 1 & 0 \\
+    1 & 0 & 0 \\
+    1 & 1 & 1
+
+\end{tabular}
+\quad
+\begin{tabular}{c | c}
+
+    $a$ & $\lnot a$ \\
+    \hline
+    0 & 1 \\
+    1 & 0
+
+\end{tabular}
+
+\end{center}
+
+ O operador $\lor$ é chamado de $OU$, $\land$ é chamado de $E$ e $\lnot$ de $\text{NÃO}$. A base formada por $\lor, \land \text{ e } \lnot$ é a mais ``popular'' no contexto de operação lógicas. Se $x_{1} \text{ e } x_{2}$ são variáveis então $(x_{1} \land \lnot x_{2}) \lor (\lnot x_{1} \land x_{2})$ é um exemplo de fórmula lógica.
+
+Alternativamente, podemos definir fórmulas logicas sobre a base $\{\lor, \land, \lnot\}$ recursivamente da seguinte forma:
+
+\begin{itemize}
+
+\item Se $x$ é uma variável então $x$ é uma fórmula
+
+\item Se $\phi$ e $\psi$ são fórmulas então também são $\phi \lor \psi$, $\phi \land \psi$ e $\lnot \phi$.
+
+\end{itemize}
+
+A seguir nós vemos algumas forma normais de se representar fórmulas lógicas que vão ser bastante úteis para nós.
+
+\begin{defi} (Forma normal conjuntiva (FNC))
+
+Uma fórmula lógica sobre as variáveis $x_{1}, \dots , x_{n}$ é dita estar na forma normal conjuntiva (ou FNC) se ela é o $E$ de $\text{OUs}$ de variáveis em $\{x_{1}, \dots, x_{n}\}$ ou as suas negações.
+
+Ou seja, uma fórmula na FNC pode ser escrita como
+
+\begin{equation*}
+\bigwedge_{i = 1}^{m} c_{i}
+\end{equation*}
+
+Onde os $c_{i} = x_{i_{1}} \lor \dots \lor x_{i_{k(i)}}$ são chamados de cláusulas e $m$ é o número de claúsulas na fórmula.
+
+\end{defi}
+
+Por exemplo, se $\phi$ é uma fórmula sobre as variáves $x_{1}, x_{2}, x_{3} \text{ e } x_{4}$, então
+
+\begin{equation*}
+\phi = (x_{1} \lor \overline{x_{2}}) \land (x_{1} \lor x_{3}) \land (\overline{x_{2}} \lor x_{4})
+\end{equation*}
+
+está na forma normal conjuntiva.
+
+Uma fórmula é dita ser uma $\text{k-FNC}$ se ela estar na forma normal conjuntiva e cada cláusula estiver restrita a no máximo $k$ literais.
+
+\begin{defi} (Forma normal disjuntiva)
+
+Uma fórmula lógica sobre as variáveis $x_{1}, \dots , x_{n}$ é dita estar na forma normal disjuntiva (ou FND) se ela é o $OU$ de $\text{Es}$ de variáveis em $\{x_{1}, \dots , x_{n}\}$ ou as suas negações.
+
+Os $\text{Es}$ são chamados de termos. Se o número de termos na fórmula for $m$ e \linebreak $c_{i} = x_{i_{1}} \land \dots \land x_{i_{k(i)}}$, $i \in [m]$\footnote{$[n]$ é simplesmente o conjunto de todos os números naturais menores ou igual a $n$}, forem termos então uma fórmula na FND pode ser escrita como
+
+\begin{equation*}
+\bigvee_{i = 1}^{m} c_{i}
+\end{equation*}
+
+\end{defi}
+
+Por exemplo, a fórmula $\phi = (x_{1} \land \overline{x_{2}}) \lor (x_{1} \land x_{3}) \lor (\overline{x_{2}} \land x_{4})$ está na forma normal disjuntiva.
+
+Assim como $\text{k-FNCs}$, uma $\text{k-FND}$ é uma fórmula na forma normal disjuntiva com a restrição que cada termo deva ter no máximo $k$ literais.
+
+\begin{defi}
+
+Um \emph{mintermo} é o $E$ de todas as variáves de uma fórmula ou suas negações. Por exemplo, $x_{1} \land \lnot x_{2} \land x_{3} \land \lnot x_{4}$ é um mintermo sobre as variáveis $x_{1}, x_{2}, x_{3} \text{ e } x_{4}$.
+
+\end{defi}
+
+Considere a seguinte operação sobre uma variável booleana $x$:
+
+\begin{equation*}
+    x^{b} =
+    \begin{cases}
+        x & \text{ caso } b = 1, \\
+        \overline{x} & \text{ caso } b = 0.
+    \end{cases}
+\end{equation*}
+
+Então podemos escrever um mintermo sobre as variáveis $x_{1}, \dots, x_{n}$ de uma fórmula booleana como $x_{i}^{b_{1}} \land \dots \land x_{n}^{b_{n}}$, onde cada $b_{i}$ é $0$ ou $1$. Daí fica óbvio que um mintermo é verdadeiro se e somente se $x_{i} = b_{i}$, para cada $i \in [n]$. Se $x = (b_{1}, \dots, b_{n})$ é uma atribuição às variáveis então associamos o seguinte mintermo a esta atribuição:
+
+\begin{equation*}
+\bigwedge_{i = 1}^{n} x_{i}^{b_{i}}
+\end{equation*}
+
+Então, para cada função booleana $f$ com $n$ variáveis, o $n\text{-FND}$ onde cada termo é um mintermo associado às atribuições que satisfazem $f(x) = 1$ é uma fórmula que computa $f$, consequentemente todas funções booleanas podem ser computadas por um circuito booleano e todas linguagens em $\{0, 1\}^{*}$ são decididas por alguma família de circuitos, incluindo a linguagem $\HALT$ que não é computável por máquinas de Turing convencionais.
+
+Algumas vezes nós vamos chamar mintermos de monômios e podemos denotar eles por algo como $x_{1}^{\alpha_{1}}\dots x_{n}^{\alpha_{n}}$, onde $\alpha_{i} \in \{0, 1\}$. 

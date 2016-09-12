@@ -1,0 +1,444 @@
+\section{Complexidade de circuitos} \label{complexidade_circuitos}
+
+Agora discutimos complexidade de circuitos.
+
+O \emph{tamanho} de um circuito booleano $C$ é o número de portas lógicas que o compõem e a sua profundidade é o maior caminho de uma das variáveis de entrada até a saída de $C$. Denotamos o tamanho de $C$ por $\lvert C \rvert$. 
+
+\begin{defi}(Medição de complexidade de circuitos)
+
+Para funções $f, g : \mathbb{N} \to \mathbb{N}$ dizemos que uma linguagem $L$ é dita estar em $\SIZE(f(n))$ se existe uma família de circuitos $\{C_{n}\}_{n \in \mathbb{N}}$ tal que $\lvert C_{n} \rvert \leq f(n)$, para todos $n$, e que $L$ é dita estar em $\DEPTH(g(n))$ se a profundidade de $C_{n}$ é menor ou igual a $g(n)$, para todos $n$.
+
+\end{defi}
+
+Uma observação quanto a representação de circuitos booleanos por strings. Como um circuito é um grafo não direcionado acíclico, nós podemos representá-lo pela sua lista de adjacência. A lista de adjacência de um circuito de tamanho $S$ tem $S$ linhas onde cada linha irá conter:
+
+\begin{itemize}
+
+\item O label da porta lógica.
+
+\item O índice das portas lógicas que alimentam a entrada desta porta lógica.
+
+\end{itemize}
+
+Se assumirmos que o fan-in de todas portas lógicas é limitado por uma constante então precisamos de $c\log S$ bits para formar uma das linhas da lista de adjacência de $C$, para alguma constante $c$, portanto ao todo precisamos de $\mathcal{O}(S\log S)$ bits para representar um circuito pela sua lista de adjacência.
+
+Algumas vezes nós vamos querer usa máquinas de Turing para simular a computação de um circuito $C$ sobre a entrada $x$. Considere o seguinte problema:
+
+\begin{defi} [Problema da avaliação de circuito]
+
+O problema da avaliação de circuito, que nós chamaremos de $\CIRCUITEVAL$, consiste de todos pares $\langle C, x \rangle$ onde $C$ é um circuito booleano e $x$ uma string binária tal que $C(x) = 1$. 
+
+\end{defi}
+
+Podemos verificar que existe uma máquina de Turing que decide $\CIRCUITEVAL$ em tempo linear usando basicamente o procedimento descrito na definição \ref{defi:boolcircuits} em que avaliamos o valor de cada porta lógica de $C$ seguindo um ordenamento topológico.
+
+\subsubsection{Circuitos de tamanho polinomial}
+
+Assim como fizemos na seção anterior, nós queremos definir uma classe que procura capturar todas as linguagens que são decididas por circuitos ``pequenos''. Assim como fizemos com máquinas de Turing, nós usamos complexidade polinomial como sinônimo de eficiência.
+
+\begin{defi} [$\Ppoly$]
+
+Uma linguagem $L$ é dita estar em $\Ppoly$ se e somente se existe $c > 0$ tal que $L \in \SIZE(n^{c})$.
+
+\end{defi}
+
+Ou seja, $L \in \Ppoly$ se e somente se existe uma família de circuitos $\{C_{n}\}_{n \in \mathbb{N}}$ que decide $L$ onde todos os circuitos em $\{C_{n}\}_{n \in \mathbb{N}}$ têm tamanho polinomial.
+
+Nós sabemos que vários problemas úteis têm circuitos pequenos, como adição e outras operações aritméticas. Na verdade, todos problemas que podem ser resolvidos eficientemente por uma máquina de Turing tem um família de circuito de tamanho polinomial como mostra o teorema a seguir.
+
+\begin{teo} \label{teo:pp/poly}
+
+$\P \subseteq \Ppoly$. 
+
+\end{teo}
+
+Podemos provar este teorema mostrando que para todas máquinas de Turing que param em menos do que $T(n)$ passos existe um circuito de tamanho $\mathcal{O}(T(n)\log T(n))$.
+
+\begin{proof}
+
+Seja $L$ uma linguagem em $\DTIME(T(n))$. Nós sabemos que existe uma máquina de Turing oblivious $A = (\Gamma, Q, \delta)$ de duas fitas que computa $L$ em menos do que $T^{\prime}(n) = T(n)\log T(n)$ passos. Nós podemos usar $A$ para construir circuitos $C_{n}$ de tamanho $\mathcal{O}(T^{\prime}(n))$ que decidem $L$ restrita à strings de tamanho $n$, para todos $n > 0$. $C_{n}$ tem $T^{\prime}(n)$ níveis em que cada nível tem um número constante de portas lógicas e portanto $\lvert C_{n} \rvert = \mathcal{O}(T^{\prime}(n)) = \mathcal{O}(T(n) \log T(n))$.
+
+Cada nível de $C_{n}$ é composto por um subcircuito que computa a função de transição de $A$. Chamaremos este subcircuito de $C_{\delta}$ e nós escreveremos $C_{\delta}^{i}$ quando queremos especificar o subcircuito que se encontra no $i$-ésimo nível. O que nós queremos é que o $i$-ésimo nível de $C_{n}$ compute a configuração que $A$ entra no ($i + 1$)-ésimo passo. As entradas do subcircuito $C_{\delta}$ é dividida em três partes que representam o estado atual e os símbolos sendo lidos pelos dois cabeçotes de $A$, no total a entrada tem $\log\lvert Q\rvert + 3$ bits.\footnote{Para representar o símbolo sendo lido na fita de entrada precisamos de somente um bit, para representar o símbolo sendo lido pela fita de trabalho precisamos de um bit adicional porque este símbolo pode ser $\square$.} As saídas são particionada em duas partes que representam o estado de $A$ no próximo passo e o símbolo escrito na fita de trabalho. O estado na entrada de $C_{\delta}^{i}$ é o estado na saída de $C_{\delta}^{i - 1}$, o símbolo na fita de entrada de $C_{\delta}^{i}$ vem de uma das entradas de $C_{n}$ e o símbolo na fita de trabalho vem da saída de $C_{\delta}^{j}$, onde $j$ é o maior número menor do que $i$ tal que no passo $j$ o cabeçote da fita de trabalho esteve na mesma posição em que ele se encontra no passo $i$. A entrada de $C_{\delta}^{1}$ é o estado inicial de $A$ e caso o ``$j$'' não exista então o símbolo sendo lido na fita de trabalho é $\square$, ambos podem ser implementados usando as constantes `1' e `0' usando um número constante de portas lógicas. Como $C_{\delta}$ depende somente da função de transição de $A$ temos que $\lvert C_{\delta} \vert = \mathcal{O}(1)$.
+
+\end{proof}
+
+\subsubsection{O problema $\CIRCUITSAT$}
+
+No problema $\CIRCUITSAT$ é dado um circuito $C$ com $n$ entradas e queremos decidir se existe $x \in \{0, 1\}^{n}$ tal que $C(x) = 1$. Dizendo de outra maneira, queremos decidir se $C$ computa ou não a função constante $C(x) = 0$. A seguir nós vemos que $\CIRCUITSAT$ é $\NP$-completo e portanto ainda não se sabe se existe um algoritmo eficiente para computá-lo.
+
+\begin{teo}
+
+$\CIRCUITSAT$ é $\NP$-completo.
+
+\end{teo} 
+
+\begin{proof}
+
+$\CIRCUITSAT$ está em $\NP$ pois uma atribuição às variáveis de entrada de $C$ servem como certificado.
+
+Se $L \in \NP$ então existe uma máquina de Turing oblivious $M$ de tempo polinomial e polinômio $p$ tal que $M(x, u) = 1$ sempre que $x \in L$ e $u \in \{0, 1\}^{p(\lvert x\rvert)}$ é um certificado para $x$. Daí, pela construção na prova do teorema \ref{teo:pp/poly} nós podemos construir um circuito $C$ que computa $M_{x}(u) = M(x, u)$. $C$ é satisfazível se e somente se existe $u$ tal que $M(x, u) = 1$, que é o mesmo que dizer que $x \in L$.
+
+A redução pode ser feita em tempo polinomial pois para construir cada nível do circuito nós precisamos somente da descrição de $C_{\delta}$ e a posição dos cabeçotes nas duas fitas de $M_{x}$. Para decidir a posição dos cabeçotes de $M_{x}$ no passo $i$ em tempo polinomial nós simplesmente simulamos $M_{x}$ sobre uma entrada de tamanho $p(\lvert x\rvert)$ por $i$ passos.
+
+\end{proof}
+
+\subsubsection{Famílias de circuitos uniforme}
+
+Famílias de circuitos como vimos até agora são um modelo de computação meio que irrealista. Tome por exemplo a linguagem $\HALT$. Não só existe uma família de circuito que decide $\HALT$ mas também temos que $\HALT$ está em $\Ppoly$ se modificarmos ela um pouco. É só considerar a redução de $\HALT$ para a linguagem unária $\{1^{n} \vert \text{ a } n\text{-ésima string binária na ordem lexicográfica pertence a } \HALT\}$, que chamamos de $\UHALT$. Todas linguagens unárias $\mathcal{U}$ são decididas por uma família de circuito de tamanho polinomial: para cada $n$ tal que $1^{n} \notin \mathcal{U}$, $C_{n}$ é simplesmente o circuito que computa a função constante 0, e se $1^{n} \in \mathcal{U}$ então $C_{n}$ computa o mintermo $x_{1} \land \dots \land x_{n}$. Portanto $\UHALT \in \Ppoly$ mesmo ela sendo claramente indecidível (isto é, não existe nenhuma máquina de Turing que a decida).
+
+Para contornar este problema podemos exigir que cada circuito de uma família de circuitos seja computável de alguma forma. Além disso, podemos também exigir que eles sejam eficientemente computáveis como veremos a seguir.
+
+\begin{defi} (Família de circuitos $\P$-uniforme)
+
+Uma família de circuitos $\{C_{n}\}_{n \in \mathbb{N}}$ é dita ser $\P$-uniforme sse existe uma máquina de Turing $A$ de tempo polinomial tal que sobre a entrada $1^{n}$, $A$ dá como saída o circuito $C_{n}$.
+
+\end{defi}
+
+E nós podemos provar que a classe de linguagens decididas por famílias de circuitos $\P$-uniforme coincide com $\P$.
+
+\begin{teo} \label{teo:puni}
+
+Uma linguagem $L$ é computável por uma família de circuitos $\P$-uniforme sse $L \in \P$.
+
+\end{teo}
+
+\begin{proof}
+
+\hfill
+
+\begin{itemize}
+
+\item $L$ é computável por uma família de circuitos $\P$-uniforme $\Rightarrow$ $L \in \P$:
+
+    Seja $A$ a máquina de turing que computa $C_{n}$ a partir de $1^{n}$. Nós contruimos uma máquina de turing $B$ que sobre uma entrada $x$, simula $A$ sobre a entrada $1^{\lvert x\rvert}$ para obter $C_{\lvert x\rvert}$. Daí podemos computar $C_{\lvert x\rvert}(x)$ em tempo polinomial. 
+
+\item $L \in \P \Rightarrow$ $L$ é computável por uma família de circuitos $\P$-uniforme:
+
+    Como $L \in \P$ temos que existe uma máquina de Turing oblivious $M$ que computa $L$ em tempo $p(n)\log p(n)$ = $\poly(p(n))$, para algum polinômio $p$. Usando a redução na prova do teorema~\ref{teo:pp/poly}, que sabemos que roda em tempo polinomial, podemos construir $C_{n}$ a partir de $1^{n}$.
+ 
+\end{itemize}
+
+\end{proof}
+
+Nós podemos melhorar o resultado no teorema~\ref{teo:puni} restrigindo ainda mais o recurso usado para computar $C_{n}$:
+
+\begin{defi} [Família de circuitos logspace-uniforme]
+
+Uma família de circuitos é dita ser logspace-uniforme sse existe uma máquina de Turing que computa $C_{n}$ a partir de $1^{n}$ usando somente $\mathcal{O}(\log n)$ espaços de memória.
+
+\end{defi}
+
+\begin{teo}
+
+Uma linguagem $L$ é computada por uma família de circuitos logspace-uniforme sse $L \in \P$.
+
+\end{teo}
+
+\begin{proof}
+
+\hfill
+
+A ida é consequência de toda computação que usa espaço logaritmo poder ser feita em tempo polinomial.
+
+Para provar a volta vamos mostrar que a redução na prova do teorema~\ref{teo:pp/poly} pode ser feita em espaço logaritmo. Seja $L$ uma linguagem em P e $A$ uma máquina de Turing oblivious de duas fitas que decide $L$ em menos do que $p(n)$ passos, onde $p$ é um polinômio. Nós queremos mostrar que existe uma máquina de Turing $M$ que usa não mais do que $\mathcal{O}(\log n)$ espaços de memória que dado $1^{n}$, $M$ escreve em sua fita de saída a descrição do circuito $C_{n}$ usando a construção na prova do teorema~\ref{teo:pp/poly}. Para construir $C_{n}$ a partir de $1^{n}$ nós precisamos calcular $p(n)$, a descrição do circuito $C_{\delta}$ ($\delta$ é a função de transição de $A$) e também deve ser possível, dado um inteiro $i \leq p(n)$, calcular as células em que os dois cabeçotes de $A$ se encontram no $i$-ésimo passo. Calcular $p(n)$ pode ser feito em espaço logaritmo e calcular a descrição de $C_{\delta}$ pode ser feito em tempo constante. Para decidir as posições do cabeçotes em um dado passo, nós simulamos $A$ sem nos preocuparmos com o estado e os símbolos lidos para que não precisamos ter que guardar o conteúdo das fitas de $A$ em algum lugar. Podemos ignorar o contéudo das fitas e o estado atual porque os cabeçotes se movimentam em função apenas do tamanho da entrada. Dessa forma só precisamos manter três contadores que contam o número de passos executados e as posições dos cabeçotes das duas fitas de $A$.
+
+\end{proof}
+
+\subsubsection{Teorema de Karp-Lipton}
+
+Uma das maiores motivações para o estudo de complexidade de circuitos é a perspectiva de podermos separar $\P$ e $\NP$ usando resultados nesta área. Nós já vimos que $\P \subseteq \Ppoly$, portanto se provarmos que $\NP \nsubseteq \Ppoly$ nós teremos provado que $\P \neq \NP$. Nós iremos ver agora que $\NP \subseteq \Ppoly$ implica no colapso da hierarquia polinomial.
+
+\begin{lema} \label{lema:SATppoly}
+
+Se $\SAT \in \Ppoly$ então existe um polinômio $p$ tal que para todo $n > 0$ existe uma máquina de Turing $M_{n}$ que ao receber a descrição de uma fórmula $\phi$ satisfazível de tamanho $n$, $M_{n}$ retorna um $y$ tal que $\phi(y) = 1$ em menos do que $p(n)$ passos.
+
+\end{lema}
+
+\begin{proof}
+
+\hfill
+
+Seja $\{C_{n}\}_{n \in \mathbb{N}}$ uma família de circuitos de tamanho polinomial que decida $\SAT$.
+
+A máquina $M_{n}$ tem a capacidade de escrever em uma das suas fitas de trabalho a descrição de $C_{k}$, $1 \leq k \leq n$. Ao receber $\langle \phi \rangle$ em sua fita de entrada, $M_{n}$ primeiro verifica se $\lvert \langle \phi \rangle \rvert = n$, e se não for o caso que $\lvert \langle \phi \rangle \rvert = n$, $M_{n}$ imediatemente rejeita a entrada.
+
+Se $\lvert \langle \phi \rangle \rvert = n$ então primeiro verificamos se $\phi$ é satisfazível usando o circuito $C_{n}$, rejeitando a entrada $\langle \phi \rangle$ caso não seja. Daí, nós podemos achar uma atribuição $y \in \{0, 1\}^{m}$ tal que $\phi(y) = 1$, $m$ é o número de entradas de $\phi$, decidindo sequencialmente o valor de cada variável de $\phi$ na atribuição $y$.
+
+Primeiro faça $x_{1} = 1$ e verifique se $\phi$ é satisfazível quando trocamos cada aparição de $x_{1}$ em $\phi$ pela constante $1$. Se sim, então fixe $x_{1} = 1$ e se não fixe $x_{1} = 0$. Uma das duas restrições ($x_{1} = 1$ ou $x_{1} = 0$) deve manter $\phi$ satisfazível. Restringir o valor de algumas variáveis de $\phi$ resulta em uma fórmula menor, e por $M_{n}$ poder escrever em sua fita de trabalho o circuito $C_{k}$, para todo $k \leq n$, podemos usar um destes circuitos para decidir a satisfazibilidade da fórmula restrita. Nós podemos continuar usando o mesmo procedimento que usamos para decidir o valor de $x_{1}$ para todas as outras variáveis, sempre diminuindo o tamanho do circuito. No fim nós teremos obtido a atribuição $y$.
+
+%Agora, seja $p$ o polinômio tal que $\lvert C_{n} \rvert \leq p(n)$ para todo $n > 0$. Para ver que $M_{n}$ roda em tempo $p^{\prime}(n) = \mathcal{O}(np(n)\log p(n))$ notamos que ao decidir o valor de cada $x_{i}$, $M_{n}$ tem que escrever a descrição de $C_{k}$, $1 \leq k \leq n$, em uma de suas fitas de trabalho, o que precisa de $\mathcal{O}(p(n)\log p(n))$ passos, e avaliar o valor de $C_{k}(\phi)$ o que leva no máximo $\mathcal{O}(n)$ passos.  Os teste iniciais são feito em $\mathcal{O}(n)$ passos. Portanto o tempo de execução de $M_{n}$ é $\mathcal{O}(np(n)\log p(n))$.
+
+Para ver que $M_{n}$ roda em tempo menor do que $p(n)$, para algum polinômio $p$, nós simplesmente notamos que a operação mais custosa na computação de $M_{n}$ é escrever a descrição de $C_{k}$, $1 \leq k \leq n$, leva tempo polinomial pois $C_{k}$ tem tamanho polinomial.
+
+\end{proof}
+
+\begin{teo} [Teorema de Karp-Lipton \cite{karp1982turing}]
+
+$\NP \subseteq \Ppoly \Longrightarrow \PH = \Sigma_{2}^{p}$.
+
+\end{teo}
+
+\begin{proof}
+
+\hfill
+
+Assuma que $\NP \subseteq \Ppoly$.
+
+Pelo teorema \ref{teo: phcollapse} sabemos que para mostrar que $\PH = \Sigma_{2}^{p}$, é suficiente mostrar que $\Pi_{2}^{p} \subseteq \Sigma_{2}^{p}$. E para isso nós mostramos que a linguagem $\Pi_{2}^{p}\text{-completa}$ $\Pi_{2}^{p}\SAT$ está em $\Sigma_{2}^{p}$.
+
+Lembrando que a linguagem $\Pi_{2}^{p}\SAT$ contém todas fórmulas $\phi$ tal que
+
+\begin{equation} \label{eq:karplipton1}
+    \forall x \in \{0, 1\}^{n} \text{ } \exists y \in \{0, 1\}^{n} \phi(x, y)
+\end{equation}
+
+é verdadeira. Ou seja, para cada $x \in \{0, 1\}^{n}$, fixar o primeiro parâmetro de $\phi$ mantém a fórmula $\phi$ satisfazível. Denotamos $\phi(x, .)$ por $\phi_{x}(.)$ e dizer que $\phi \in \Pi_{2}^{p}\SAT$ é equivalente a dizer que para todos $x \in \{0, 1\}^{n}$, $\phi_{x}$ é satisfazível. Isso é o mesmo que dizer que para um circuito $C$ que computa atribuições que satisfazem fórmulas satisfazíveis:
+
+\begin{equation*}
+\forall x \phi_{x}(C(\langle \phi \rangle, x)) = 1
+\end{equation*}
+
+Já que $\NP \subseteq \Ppoly$ implica em $\SAT$ ter circuitos de tamanho polinomial, pelo lema \ref{lema:SATppoly} temos que tal circuito $C$ deve ter tamanho polinomial, então o seguinte é verdadeiro se assumirmos que $\phi_{x}$ é satisfazível para todo $x$ (ou seja, $\phi \in \Pi_{2}^{p}\SAT$):
+
+\begin{equation} \label{eq:karplipton2}
+\exists C^{\prime} \in \{0, 1\}^{p(n)} \forall x \in \{0, 1\}^{n} \phi_{x}(C^{\prime}(\langle \phi \rangle, x)) = 1
+\end{equation}
+
+Onde $p$ é um polinômio.
+
+Se \ref{eq:karplipton1} é verdadeiro então o circuito $C$ irá, para todas strings $x \in \binalphn$, apresentar em tua saída um $y \in \binalphn$ tal que $\phi_{x}(x, y) = 1$ e portanto \ref{eq:karplipton2} também é verdadeiro.
+
+E por outro lado, se \ref{eq:karplipton2} é verdadeiro então para todo $x \in \binalphn$, $\phi_{x}$ é satisfazível e portanto \ref{eq:karplipton1} também é verdadeiro.
+
+Ou seja, \ref{eq:karplipton2} é uma formulação equivalente do problema $\Pi_{2}^{p}\SAT$ que pode ser visto como uma linguagem em $\Sigma_{2}^{p}$.
+
+%Considere a fórmula $\phi_{x}(y) = \phi(x, y) \text{, } \forall x, y \in \{0, 1\}^{n}$. Temos que $\phi_{x}$ é satisfazivel sse existe $y \in \{0, 1\}^{n}$ tal que $\phi_{x}(y) = 1$.
+
+%Como $\text{NP} \subseteq \text{P}_{\text{/poly}}$ então temos que $\text{SAT} \in \text{P}_{\text{/poly}}$ e pelo lema \ref{lema:SATppoly} temos que para cada $x$, existe uma máquina de Turing $M_{\lvert \phi_{x} \rvert}$ que quando recebe como entrada a descrição de $\phi_{x}$, dá como saída uma atribuição às variáveis de $\phi_{x}$ que a satisfaçam.
+
+%Também sabemos que a computação de $M_{\lvert \phi_{x} \rvert}$ roda em tempo polinomial sobre $\phi_{x}$ e portanto podemos transfomar a computação de $M_{\lvert \phi_{x} \rvert}$ sobre entradas de tamanho $\lvert \phi_{x} \rvert$ em um circuito de tamanho polinomial, o que siginifica dizer que existe uma família de circuitos $\{C_{n}\}_{n \in \mathbb{N}}$ que computam atribuições que satisfazem fórmula booleanas. Todos os circuitos em $\{C_{n}\}_{n \in \mathbb{N}}$ têm tamanho limitado por cima por um polinômio $p$, portanto existe uma constante $c$ tal que $C_{n}$ pode ser descrito por uma string de tamanho no máximo $p^{\prime}(n) = cp(n)\log p(n)$. Então temos que a seguinte linguagem $L$ está em $\Sigma_{2}^{p}$:
+
+%\begin{equation} \label{eq:karplipton2}
+%    \phi \in L \iff \exists w \in \{0, 1\}^{p^{\prime}(n)} \text{ } \forall x \in \{0, 1\}^{n} \text{ } w \text{ descreve um circuito } C \text{ e } \phi(x, C(<\phi_{x}>)) = 1
+%\end{equation}
+
+%Se~\ref{eq:karplipton2} é verdadeiro, então existe uma string $y$ tal que $\phi(x, y)$ é verdadeiro, para todo $x \in \{0, 1\}^{n}$. %Portanto~\ref{eq:karplipton1} também é verdadeiro.
+
+%Se~\ref{eq:karplipton1} é verdadeiro então para todo $x \in \{0, 1\}^{n}$ $\phi_{x}$ é satisfazível, portanto por existir um circuito descrito por uma string de tamanho $p^{\prime}(n)$ que computa uma atribuição que satisfaça $\phi_{x}$ temos que~\ref{eq:karplipton2} também deve ser verdadeira.
+
+%Então temos que~\ref{eq:karplipton1} é verdadeiro se e somente se~\ref{eq:karplipton2} também é. Portanto $\Pi^{p}_{2}\text{SAT} \in \Sigma_{2}^{p}$ e $PH = \Sigma_{2}^{p}$.
+
+\end{proof}
+
+\subsubsection{Limites inferior e superior no tamanho de circuitos}
+
+Nós já vimos que usando a base $\Omega = \{\lor, \land, \lnot\}$ nós podemos implementar qualquer função booleana de $n$ entradas usando circuitos de tamanho $\mathcal{O}(n2^{n})$ através de mintermos. E também acabamos de ver que acredita-se que algumas linguagens em $\NP$ exigem circuitos de tamanho superpolinomial.
+
+Agora nós vamos ver que nem todas funções podem ser computadas por circuitos de tamanho polinomial. E também veremos um limite superior melhor do que $\mathcal{O}(n2^{n})$. Na verdade, vamos ver que ambos o limites difereciam entre si por um fator constante.
+
+O limite inferior foi descoberto por Shannon em dos primeiros resultados em complexidade de circuitos. Em 1949, Shannon estava interessado no problema de minimização de circuitos quando ele publicou o resultado que nos vamos ver em seguida em \cite{shannon1949synthesis}, a prova que eu apresento aqui foi tirada de \cite{arora2009computational}.
+
+\begin{teo}
+
+Para todo $n > 1$, existem uma constante $d$ e funções booleanas $f: \{0, 1\}^{n} \to \{0, 1\}$ tal que $f$ não é computada por circuitos de tamanho menor do que $\frac{2^{n}}{dn}$.
+
+\end{teo}
+
+\begin{proof}
+
+Nós vimos que todos circuitos de tamanho $S$ podem ser representados através de sua lista de adjacência usando no máximo $cS\log S$ bits, para alguma constante $c > 1$. Então, o número de circuitos de tamanho no máximo $S$ é menor ou igual ao número de strings de tamanho $cS \log S$ que é igual a $2^{cS \log S}$. Por outro lado, o número de funções booleanas de $n$ entradas é $2^{2^{n}}$. Fazendo $S = \frac{2^{n}}{dn}$, para alguma constante $d > c$, nós temos o seguinte:
+
+\begin{IEEEeqnarray*}{rCl}
+    2^{cS \log S} & = & 2^{c\frac{2^{n}}{dn} \log(\frac{2^{n}}{dn})} \\ 
+                  & = & 2^{\frac{c2^{n}}{dn}(n - \log dn)} \\
+                  & < & 2^{\frac{2^{n}cn}{dn}} \\
+                  & < & 2^{2^{n}}
+\end{IEEEeqnarray*}
+
+O número de funções booleanas de $n$ entradas que têm circuitos de tamanho $\frac{2^{n}}{dn}$ é menor do que do que o número total de funções booleanas de $n$ entradas. Portanto deve existir funções booleanas com $n$ entradas que exigem circuitos com no mínimo $\frac{2^{n}}{dn}$ portas lógicas.
+
+\end{proof}
+
+Nós também podemos notar que $\frac{2^{\frac{c}{d}2^{n}}}{2^{2^{n}}} = 2^{2^{n}(\frac{c}{d} - 1)} = 2^{-\Theta(2^{n})}$, o que significa que a fração de funções booleanas que têm circuitos de tamanho menor do que $\frac{2^{n}}{dn}$ é bem pequena.
+
+Esse limite inferior é bem preciso na verdade. Em \cite{lupanov1958method} Lupanov apresenta uma representeção de funções booleanas que nos levam a um limite superior de $(1 + o(1))\frac{2^{n}}{n}$.
+
+%\begin{teo}
+
+%Para todo $n > 1$, todas as funções booleanas $f: \{0, 1\}^{n} \to \{0, 1\}$ têm circuitos de tamanho $\mathcal{O}(2^{n})$.
+
+%\end{teo}
+
+%\begin{proof}
+
+%Primeiro nós notamos que qualquer fórmula $f(x_{1}, \dots, x_{n})$ pode ser reescrita como
+
+%\begin{equation*}
+%(x_{1} \land f(1, x_{2}, \dots, x_{n})) \lor (\lnot x_{n} \land f(0, x_{2}, \dots, x_{n}))
+%\end{equation*}
+
+%E podemos reescrever $f(1, x_{2}, \dots, x_{n})$ e $f(0, x_{2}, \dots, x_{n})$ como $f^{\prime}(x_{2}, \dots, x_{n})$ e $f^{\prime \prime}(x_{2}, \dots, x_{n})$, respectivamente, onde $f^{\prime}$ e $f^{\prime \prime}$ são funções booleanas de $n - 1$ variáveis.
+
+%\begin{equation}
+%    f(x_{1}, \dots, x_{n}) = (x_{1} \land f^{\prime}(x_{2}, \dots, x_{n})) \lor (\lnot x_{1} \land f^{\prime \prime}(x_{2}, \dots, x_{n}))
+%\end{equation}
+
+%Então temos uma estrutura recursiva aqui. Vamos provar por indução que para todo $n > 1$, todas funções booleanas de $n$ entradas têm circuitos de tamanho no máximo $2^{n + 2} - 4$.
+
+%Para $n = 2$, podemos facilmente verificar que todas as funções booleanas de duas variáveis têm circuitos de tamanho menor ou igual a 6 e $2^{4} - 4 = 12 > 6$.  
+
+%Agora assuma que para alguma $n > 2$ é verdade que para todo $k < n$ todas as funções booleanas de $k$ variáveis têm circuitos de tamanho $2^{k + 2} - 4$. Então, se $f$ é uma função booleana de n variáveis nós podemos reescrever ela como em (3). Pela nossa hípotese indução, temos que $f^{\prime}$ e $f^{\prime \prime}$ têm circuitos de tamanho no máximo $2^{n + 1} - 4$. Portanto usando os circuitos para $f^{\prime}$ e $f^{\prime \prime}$ e mais duas portas $\land$, uma porta $\lor$ e uma porta $\lnot$, podemos construir um circuito de tamanho $2(2^{n + 1} - 4) - 4 = 2^{n + 2} - 4$ que computa $f$.
+
+%\end{proof}
+
+\begin{defi} [Representação de Lupanov]
+
+Uma (k, s)-representação de Lupanov de uma fórmula booleana é descrita a seguir.
+
+\begin{itemize}
+
+\item Particione as $n$ variáveis de $f$ em duas partes: $x_{1}, \dots, x_{k}$ e $x_{k + 1}, \dots, x_{n}$
+
+\item Construa uma matrix $2^{k} \times 2^{n - k}$ onde as linhas da matriz são indexadas pelas atribuições às $k$ primeiras variáveis de $f$ e as colunas são indexadas pelas atribuições às $n - k$ últimas variáveis. A entrada (x, y), $x \in \{0, 1\}^{k}$ e $y \in \{0, 1\}^{n- k}$, desta matriz é $f(x, y)$.
+
+\item Seja $p = \lceil \frac{2^k}{s} \rceil$, temos $p$ conjuntos $A_{i}$, $1 \leq i \leq p$, onde $A_{i}$ contém as $s$ linhas $(i - 1)s$ até $is - 1$ da matriz que nós construimos. $A_{p}$ pode ter menos do que $s$ linhas caso $s$ não seja um divisor de $2^{k}$.
+
+\end{itemize}
+
+Daí nós definimos para cada $1 \leq i \leq p$ e $w \in \{0, 1\}^{s}$ as seguintes funções:
+
+\begin{equation*}
+    g_{iw}(x_{1}, \dots, x_{k}) = \begin{cases}
+        1 & \text{se } x_{1}, \dots, x_{k} \text{ indexa a j-ésima linha de } A_{i} \text{ e } w_{j} = 1 \\
+        0 & \text{caso contrário}
+    \end{cases}
+\end{equation*}
+
+O ``j'' pode ser qualquer inteiro menor do que $\lvert A_{i} \rvert$.
+
+\begin{equation*}
+    h_{iw}(x_{1}, \dots, x_{n - k}) = \begin{cases}
+        1 & \text{se a coluna de } A_{i} \text{ indexada por } x_{1}, \dots, x_{n - k} \text{ for } w \\
+        0 & \text{caso contrário} 
+    \end{cases}
+\end{equation*}
+
+Então podemos escrever $f(x_{1}, \dots, x_{n})$ como
+
+\begin{equation} \label{eq:lupanov}
+  \bigvee_{i = 1}^{p} \bigvee_{s \in \{0, 1\}^{s}} (g_{iw}(x_{1}, \dots, x_{k}) \land h_{iw}(x_{k + 1}, \dots, x_{n}))
+\end{equation}
+
+\end{defi}
+
+Vamos nos convencer que $f$ realmente pode ser escrita como \ref{eq:lupanov}. Particione $x \in \binalphn$ de forma que $x^{1} = x_{1}\dots x_{k}$ e $x^{2} = x_{k + 1}\dots x_{n}$, e suponha que $x^{1}$ indexe a $j$-ésima linha de $A_{i}$. Suponha que $f(x_{1}, \dots, x_{n}) = 1$, o que implica na entrada $(x^{1}, x^{2})$ da tabela ser 1. Seja $w$ a string que representa a coluna indexada por $x^{2}$ em $A_{i}$. Temos que $g_{iw}(x^{1}) = 1$ pois $(x^{1}, x^{2}) = w_{j} = 1$ e também $h_{iw}(x^{2}) = 1$ pela forma como escolhemos $w$, e portanto \ref{eq:lupanov} é verdadeira também.
+
+Indo na outra direção, se \ref{eq:lupanov} é verdadeira então existe um $w$ tal que $g_{iw}(x^{1}) = 1$ e $h_{iw}(x^{2}) = 1$, o que significa que uma string que representa a coluna indexada por $x^{2}$ tem um 1 na $j$-ésima linha de $A_{i}$, a linha indexada por $x^{1}$, e portanto a entrada $(x^{1}, x^{2})$ da tabela é 1 e consequentemente $f(x) = 1$.
+
+\begin{lema} \label{lema:mon}
+
+Para $n > 1$, podemos computar todos os monômios $x_{1}^{\alpha_{1}}\dots x_{n}^{\alpha_{n}}$ usando $\mathcal{O}(2^{n})$ portas lógicas.
+
+\end{lema}
+
+\begin{proof}
+
+\hfill
+
+Provamos por indução que podemos computar todos monômios de $n$ variáveis usando $2^{n + 1} + n - 5$ portas lógicas.
+
+Para computar $x_{1}^{\alpha_{1}}x_{2}^{\alpha_{2}}$, $(\alpha_{1}, \alpha_{2}) \in \{0, 1\}^{2}$, precisamos usar apenas 4 portas $\land$ e 1 porta $\lnot$ somando ao todo $5 = 2^{2 + 1} + 2 - 5$ portas lógicas.
+
+Assumimos agora que para todo $2 < k < n$ é verdade que podemos computar todos monômios $x_{1}^{\alpha_{1}}\dots x_{k}^{\alpha_{k}}$ usando $2^{k + 1} + k - 5$ portas lógicas. Então em particular, podemos calcular todos monômios de $n - 1$ variáveis usando $2^{n} + (n - 1) - 5$ portas lógicas. Para computar os monômios de $n$ variáveis nós podemos usar os circuitos que computam os monômios de $n - 1$ variáveis e ligamos $x_{n} \text{ e } \overline{x_{n}}$ a cada uma das $2^{n - 1}$ saídas dos monômios de $n - 1$ variáveis adicionando $2^{n}$ portas $\land$ e uma porta $\lnot$. Portanto ao todo nós usamos $(2^{n} + (n - 1) - 5) + 2^{n} + 1 = 2^{n + 1} + n - 5$ portas lógicas.
+
+\end{proof}
+
+Agora mostramos como usamos a (k, s)-representação de Lupanov para alcançar um limite superior próximo do limite inferior de Shannon. A prova usada aqui pode ser encontrada em \cite{frandsen2005reviewing} e \cite{savage1998models}
+
+\begin{teo}
+
+Para todas as funções booleanas $f$, $f \in \text{ SIZE}((1 + o(1))\frac{2^{n}}{n})$.
+
+\end{teo}
+
+\begin{proof}
+
+Vamos analizar o número de portas lógicas que precisamos para representar uma função booleana em sua (k, s)-representação de Lupanov com $k = \lceil 3\log n \rceil$ e $s = \lceil n - 5\log n \rceil$.
+
+Primeiro nós computamos todos os monômios $x_{1}^{\alpha_{1}}\dots x_{k}^{\alpha_{k}}$ e $x_{k + 1}^{\alpha_{k + 1}}\dots x_{n}^{\alpha_{n}}$, o que nós já vimos em \ref{lema:mon} que podemos fazer usando  $\mathcal{O}(2^{k} + 2^{n - k})$ portas lógicas. Substituindo $k$ por $\lceil 3\log n \rceil$: 
+
+\begin{equation*}
+\mathcal{O}(2^{\lceil 3\log n \rceil} + 2^{n - \lceil 3\log n\rceil}) = \mathcal{O}(n^{3} + \frac{2^{n}}{n^{3}}) = \mathcal{O}(\frac{2^{n}}{n^{3}})
+\end{equation*}
+
+Agora nós podemos computar cada $g_{iw}$ e $h_{iw}$ usando suas representações por $\lor$s de mintermos. Como todos os mintermos já foram previamente computados nós só precisamos adicionar portas $\lor$ para implementar essas funções.
+
+O número de atribuições às variáveis $x_{1}, \dots, x_{k}$ que satisfazem $g_{iw}$ é igual ao número de 1s em $w$ então precisamos em média de $s/2$ portas $\lor$ para implementar cada $g_{iw}$. Então o número total de portas $\lor$ necessárias para implentar todos os $g_{iw}$ é $sp2^{s - 1}$. Como $p = \lceil \frac{2^{k}}{s} \rceil < (\frac{2^{k}}{s} + 1)$:
+
+\begin{IEEEeqnarray*}{rCl}
+    sp2^{s - 1} & = & s\lceil \frac{2^{k}}{s} \rceil 2^{s - 1} \\
+                & < & s(\frac{2^{k}}{s} + 1)2^{s - 1} \\
+                & = & 2^{k + s - 1} + s2^{s - 1}
+\end{IEEEeqnarray*}
+
+Substituindo $k = \lceil 3\log n\rceil$ e $s = \lceil n - 5\log n\rceil$ isso vira:
+
+\begin{equation*}
+    2^{\lceil 3\log n\rceil + \lceil n - 5\log n\rceil - 1} + (\lceil n - 5\log n\rceil)2^{\lceil n - 5\log n\rceil - 1} < \frac{2^{n + 1}}{n^{2}} + (n  - 5\log n + 1)\frac{2^{n}}{n ^ 5} = \mathcal{O}(\frac{2^{n}}{n^{2}})
+\end{equation*}
+
+Cada atribuição de valores às variáveis $x_{k + 1}, \dots, x_{n}$ satisfaz exatamente $p$ funções $h_{iw}$ e portanto o número de portas $\lor$ necessárias para implementar todas as $h_{iw}$ é $p2^{n - k}$. Daí nós temos:
+
+\begin{IEEEeqnarray*}{rCl}
+    p2^{n - k} & = & \lceil \frac{2^{k}}{s} \rceil 2^{n - k} \\
+               & < & (\frac{2^{k}}{s} + 1) 2^{n - k} \\
+               & = & \frac{2^{n}}{s} + 2^{n - k}
+\end{IEEEeqnarray*}
+
+De novo substituindo os valores de $k$ e $s$ nós obtemos:
+
+\begin{equation*}
+    \frac{2^{n}}{\lceil n - 5\log n\rceil} + 2^{n - \lceil 3\log n\rceil} < \frac{2^{n}}{n - 5\log n - 1} + \frac{2^{n + 1}}{n^{3}} = \mathcal{O}({\frac{2^{n}}{n}})
+\end{equation*}
+
+E finalmente precisamos de $3p2^{s} = \mathcal{O}(\frac{2^{k + s}}{s}) = \mathcal{O}\big(\frac{2^{n}}{n^{3}}\big)$ portas $\lor$ e $\land$ que aparecem na fórmula~\ref{eq:lupanov}. 
+
+Então o número total de portas lógicas necessárias para implementar a (k, s)-representação de Lupanov de $f$ é:
+
+\begin{equation*}
+     \mathcal{O}(\frac{2^{n}}{n^{3}}) +  \mathcal{O}(\frac{2^{n}}{n^{2}}) + \mathcal{O}(\frac{2^{n}}{n}) + \mathcal{O}(\frac{2^{n}}{n^{3}})
+\end{equation*}
+
+Ignorando os termos de menores ordem dentro dos $\mathcal{O}()$ nós temos que o número de portas lógicas é algo da ordem de $(1 + \frac{1}{n} + \frac{2}{n^{2}})\frac{2^{n}}{n} = (1 + o(1))\frac{2^{n}}{n}$.
+
+\end{proof}
+
+\subsubsection{Circuitos de profundidade logaritmica e P vs NC}
+
+Mas pra frente nós vamos discutir um pouco mais sobre circuitos com profundidade logaritmica, nesta subseção nós vamos conhecer duas classes de circuitos com circuitos de profundidade logaritmica e além disso nós iremos discutir como elas se relacionam com computação paralela.
+
+Nós dizemos que um problema é eficientemente paralelizável se ele pode ser computado em tempo polilogaritmico usando um número polinomial de processadores. Nós vimos na seção 2.5 que um problema é eficientemente computável se existe uma máquina de Turing que é capaz de decidir tal problema em tempo polinomial. Agora, o que se espera é que aumentar o número de ''máquinas de Turing`` nos permite decidir um dado problema mais rapidamente. O quão mais rapidamente? Saber se todos os problemas em $P$ podem ser \emph{altamente paralelizáveis} ainda é um problema em aberto pelo menos quase tão interessante quanto a questão $P$ vs $NP$. A seguir nós vemos que a classe $NC$ proposta por Pippenger - o primeiro nome dele é Nick, daí que veio o nome $NC$: \emph{Nick's class} - que é equivalente à classe de problemas eficientemente paralelizáveis. 
+
+%discutir mais sobre modelos de computação paralela.
+
+\begin{defi} (A classe NC)
+
+Uma linguage $L$ é dita estar em $NC^{i}$ se $L$ é decidida por uma família de circuitos $\{C_{n}\}_{n \in \mathbb{N}}$ de tamanho polinomial tal que $\text{DEPTH}(C_{n}) = \mathcal{O}(\log^{i} n)$, para todo $n$.
+
+A classe $NC$ é $\bigcup_{i \geq 1}NC^{i}$.
+
+\end{defi}
+
+Se $L \in NC$ então $L$ é eficientemente paralelizável: se $L$ é decidida por uma família de circuitos $\{C_{n}\}_{n \in \mathbb{N}}$ com profundidade $\mathcal{O}(\log^{d}n)$ então para entradas de tamanho $n$ nós temos um único processador que computa a descrição de $C_{n}$ e daí para cada porta lógica $p$ de $C_{n}$ nós temos um processador que irá computar $val(p)$ e enviar o resultado para o processador de cada porta lógica que depende de $p$. Nós precisamos de tempo $\mathcal{O}(\log^{d}n)$ para computar a descrição de $C_{n}$ e também para computar o valor de cada porta lógica. E pelo tamanho de $C_{n}$ ser polinomial temos que o número de processadores também é polinomial.
+
+Para ver que a outra direção também é verdade nós contruimos um circuito que nós vemos como um grid onde a porta lógica $c_{ij}$ simula o $i$-ésimo processador no $j$-ésimo passo. Este circuito tem tamanho $\mathcal{O}(n^{c}\log^{d}n)$ e profundidade $\mathcal{O}(\log^{d}n)$.
+
+%AC
+
+\begin{defi}
+
+Uma linguagem $L$ é dita estar em $AC^{i}$ se $L$ é decidida por uma família de circuitos $\{C_{n}\}_{n \in \mathbb{N}}$ de tamanho polinomial tal que $\text{DEPTH}(C_{n}) = \mathcal{O}(\log^{i} n)$, para todo $n$, e além disso o fan-in das portas lógicas são arbitrários.
+
+A classe $AC$ é $\bigcup_{i \geq 1}AC^{i}$
+
+\end{defi}
