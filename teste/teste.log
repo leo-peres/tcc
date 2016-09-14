@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/W32TeX) (preloaded format=pdflatex 2016.9.4)  12 SEP 2016 13:33
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/W32TeX) (preloaded format=pdflatex 2016.9.4)  14 SEP 2016 16:28
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1195,9 +1195,9 @@ Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 125.
 [49]
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 172.
+(babel)             in language  on input line 169.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 172.
+(babel)             in language  on input line 169.
  [50]
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 215.
@@ -1232,7 +1232,17 @@ Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 338.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 338.
- [54]) (./ref.tex
+ [54]
+Overfull \hbox (10.64279pt too wide) in paragraph at lines 354--355
+\OT1/cmr/m/n/10.95 uma lin-gua-gem ar-bitr^^Saria em $^^F[]$ tal que $\OML/cmm/
+m/it/10.95 L$ \OT1/cmr/m/n/10.95 ^^Se ex-pressa como $\OML/cmm/m/it/10.95 x \OM
+S/cmsy/m/n/10.95 2 \OML/cmm/m/it/10.95 L  \OMS/cmsy/m/n/10.95 ([])  9\OML/cmm/m
+/it/10.95 x[] \OMS/cmsy/m/n/10.95 2 f\OT1/cmr/m/n/10.95 0\OML/cmm/m/it/10.95 ; 
+\OT1/cmr/m/n/10.95 1\OMS/cmsy/m/n/10.95 g[]8 [] \OML/cmm/m/it/10.95 Qx[] \OMS/c
+msy/m/n/10.95 2
+ []
+
+) (./ref.tex
 No file teste.bbl.
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 4.
 Package babel Info: Redefining portuges shorthand "|
@@ -1283,10 +1293,10 @@ e1/public/amsfonts/cm/cmti8.pfb><c:/texlive/2016/texmf-dist/fonts/type1/public/
 amsfonts/symbols/msam10.pfb><c:/texlive/2016/texmf-dist/fonts/type1/public/amsf
 onts/symbols/msbm10.pfb><c:/texlive/2016/texmf-dist/fonts/type1/public/amsfonts
 /symbols/msbm7.pfb>
-Output written on teste.pdf (59 pages, 484139 bytes).
+Output written on teste.pdf (59 pages, 486707 bytes).
 PDF statistics:
- 700 PDF objects out of 1000 (max. 8388607)
- 607 compressed objects within 7 object streams
+ 702 PDF objects out of 1000 (max. 8388607)
+ 609 compressed objects within 7 object streams
  204 named destinations out of 1000 (max. 500000)
  169 words of extra memory for PDF output out of 10000 (max. 10000000)
 

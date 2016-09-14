@@ -152,13 +152,13 @@ Seja $A$ tal algoritmo de consultas. Nós usamos o fato que para qualquer entrad
     \Pr_{x \in \binalphn}[x \text{ é má}] \geq 9/10
 \end{equation*}
 
-Se $x$ é má então $Tribes_{n}(x) = 1$ se e somente se pelo menos uma das $\frac{9}{10}s$ tribos restantes é unanimamente 1. Isso acontece com probabilidade $1 - (1 - 2^{-w})^{\frac{9}{10}s}$, mas temos que:
+Se $x$ é má então $Tribes_{n}(x) = 1$ se e somente se pelo menos uma das $\frac{9}{10}s$ tribos restantes é unanimamente 1. Isso acontece com probabilidade $1 - (1 - 2^{-w})^{\frac{9}{10}s}$, mas temos que para $w$ suficientemente grande e $\varepsilon > 0$:
 
 \begin{equation*}
-    1/2 \leq (1 - 2^{-w})^{\frac{9}{10}s} \leq 2^{-\frac{9}{10}} < 0,55
+    1/2 \leq (1 - 2^{-w})^{\frac{9}{10}s} \leq (1/2 + \varepsilon)^{\frac{9}{10}}
 \end{equation*}
 
-Para $w$ suficientemente grande. Ou seja, condicionando em nenhuma das primeiros $\frac{1}{10}s$ tribos serem unanimamente 1, o melhor que $A$ pode fazer é adivinhar que $\Tribes_{n}(x) = 0$ e ainda assim $A$ não poderá fazer melhor do que acertar numa fração maior do que 0,55 das vezes. Então:
+ Ou seja, condicionando em nenhuma das primeiros $\frac{1}{10}s$ tribos serem unanimamente 1, o melhor que $A$ pode fazer é adivinhar que $\Tribes_{n}(x) = 0$ e ainda assim $A$ não poderá fazer melhor do que acertar numa fração maior do que, por exemplo, 0,55 das vezes. Então:
 
 \begin{equation*}
 	\Pr_{x \sim \binalphn}[A(x) = \Tribes_{n}(x)] < 1/10 + 0,55 = 0,65.
@@ -338,3 +338,19 @@ Existe um oráculo $A \subseteq \binalph^{*}$ tal que para todo $k \geq 2$, $\Si
 \end{teo}
 
 Ou seja, para este oráculo $A$, $PH^{A} \neq \Sigma_{k}^{p, A}$, para todos $k \geq 1$. Logo, em particular, $P^{A} \neq PH^{A} \Rightarrow P^{A} \neq NP^{A}$, então podemos ver a prova do teorema \ref{ph_no_collapse_r} como a terceira prova do teorema de Baker-Gill-Solovay em \ref{teo: bgs} e \ref{prop: p_vs_np_r} que iremos ver, mas desta vez também estaremos provando algo bem mais forte usando basicamente a mesma estratégia.
+
+Desta vez, seja $L(A) = \{1^{n} \lvert f^{k + 1, n}(A) = 1$, para algum $k \geq 2$ fixo.
+
+\begin{proof} (Prova do Teorema \ref{ph_no_collapse_r})
+
+Fixe algum $k \geq 2$, iremos provar que $\Sigma_{k}^{p, A} \neq \Sigma_{k - 1}^{p, A}$.
+
+Seja $\{M_{i}\}_{i \geq 1}$ uma enumeração de todas as máquinas de Turing de tempo polinomial e $\{p_{i}\}_{i \geq 1}$ o tempo de execução das respectivas máquinas de Turing. Inicialmente faça $A = A(0) = \emptyset$, seja $n_{1}$ tal que $p_{i}(n_{i}) < 2^{n_{i}}$ e $D(1) = \bigcup_{l = n_{1}}^{p_{i}(n_{i})} \binalph^{l}$. Pelo limite inferior no teorema \ref{Sipser_f_lb} temos que deve existir uma string de oráculp $A^{\prime}$ tal que $C_{M_{i}, 1^{n_{i}}}^{\binalph^{l}}(A^{\prime}) \neq f^{k + 1, n_{1}}(A^{\prime})$. Daí fazemos $A(1) = A(0) \cup (D(1) \cap A^{\prime})$.
+
+Estágio $i$:
+
+Escolha $n_{i}$ tal que $n_{i} > p_{i - 1}(n_{i - 1})$ e $p_{i}(n_{i}) < 2^{n_{i}}$. Seja $D(i) = \bigcup_{n_{i}}^{p_{i}(n_{i})}$. Daí escolhemos um $A^{\prime}$ tal que $C_{M_{i}, 1^{n_{i}}}^{\binalph^{n_{i}}}(A^{\prime}) \neq f^{k + 1, n_{i}}(A^{\prime})$ e então fazemos $A(i) = A(i - 1) \cup (D(i) \cap A^{\prime})$.
+
+Argumentamos que $A = \bigcup_{i \geq 1}A(i)$ é tal que nenhuma linguagem em $\Sigma_{k - 1}^{p, A}$ seja igual à $L(A)$. Seja L uma linguagem arbitrária em $\Sigma_{k - 1}^{p, A}$ tal que $L$ é expressa como $x \in L \iff \exists x_{1} \in \binalph^{p_{i}(\lvert x \rvert)}\forall \dots Q x_{d - 1 } \in \binalph^{p_{i}(\lvert x \rvert)} M_{i}(x, x_{1}, \dots, x_{d - 1}) = 1$, onde.
+
+\end{proof}
