@@ -339,18 +339,50 @@ Existe um oráculo $A \subseteq \binalph^{*}$ tal que para todo $k \geq 2$, $\Si
 
 Ou seja, para este oráculo $A$, $PH^{A} \neq \Sigma_{k}^{p, A}$, para todos $k \geq 1$. Logo, em particular, $P^{A} \neq PH^{A} \Rightarrow P^{A} \neq NP^{A}$, então podemos ver a prova do teorema \ref{ph_no_collapse_r} como a terceira prova do teorema de Baker-Gill-Solovay em \ref{teo: bgs} e \ref{prop: p_vs_np_r} que iremos ver, mas desta vez também estaremos provando algo bem mais forte usando basicamente a mesma estratégia.
 
-Desta vez, seja $L(A) = \{1^{n} \lvert f^{k + 1, n}(A) = 1$, para algum $k \geq 2$ fixo.
+Desta vez, seja $L(A) = \{1^{n} \lvert f^{k + 1, n}(A) = 1\}$, para algum $k \geq 2$ fixo.
 
 \begin{proof} (Prova do Teorema \ref{ph_no_collapse_r})
 
 Fixe algum $k \geq 2$, iremos provar que $\Sigma_{k}^{p, A} \neq \Sigma_{k - 1}^{p, A}$.
 
-Seja $\{M_{i}\}_{i \geq 1}$ uma enumeração de todas as máquinas de Turing de tempo polinomial e $\{p_{i}\}_{i \geq 1}$ o tempo de execução das respectivas máquinas de Turing. Inicialmente faça $A = A(0) = \emptyset$, seja $n_{1}$ tal que $p_{i}(n_{i}) < 2^{n_{i}}$ e $D(1) = \bigcup_{l = n_{1}}^{p_{i}(n_{i})} \binalph^{l}$. Pelo limite inferior no teorema \ref{Sipser_f_lb} temos que deve existir uma string de oráculp $A^{\prime}$ tal que $C_{M_{i}, 1^{n_{i}}}^{\binalph^{l}}(A^{\prime}) \neq f^{k + 1, n_{1}}(A^{\prime})$. Daí fazemos $A(1) = A(0) \cup (D(1) \cap A^{\prime})$.
+Seja $\{M_{i}\}_{i \geq 1}$ uma enumeração de todas as máquinas de Turing de tempo polinomial e $\{p_{i}\}_{i \geq 1}$ o tempo de execução das respectivas máquinas de Turing. Inicialmente faça $A = A(0) = \emptyset$, seja $n_{1}$ tal que $p_{1}(n_{1}) < 2^{n_{1}}$ e $D(1) = \bigcup_{l = n_{1}}^{p_{1}(n_{1})} \binalph^{l}$. Pelo limite inferior no teorema \ref{Sipser_f_lb} temos que deve existir uma string de oráculo $A^{\prime}$ tal que $C_{M_{1}, 1^{n_{1}}}^{\binalph^{l}}(A^{\prime}) \neq f^{k + 1, n_{1}}(A^{\prime})$. Daí fazemos $A(1) = A(0) \cup (D(1) \cap A^{\prime})$.
 
 Estágio $i$:
 
-Escolha $n_{i}$ tal que $n_{i} > p_{i - 1}(n_{i - 1})$ e $p_{i}(n_{i}) < 2^{n_{i}}$. Seja $D(i) = \bigcup_{n_{i}}^{p_{i}(n_{i})}$. Daí escolhemos um $A^{\prime}$ tal que $C_{M_{i}, 1^{n_{i}}}^{\binalph^{n_{i}}}(A^{\prime}) \neq f^{k + 1, n_{i}}(A^{\prime})$ e então fazemos $A(i) = A(i - 1) \cup (D(i) \cap A^{\prime})$.
+Escolha $n_{i}$ tal que $n_{i} > p_{i - 1}(n_{i - 1})$ e $p_{i}(n_{i}) < 2^{n_{i}}$. Seja $D(i) = \bigcup_{l = n_{i}}^{p_{i}(n_{i})}\binalph^{l}$. Daí escolhemos um $A^{\prime}$ tal que $C_{M_{i}, 1^{n_{i}}}^{\binalph^{n_{i}}}(A^{\prime}) \neq f^{k + 1, n_{i}}(A^{\prime})$ e então fazemos $A(i) = A(i - 1) \cup (D(i) \cap A^{\prime})$.
 
-Argumentamos que $A = \bigcup_{i \geq 1}A(i)$ é tal que nenhuma linguagem em $\Sigma_{k - 1}^{p, A}$ seja igual à $L(A)$. Seja L uma linguagem arbitrária em $\Sigma_{k - 1}^{p, A}$ tal que $L$ é expressa como $x \in L \iff \exists x_{1} \in \binalph^{p_{i}(\lvert x \rvert)}\forall \dots Q x_{d - 1 } \in \binalph^{p_{i}(\lvert x \rvert)} M_{i}(x, x_{1}, \dots, x_{d - 1}) = 1$, onde.
+Argumentamos que $A = \bigcup_{i \geq 1}A(i)$ é tal que nenhuma linguagem em $\Sigma_{k - 1}^{p, A}$ seja igual à $L(A)$. Seja L uma linguagem arbitrária em $\Sigma_{k - 1}^{p, A}$ tal que $L$ é expressa como $x \in L \iff \exists x_{1} \in \binalph^{p_{i}(\lvert x \rvert)}\forall \dots Q x_{d - 1 } \in \binalph^{p_{i}(\lvert x \rvert)} M_{i}(x, x_{1}, \dots, x_{d - 1}) = 1$, onde $Q$ é $\forall$ se $k - 1$ for ímpar e $\exists$ se $k - 1$ for par. Por construção temos que
+
+\begin{enumerate}
+
+	\item Se $\exists x_{1} \in \binalph^{p_{i}(n_{i})} \forall \dots Q x_{k - 1} \in \binalph^{p_{i}(n_{i})} M_{i}(1^{n_{i}}, x_{1}, \dots, x_{k - 1}) = 1$ for verdadeiro $\Rightarrow f^{k + 1, n_{i}}(A) = 0$ e portanto $1^{n_{i}} \not\in L(A)$;
+	
+	\item Se  $\exists x_{1} \in \binalph^{p_{i}(n_{i})} \forall \dots Q x_{k - 1} \in \binalph^{p_{i}(n_{i})} M_{i}(1^{n_{i}}, x_{1}, \dots, x_{k - 1}) = 1$ for falso $\Rightarrow f^{k + 1, n_{i}}(A) = 1$ e portanto $1^{n_{i}} \in L(A)$.
+
+\end{enumerate}
+
+Por (1) temos que $1^{n_{i}} \in L \Rightarrow 1^{n_{i}} \not\in L(A)$ e por (2) temos que $1^{n_{i}} \not\in L \Rightarrow 1^{n_{i}} \in L(A)$ e portanto $L \neq L(A)$. Como $L$ é uma linguagem arbitrária concluimos que nenhuma linguagem em $\Sigma_{k - 1}^{p, A}$ é igual à $L(A)$, ou seja, $L(A) \not\in \Sigma_{k - 1}^{p, A}$.
+
+\color{red}
+
+Se a prova acima estiver basicamente correta então nós provamos que para todo $k \geq 2$ existe um oráculo $A$ tal que $\Sigma_{k}^{p, A} \neq \Sigma_{k - 1}^{p, A}$. Porém, o teorema diz que existe um oráculo $A$ tal que para todos $k \geq 2$, $\Sigma_{k}^{p, A} \neq \Sigma_{k - 1}^{p, A}$. Isto é um problema pois se continuarmos enumerando máquinas de Turing eu não vejo como diagonalizar para todos $k's$, a solução talvez seja enumerar `'predicados PH`` ao invés de máquinas de Turing de tempo polinomial.
+
+\color{black}
+
+\subsubsection{Separando a hierarquia polinomial com oráculos aleatórios}
+
+Recentemente, Rossman, Servedio e Tan (referência) provaram que a hierarquia polinomial não colapsa relativa a um oráculo aleatório. Por ser um trabalho bem técnico e longo nós não tivemos tempo para estudá-los, porém antes de terem provado o resultado absoluto já haviam alguns resultados parciais, como o que nós iremos ver a seguir.
+
+\begin{teo} \label{sigma3_vs_sigma2_r}
+	$\Pr_{A \sim \binalph^{*}}[\Sigma_{3}^{p, A} \neq \Sigma_{2}^{p, A}] = 1$.
+\end{teo}
+
+E o teorema \ref{sigma3_vs_sigma2_r} segue do seguinte limite inferior para uma fórmula DNF que aproxima uma versão da função $\Tribes$.
+
+\begin{teo} (O'Donnell, Wimmer)
+
+a
+
+\end{teo}
 
 \end{proof}

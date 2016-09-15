@@ -1,0 +1,121 @@
+\begin{thebibliography}{10}
+
+\bibitem{arora2009computational}
+Sanjeev Arora and Boaz Barak.
+\newblock {\em Computational complexity: a modern approach}.
+\newblock Cambridge University Press, 2009.
+
+\bibitem{ben1990collective}
+Michael Ben-Or and Nathan Linial.
+\newblock Collective coin flipping.
+\newblock {\em randomness and computation}, 5:91--115, 1990.
+
+\bibitem{cook1971complexity}
+Stephen~A Cook.
+\newblock The complexity of theorem-proving procedures.
+\newblock In {\em Proceedings of the third annual ACM symposium on Theory of
+  computing}, pages 151--158. ACM, 1971.
+
+\bibitem{cook1973hierarchy}
+Stephen~A Cook.
+\newblock A hierarchy for nondeterministic time complexity.
+\newblock {\em Journal of Computer and System Sciences}, 7(4):343--353, 1973.
+
+\bibitem{edmonds1965paths}
+Jack Edmonds.
+\newblock Paths, trees, and flowers.
+\newblock {\em Canadian Journal of mathematics}, 17(3):449--467, 1965.
+
+\bibitem{beyondNP}
+Lance Fortnow.
+\newblock The status of the p versus np problem.
+\newblock {\em Communications of the ACM}, 52(9):78--86, 2009.
+
+\bibitem{frandsen2005reviewing}
+Gudmund~Skovbjerg Frandsen and Peter~Bro Miltersen.
+\newblock Reviewing bounds on the circuit size of the hardest functions.
+\newblock {\em Information Processing Letters}, 95(2):354--357, 2005.
+
+\bibitem{garey2002computers}
+Michael~R Garey and David~S Johnson.
+\newblock {\em Computers and intractability}, volume~29.
+\newblock wh freeman, 2002.
+
+\bibitem{goldreich2000computational}
+Oded Goldreich.
+\newblock Computational complexity.
+\newblock In {\em In The Princeton Companion}. Citeseer, 2000.
+
+\bibitem{hartmanis1965computational}
+Juris Hartmanis and Richard~E Stearns.
+\newblock On the computational complexity of algorithms.
+\newblock {\em Transactions of the American Mathematical Society}, pages
+  285--306, 1965.
+
+\bibitem{hennie1966two}
+Fred~C Hennie and Richard~Edwin Stearns.
+\newblock Two-tape simulation of multitape turing machines.
+\newblock {\em Journal of the ACM (JACM)}, 13(4):533--546, 1966.
+
+\bibitem{karp1972reducibility}
+Richard~M Karp.
+\newblock {\em Reducibility among combinatorial problems}.
+\newblock Springer, 1972.
+
+\bibitem{karp1982turing}
+Richard~M Karp and Richard Lipton.
+\newblock Turing machines that take advice.
+\newblock {\em Enseign. Math}, 28(2):191--209, 1982.
+
+\bibitem{levin1973universal}
+Leonid~A Levin.
+\newblock Universal sequential search problems.
+\newblock {\em Problemy Peredachi Informatsii}, 9(3):115--116, 1973.
+
+\bibitem{lewis1997elements}
+Harry~R Lewis and Christos~H Papadimitriou.
+\newblock {\em Elements of the Theory of Computation}.
+\newblock Prentice Hall PTR, 1997.
+
+\bibitem{lupanov1958method}
+Oleg~B Lupanov.
+\newblock A method of circuit synthesis.
+\newblock {\em Izvestia vuz Radio zike}, 1:120--140, 1958.
+
+\bibitem{o2014analysis}
+Ryan O'Donnell.
+\newblock {\em Analysis of boolean functions}.
+\newblock Cambridge University Press, 2014.
+
+\bibitem{natural}
+Alexander~A Razborov and Steven Rudich.
+\newblock Natural proofs.
+\newblock In {\em Proceedings of the twenty-sixth annual ACM symposium on
+  Theory of computing}, pages 204--213. ACM, 1994.
+
+\bibitem{savage1998models}
+John~E Savage.
+\newblock Models of computation.
+\newblock {\em Exploring the Power of Computing}, 1998.
+
+\bibitem{shannon1949synthesis}
+Claude Shannon et~al.
+\newblock The synthesis of two-terminal switching circuits.
+\newblock {\em Bell System Technical Journal}, 28(1):59--98, 1949.
+
+\bibitem{sipser2012introduction}
+Michael Sipser.
+\newblock {\em Introduction to the Theory of Computation}.
+\newblock Cengage Learning, 2012.
+
+\bibitem{RW1}
+Ryan Williams.
+\newblock Improving exhaustive search implies superpolynomial lower bounds.
+\newblock {\em SIAM Journal on Computing}, 42(3):1218--1244, 2013.
+
+\bibitem{RW2}
+Ryan Williams.
+\newblock Nonuniform acc circuit lower bounds.
+\newblock {\em Journal of the ACM (JACM)}, 61(1):2, 2014.
+
+\end{thebibliography}
