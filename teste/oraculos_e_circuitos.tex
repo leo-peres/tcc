@@ -445,6 +445,26 @@ E definimos a fórmula FNC $F^{\prime}$ como $F^{\prime}(y) = F_{1}(z^{\prime}, 
 
 \begin{teo} \label{tribes_width_lb}
 
-Seja $C$ um circuito FNC que 0,2-aproxima a função $\Tribes_{b, 2^{b}}$ com largura $w$. Então devemos ter $w = \Omega(n/\log n)$.
+Seja $m = b2^{b}$ o número de variáveis de entrada da função $\Tribes_{b, 2^{b}}$ e seja $C$ um circuito FNC que 0,2-aproxima esta função com largura $w$. Então devemos ter $w \geq (1/3)2^{b} = \Omega(m/\log m)$.
 
 \end{teo}
+
+\begin{proof}
+
+Vamos considerar o circuito $C^{\prime}$ sobre as variáveis $\{y_{i}\}_{i \in [2^{b}]}$ análogo à fórmula $F^{\prime}$ que acabamos de descrever. $C^{\prime}$ 0,2-aproxima a função $g(y) = \bigvee_{i = 1}^{2^{b}} y_{i}$ e tem largura $w^{\prime} \leq w$ e portanto provar que $w^{\prime} \geq (1/3)2^{b}$ é suficiente para provar o teorema.
+
+Vamos primeiro assumir que todas as cláusulas de $C^{\prime}$ tenha uma variável negada. Neste caso a entrada $(0, 0, \dots, 0)$ faz $C^{\prime}$ avaliar para 1 enquanto que $g(0, 0, \dots, 0) = 1$, e portanto
+
+\begin{equation*}
+	\Pr_{y}[C^{\prime}(y) \neq g(y)] \geq \Pr_{y}[y = (0, 0, \dots, 0)] = (1 - 2^{-b})^{2^{b}} = 1/e > 1/4 > 0,2,
+\end{equation*}
+
+contradizendo a nossa hipótese. Portanto, deve haver uma cláusula que consiste somente de literais positivos e a probabilidade que esta cláusula é verdadeira é no máximo $w2^{-b}$, com isto dito:
+
+\begin{equation*}
+	\Pr_{y}[C^{\prime}(y) = 0] \geq 1 - w2^{-b}.
+\end{equation*}
+
+E como $C^{\prime}$ 0,2-aproxima a função $g$ devemos ter $1 - w2^{-b} \leq 1/e + 0,2 \Rightarrow w \geq (0,8 - 1/e)2^{b} \geq (1/3)2^{b}$.
+
+\end{proof}
