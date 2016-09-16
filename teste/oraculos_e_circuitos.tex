@@ -423,16 +423,16 @@ Denotamos a string $x$ construida a partir de $y$ por $(x \lvert y)$, e então:
 	\E_{y}\Big[\Pr_{(x \lvert y)}[F_{1}(x, y) \neq \Tribes_{b, 2^{b}}(x)]\Big] < \varepsilon
 \end{equation*}
 
-Mas note que construir $x$ a partir de $y$ é o mesmo que tirar $x$ da distribuição uniforme sobre $\binalph^{b}$. Seja $g(y) = \bigwedge_{i = 1}^{2^{b}}y_{i}$ que é equivalente à $\Tribes_{b, 2^{b}}(x)$. Então, temos o seguinte:
+Agora, note que dado que $y_{i}$ = 1 os valores de $x_{i, j}$ são meio que redudantes, então podemos trocar a string $x$ por uma string $z$ tirada da distribuição uniforme sobre $\binalph^{b} \setminus (1, 1, \dots, 1)$, independente de $y$. Seja $g(y) = \bigwedge_{i = 1}^{2^{b}}y_{i}$ que é equivalente à $\Tribes_{b, 2^{b}}(x)$. Então, temos o seguinte:
 
 \begin{equation*}
-	\E_{y}\Big[ \Pr_{z \sim \binalph^{b}}[F_{1}(z, y) \neq g(y)]\Big] < \varepsilon
+	\E_{y}\Big[ \Pr_{z}[F_{1}(z, y) \neq g(y)]\Big] < \varepsilon
 \end{equation*}
 
 e por $z$ e $y$ serem independentes:
 
 \begin{equation*}
-	\E_{z \sim \binalph^{b}}\Big[\Pr_{y}[F_{1}(z, y) \neq g(y)]\Big] < \varepsilon
+	\E_{z}\Big[\Pr_{y}[F_{1}(z, y) \neq g(y)]\Big] < \varepsilon
 \end{equation*}
 
 E portanto deve existir um $z^{\prime} \in \binalph^{b}$ tal que
