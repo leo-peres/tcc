@@ -363,6 +363,8 @@ Argumentamos que $A = \bigcup_{i \geq 1}A(i)$ é tal que nenhuma linguagem em $\
 
 Por (1) temos que $1^{n_{i}} \in L \Rightarrow 1^{n_{i}} \not\in L(A)$ e por (2) temos que $1^{n_{i}} \not\in L \Rightarrow 1^{n_{i}} \in L(A)$ e portanto $L \neq L(A)$. Como $L$ é uma linguagem arbitrária concluimos que nenhuma linguagem em $\Sigma_{k - 1}^{p, A}$ é igual à $L(A)$, ou seja, $L(A) \not\in \Sigma_{k - 1}^{p, A}$.
 
+\end{proof}
+
 \color{red}
 
 Se a prova acima estiver basicamente correta então nós provamos que para todo $k \geq 2$ existe um oráculo $A$ tal que $\Sigma_{k}^{p, A} \neq \Sigma_{k - 1}^{p, A}$. Porém, o teorema diz que existe um oráculo $A$ tal que para todos $k \geq 2$, $\Sigma_{k}^{p, A} \neq \Sigma_{k - 1}^{p, A}$. Isto é um problema pois se continuarmos enumerando máquinas de Turing eu não vejo como diagonalizar para todos $k's$, a solução talvez seja enumerar `'predicados PH`` ao invés de máquinas de Turing de tempo polinomial.
@@ -377,12 +379,72 @@ Recentemente, Rossman, Servedio e Tan (referência) provaram que a hierarquia po
 	$\Pr_{A \sim \binalph^{*}}[\Sigma_{3}^{p, A} \neq \Sigma_{2}^{p, A}] = 1$.
 \end{teo}
 
-E o teorema \ref{sigma3_vs_sigma2_r} segue do seguinte limite inferior para uma fórmula DNF que aproxima uma versão da função $\Tribes$.
+E o teorema \ref{sigma3_vs_sigma2_r} segue do seguinte limite inferior para uma fórmula FNC que aproxima uma variação da função $\Tribes$.
 
-\begin{teo} (O'Donnell, Wimmer)
+\begin{defi} (Dual da função $\Tribes$)
 
-a
+O dual da função $\Tribes_{w, s}$ é a função $\Tribes_{w, s}^{\dagger}$ definida como
+
+\begin{equation*}
+	\Tribes_{w, s}^{\dagger}(x_{1, 1}, x_{1,2}, \dots, x_{s, w})  = \overline{\Big(\bigvee_{i = 1}^{s}\bigwedge_{j = 1}^{w} \overline{x}_{i, j}\Big)} = \overline{\Tribes_{w, s}(\overline{x}_{1, 1}, \overline{x}_{1, 2}, \dots, \overline{x}_{s, w})}.
+\end{equation*}
+
+\end{defi}
+
+E então provaremos o seguinte teorema.
+
+\begin{teo} (O'Donnell, Wimmer) \label{odonnell_wimmer}
+
+Seja $f = \Tribes_{b, 2^{b}} \lor \Tribes_{b, 2^{b}}^{\dagger}$, então qualquer fórmula FNC (ou FND) que consiga 0,04-aproximar $f$ deve ter tamanho $2^{\Omega(n/\log n)}$.
 
 \end{teo}
 
-\end{proof}
+Como $f$ pode ser computada por um circuito de tamanho polinomial e profundidade 3, o teorema \ref{sigma3_vs_sigma2_r} segue diretamente de \ref{odonnell_wimmer}.
+
+Para provar o teorema \ref{odonnell_wimmer} nós precisaremos de alguns lemas. Caso quisermos computar a função $\Tribes_{b, 2^{b}}$ nós precisamos apenas saber o valor de cada tribo. Ou seja, sejam $\{y_{i}\}_{i = [2^{b}]}$ variáveis, nós podemos projetar as variáveis $\{x_{i, j}\}_{j \in [b]}$ para a variável $y_{i}$ de forma que $y_{i} = \bigwedge_{j = 1}^{b} x_{i, j}$, o que denotaremos por $(y \lvert x)$, e então podemos ver $\Tribes_{b, 2^{b}}$ como a ``disjunção'' das variáveis $y_{i}$. Considere então uma fórmula FNC $F$ que $\varepsilon$-aproxima a função $\Tribes_{b, 2^{b}}$ e que tenha tamanho $s$ e cada cláusula tenha largura no máximo $w$, e considere também uma cláusula $C$ qualquer de $F$. Se $I \subseteq [2^{b}]$ é o conjunto das tribos que contém variáveis que aparecem em $C$, então fazemos $C^{\prime} = C \land \bigwedge_{i \in I} y_{i}$ e podemos argumentar que $C^{\prime}$ é equivalente à $C$ pois se $C$ for satisfeita for uma atribuição às suas variáveis originais então adicionar mais variáveis mantém $C$ satisfeita, por outro lado, se $C$ não for satisfeita então é porque cada uma de suas variáveis originais é 0 e portanto cada $y_{i}$, $i \in I$, também deve ser 0 por definição. Então, se $F_{1}$ for a fórmula FNC construida a partir de $F$ da forma que acabamos de descrever temos $F_{1}$ e $F$ são equivalente, e daí segue que
+
+\begin{equation*}
+	\Pr_{x, (y \lvert x)}[F_{1}(x, y) \neq \Tribes_{b, 2^{b}}(x)] < \varepsilon
+\end{equation*}
+
+Mas ao invés de construir $y$ a partir de $x$ podemos também construir $x$ a partir de $y$ sem mudar a distribuição de pares $(x, y)$ da seguinte maneira:
+
+\begin{enumerate}
+
+	\item Para cada $i \in [2^{b}]$, faça $y_{i} = 0$ com probabilidade $1 - 2^{-b}$ e $y_{i} = 1$ com probabilidade $2^{-b}$.
+	
+	\item Para cada $i \in [2^{b}]$ e $j \in [b]$, faça $x_{i, j} = 1$ se $y_{i} = 1$, e $(x_{i, 1}, \dots, x_{i, b})$ tirada da distribuição uniforme sobre $\binalph^{b} \setminus (1, 1, \dots, 1)$ se $y_{i} = 0$. 
+
+\end{enumerate}
+
+Denotamos a string $x$ construida a partir de $y$ por $(x \lvert y)$, e então:
+
+\begin{equation*}
+	\E_{y}\Big[\Pr_{(x \lvert y)}[F_{1}(x, y) \neq \Tribes_{b, 2^{b}}(x)]\Big] < \varepsilon
+\end{equation*}
+
+Mas note que construir $x$ a partir de $y$ é o mesmo que tirar $x$ da distribuição uniforme sobre $\binalph^{b}$. Seja $g(y) = \bigwedge_{i = 1}^{2^{b}}y_{i}$ que é equivalente à $\Tribes_{b, 2^{b}}(x)$. Então, temos o seguinte:
+
+\begin{equation*}
+	\E_{y}\Big[ \Pr_{z \sim \binalph^{b}}[F_{1}(z, y) \neq g(y)]\Big] < \varepsilon
+\end{equation*}
+
+e por $z$ e $y$ serem independentes:
+
+\begin{equation*}
+	\E_{z \sim \binalph^{b}}\Big[\Pr_{y}[F_{1}(z, y) \neq g(y)]\Big] < \varepsilon
+\end{equation*}
+
+E portanto deve existir um $z^{\prime} \in \binalph^{b}$ tal que
+
+\begin{equation*}
+	\Pr_{y}[F_{1}(z^{\prime}, y) \neq g(y)] < \varepsilon.
+\end{equation*}
+
+E definimos a fórmula FNC $F^{\prime}$ como $F^{\prime}(y) = F_{1}(z^{\prime}, y)$. O que podemos tirar de tudo isso é que aproximar $\Tribes_{b, 2^{b}}$ por fórmulas FNC é pelo menos tão difícil quanto aproximar a função $g$ sobre as variáveis $\{y_{i}\}_{i \in [2^{b}]}$. Agora nós podemos provar um limite inferior para a largura de um circuito FNC que aproxima a função $\Tribes_{b, 2^{b}}$.
+
+\begin{teo} \label{tribes_width_lb}
+
+Seja $C$ um circuito FNC que 0,2-aproxima a função $\Tribes_{b, 2^{b}}$ com largura $w$. Então devemos ter $w = \Omega(n/\log n)$.
+
+\end{teo}

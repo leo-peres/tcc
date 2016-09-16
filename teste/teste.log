@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/W32TeX) (preloaded format=pdflatex 2016.9.4)  14 SEP 2016 21:42
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/W32TeX) (preloaded format=pdflatex 2016.9.4)  15 SEP 2016 21:31
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1143,20 +1143,25 @@ it/10.95 f[]\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 A\OT1/cmr/m/n/10.95 ) =
  []
 
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 375.
+(babel)             in language  on input line 374.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 375.
-[55]) (./ref.tex (./teste.bbl
+(babel)             in language  on input line 374.
+[55]
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 408.
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 408.
+ [56]) (./ref.tex (./teste.bbl
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 1.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 1.
- [56]
+ [57]
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 70.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 70.
- [57
+ [58
 
 ])
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 4.
@@ -1164,20 +1169,30 @@ Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 4.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 4.
- [58]
+ [59]
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 4.
  (./teste.aux)
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 4.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 4.
-Package rerunfilecheck Info: File `teste.out' has not changed.
-(rerunfilecheck)             Checksum: 46D77C4A43CDECB1BB3EF3B500DC80D1;1550.
+
+
+Package rerunfilecheck Warning: File `teste.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `teste.out':
+(rerunfilecheck)             Before: 189FB2E998A7DE6A030F10557FAD93A9;1548
+(rerunfilecheck)             After:  46D77C4A43CDECB1BB3EF3B500DC80D1;1550.
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 4.
  ) ) 
 Here is how much of TeX's memory you used:
- 8278 strings out of 493013
- 111828 string characters out of 6136994
- 216486 words of memory out of 5000000
- 11452 multiletter control sequences out of 15000+600000
+ 8285 strings out of 493013
+ 111899 string characters out of 6136994
+ 216512 words of memory out of 5000000
+ 11454 multiletter control sequences out of 15000+600000
  21031 words of font info for 83 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  30i,13n,35p,1809b,491s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1204,10 +1219,10 @@ e1/public/amsfonts/cm/cmti8.pfb><c:/texlive/2016/texmf-dist/fonts/type1/public/
 amsfonts/symbols/msam10.pfb><c:/texlive/2016/texmf-dist/fonts/type1/public/amsf
 onts/symbols/msbm10.pfb><c:/texlive/2016/texmf-dist/fonts/type1/public/amsfonts
 /symbols/msbm7.pfb>
-Output written on teste.pdf (62 pages, 497336 bytes).
+Output written on teste.pdf (63 pages, 504626 bytes).
 PDF statistics:
- 783 PDF objects out of 1000 (max. 8388607)
- 687 compressed objects within 7 object streams
- 236 named destinations out of 1000 (max. 500000)
+ 795 PDF objects out of 1000 (max. 8388607)
+ 698 compressed objects within 7 object streams
+ 241 named destinations out of 1000 (max. 500000)
  169 words of extra memory for PDF output out of 10000 (max. 10000000)
 
