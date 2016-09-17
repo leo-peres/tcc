@@ -395,7 +395,7 @@ E então provaremos o seguinte teorema.
 
 \begin{teo} (O'Donnell, Wimmer) \label{odonnell_wimmer}
 
-Seja $f = \Tribes_{b, 2^{b}} \lor \Tribes_{b, 2^{b}}^{\dagger}$, então qualquer fórmula FNC (ou FND) que consiga 0,04-aproximar $f$ deve ter tamanho $2^{\Omega(n/\log n)}$.
+Seja $F_{m} = \Tribes_{b, 2^{b}} \lor \Tribes_{b, 2^{b}}^{\dagger}$, então qualquer circuito FNC (ou FND) $C$ que  0,04-aproxima $f$ deve ter tamanho $s = 2^{\Omega(n/\log n)}$.
 
 \end{teo}
 
@@ -435,13 +435,13 @@ e por $z$ e $y$ serem independentes:
 	\E_{z}\Big[\Pr_{y}[F_{1}(z, y) \neq g(y)]\Big] < \varepsilon
 \end{equation*}
 
-E portanto deve existir um $z^{\prime} \in \binalph^{b}$ tal que
+E portanto deve existir um $z^{*} \in \binalph^{b}$ tal que
 
 \begin{equation*}
-	\Pr_{y}[F_{1}(z^{\prime}, y) \neq g(y)] < \varepsilon.
+	\Pr_{y}[F_{1}(z^{*}, y) \neq g(y)] < \varepsilon.
 \end{equation*}
 
-E definimos a fórmula FNC $F^{\prime}$ como $F^{\prime}(y) = F_{1}(z^{\prime}, y)$. O que podemos tirar de tudo isso é que aproximar $\Tribes_{b, 2^{b}}$ por fórmulas FNC é pelo menos tão difícil quanto aproximar a função $g$ sobre as variáveis $\{y_{i}\}_{i \in [2^{b}]}$. Agora nós podemos provar um limite inferior para a largura de um circuito FNC que aproxima a função $\Tribes_{b, 2^{b}}$.
+E definimos a fórmula FNC $F^{\prime}$ como $F^{\prime}(y) = F_{1}(z^{*}, y)$. O que podemos tirar de tudo isso é que aproximar $\Tribes_{b, 2^{b}}$ por fórmulas FNC é pelo menos tão difícil quanto aproximar a função $g$ sobre as variáveis $\{y_{i}\}_{i \in [2^{b}]}$. Agora nós podemos provar um limite inferior para a largura de um circuito FNC que aproxima a função $\Tribes_{b, 2^{b}}$.
 
 \begin{teo} \label{tribes_width_lb}
 
@@ -459,12 +459,53 @@ Vamos primeiro assumir que todas as cláusulas de $C^{\prime}$ tenha uma variáv
 	\Pr_{y}[C^{\prime}(y) \neq g(y)] \geq \Pr_{y}[y = (0, 0, \dots, 0)] = (1 - 2^{-b})^{2^{b}} = 1/e > 1/4 > 0,2,
 \end{equation*}
 
-contradizendo a nossa hipótese. Portanto, deve haver uma cláusula que consiste somente de literais positivos e a probabilidade que esta cláusula é verdadeira é no máximo $w2^{-b}$, com isto dito:
+contradizendo a nossa hipótese. Portanto, deve haver uma cláusula que consiste somente de literais positivos e a probabilidade que esta cláusula é verdadeira é no máximo $w^{\prime}2^{-b}$, com isto dito:
 
 \begin{equation*}
-	\Pr_{y}[C^{\prime}(y) = 0] \geq 1 - w2^{-b}.
+	\Pr_{y}[C^{\prime}(y) = 0] \geq 1 - w^{\prime}2^{-b}.
 \end{equation*}
 
-E como $C^{\prime}$ 0,2-aproxima a função $g$ devemos ter $1 - w2^{-b} \leq 1/e + 0,2 \Rightarrow w \geq (0,8 - 1/e)2^{b} \geq (1/3)2^{b}$.
+E como $C^{\prime}$ 0,2-aproxima a função $g$ devemos ter $1 - w^{\prime}2^{-b} \leq 1/e + 0,2 \Rightarrow w^{\prime} \geq (0,8 - 1/e)2^{b} \geq (1/3)2^{b}$.
+
+\end{proof}
+
+Note que por dualidade, o mesmo limite inferior vale para a função $\Tribes_{b. 2^{b}}^{\dagger}$.
+
+\begin{cor} \label{tribes_dagger_width_lb}
+
+Seja $C$ um circuito FNC que 0,2-aproxima a função $\Tribes_{b, 2^{b}}^{\dagger}$ com largura $w$. Então devemos ter $w \geq (1/3)2^{b} = \Omega(m/ \log m)$.
+
+\end{cor}
+
+Agora podemos provar o teorema \ref{odonnell_wimmer}.
+
+\begin{proof} (Prova do teorema \ref{odonnell_wimmer})
+
+Primeiro nos consideraremos o caso que o circuito $C$ está na FND. Por (...) sabemos que existe um circuito FND de largura $\log(100s)$ que $0,04 + 1/100 = 0,05$-aproxima $F_{m}$. Seja $x \sim \Tribes_{b, 2^{b}}^{-1}(0)$ e $y \sim \binalph^{m}$. Então temos que
+
+\begin{IEEEeqnarray*} {rCl}
+	\Pr_{x \sim \Tribes_{b, 2^{b}}^{-1}(0). y}[C(x, y) \neq F_{m}(x, y)] & = & \Pr_{x, y}[C(x, y) \neq F_{m}(x, y) \lvert x \in \Tribes_{b, 2^{b}}^{-1}(0)] \\
+	                                                                                                                 & = & \frac{\Pr_{x, y}[C(x, y) \neq F_{m}(x, y) \land x \in \Tribes_{b, 2^{b}}^{-1}(0)]}{\Pr_{x}[x \in \Tribes_{b, 2^{b}}^{-1}(0)]} \\
+	                                                                                                                 & \leq & 4\Pr_{x, y}[C(x, y) \neq F_{m}(x, y)] \\
+	                                                                                                                 &  \leq & 4\times 0,05 = 0,2.
+\end{IEEEeqnarray*}
+
+Donde nós usamos o fato que $\Pr[a \land b] \leq \Pr[a]$, para quaisquer eventos $a$ e $b$, e também que pelo menos uma fração de $1/4$ das strings $x \in \binalph^{m}$ fazem a função $\Tribes_{b, 2^{b}}(x) = 0$ na primeira desigualdade.
+
+Mas quando $\Tribes_{b, 2^{b}}(x) = 0$, $F_{m}(x, y)$ é simplesmente $\Tribes_{b, 2^{b}}^{\dagger}(y)$. Então podemos fixar um $x^{*}$ tal que
+
+\begin{equation*}
+	\Pr_{y \sim \binalph^{m}}[C(x^{*}, y) \neq \Tribes_{b, 2^{b}}^{\dagger}(y)] < 0,2.
+\end{equation*}
+
+Seja $C^{\prime}$ o circuito tal que $C^{\prime}(y) = C(x^{*}, y) = \Tribes_{b, 2^{b}}^{\dagger}(y)$. Como a largura de $C^{\prime}$ é no máximo $\log(100s)$, pelo corolário \ref{tribes_dagger_width_lb} devemos ter
+
+\begin{IEEEeqnarray*} {rCl}
+	\log(100s) & \geq & (1/3)2^{b} \\
+	100s         & \geq & 2^{(1/3)2^{b}} \\
+	s               & \geq & 2^{(1/3)2^{b}}/100.
+\end{IEEEeqnarray*}
+
+E como $2^{(1/3)2^{b}}/100 = 2^{\Omega(m/\log m)}$, nós completamos a prova para o caso em que $C$ é um circuito FND. No caso em que $C$ é um circuito FNC nós meio que trocamos o papel das funções $\Tribes_{b, 2^{b}}$ e $\Tribes_{b, 2^{b}}^{\dagger}$ e usamos os mesmos argumentos.
 
 \end{proof}

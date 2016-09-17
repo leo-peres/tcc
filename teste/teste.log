@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/W32TeX) (preloaded format=pdflatex 2016.9.4)  16 SEP 2016 16:02
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/W32TeX) (preloaded format=pdflatex 2016.9.4)  16 SEP 2016 22:25
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1156,17 +1156,22 @@ Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 456.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 456.
- [57]) (./ref.tex (./teste.bbl
+ [57]
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 494.
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 494.
+ [58]) (./ref.tex (./teste.bbl
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 1.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 1.
- [58]
+ [59]
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 70.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 70.
- [59
+ [60
 
 ])
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 4.
@@ -1174,7 +1179,7 @@ Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 4.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 4.
- [60]
+ [61]
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 4.
  (./teste.aux)
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 4.
@@ -1184,10 +1189,10 @@ Package rerunfilecheck Info: File `teste.out' has not changed.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 4.
  ) ) 
 Here is how much of TeX's memory you used:
- 8286 strings out of 493013
- 111906 string characters out of 6136994
- 216538 words of memory out of 5000000
- 11454 multiletter control sequences out of 15000+600000
+ 8289 strings out of 493013
+ 111945 string characters out of 6136994
+ 216564 words of memory out of 5000000
+ 11455 multiletter control sequences out of 15000+600000
  21031 words of font info for 83 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  30i,13n,35p,1809b,491s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1214,10 +1219,10 @@ e1/public/amsfonts/cm/cmti8.pfb><c:/texlive/2016/texmf-dist/fonts/type1/public/
 amsfonts/symbols/msam10.pfb><c:/texlive/2016/texmf-dist/fonts/type1/public/amsf
 onts/symbols/msbm10.pfb><c:/texlive/2016/texmf-dist/fonts/type1/public/amsfonts
 /symbols/msbm7.pfb>
-Output written on teste.pdf (64 pages, 506562 bytes).
+Output written on teste.pdf (65 pages, 511294 bytes).
 PDF statistics:
- 800 PDF objects out of 1000 (max. 8388607)
- 701 compressed objects within 8 object streams
- 242 named destinations out of 1000 (max. 500000)
+ 808 PDF objects out of 1000 (max. 8388607)
+ 708 compressed objects within 8 object streams
+ 244 named destinations out of 1000 (max. 500000)
  169 words of extra memory for PDF output out of 10000 (max. 10000000)
 
