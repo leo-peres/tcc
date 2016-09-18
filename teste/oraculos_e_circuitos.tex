@@ -26,7 +26,7 @@ Isso é verdade pois todas as linguagens em PH podem ser expressas através de u
 
 \section{Uma prova alternativa do teorema \ref{teo: bgs}}
 
-Nós já vimos que existem oráculos $A$ e $B$ satisfazendo $\P^{A} = \NP^{A}$ e $\P^{B} \neq \NP^{B}$. Neste capítulo nós vemos uma outra prova do segundo resultado que mostra a idéia geral em como conectamos limites inferiores a resultados em complexidade relativizada. Basicamente, nós usamos a incapacidade de certos dispositivos computacionais (por exemplo, circuitos de baixa profundidade) de computar certas funções mais o fato que certas classes de complexidade poderem ser expressas por estes mesmos dispositivos computacionais para, ironicamente, diagonalizar e provar separação por oráculo. Note que essa é a mesma idéia que usamos anteriormente para provar o teorema \ref{teo: bgs}, porém se tentassemos generalizar aquele argumento para provar que $\PH^{A} \neq \PSPACE^{A}$ nós esbarrariamos em alguns problemas como por exemplo ter que simular cada máquina de Turing um número exponencial de vezes o que destroi a nossa hipótese que uma máquina de Turing de tempo polinomial só faz uma quantidade polinomial de consultas ao oráculo, e também podemos ver que trabalhar com modelos que apresentam uma estrutura combinatórica como circuitos Booleanas é muito menos problemático.
+Nós já vimos que existem oráculos $A$ e $B$ satisfazendo $\P^{A} = \NP^{A}$ e $\P^{B} \neq \NP^{B}$. Neste capítulo nós vemos uma outra prova do segundo resultado que mostra a idéia geral de como conectamos limites inferiores a resultados em complexidade relativizada. Basicamente, nós usamos a incapacidade de certos dispositivos computacionais (por exemplo, circuitos de baixa profundidade) de computar certas funções mais o fato que certas classes de complexidade podem ser expressas por estes mesmos dispositivos computacionais para, ironicamente, diagonalizar e provar separação por oráculo. Note que essa é a mesma idéia que usamos anteriormente para provar o teorema \ref{teo: bgs}, porém se tentassemos generalizar aquele argumento para provar que $\PH^{A} \neq \PSPACE^{A}$ nós esbarrariamos em alguns problemas como por exemplo ter que simular cada máquina de Turing um número exponencial de vezes o que destroi a nossa hipótese que uma máquina de Turing de tempo polinomial só faz uma quantidade polinomial de consultas ao oráculo, e também podemos ver que trabalhar com modelos que apresentam uma estrutura combinatórica como circuitos Booleanas é muito menos problemático.
 
 Vamos considerar de novo a função Tribes$_{n}$ que nós vimos no capítulo anterior. Uma das propriedades de Tribes$_{n}$ é que ela é \emph{evasiva}, o que significa que ter conhecimento apenas parcial dos bits da entrada não é suficiente para avaliar a função. Para formalizar isso, suponha que nós temos uma função $f: \{0, 1\}^{n} \to \{0, 1\}$ e queremos computar $f(x)$ para alguma entrada $x$. Nós podemos fazer isso somente consultando cada bit de $x$ sem nos preocuparmos com a complexidade das computações intermediárias. Desta formas podemos definir diversas medidas de complexidade de $f$. A medida que nos interessa no momento é a complexidade de consulta determinística:
 
@@ -113,7 +113,7 @@ Na prova que acabamos de ver nós usamos dois fatos a respeito da função Tribe
 
 \section{P $\neq$ NP para oráculos aleatórios}
 
-Um dos objetivos de estudar complexidade relativizada é enteder a relação entres classes de complexidades quando não conseguimos dizer nada de muito útil no mundo não-relativizado. Porém, como vemos pelo teorema \ref{teo: bgs}, provar que P $\neq$ NP para algum oráculo não é nenhuma evidência que P $\neq$ NP no mundo não-relativizado, até porque a construção do oráculo $A$ em ambas provas que vimos é só uma especialização do método da diagonalização que por sua vez é basicamente só uma forma de ``trapacear o sistema'' construido uma asserção que codifica a tua própria falsidade. Então, com o objetivo de conseguir algum tipo de evidência que P $\neq$ NP poderiamos nos perguntar se é o caso que P e NP são diferentes no mundo relativizado típico. E de fato, o próximo teorema é o assunto desta subseção:
+Um dos objetivos de estudar complexidade relativizada é enteder a relação entres classes de complexidades quando não conseguimos dizer nada de muito útil no mundo não-relativizado. Porém, como já vimos pelo teorema \ref{teo: bgs}, provar que P $\neq$ NP para algum oráculo não é nenhuma evidência que P $\neq$ NP no mundo não-relativizado, até porque a construção do oráculo $A$ em ambas provas que vimos é só uma especialização do método da diagonalização que por sua vez é basicamente só uma forma de ``trapacear o sistema'' construido uma asserção que codifica a tua própria falsidade. Então, com o objetivo de conseguir algum tipo de evidência que P $\neq$ NP poderiamos nos perguntar se é o caso que P e NP são diferentes no mundo relativizado típico. E de fato, o próximo teorema é o assunto desta subseção:
 
 \begin{teo} \label{teo: P_NP_random_oracles}
 
@@ -373,13 +373,13 @@ Se a prova acima estiver basicamente correta então nós provamos que para todo 
 
 \subsubsection{Separando a hierarquia polinomial com oráculos aleatórios}
 
-Recentemente, Rossman, Servedio e Tan (referência) provaram que a hierarquia polinomial não colapsa relativa a um oráculo aleatório. Por ser um trabalho bem técnico e longo nós não tivemos tempo para estudá-los, porém antes de terem provado o resultado absoluto já haviam alguns resultados parciais, como o que nós iremos ver a seguir.
+Recentemente, Rossman, Servedio e Tan (referência) provaram que a hierarquia polinomial não colapsa relativa a um oráculo aleatório. Por ser um trabalho bem técnico e longo nós não tivemos tempo para estudá-lo, porém antes de terem provado o resultado absoluto já haviam alguns resultados parciais, como o que nós iremos ver a seguir.
 
-\begin{teo} \label{sigma3_vs_sigma2_r}
-	$\Pr_{A \sim \binalph^{*}}[\Sigma_{3}^{p, A} \neq \Sigma_{2}^{p, A}] = 1$.
+\begin{teo} \label{sigma2_vs_np_r}
+	$\Pr_{A \sim \binalph^{*}}[\NP^{A} \neq \Sigma_{2}^{p, A}] = 1$.
 \end{teo}
 
-E o teorema \ref{sigma3_vs_sigma2_r} segue do seguinte limite inferior para uma fórmula FNC que aproxima uma variação da função $\Tribes$.
+E o teorema \ref{sigma2_vs_np_r} segue do seguinte limite inferior para uma fórmula FNC que aproxima uma variação da função $\Tribes$.
 
 \begin{defi} (Dual da função $\Tribes$)
 
@@ -453,7 +453,7 @@ Seja $m = b2^{b}$ o número de variáveis de entrada da função $\Tribes_{b, 2^
 
 Vamos considerar o circuito $C^{\prime}$ sobre as variáveis $\{y_{i}\}_{i \in [2^{b}]}$ análogo à fórmula $F^{\prime}$ que acabamos de descrever. $C^{\prime}$ 0,2-aproxima a função $g(y) = \bigvee_{i = 1}^{2^{b}} y_{i}$ e tem largura $w^{\prime} \leq w$ e portanto provar que $w^{\prime} \geq (1/3)2^{b}$ é suficiente para provar o teorema.
 
-Vamos primeiro assumir que todas as cláusulas de $C^{\prime}$ tenha uma variável negada. Neste caso a entrada $(0, 0, \dots, 0)$ faz $C^{\prime}$ avaliar para 1 enquanto que $g(0, 0, \dots, 0) = 1$, e portanto
+Vamos primeiro assumir que todas as cláusulas de $C^{\prime}$ tenha uma variável negada. Neste caso a entrada $(0, 0, \dots, 0)$ faz $C^{\prime}$ avaliar para 1 enquanto que $g(0, 0, \dots, 0) = 0$, e portanto
 
 \begin{equation*}
 	\Pr_{y}[C^{\prime}(y) \neq g(y)] \geq \Pr_{y}[y = (0, 0, \dots, 0)] = (1 - 2^{-b})^{2^{b}} = 1/e > 1/4 > 0,2,
@@ -484,7 +484,7 @@ Agora podemos provar o teorema \ref{odonnell_wimmer}.
 Primeiro nos consideraremos o caso que o circuito $C$ está na FND. Por (...) sabemos que existe um circuito FND de largura $\log(100s)$ que $0,04 + 1/100 = 0,05$-aproxima $F_{m}$. Seja $x \sim \Tribes_{b, 2^{b}}^{-1}(0)$ e $y \sim \binalph^{m}$. Então temos que
 
 \begin{IEEEeqnarray*} {rCl}
-	\Pr_{x \sim \Tribes_{b, 2^{b}}^{-1}(0). y}[C(x, y) \neq F_{m}(x, y)] & = & \Pr_{x, y}[C(x, y) \neq F_{m}(x, y) \lvert x \in \Tribes_{b, 2^{b}}^{-1}(0)] \\
+	\Pr_{x \sim \Tribes_{b, 2^{b}}^{-1}(0). y}[C(x, y) \neq F_{m}(x, y)] & = & \Pr_{x, y}[C(x, y) \neq F_{m}(x, y) \big\vert x \in \Tribes_{b, 2^{b}}^{-1}(0)] \\
 	                                                                                                                 & = & \frac{\Pr_{x, y}[C(x, y) \neq F_{m}(x, y) \land x \in \Tribes_{b, 2^{b}}^{-1}(0)]}{\Pr_{x}[x \in \Tribes_{b, 2^{b}}^{-1}(0)]} \\
 	                                                                                                                 & \leq & 4\Pr_{x, y}[C(x, y) \neq F_{m}(x, y)] \\
 	                                                                                                                 &  \leq & 4\times 0,05 = 0,2.

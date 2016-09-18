@@ -24,17 +24,17 @@
 \contentsline {subsubsection}{O problema ${\ensuremath {\mathsf {CIRCUIT\mhyphen SAT}}}$}{27}{section*.9}
 \contentsline {subsubsection}{Fam\IeC {\'\i }lias de circuitos uniforme}{27}{section*.10}
 \contentsline {subsubsection}{Teorema de Karp-Lipton}{29}{section*.11}
-\contentsline {subsubsection}{Limites inferior e superior no tamanho de circuitos}{30}{section*.12}
-\contentsline {subsubsection}{Circuitos de profundidade logaritmica e P vs NC}{34}{section*.13}
-\contentsline {section}{\numberline {2.6}An\IeC {\'a}lise de Fourier de Fun\IeC {\c c}\IeC {\~o}es Booleanas}{35}{section.2.6}
-\contentsline {subsubsection}{Influ\IeC {\^e}ncia individual e total}{37}{section*.14}
-\contentsline {subsubsection}{Estabilidade de ru\IeC {\'\i }do}{40}{section*.15}
+\contentsline {subsubsection}{Limites inferior e superior no tamanho de circuitos}{31}{section*.12}
+\contentsline {subsubsection}{Circuitos de profundidade logaritmica e P vs NC}{35}{section*.13}
+\contentsline {section}{\numberline {2.6}An\IeC {\'a}lise de Fourier de Fun\IeC {\c c}\IeC {\~o}es Booleanas}{36}{section.2.6}
+\contentsline {subsubsection}{Influ\IeC {\^e}ncia individual e total}{38}{section*.14}
+\contentsline {subsubsection}{Estabilidade de ru\IeC {\'\i }do}{41}{section*.15}
 \contentsline {subsubsection}{Tribes$_{N}$}{42}{section*.16}
-\contentsline {chapter}{\numberline {3}Computa\IeC {\c c}\IeC {\~a}o relativizada e complexidade de circuitos}{46}{chapter.3}
-\contentsline {section}{\numberline {3.1}Uma prova alternativa do teorema \ref {teo: bgs}}{46}{section.3.1}
-\contentsline {section}{\numberline {3.2}P $\not =$ NP para or\IeC {\'a}culos aleat\IeC {\'o}rios}{49}{section.3.2}
-\contentsline {subsubsection}{A lei zero-um de Kolmogorov}{50}{section*.17}
-\contentsline {subsubsection}{Prova do teorema \ref {teo: P_NP_random_oracles}}{50}{section*.18}
-\contentsline {section}{\numberline {3.3}PH vs PSPACE}{52}{section.3.3}
-\contentsline {section}{\numberline {3.4}Separando a hierarquia polinomial}{53}{section.3.4}
-\contentsline {subsubsection}{Separando a hierarquia polinomial com or\IeC {\'a}culos aleat\IeC {\'o}rios}{56}{section*.19}
+\contentsline {chapter}{\numberline {3}Computa\IeC {\c c}\IeC {\~a}o relativizada e complexidade de circuitos}{47}{chapter.3}
+\contentsline {section}{\numberline {3.1}Uma prova alternativa do teorema \ref {teo: bgs}}{47}{section.3.1}
+\contentsline {section}{\numberline {3.2}P $\not =$ NP para or\IeC {\'a}culos aleat\IeC {\'o}rios}{50}{section.3.2}
+\contentsline {subsubsection}{A lei zero-um de Kolmogorov}{51}{section*.17}
+\contentsline {subsubsection}{Prova do teorema \ref {teo: P_NP_random_oracles}}{51}{section*.18}
+\contentsline {section}{\numberline {3.3}PH vs PSPACE}{53}{section.3.3}
+\contentsline {section}{\numberline {3.4}Separando a hierarquia polinomial}{54}{section.3.4}
+\contentsline {subsubsection}{Separando a hierarquia polinomial com or\IeC {\'a}culos aleat\IeC {\'o}rios}{57}{section*.19}

@@ -456,7 +456,11 @@ Existem oráculos $\mathcal{A}$ e $\mathcal{B}$ tais que:
 
 \begin{proof}
 
-Para provar 1 nós fazemos $\mathcal{A}$ ser um oráculo para a linguagem $\SAT$. $\SAT$ obviamente está em $\P^{\SAT}$, portanto podemos reduzir qualquer instância de uma linguagem $L \in \NP^{SAT}$ para uma instância de $\SAT$ em tempo polinomial, colocando $L$ em $\P^{\SAT}$.
+Para provar 1 nós fazemos $\mathcal{A}$ ser um oráculo para a linguagem $\PSPACE$-completa $\TBQF$. Daí, por simulações, nós temos que
+
+\begin{equation*}
+	\P^{\TBQF} \subseteq \NP^{\TBQF} \subseteq \PSPACE \subseteq \P^{\TBQF}.
+\end{equation*}
 
 O oráculo $B$ nós vamos contruí-lo de forma que nenhuma máquina de Turing que executa menos do que $2^{n}/10$ passos possa decidir a linguagem $L_{\mathcal{B}}$ definida como
 
