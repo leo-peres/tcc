@@ -459,7 +459,13 @@ Existem oráculos $\mathcal{A}$ e $\mathcal{B}$ tais que:
 Para provar 1 nós fazemos $\mathcal{A}$ ser um oráculo para a linguagem $\PSPACE$-completa $\TBQF$. Daí, por simulações, nós temos que
 
 \begin{equation*}
-	\P^{\TBQF} \subseteq \NP^{\TBQF} \subseteq \PSPACE \subseteq \P^{\TBQF}.
+	\P^{\TBQF} \subseteq \NP^{\TBQF} \subseteq \PSPACE,
+\end{equation*}
+
+e por redução,
+
+\begin{equation*}
+	\PSPACE \subseteq \P^{\TBQF}
 \end{equation*}
 
 O oráculo $B$ nós vamos contruí-lo de forma que nenhuma máquina de Turing que executa menos do que $2^{n}/10$ passos possa decidir a linguagem $L_{\mathcal{B}}$ definida como

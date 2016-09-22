@@ -375,11 +375,11 @@ Se a prova acima estiver basicamente correta então nós provamos que para todo 
 
 Recentemente, Rossman, Servedio e Tan (referência) provaram que a hierarquia polinomial não colapsa relativa a um oráculo aleatório. Por ser um trabalho bem técnico e longo nós não tivemos tempo para estudá-lo, porém antes de terem provado o resultado absoluto já haviam alguns resultados parciais, como o que nós iremos ver a seguir.
 
-\begin{teo} \label{sigma2_vs_np_r}
+\begin{teo} \label{np_vs_sigma2_r}
 	$\Pr_{A \sim \binalph^{*}}[\NP^{A} \neq \Sigma_{2}^{p, A}] = 1$.
 \end{teo}
 
-E o teorema \ref{sigma2_vs_np_r} segue do seguinte limite inferior para uma fórmula FNC que aproxima uma variação da função $\Tribes$.
+E o teorema \ref{np_vs_sigma2_r} segue do seguinte limite inferior para uma fórmula FNC que aproxima uma variação da função $\Tribes$.
 
 \begin{defi} (Dual da função $\Tribes$)
 
@@ -399,9 +399,9 @@ Seja $F_{m} = \Tribes_{b, 2^{b}} \lor \Tribes_{b, 2^{b}}^{\dagger}$, então qual
 
 \end{teo}
 
-Como $f$ pode ser computada por um circuito de tamanho polinomial e profundidade 3, o teorema \ref{sigma3_vs_sigma2_r} segue diretamente de \ref{odonnell_wimmer}.
+Como $f$ pode ser computada por um circuito de tamanho polinomial e profundidade 3, o teorema \ref{np_vs_sigma2_r} segue diretamente de \ref{odonnell_wimmer}.
 
-Para provar o teorema \ref{odonnell_wimmer} nós precisaremos de alguns lemas. Caso quisermos computar a função $\Tribes_{b, 2^{b}}$ nós precisamos apenas saber o valor de cada tribo. Ou seja, sejam $\{y_{i}\}_{i = [2^{b}]}$ variáveis, nós podemos projetar as variáveis $\{x_{i, j}\}_{j \in [b]}$ para a variável $y_{i}$ de forma que $y_{i} = \bigwedge_{j = 1}^{b} x_{i, j}$, o que denotaremos por $(y \lvert x)$, e então podemos ver $\Tribes_{b, 2^{b}}$ como a disjunção das variáveis $y_{i}$. Considere então uma fórmula FNC $F$ que $\varepsilon$-aproxima a função $\Tribes_{b, 2^{b}}$ e que tenha tamanho $s$ e cada cláusula tenha largura no máximo $w$, e considere também uma cláusula $C$ qualquer de $F$ e troque cada aparição da variável $x_{i, j}$ em $C$ por $(x_{i, j} \lor y_{i})$ e cada aparição de $\overline{x}_{i, j}$ por $\overline{(x_{i, j} \lor y_{i})}$ e chame a disjunção resultante de $C^{\prime}$. Podemos argumentar que $C^{\prime}$ é equivalente à $C$ pois $(x_{i, j} \lor y_{i})$ é sempre igual a $x_{i, j}$. Então, se $F_{1}$ for a fórmula FNC construida a partir de $F$ da forma que acabamos de descrever (a conjunção das novas cláusulas $C^{\prime}$) temos que $F_{1}$ e $F$ são equivalente, e daí segue que
+Para provar o teorema \ref{odonnell_wimmer} nós precisaremos de algumas observações. Caso quisermos computar a função $\Tribes_{b, 2^{b}}$ nós precisamos apenas saber o valor de cada tribo. Ou seja, sejam $\{y_{i}\}_{i = [2^{b}]}$ variáveis, nós podemos ``projetar'' as variáveis $\{x_{i, j}\}_{j \in [b]}$ para a variável $y_{i}$ de forma que $y_{i} = \bigwedge_{j = 1}^{b} x_{i, j}$, o que denotaremos por $(y \lvert x)$, e então podemos ver $\Tribes_{b, 2^{b}}$ como a disjunção das variáveis $y_{i}$. Considere então uma fórmula FNC $F$ que $\varepsilon$-aproxima a função $\Tribes_{b, 2^{b}}$ e que tenha tamanho $s$ e cada cláusula tenha largura no máximo $w$, e considere também uma cláusula $C$ qualquer de $F$ e troque cada aparição da variável $x_{i, j}$ em $C$ por $(x_{i, j} \lor y_{i})$ e cada aparição de $\overline{x}_{i, j}$ por $\overline{(x_{i, j} \lor y_{i})}$ e chame a disjunção resultante de $C^{\prime}$. Podemos argumentar que $C^{\prime}$ é equivalente à $C$ pois $(x_{i, j} \lor y_{i})$ é sempre igual a $x_{i, j}$. Então, se $F_{1}$ for a fórmula FNC construida a partir de $F$ da forma que acabamos de descrever (a conjunção das novas cláusulas $C^{\prime}$) temos que $F_{1}$ e $F$ são equivalente, e daí segue que
 
 \begin{equation*}
 	\Pr_{x, (y \lvert x)}[F_{1}(x, y) \neq \Tribes_{b, 2^{b}}(x)] < \varepsilon
@@ -423,7 +423,7 @@ Denotamos a string $x$ construida a partir de $y$ por $(x \lvert y)$, e então:
 	\E_{y}\Big[\Pr_{(x \lvert y)}[F_{1}(x, y) \neq \Tribes_{b, 2^{b}}(x)]\Big] < \varepsilon
 \end{equation*}
 
-Agora, note que dado que $y_{i}$ = 1 os valores de $x_{i, j}$ são meio que redudantes, então podemos trocar a string $x$ por uma string $z$ tirada da distribuição uniforme sobre $\binalph^{b} \setminus (1, 1, \dots, 1)$, independente de $y$. Seja $g(y) = \bigvee_{i = 1}^{2^{b}}y_{i}$ que é equivalente à $\Tribes_{b, 2^{b}}(x)$. Então, temos o seguinte:
+Agora, note que dado que $y_{i}$ = 1 os valores de $x_{i, j}$ são meio que redudantes, então podemos trocar as strings $(x_{i, 1}, \dots, x_{i, b})$ por uma string $z_{i}$ tirada da distribuição uniforme sobre $\binalph^{b} \setminus (1, 1, \dots, 1)$, independente de $y$. Seja $g(y) = \bigvee_{i = 1}^{2^{b}}y_{i}$ que é equivalente à $\Tribes_{b, 2^{b}}(x)$. Então, temos o seguinte:
 
 \begin{equation*}
 	\E_{y}\Big[ \Pr_{z}[F_{1}(z, y) \neq g(y)]\Big] < \varepsilon
@@ -484,7 +484,7 @@ Agora podemos provar o teorema \ref{odonnell_wimmer}.
 Primeiro nos consideraremos o caso que o circuito $C$ está na FND. Por (...) sabemos que existe um circuito FND de largura $\log(100s)$ que $0,04 + 1/100 = 0,05$-aproxima $F_{m}$. Seja $x \sim \Tribes_{b, 2^{b}}^{-1}(0)$ e $y \sim \binalph^{m}$. Então temos que
 
 \begin{IEEEeqnarray*} {rCl}
-	\Pr_{x \sim \Tribes_{b, 2^{b}}^{-1}(0). y}[C(x, y) \neq F_{m}(x, y)] & = & \Pr_{x, y}[C(x, y) \neq F_{m}(x, y) \big\vert x \in \Tribes_{b, 2^{b}}^{-1}(0)] \\
+	\Pr_{x \sim \Tribes_{b, 2^{b}}^{-1}(0), y}[C(x, y) \neq F_{m}(x, y)] & = & \Pr_{x, y}[C(x, y) \neq F_{m}(x, y) \big\vert x \in \Tribes_{b, 2^{b}}^{-1}(0)] \\
 	                                                                                                                 & = & \frac{\Pr_{x, y}[C(x, y) \neq F_{m}(x, y) \land x \in \Tribes_{b, 2^{b}}^{-1}(0)]}{\Pr_{x}[x \in \Tribes_{b, 2^{b}}^{-1}(0)]} \\
 	                                                                                                                 & \leq & 4\Pr_{x, y}[C(x, y) \neq F_{m}(x, y)] \\
 	                                                                                                                 &  \leq & 4\times 0,05 = 0,2.
@@ -509,3 +509,5 @@ Seja $C^{\prime}$ o circuito tal que $C^{\prime}(y) = C(x^{*}, y) = \Tribes_{b, 
 E como $2^{(1/3)2^{b}}/100 = 2^{\Omega(m/\log m)}$, nós completamos a prova para o caso em que $C$ é um circuito FND. No caso em que $C$ é um circuito FNC nós meio que trocamos o papel das funções $\Tribes_{b, 2^{b}}$ e $\Tribes_{b, 2^{b}}^{\dagger}$ e usamos os mesmos argumentos.
 
 \end{proof}
+
+Só como um comentário, o argumento que O'Donnell e Wimmer usaram para provar o teorema \ref{tribes_width_lb} é basicamente um dos últimos passos que (...) usaram para provar (...). Lembrando que eles queriam mostrar que a função $\Sipser^{\prime}_{d}$ não pode ser aproximada por circuitos de profundidade $d - 1$ e tamanho subexponencial. A estratégia deles foi definir um operador $\Psi$ de forma que com alta probabilidade $\Psi(\Sipser^{\prime})$ pode ser representada como $Or_{S}$, o ``ou'' sobre variáveis $\{y_{i}\}_{i \in S}$, enquanto que $\Psi(C)$ é representada por um uma fórmula FNC com largura ``pequena'' sobre as mesmas variáveis $\{y_{i}\}_{i \in S}$ e portanto não pode ser o caso que $C$ esteja perto de $\Sipser^{\prime}$.

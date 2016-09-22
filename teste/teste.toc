@@ -14,15 +14,15 @@
 \contentsline {section}{\numberline {2.4}Complexidade computacional}{13}{section.2.4}
 \contentsline {subsection}{\numberline {2.4.1}Classes de complexidade}{15}{subsection.2.4.1}
 \contentsline {subsubsection}{As classes ${\ensuremath {\mathsf {P}}}$ e ${\ensuremath {\mathsf {NP}}}$}{15}{section*.2}
-\contentsline {subsubsection}{Redu\IeC {\c c}\IeC {\~o}es}{16}{section*.3}
+\contentsline {subsubsection}{Redu\IeC {\c c}\IeC {\~o}es}{17}{section*.3}
 \contentsline {subsubsection}{${\ensuremath {\mathsf {NP}}}$-completude e o teorema de Cook-Levin}{17}{section*.4}
-\contentsline {subsubsection}{Hierarquia polinomial}{18}{section*.5}
+\contentsline {subsubsection}{Hierarquia polinomial}{19}{section*.5}
 \contentsline {subsubsection}{Teoremas de hierarquia}{22}{section*.6}
 \contentsline {subsubsection}{Limites da diagonaliza\IeC {\c c}\IeC {\~a}o}{24}{section*.7}
 \contentsline {section}{\numberline {2.5}Complexidade de circuitos}{25}{section.2.5}
 \contentsline {subsubsection}{Circuitos de tamanho polinomial}{26}{section*.8}
 \contentsline {subsubsection}{O problema ${\ensuremath {\mathsf {CIRCUIT\mhyphen SAT}}}$}{27}{section*.9}
-\contentsline {subsubsection}{Fam\IeC {\'\i }lias de circuitos uniforme}{27}{section*.10}
+\contentsline {subsubsection}{Fam\IeC {\'\i }lias de circuitos uniforme}{28}{section*.10}
 \contentsline {subsubsection}{Teorema de Karp-Lipton}{29}{section*.11}
 \contentsline {subsubsection}{Limites inferior e superior no tamanho de circuitos}{31}{section*.12}
 \contentsline {subsubsection}{Circuitos de profundidade logaritmica e P vs NC}{35}{section*.13}
@@ -38,3 +38,9 @@
 \contentsline {section}{\numberline {3.3}PH vs PSPACE}{53}{section.3.3}
 \contentsline {section}{\numberline {3.4}Separando a hierarquia polinomial}{54}{section.3.4}
 \contentsline {subsubsection}{Separando a hierarquia polinomial com or\IeC {\'a}culos aleat\IeC {\'o}rios}{57}{section*.19}
+\contentsline {chapter}{\numberline {4}Limites Inferiores de Circuitos Booleanos}{61}{chapter.4}
+\contentsline {section}{\numberline {4.1}M\IeC {\'e}todo das restri\IeC {\c c}\IeC {\~o}es}{61}{section.4.1}
+\contentsline {section}{\numberline {4.2}M\IeC {\'e}todo polinomial}{61}{section.4.2}
+\contentsline {section}{\numberline {4.3}Provas Naturais}{61}{section.4.3}
+\contentsline {section}{\numberline {4.4}Limites inferiores a partir de algoritmos eficientes}{61}{section.4.4}
+\contentsline {section}{\numberline {4.5}Circuitos algebr\IeC {\'a}icos}{61}{section.4.5}

@@ -190,27 +190,41 @@ $\HALT$ não é decidida por nenhuma máquina de Turing sem acesso a um oráculo
 
 \begin{proof}
 
-Assuma que $H$ decida $\HALT$, então existe uma máquina de Turing $H^{\prime}$ que se comporta da seguinte maneira:
+Assuma que $H$ decida $\HALT$. Neste caso é possível simular a execução de $H$ sobre qualquer entrada em tempo finito. Seja $H^{\prime}$ uma máquina de Turing tal que 
 
 \begin{equation*}
-    H^{\prime}(\alpha) =
-    \begin{cases}
-        1 & \text{ caso } H(\alpha, \alpha) = 0, \\
-        1 - M_{\alpha}(\alpha) & \text{ caso contrário}.
-    \end{cases}
+	H^{\prime} \text{ rejeita } x \iff M_{x} \text{ aceita a entrada } x
 \end{equation*}
 
-Então temos duas possibilidades para quando $H^{\prime}$ recebe $\langle H^{\prime} \rangle$ como entrada:
+$H^{\prime}$ primeiro simula $H$ sobre a entrada $(\langle M_{x} \rangle, x)$ e aceita após este passo se e somente se a simulação rejeita. Após isso, $H^{\prime}$ simula $M_{x}$ sobre a entrada $x$ e aceita se e somente a simulação rejeita. Se denotarmos por $\mathbbm{1}_{M}$ a função característica da máquina de Turing $M$, ou seja,
 
-\begin{enumerate}
+\begin{equation*}
+	\mathbbm{1}_{M}(x) = \begin{cases}
+					1 & \text{ se } M \text{ aceita a entrada } x \\
+					0 & \text{ caso contrário}
+				\end{cases}
+\end{equation*}
 
-\item Se $H(\langle H^{\prime} \rangle, \langle H^{\prime} \rangle) = 1$, então $H^{\prime}(\langle H^{\prime} \rangle) = 1 - H^{\prime}(\langle H^{\prime} \rangle)$.
+temos que a função característica de $H^{\prime}$ pode ser escrita como
 
-\item Se $H(\langle H^{\prime} \rangle, \langle H^{\prime} \rangle) = 0$, então $H^{\prime}(\langle H^{\prime} \rangle) = 1$.
+\begin{equation*}
+	\mathbbm{1}_{H^{\prime}}(x) = 1 - \mathbbm{1}_{H}(\langle M_{x} \rangle, x)\mathbbm{1}_{M_{x}}(x).
+\end{equation*}
 
-\end{enumerate}
+ Pela nossa hipótese, todos os passos que $H^{\prime}$ faz pode ser feito em tempo finito e portanto, $H$ aceita a entrada $(\langle H^{\prime} \rangle, x)$, para todas as strings $x \in \binalph^{*}$. Em particular, 
 
-Daí chegamos a uma contradição.
+\begin{equation*}
+	H(\langle H^{\prime} \rangle, \langle H^{\prime} \rangle) = 1 \Rightarrow \mathbbm{1}_{H}(\langle H^{\prime} \rangle, \langle H^{\prime} \rangle) = 1.
+\end{equation*}
+
+Daí temos que
+
+\begin{IEEEeqnarray*} {rCl}
+	\mathbbm{1}_{H^{\prime}}(\langle H^{\prime} \rangle) & = & 1 - \mathbbm{1}_{H}(\langle H^{\prime} \rangle, \langle H^{\prime} \rangle)\mathbbm{1}_{H^{\prime}}(\langle H^{\prime} \rangle) \\
+	                                                                                         & = & 1 - \mathbbm{1}_{H^{\prime}}(\langle H^{\prime} \rangle),
+\end{IEEEeqnarray*}
+
+uma contradição.
 
 \end{proof}
 
