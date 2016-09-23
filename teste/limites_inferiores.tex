@@ -1,8 +1,34 @@
-\chapter{Limites Inferiores de Circuitos Booleanos}
+\chapter{Limites inferiores de circuitos Booleanos}
 
 O objetivo deste capítulo é mostrar algumas técnicas para provar limites inferiores no tamanho de circuitos Booleanos. Começaremos apresentando o método das restrições que foi usado para provar todos os limites inferiores que vimos no capítulo anterior. Depois vemos o método polinomial, aproximamos circuitos Booleanos por polinômios e daí provamos limites inferiores. Depois veremos que ambas estas técnicas têm suas limitações e em seguida falaremos de uma forma de evitar estas limitações. Por fim falaremos de circuitos algebráicos.
 
 \section{Método das restrições}
+
+De maneira geral, uma restrição a um conjunto de variáveis $X = \{x_{i}\}_{i \in [n]}$ é uma mapeamento $\rho: X \to \{*, 0, 1\}^{n}$. Se $\rho(x_{i}) = *$ dizemos que $x_{i}$ é uma variável livre. Se $f$ é uma função sobre as variáveis $X$ e aplicamos uma restrição $\rho$ sobre $X$, obtemos uma nova função $f_{\lvert \rho}$ sobre as variáveis em $\rho^{-1}(*)$.
+
+Para o propósito de provar limites inferiores, restrições são interessantes porque elas simplificam funções. Se $\rho$ for uma restrição apropriada sobre as variáveis de entrada de uma função $f$, temos que $f_{\lvert \rho}$ há de ser uma função mais simples. Em particular, $f_{\lvert \rho}$ pode acabar sendo uma constante, ou uma função representável por uma árvore de decisão de profundidade pequena. Para tentar ser mais concretos, vamos definir restrições aleátorias.
+
+\begin{defi} (Restrições aleatórias) \label{random_restrictions}
+
+Seja $p \in (0, 1]$, uma restrição aleátoria $\rho$ sobre as variáveis $\{x_{i}\}_{i \in [n]}$ é tirada da seguinte distribuição $R_{p}$:
+
+\begin{equation*}
+	x_{i} = \begin{cases}
+			* & \text{ com probabilidade } p \\
+			0 & \text{ com probabilidade } (1 - p)/2 \\
+			1 & \text{ com probabilidade } (1 - p)/2
+		\end{cases}
+\end{equation*}
+
+Quando $\rho$ for tirada de $R_{p}$ escreveremos $\rho \leftarrow R_{p}$.
+
+\end{defi}
+
+A idéia é que quando aplicamos uma restrição $\rho \leftarrow R_{p}$, para algum valor $p$ bem próximo de 0, sobre as variáveis de entrada de um circuito $C$, com alta probabilidade este circuito irá degenerá-se em uma função extremamente simples (por exemplo, uma constante). Daí, se houver uma função $f$ que provademente não simplifica sobre uma restrição $\rho \leftarrow R_{p}$ (i.e., mantém algum tipo de estrutura) poderemos concluir que o circuito $C$ não pode computar a função $f$. Uma função $f$ que mantém algum tipo de estrutura sobre uma restrição é algo bem realista. Considere por exemplo a função $\Parity_{n}$ que definimos em \ref{parity}. Se aplicarmos uma restrição $\rho \leftarrow R_{p}$ sobre as $n$ variáveis de entrada de $\Parity_{n}$ obteremos uma função sobre $n^{\prime}$, em que $\E[n^{\prime}] = pn$, variáveis que é somente a função $\Parity_{n^{\prime}}$ ou a função $1 - \Parity_{n^{\prime}}$.
+
+\subsubsection{O lema de Håstad}
+
+Nós queremos provar o teorema \ref{teo: parity_lb}. Para isso, nós provaremos que se fizermos $p = \frac{1}{10w}(\frac{1}{10l})^{d - 2}$, onde $w$ é o fan-in no nível mais baixo do circuito $C$ e $l = \log(2\lvert C \rvert /\varepsilon)$
 
 \section{Método polinomial}
 
