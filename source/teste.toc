@@ -39,9 +39,9 @@
 \contentsline {section}{\numberline {3.4}Separando a hierarquia polinomial}{54}{section.3.4}
 \contentsline {subsubsection}{Separando a hierarquia polinomial com or\IeC {\'a}culos aleat\IeC {\'o}rios}{57}{section*.19}
 \contentsline {chapter}{\numberline {4}Limites inferiores de circuitos Booleanos}{61}{chapter.4}
-\contentsline {section}{\numberline {4.1}M\IeC {\'e}todo das restri\IeC {\c c}\IeC {\~o}es}{61}{section.4.1}
+\contentsline {section}{\numberline {4.1}Restri\IeC {\c c}\IeC {\~o}es aleat\IeC {\'o}rias}{61}{section.4.1}
 \contentsline {subsubsection}{O lema de H\IeC {\r a}stad}{62}{section*.20}
-\contentsline {section}{\numberline {4.2}M\IeC {\'e}todo polinomial}{62}{section.4.2}
-\contentsline {section}{\numberline {4.3}Provas Naturais}{62}{section.4.3}
-\contentsline {section}{\numberline {4.4}Limites inferiores a partir de algoritmos eficientes}{62}{section.4.4}
-\contentsline {section}{\numberline {4.5}Circuitos algebr\IeC {\'a}icos}{62}{section.4.5}
+\contentsline {section}{\numberline {4.2}M\IeC {\'e}todo polinomial}{63}{section.4.2}
+\contentsline {section}{\numberline {4.3}Provas Naturais}{63}{section.4.3}
+\contentsline {section}{\numberline {4.4}Limites inferiores a partir de algoritmos eficientes}{63}{section.4.4}
+\contentsline {section}{\numberline {4.5}Circuitos algebr\IeC {\'a}icos}{63}{section.4.5}

@@ -13,15 +13,16 @@
 \BOOKMARK [1][-]{section.2.4}{Complexidade computacional}{chapter.2}% 13
 \BOOKMARK [2][-]{subsection.2.4.1}{Classes de complexidade}{section.2.4}% 14
 \BOOKMARK [1][-]{section.2.5}{Complexidade de circuitos}{chapter.2}% 15
-\BOOKMARK [1][-]{section.2.6}{An\341lise de Fourier de Fun\347\365es Booleanas}{chapter.2}% 16
-\BOOKMARK [0][-]{chapter.3}{Computa\347\343o relativizada e complexidade de circuitos}{}% 17
-\BOOKMARK [1][-]{section.3.1}{Uma prova alternativa do teorema 2.32}{chapter.3}% 18
-\BOOKMARK [1][-]{section.3.2}{P = NP para or\341culos aleat\363rios}{chapter.3}% 19
-\BOOKMARK [1][-]{section.3.3}{PH vs PSPACE}{chapter.3}% 20
-\BOOKMARK [1][-]{section.3.4}{Separando a hierarquia polinomial}{chapter.3}% 21
-\BOOKMARK [0][-]{chapter.4}{Limites inferiores de circuitos Booleanos}{}% 22
-\BOOKMARK [1][-]{section.4.1}{M\351todo das restri\347\365es}{chapter.4}% 23
-\BOOKMARK [1][-]{section.4.2}{M\351todo polinomial}{chapter.4}% 24
-\BOOKMARK [1][-]{section.4.3}{Provas Naturais}{chapter.4}% 25
-\BOOKMARK [1][-]{section.4.4}{Limites inferiores a partir de algoritmos eficientes}{chapter.4}% 26
-\BOOKMARK [1][-]{section.4.5}{Circuitos algebr\341icos}{chapter.4}% 27
+\BOOKMARK [0][-]{chapter.3}{An\341lise de Fourier de Fun\347\365es Booleanas}{}% 16
+\BOOKMARK [1][-]{section.3.1}{Algumas aplica\347\365es}{chapter.3}% 17
+\BOOKMARK [0][-]{chapter.4}{Computa\347\343o relativizada e complexidade de circuitos}{}% 18
+\BOOKMARK [1][-]{section.4.1}{Uma prova alternativa do teorema 2.32}{chapter.4}% 19
+\BOOKMARK [1][-]{section.4.2}{P = NP para or\341culos aleat\363rios}{chapter.4}% 20
+\BOOKMARK [1][-]{section.4.3}{PH vs PSPACE}{chapter.4}% 21
+\BOOKMARK [1][-]{section.4.4}{Separando a hierarquia polinomial}{chapter.4}% 22
+\BOOKMARK [0][-]{chapter.5}{Limites inferiores de circuitos Booleanos}{}% 23
+\BOOKMARK [1][-]{section.5.1}{Restri\347\365es aleat\363rias}{chapter.5}% 24
+\BOOKMARK [1][-]{section.5.2}{M\351todo polinomial}{chapter.5}% 25
+\BOOKMARK [1][-]{section.5.3}{Provas Naturais}{chapter.5}% 26
+\BOOKMARK [1][-]{section.5.4}{Limites inferiores a partir de algoritmos eficientes}{chapter.5}% 27
+\BOOKMARK [1][-]{section.5.5}{Circuitos algebr\341icos}{chapter.5}% 28

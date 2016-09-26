@@ -2,7 +2,7 @@
 
 O objetivo deste capítulo é mostrar algumas técnicas para provar limites inferiores no tamanho de circuitos Booleanos. Começaremos apresentando o método das restrições que foi usado para provar todos os limites inferiores que vimos no capítulo anterior. Depois vemos o método polinomial, aproximamos circuitos Booleanos por polinômios e daí provamos limites inferiores. Depois veremos que ambas estas técnicas têm suas limitações e em seguida falaremos de uma forma de evitar estas limitações. Por fim falaremos de circuitos algebráicos.
 
-\section{Método das restrições}
+\section{Restrições aleatórias}
 
 De maneira geral, uma restrição a um conjunto de variáveis $X = \{x_{i}\}_{i \in [n]}$ é uma mapeamento $\rho: X \to \{*, 0, 1\}^{n}$. Se $\rho(x_{i}) = *$ dizemos que $x_{i}$ é uma variável livre. Se $f$ é uma função sobre as variáveis $X$ e aplicamos uma restrição $\rho$ sobre $X$, obtemos uma nova função $f_{\lvert \rho}$ sobre as variáveis em $\rho^{-1}(*)$.
 
@@ -28,7 +28,35 @@ A idéia é que quando aplicamos uma restrição $\rho \leftarrow R_{p}$, para a
 
 \subsubsection{O lema de Håstad}
 
-Nós queremos provar o teorema \ref{teo: parity_lb}. Para isso, nós provaremos que se fizermos $p = \frac{1}{10w}(\frac{1}{10l})^{d - 2}$, onde $w$ é o fan-in no nível mais baixo do circuito $C$ e $l = \log(2\lvert C \rvert /\varepsilon)$
+Nós queremos provar o teorema \ref{teo: parity_lb}. Para isso, nós provaremos que se fizermos $p$ pequeno o suficiente, então uma restrição $\rho \leftarrow R_{p}$ fará o circuito $C_{\lvert \rho}$ computar uma função representável por uma árvore de decisão de profundidade pequena. Note que isso é o suficiente para provar que $C$ não poderia computar $\Parity$ porque quando restringimos as variáveis de entrada de $\Parity$ de forma que o número não tão pequeno de variáveis permaneçam livre, nós simplesmente obtemos uma nova função paridade que por sua vez não pode ser computada por árvores de decisão com profundidade pequena.
+
+Então, para provar o teorema \ref{teo: parity_lb} precisamos antes provar que circuitos simplificam após uma restrição, e para isso usamos o lema de Håstad.
+
+\begin{lema} (Lema de Håstad) \label{hastad_lemma}
+
+Seja $F$ uma fórmula FND (ou FNC) com largura $w$, $l \geq 1$, $p \in (0, 1]$ e $\rho \leftarrow R_{p}$, então
+
+\begin{equation*}
+	\Pr[D(F_{\lvert \rho}) \geq l)] \leq (5pw)^{l}
+\end{equation*}
+
+\end{lema}
+
+Nós vamos ver 2 provas diferente do lema \ref{hastad_lemma}. A primeira é a prova original do próprio Håstad. A segunda prova é de Razborov.
+
+%\begin{proof} (Primeira prova do lema de Håstad)
+
+%\end{proof}
+
+%\begin{proof} (Segunda prova do lema de Håstad)
+
+%\end{proof}
+
+Agora nós podemos ver como uma restrição aleatória simplifica um circuito $C$ de profundidade $d$. Suponha que as portas no primeiro nível de $C$ sejam portas $\land$, e portanto temos portas $\lor$ no segundo nível e portas $\land$ no terceiro nível. As portas $\lor$ no segundo nível computam uma fórmula FND e portanto se aplicarmos uma restrição às variáveis de entrada desta fórmula FND, com alta probabilidade podemos trocar ela por uma árvore de decisão que pode ser representada por uma fórmula FNC. Se fizermos o mesmo com todas as portas $\lor$ no segundo nível, teremos somente portas $\land$ no segundo nível alimentando portas $\land$ no terceiro nível, e daí podemos colapsar estes dois níveis e obter um circuito de profundidade $d - 1$.
+
+%\begin{proof} (Prova do teorema \ref{teo: parity_lb})
+
+%\end{proof}
 
 \section{Método polinomial}
 
