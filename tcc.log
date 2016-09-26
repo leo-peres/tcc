@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/W32TeX) (preloaded format=pdflatex 2016.9.4)  25 SEP 2016 21:50
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/W32TeX) (preloaded format=pdflatex 2016.9.4)  26 SEP 2016 09:36
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -717,7 +717,7 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
 een already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.41 ... a hierarquia polinomial}{58}{section.4.4}
+l.41 ... a hierarquia polinomial}{57}{section.4.4}
                                                    [2
 
 ])
@@ -1191,20 +1191,15 @@ Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 469.
  [47]
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 523.
+(babel)             in language  on input line 521.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 523.
- [48]
-Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 569.
-Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 569.
- [49]) (./source/oraculos_e_circuitos.tex
+(babel)             in language  on input line 521.
+ [48]) (./source/oraculos_e_circuitos.tex
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 1.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 1.
- [50]
+ [49]
 Cap\'{\i }tulo 4.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 1.
@@ -1214,19 +1209,19 @@ Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 30.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 30.
-[51
+[50
 
 ]
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 54.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 54.
+ [51]
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 96.
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 96.
  [52]
-Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 96.
-Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 96.
- [53]
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 114.
 
@@ -1246,19 +1241,19 @@ Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 125.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 125.
-[54]
+[53]
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 169.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 169.
- [55]
+ [54]
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 215.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 218.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 218.
- [56]
+ [55]
 Overfull \hbox (28.58281pt too wide) in paragraph at lines 219--220
 \OT1/cmr/m/n/10.95 ring $\OML/cmm/m/it/10.95 M$ \OT1/cmr/m/n/10.95 de tempo po-
 li-no-mial tal que para todo $\OML/cmm/m/it/10.95 x \OMS/cmsy/m/n/10.95 2 f\OT1
@@ -1273,19 +1268,19 @@ Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 257.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 257.
-[57]
+[56]
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 294.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 297.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 297.
+ [57]
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 338.
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 338.
  [58]
-Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 338.
-Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 338.
- [59]
 Overfull \hbox (10.64279pt too wide) in paragraph at lines 354--355
 \OT1/cmr/m/n/10.95 uma lin-gua-gem ar-bitr^^Saria em $^^F[]$ tal que $\OML/cmm/
 m/it/10.95 L$ \OT1/cmr/m/n/10.95 ^^Se ex-pressa como $\OML/cmm/m/it/10.95 x \OM
@@ -1310,27 +1305,27 @@ Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 374.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 374.
-[60]
+[59]
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 408.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 408.
+ [60]
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 456.
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 456.
  [61]
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 456.
-Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 456.
- [62]
-Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 494.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 494.
- [63]) (./source/limites_inferiores.tex
+ [62]) (./source/limites_inferiores.tex
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 1.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 1.
- [64]
+ [63]
 Cap\'{\i }tulo 5.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 1.
@@ -1340,14 +1335,14 @@ Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 21.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 21.
-[65
+[64
 
 ]
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 56.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 56.
- [66]
+ [65]
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 61.
 Package babel Info: Redefining portuges shorthand "|
@@ -1363,7 +1358,7 @@ Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 4.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 4.
-[67]
+[66]
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 4.
  (./tcc.aux)
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 4.
@@ -1377,13 +1372,13 @@ LaTeX Warning: There were undefined references.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 4.
  ) ) 
 Here is how much of TeX's memory you used:
- 8352 strings out of 493013
- 112960 string characters out of 6136994
+ 8350 strings out of 493013
+ 112946 string characters out of 6136994
  216037 words of memory out of 5000000
  11504 multiletter control sequences out of 15000+600000
  22086 words of font info for 91 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 31i,13n,35p,1814b,559s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 31i,13n,35p,1814b,508s stack positions out of 5000i,500n,10000p,200000b,80000s
  <c:/Users/ASUS/.texlive2016/texmf-var/fonts/pk/ljfour/public/bbm/bbm10.657
 pk><c:/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><c:/te
 xlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><c:/texlive/201
@@ -1408,10 +1403,10 @@ onts/type1/public/amsfonts/cm/cmti10.pfb><c:/texlive/2016/texmf-dist/fonts/type
 msfonts/symbols/msam10.pfb><c:/texlive/2016/texmf-dist/fonts/type1/public/amsfo
 nts/symbols/msbm10.pfb><c:/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/
 symbols/msbm7.pfb>
-Output written on tcc.pdf (72 pages, 529636 bytes).
+Output written on tcc.pdf (71 pages, 528239 bytes).
 PDF statistics:
- 839 PDF objects out of 1000 (max. 8388607)
- 731 compressed objects within 8 object streams
- 242 named destinations out of 1000 (max. 500000)
+ 833 PDF objects out of 1000 (max. 8388607)
+ 726 compressed objects within 8 object streams
+ 240 named destinations out of 1000 (max. 500000)
  225 words of extra memory for PDF output out of 10000 (max. 10000000)
 

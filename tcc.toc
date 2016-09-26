@@ -32,18 +32,18 @@
 \contentsline {subsubsection}{Tribes$_{N}$}{43}{section*.16}
 \contentsline {section}{\numberline {3.1}Algumas aplica\IeC {\c c}\IeC {\~o}es}{47}{section.3.1}
 \contentsline {subsubsection}{Teste de propriedade}{47}{section*.17}
-\contentsline {chapter}{\numberline {4}Computa\IeC {\c c}\IeC {\~a}o relativizada e complexidade de circuitos}{51}{chapter.4}
-\contentsline {section}{\numberline {4.1}Uma prova alternativa do teorema \ref {teo: bgs}}{51}{section.4.1}
-\contentsline {section}{\numberline {4.2}P $\not =$ NP para or\IeC {\'a}culos aleat\IeC {\'o}rios}{54}{section.4.2}
-\contentsline {subsubsection}{A lei zero-um de Kolmogorov}{55}{section*.18}
-\contentsline {subsubsection}{Prova do teorema \ref {teo: P_NP_random_oracles}}{55}{section*.19}
-\contentsline {section}{\numberline {4.3}PH vs PSPACE}{57}{section.4.3}
-\contentsline {section}{\numberline {4.4}Separando a hierarquia polinomial}{58}{section.4.4}
-\contentsline {subsubsection}{Separando a hierarquia polinomial com or\IeC {\'a}culos aleat\IeC {\'o}rios}{61}{section*.20}
-\contentsline {chapter}{\numberline {5}Limites inferiores de circuitos Booleanos}{65}{chapter.5}
-\contentsline {section}{\numberline {5.1}Restri\IeC {\c c}\IeC {\~o}es aleat\IeC {\'o}rias}{65}{section.5.1}
-\contentsline {subsubsection}{O lema de H\IeC {\r a}stad}{66}{section*.21}
-\contentsline {section}{\numberline {5.2}M\IeC {\'e}todo polinomial}{67}{section.5.2}
-\contentsline {section}{\numberline {5.3}Provas Naturais}{67}{section.5.3}
-\contentsline {section}{\numberline {5.4}Limites inferiores a partir de algoritmos eficientes}{67}{section.5.4}
-\contentsline {section}{\numberline {5.5}Circuitos algebr\IeC {\'a}icos}{67}{section.5.5}
+\contentsline {chapter}{\numberline {4}Computa\IeC {\c c}\IeC {\~a}o relativizada e complexidade de circuitos}{50}{chapter.4}
+\contentsline {section}{\numberline {4.1}Uma prova alternativa do teorema \ref {teo: bgs}}{50}{section.4.1}
+\contentsline {section}{\numberline {4.2}P $\not =$ NP para or\IeC {\'a}culos aleat\IeC {\'o}rios}{53}{section.4.2}
+\contentsline {subsubsection}{A lei zero-um de Kolmogorov}{54}{section*.18}
+\contentsline {subsubsection}{Prova do teorema \ref {teo: P_NP_random_oracles}}{54}{section*.19}
+\contentsline {section}{\numberline {4.3}PH vs PSPACE}{56}{section.4.3}
+\contentsline {section}{\numberline {4.4}Separando a hierarquia polinomial}{57}{section.4.4}
+\contentsline {subsubsection}{Separando a hierarquia polinomial com or\IeC {\'a}culos aleat\IeC {\'o}rios}{60}{section*.20}
+\contentsline {chapter}{\numberline {5}Limites inferiores de circuitos Booleanos}{64}{chapter.5}
+\contentsline {section}{\numberline {5.1}Restri\IeC {\c c}\IeC {\~o}es aleat\IeC {\'o}rias}{64}{section.5.1}
+\contentsline {subsubsection}{O lema de H\IeC {\r a}stad}{65}{section*.21}
+\contentsline {section}{\numberline {5.2}M\IeC {\'e}todo polinomial}{66}{section.5.2}
+\contentsline {section}{\numberline {5.3}Provas Naturais}{66}{section.5.3}
+\contentsline {section}{\numberline {5.4}Limites inferiores a partir de algoritmos eficientes}{66}{section.5.4}
+\contentsline {section}{\numberline {5.5}Circuitos algebr\IeC {\'a}icos}{66}{section.5.5}

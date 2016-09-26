@@ -471,7 +471,7 @@ Seja $q \geq 1$, $\varepsilon > 0$, $\mu$ uma distribuição qualquer de strings
 
 \end{defi} 
 
-Agora nós queremos mostrar que funções lineares são testáveis com apenas 3 consultas. Antes disto precisamos fazer algumas definições que irá facilitar a prova.
+Agora nós queremos mostrar que funções lineares são testáveis com apenas 3 consultas. Antes disto, precisamos fazer algumas observações que irão facilitar a prova.
 
 \begin{defi} \label{convolution}
 
@@ -510,84 +510,44 @@ Nós dizemos que uma função $f: \mathbb{F}_{2}^{n} \to \mathbb{F}_{2}$ é line
 
 \begin{prop}
 
-Seja $\varepsilon > 0$. Considere as seguintes condições que uma função $f: \mathbb{F}_{2}^{n} \to \{-1, 1\}$ pode satisfazer:
+Sejam $f: \mathbb{F}_{2}^{n} \to \{-1, 1\}$ e $\varepsilon > 0$, então temos que se $x, y \in \mathbb{F}_{2}^{n}$ forem uniformes e independentes e $\Pr[f(x)f(y) = f(x + y)] > 1 - \varepsilon$, as seguintes asserções são verdadeiras:
 
 \begin{enumerate}
 
-	\item  Se $x, y \sim \mathbb{F}_{2}^{n}$ são uniforme e independentes então $\Pr[f(x)f(y) = f(x + y)] > 1 - \varepsilon$.
+	\item $f$ está $\varepsilon$-próxima de uma função $g: \mathbb{F}_{2}^{n} \to \{-1, 1\}$ que satisfaz $g(x)g(y) = g(x + y)$, para todos $x, y \in \mathbb{F}_{2}^{n}$.
 	
-	\item Existe um $S \subseteq [n]$ tal que $\Pr_{x \sim \mathbb{F}_{2}^{n}}[f(x) = \chi_{S}(x)] > 1 - \varepsilon/3$.
-	
-	\item Existe um $S \subseteq [n]$ tal que $\widehat{f}(S) > 1 - \varepsilon/3$.
+	\item $f$ está $\varepsilon$-próxima de $\chi_{A}$, para algum $A \subseteq [n]$.
 
 \end{enumerate}
-
-Então temos que (1), (2) e (3) são todas equivalentes.
 
 \end{prop}
 
 \begin{proof}
 
-Que $(1) \Rightarrow (2)$ (ou $(1) \Rightarrow (3)$) é a parte não trivial então vamos deixar por último.
+Como já haviamos observados, (2) implica em (1) e portanto só precisamos provar que $f$ está $\varepsilon$-próxima de $\chi_{A}$ tal que $\widehat{f}(A)$ é máximo entre todos os subconjutos de $[n]$.
+		
+Se $x, y \in \mathbb{F}_{2}^{n}$ são uniformes e independentes, nós temos que 
+		
+\begin{IEEEeqnarray*} {rCl}
+	1 - \varepsilon & < & \Pr[f(x)f(y) = f(x + y)] \\
+			   & = & \E[\frac{1}{2} + \frac{1}{2}f(x)f(y)f(x + y)] \\
+			   & = & \frac{1}{2} + \frac{1}{2}\E_{x}[f(x)\E_{y}[f(y)f(x + y)]].
+\end{IEEEeqnarray*}
 
-\begin{itemize}
+Lembrando a definição do operador de convolução em \ref{convolution}, nós temos que $\E_{y}[f(y)f(x + y)] = (f*f)(x)$, e portanto
+		
+\begin{IEEEeqnarray*} {rCl}
+	1 - \varepsilon & < & \frac{1}{2} + \frac{1}{2}\E_{x}[f(x)(f*f)(x)] \\
+			  & = & \frac{1}{2} + \frac{1}{2}\sum_{S \subseteq [n]}\widehat{f}(S)\widehat{f*f}(S).
+\end{IEEEeqnarray*}
+		
+E pela proposição \ref{convolution_fourier}, temos que $1 - 2\varepsilon < \sum_{S \subseteq [n]}\widehat{f}(S)\widehat{f*f}(S) = \sum_{S \subseteq [n]}\widehat{f}(S)^{3}$. Seja $A$ tal que $\widehat{f}(A)$ é máximo entre todos os subconjutos de $[n]$:
+		
+\begin{IEEEeqnarray*} {rCl}
+	\widehat{f}(A) & = & \widehat{f}(A)\sum_{S \subseteq [n]}\widehat{f}(S)^{2} \\
+			   & \geq & \sum_{S \subseteq [n]}\widehat{f}(S)^{3}.
+\end{IEEEeqnarray*}
 
-	\item $(2) \Rightarrow (3)$:
-	
-		Temos que
-		
-		\begin{IEEEeqnarray*} {rCl}
-			1 - \varepsilon/3 & < & \Pr_{x \sim \mathbb{F}_{2}^{n}}[f(x) = \chi_{S}(x)] \\
-			                           & = & \E_{x \sim \mathbb{F}_{2}^{n}}[f(x)\chi_{S}(x)] \\
-			                           & = & \widehat{f}(S).
-		\end{IEEEeqnarray*}
-		
-	\item $(3) \Rightarrow (1)$:
-	
-		 Temos que
-		
-		\begin{IEEEeqnarray*} {rCl}
-			1 - \varepsilon/3 & < & \widehat{f}(S) \\
-					      & = & \E_{x \sim \mathbb{F}_{2}^{n}}[f(x)\chi_{S}(x)] \\
-					      & = & \Pr_{x \sim \mathbb{F}_{2}^{n}}[f(x) = \chi_{S}(x)]
-		\end{IEEEeqnarray*}
-		
-		Então se $x, y \in \mathbb{F}_{2}^{n}$ são uniformes e independentes, temos que $\Pr[f(x) = \chi_{S}(x) \land f(y) = \chi_{S}(y) \land f(x + y) = \chi_{S}(x + y)] > 1 - \varepsilon$, o que implica em $\Pr[f(x)f(y) = f(x + y)] > 1 - \varepsilon$, pois se $f(x) = \chi_{S}(x)$, $f(y) = \chi_{S}(y)$ e $f(x + y) = \chi_{S}(x + y)$ então devemos ter $f(x)f(y) = \chi_{S}(x)\chi_{S}(y) = \chi_{S}(x + y) = f(x + y)$.
-		
-		\item $(1) \Rightarrow (2)$:
-		
-		Se $x, y \in \mathbb{F}_{2}^{n}$ são uniformes e independentes, nós temos que 
-		
-		\begin{IEEEeqnarray*} {rCl}
-			1 - \varepsilon & < & \Pr[f(x)f(y) = f(x + y)] \\
-					   & = & \E[\frac{1}{2} + \frac{1}{2}f(x)f(y)f(x + y)] \\
-					   & = & \frac{1}{2} + \frac{1}{2}\E_{x}[f(x)\E_{y}[f(y)f(x + y)]] \\
-		\end{IEEEeqnarray*}
-
-		Lembrando a definição do operador de convolução em \ref{convolution}, nós temos que $\E_{y}[f(y)f(x + y)] = (f*f)(x)$, e portanto
-		
-		\begin{IEEEeqnarray*} {rCl}
-			1 - \varepsilon & < & \frac{1}{2} + \frac{1}{2}\E_{x}[f(x)(f*f)(x)] \\
-				             & = & \frac{1}{2} + \frac{1}{2}\sum_{S \subseteq [n]}\widehat{f}(S)\widehat{f*f}(S)
-		\end{IEEEeqnarray*}
-		
-		E pela proposição \ref{convolution_fourier}, temos que $1 - 2\varepsilon < \sum_{S \subseteq [n]}\widehat{f}(S)\widehat{f*f}(S) = \sum_{S \subseteq [n]}\widehat{f}(S)^{3}$. Seja $A$ tal que $\widehat{f}(A)$ é máximo entre todos os subconjutos de $[n]$:
-		
-		\begin{IEEEeqnarray*} {rCl}
-			\widehat{f}(A) & = & \widehat{f}(A)\sum_{S \subseteq [n]}\widehat{f}(S)^{2} \\
-					   & \geq & \sum_{S \subseteq [n]}\widehat{f}(S)^{3}
-		\end{IEEEeqnarray*}
-		
-		E como já vimos que $\sum_{S \subseteq [n]}\widehat{f}(S)^{3} > 1 - 2\varepsilon$, podemos concluir que $\widehat{f}(A) > 1 - 2\varepsilon$ e portanto
-		
-		\begin{IEEEeqnarray*} {rCl}
-			\Pr_{x \sim \mathbb{F}_{2}^{n}}[f(x)  = \chi_{A}(x)] & = & \E_{x \sim \mathbb{F}_{2}^{n}}[\frac{1}{2} + \frac{1}{2}f(x)\chi_{A}(x)] \\
-			                                                                                       & = & \frac{1}{2} + \frac{1}{2}\E_{x \sim \mathbb{F}_{2}^{n}}[f(x)\chi_{A}(x)] \\
-			                                                                                       & = & \frac{1}{2} + \frac{1}{2}\widehat{f}(A) \\
-			                                                                                       & > & \frac{1}{2} + \frac{1}{2}(1 - 2\varepsilon) \\
-			                                                                                       & = & 1 - \varepsilon
-		\end{IEEEeqnarray*}
-
-\end{itemize}
+Ou seja, $\widehat{f}(A) > 1 - 2\varepsilon$ e como $dist(f, \chi_{A}) = \frac{1}{2} - \frac{1}{2}\widehat{f}(A)$, podemos concluir que $dist(f, \chi_{A}) < \varepsilon$.
 
 \end{proof}
