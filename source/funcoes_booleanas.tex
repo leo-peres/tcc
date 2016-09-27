@@ -453,19 +453,19 @@ Desta forma Tribes$_{n}(x) = 1 - \prod_{i = 1}^{s} f_{i}(x)$ e usamos esta forma
 
 Agora nós iremos ver algumas aplicações da análise de funções Booleanas.
 
-\subsubsection{Teste de propriedade}
+\subsection{Teste de propriedade}
 
 Uma propriedade de funções é um conjunto de $\mathcal{P}_{n}$ de funções $\{-1, 1\}^{n} \to \{-1, 1\}$. Dado acesso à uma função $f: \{-1, 1\}^{n} \to \{-1, 1\}$, nós queremos um algoritmo que decida se $f$ satisfaz a propriedade $\mathcal{P}_{n}$, e também queremos que o nosso algoritmo seja robusto de forma que todas as funções $f$ que fazem o algoritmo aceitar com alta probabilidade estejam próximas de terem a propriedade $\mathcal{P}_{n}$ (no sentido que precisamos apenas inverter o valor de $f$ em uma fração pequena das entradas para obter uma função que tem a propriedade $\mathcal{P}_{n}$).
 
 \begin{defi} \label{defi: property_test}
 
-Seja $q \geq 1$, $\varepsilon > 0$, $\mu$ uma distribuição qualquer de strings em $\{-1, 1\}^{n}$ e $\mathcal{P}_{n}$ um subconjunto de funções $\{-1, 1\}^{n} \to \{-1, 1\}$. Um algoritmo $A$ que testa a propriedade $\mathcal{P}_{n}$  que faz $q$ consultas é um algoritmo que ao ter acesso à uma função $f: \{-1, 1\}^{n} \to \{-1, 1\}$, tira strings $x_{1}, \dots, x_{q}$ da distribuição $\mu$, consulta os valores $f(x_{1}), \dots, f(x_{q})$ e decide se aceita ou rejeita $f$ de forma que:
+Seja $q \geq 1$, $\lambda > 0$, $\varepsilon > 0$, $\mu$ uma distribuição qualquer de strings em $\{-1, 1\}^{n}$ e $\mathcal{P}_{n}$ um subconjunto de funções $\{-1, 1\}^{n} \to \{-1, 1\}$. Um algoritmo $A$ que testa a propriedade $\mathcal{P}_{n}$  que faz $q$ consultas é um algoritmo que ao ter acesso à uma função $f: \{-1, 1\}^{n} \to \{-1, 1\}$, tira strings $x_{1}, \dots, x_{q}$ da distribuição $\mu$, consulta os valores $f(x_{1}), \dots, f(x_{q})$ e decide se aceita ou rejeita $f$ de forma que:
 
 \begin{itemize}
 
 	\item Completude: se $f \in \mathcal{P}_{n}$ então $A$ aceita com probabilidade 1.
 	
-	\item Robustez: se $A$ aceita $f$ com probabilidade maior do que $1 - \varepsilon$, então $f$ é $\varepsilon$-próxima de alguma função em $\mathcal{P}_{n}$.
+	\item Robustez: se $A$ aceita $f$ com probabilidade maior do que $1 - \lambda\varepsilon$, então $f$ é $\varepsilon$-próxima de alguma função em $\mathcal{P}_{n}$.
 
 \end{itemize}
 
@@ -506,17 +506,19 @@ Usando a definição dos coeficientes de Fourier e o fato que $x$ e $y$ são ind
 
 \end{proof}
 
-Nós dizemos que uma função $f: \mathbb{F}_{2}^{n} \to \mathbb{F}_{2}$ é linear se e somente se existe um $S \subseteq [n]$ tal que $f = \sum_{i \in S}x_{i}$. Seguindo essa definição temos que se $f$ for linear então para todos $x, y \in \mathbb{F}_{2}^{n}$ é verdade que $f(x) + f(y) = f(x + y)$. Na verdade, se definissemos uma função linear como todas funções $f: \mathbb{F}_{2}^{n} \to \mathbb{F}_{2}$ tal que para todos pares $x, y$ $f(x) + f(y) = f(x + y)$, nós teriamos uma definição equivalente de uma função linear. Nós podemos até mesmo provar o seguinte.
+Nós dizemos que uma função $f: \mathbb{F}_{2}^{n} \to \mathbb{F}_{2}$ é linear se e somente se existe um $S \subseteq [n]$ tal que $f = \sum_{i \in S}x_{i}$. Seguindo essa definição, temos que se $f$ for linear então para todos $x, y \in \mathbb{F}_{2}^{n}$ é verdade que $f(x) + f(y) = f(x + y)$. Na verdade, se definissemos uma função linear como todas funções $f: \mathbb{F}_{2}^{n} \to \mathbb{F}_{2}$ tal que para todos pares $x, y$ é verdade que $f(x) + f(y) = f(x + y)$, nós teriamos uma definição equivalente de uma função linear. Para facilitar nossa vida nós iremos considerar funções lineares com contradomínio $\{-1, 1\}$, daí nós temos o seguinte:
 
-\begin{prop}
+\begin{prop} \label{linear_f_defi}
 
-Sejam $f: \mathbb{F}_{2}^{n} \to \{-1, 1\}$ e $\varepsilon > 0$, então temos que se $x, y \in \mathbb{F}_{2}^{n}$ forem uniformes e independentes e $\Pr[f(x)f(y) = f(x + y)] > 1 - \varepsilon$, as seguintes asserções são verdadeiras:
+As seguintes são definições equivelentes de uma função linear $f: \mathbb{F}_{2}^{n} \to \{-1, 1\}$:
 
 \begin{enumerate}
 
-	\item $f$ está $\varepsilon$-próxima de uma função $g: \mathbb{F}_{2}^{n} \to \{-1, 1\}$ que satisfaz $g(x)g(y) = g(x + y)$, para todos $x, y \in \mathbb{F}_{2}^{n}$.
+	\item $f = \chi_{S}$, para algum $S \subseteq [n]$.
 	
-	\item $f$ está $\varepsilon$-próxima de $\chi_{A}$, para algum $A \subseteq [n]$.
+	\item $f(x)f(y) = f(x + y)$, para todos $x,y \in \mathbb{F}_{2}^{n}$.
+	
+	\item $f(x) = (f*f)(x)$, para todos $x \in \mathbb{F}_{2}^{n}$.
 
 \end{enumerate}
 
@@ -524,30 +526,151 @@ Sejam $f: \mathbb{F}_{2}^{n} \to \{-1, 1\}$ e $\varepsilon > 0$, então temos qu
 
 \begin{proof}
 
-Como já haviamos observados, (2) implica em (1) e portanto só precisamos provar que $f$ está $\varepsilon$-próxima de $\chi_{A}$ tal que $\widehat{f}(A)$ é máximo entre todos os subconjutos de $[n]$.
-		
-Se $x, y \in \mathbb{F}_{2}^{n}$ são uniformes e independentes, nós temos que 
-		
+Seja $f: \mathbb{F}_{2}^{n} \to \{-1, 1\}$.
+
+\begin{itemize}
+
+	\item $(1) \Rightarrow (2)$:
+	
+	Suponha que $f = \chi_{S}$, para algum $S \subseteq [n]$, e sejam $x, y \in \mathbb{F}_{2}^{n}$. Então temos que
+	
+	\begin{IEEEeqnarray*} {rCl}
+		f(x + y) & = & \chi_{S}(x + y) \\
+		       & = & (-1)^{\sum_{i = 1}^{n}(x_{i} + y_{i})} \\
+		       & = & (-1)^{\sum_{i = 1}^{n}x_{i}} \times (-1)^{\sum_{i = 1}^{n}y_{i}} \\
+		       & = & \chi_{S}(x)\chi_{S}(y) = f(x)f(y).
+	\end{IEEEeqnarray*}
+	
+	\item $(2) \Rightarrow (3)$:
+	
+	Suponha que $f$ satisfaça (2) e seja $x \in \mathbb{F}_{2}^{n}$. Temos que
+	
+	\begin{equation*}
+		f(x) = \E_{y \sim \mathbb{F}_{2}^{n}}[f(x)] = \E_{y \sim \mathbb{F}_{2}^{n}}[f(y)f(x + y)] = (f*f)(x).
+	\end{equation*}
+	
+	\item $(3) \Rightarrow (1)$:
+	
+	Suponha que $f$ satisfaça (3) e seja $x \in \mathbb{F}_{2}^{n}$:
+	
+	\begin{equation*}
+		f(x) = \E_{y \sim \mathbb{F}_{2}^{n}}[f(y)f(x + y)] = \sum_{S \subseteq [n]}\widehat{f}(S)\widehat{f^{+x}}(S) = \sum_{S \subseteq [n]}\widehat{f}(S)^{2}\chi_{S}(x).
+	\end{equation*}
+
+	Então temos que $\sum_{S \subseteq [n]}\widehat{f}(S)\chi_{S}(x) = f(x) = \sum_{S \subseteq [n]}\widehat{f}(S)^{2} \chi_{S}(x)$, para todos $x \in \mathbb{F}_{2}^{n}$, o que necessariamente implica em $\widehat{f}(S) = \widehat{f}(S)^{2}$, para todos $S \subseteq [n]$. Portanto, deve haver um único $S^{*} \subseteq [n]$ tal que $\widehat{f}(S^{*}) = 1$ o que significa que $f = \chi_{S^{*}}$.
+
+\end{itemize}
+
+\end{proof}
+
+Nós também podemos provar que se $f: \mathbb{F}_{2}^{n} \to \{-1, 1\}$ estiver próxima de ter uma das 3 propriedades em \ref{linear_f_defi} então $f$ está também próxima de uma função que satisfaz estas propriedades.
+
+\begin{prop} \label{almost_linear}
+
+Sejam $f: \mathbb{F}_{2}^{n} \to \{-1, 1\}$ e $\varepsilon > 0$, se $\Pr_{x \sim \mathbb{F}_{2}^{n}}[f(x) = (f*f)(x)] > 1 - \varepsilon$ então $f$está $\varepsilon$-próxima de uma função linear.
+
+\end{prop}
+
+\begin{proof}
+
+Seja $S^{*} \subseteq [n]$ tal que $\widehat{f}(S^{*})$ é máximo, ou seja, para todos $S \subseteq [n]$ é verdade que $\widehat{f}(S^{*}) \geq \widehat{f}(S)$. Nós mostramos que $f$ está $\varepsilon$-próxima da função linear $\chi_{S^{*}}$ para obter o resultado:
+
+\begin{equation*}
+	\dist(f, \chi_{S^{*}}) = \frac{1}{2} - \frac{1}{2}\widehat{f}(S^{*}) = \frac{1}{2} - \frac{1}{2}(\widehat{f}(S^{*})\sum_{S \subseteq [n]}\widehat{f}(S)^{2}) \leq \frac{1}{2} - \frac{1}{2}\sum_{S \subseteq [n]}\widehat{f}(S)^{3}.
+\end{equation*}
+
+Pela proposição \ref{convolution_fourier} sabemos que $\sum_{S \subseteq [n]}\widehat{f}(S)^{3} = \E_{x \sim \mathbb{F}_{2}^{n}}[f(x)(f*f)(x)]$. Daí temos que
+
 \begin{IEEEeqnarray*} {rCl}
-	1 - \varepsilon & < & \Pr[f(x)f(y) = f(x + y)] \\
-			   & = & \E[\frac{1}{2} + \frac{1}{2}f(x)f(y)f(x + y)] \\
-			   & = & \frac{1}{2} + \frac{1}{2}\E_{x}[f(x)\E_{y}[f(y)f(x + y)]].
+	\dist(f, \chi_{S^{*}}) & \leq & \frac{1}{2} - \frac{1}{2}\E_{x \sim \mathbb{F}_{2}^{n}}[f(x)(f*f)(x)] \\
+	                            & = & \frac{1}{2} - \frac{1}{2}(2\Pr_{x \sim \mathbb{F}_{2}^{n}}[f(x) = (f*f)(x)] - 1) \\
+	                            & < & \frac{1}{2} - \frac{1}{2}(2(1 - \varepsilon) - 1) \\
+	                            & = & \frac{1}{2} - (1 - \varepsilon) + \frac{1}{2} \\
+	                            & = & \varepsilon.
 \end{IEEEeqnarray*}
 
-Lembrando a definição do operador de convolução em \ref{convolution}, nós temos que $\E_{y}[f(y)f(x + y)] = (f*f)(x)$, e portanto
-		
+\end{proof}
+
+Nós também podemos provar o seguinte.
+
+\begin{prop}
+Seja $f: \mathbb{F}_{2}^{n} \to \{-1, 1\}$, então
+	
+\begin{equation*}
+	\Pr_{x, y \sim \mathbb{F}_{2}^{n}}[f(x)f(y) = f(x + y)] = \Pr_{x \sim \mathbb{F}_{2}^{n}}[f(x) = (f*f)(x)].
+\end{equation*}
+
+\end{prop}
+
+\begin{proof}
+
+O resultado segue de alguns simples cálculos:
+
 \begin{IEEEeqnarray*} {rCl}
-	1 - \varepsilon & < & \frac{1}{2} + \frac{1}{2}\E_{x}[f(x)(f*f)(x)] \\
-			  & = & \frac{1}{2} + \frac{1}{2}\sum_{S \subseteq [n]}\widehat{f}(S)\widehat{f*f}(S).
-\end{IEEEeqnarray*}
-		
-E pela proposição \ref{convolution_fourier}, temos que $1 - 2\varepsilon < \sum_{S \subseteq [n]}\widehat{f}(S)\widehat{f*f}(S) = \sum_{S \subseteq [n]}\widehat{f}(S)^{3}$. Seja $A$ tal que $\widehat{f}(A)$ é máximo entre todos os subconjutos de $[n]$:
-		
-\begin{IEEEeqnarray*} {rCl}
-	\widehat{f}(A) & = & \widehat{f}(A)\sum_{S \subseteq [n]}\widehat{f}(S)^{2} \\
-			   & \geq & \sum_{S \subseteq [n]}\widehat{f}(S)^{3}.
+	\Pr_{x, y}[f(x)f(y) = f(x + y)] & = & \frac{1}{2} + \frac{1}{2}\E_{x, y}[f(x)f(y)f(x + y)] \\
+					       & = & \frac{1}{2} + \frac{1}{2}\E_{x}\Big[f(x)\E_{y}[f(y)f(x + y)]\Big] \\
+					       & = & \frac{1}{2} + \frac{1}{2}\E_{x}[f(x)(f*f)(x)] \\
+					       & = & \Pr_{x}[f(x) = (f*f)(x)]
 \end{IEEEeqnarray*}
 
-Ou seja, $\widehat{f}(A) > 1 - 2\varepsilon$ e como $dist(f, \chi_{A}) = \frac{1}{2} - \frac{1}{2}\widehat{f}(A)$, podemos concluir que $dist(f, \chi_{A}) < \varepsilon$.
+\end{proof}
+
+O seguinte corolário segue diretamente.
+
+\begin{cor} \label{almost_linear_cor}
+
+Sejam $f: \mathbb{F}_{2}^{n} \to \{-1, 1\}$ e $\varepsilon > 0$. Se $\Pr_{x, y \sim \mathbb{F}_{2}^{n}}[f(x)f(y) = f(x + y)] > 1 - \varepsilon$ então $\Pr_{x \sim \mathbb{F}_{2}^{n}}[f(x) = (f*f)(x)] > 1 - \varepsilon$. 
+
+\end{cor}
+
+Agora nós podemos ver que testar se $f$ é uma função linear pode ser feito com apenas 3 consultas.
+
+\begin{teo} (Blum-Luby-Rubinfeld) \label{BLR_test}
+
+Os seguintes teste é um teste de propriedade para funções lineares:
+
+\begin{itemize}
+
+	\item Escolha $x, y \sim \mathbb{F}_{2}^{n}$.
+	
+	\item Consulta $f$ nas strings $x, y$ e $x + y$.
+	
+	\item Aceita se e somente se $f(x)f(y) = f(x + y)$.
+
+\end{itemize}
+
+\end{teo}
+
+\begin{proof}
+
+Por definição (item (1) em \ref{linear_f_defi}), se $f$ for linear então o algoritmo irá aceitar com probabilidade 1. Além do mais, se o teste aceita uma função $f$ com probabilidade maior do que $1 - \varepsilon$, temos pelo corolário \ref{almost_linear_cor} e proposição \ref{almost_linear} que $f$ está $\varepsilon$-próxima de uma função linear.
+
+\end{proof}
+
+Além de testar se $f: \mathbb{F}_{2}^{n} \to \{-1, 1\}$ está próxima de uma das funções paridade $\chi_{S}$, também podemos ``recuperar'' $\chi_{S}$ a partir de $f$.
+
+\begin{teo}
+
+Sejam $\varepsilon > 0$ e $f: \mathbb{F}_{2}^{n} \to \mathbb{F}_{2}$ uma função $\varepsilon$-próxima de uma função paridade $\chi_{S}$, para algum $S \subseteq [n]$, seja $x \in \mathbb{F}_{2}^{n}$ e considere o seguinte algoritmo: 
+
+\begin{itemize}
+
+	\item Escolha $y \sim \mathbb{F}_{2}^{n}$.
+	
+	\item Dê como saída $f(y) + f(x + y)$.
+
+\end{itemize}
+
+Então, com probabilidade maior do que $1 - 2\varepsilon$ o algoritmo acima dá como saída o valor $\chi_{S}(x)$.
+
+\end{teo}
+
+\begin{proof}
+
+Como $y$ e $x + y$ são uniformes (mesmo que não sejam independentes) temos que, com probabilidade maior do que $1 - 2\varepsilon$, $f(y) = \chi_{S}(y)$ e $f(x + y) = \chi_{S}(x + y)$, e portanto
+
+\begin{equation*}
+	f(y)f(x + y) = \chi_{S}(y)\chi_{S}(x + y) = \chi_{S}(y + (x + y)) = \chi_{S}(x).
+\end{equation*}
 
 \end{proof}
