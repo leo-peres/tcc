@@ -554,7 +554,7 @@ Seja $f: \mathbb{F}_{2}^{n} \to \{-1, 1\}$.
 	Suponha que $f$ satisfaça (3) e seja $x \in \mathbb{F}_{2}^{n}$:
 	
 	\begin{equation*}
-		f(x) = \E_{y \sim \mathbb{F}_{2}^{n}}[f(y)f(x + y)] = \sum_{S \subseteq [n]}\widehat{f}(S)\widehat{f^{+x}}(S) = \sum_{S \subseteq [n]}\widehat{f}(S)^{2}\chi_{S}(x).
+		f(x) = \E_{y \sim \mathbb{F}_{2}^{n}}[f(y)f(x + y)] = \sum_{S \subseteq [n]}\widehat{f}(S)^{2}\chi_{S}(x).
 	\end{equation*}
 
 	Então temos que $\sum_{S \subseteq [n]}\widehat{f}(S)\chi_{S}(x) = f(x) = \sum_{S \subseteq [n]}\widehat{f}(S)^{2} \chi_{S}(x)$, para todos $x \in \mathbb{F}_{2}^{n}$, o que necessariamente implica em $\widehat{f}(S) = \widehat{f}(S)^{2}$, para todos $S \subseteq [n]$. Portanto, deve haver um único $S^{*} \subseteq [n]$ tal que $\widehat{f}(S^{*}) = 1$ o que significa que $f = \chi_{S^{*}}$.
@@ -674,3 +674,98 @@ Como $y$ e $x + y$ são uniformes (mesmo que não sejam independentes) temos que
 \end{equation*}
 
 \end{proof}
+
+\subsubsection{Testando simetria}
+
+Agora nós mostramos como testar se uma dada função é simétrica.
+
+Primeiro nós fazemos a seguinte definição.
+
+\begin{defi}
+
+Seja $f: \mathbb{F}_{2}^{n} \to \{-1, 1\}$, então o operador $S$ age sobre $f$ da seguinte forma:
+
+\begin{equation*}
+	Sf(x) = \E_{\pi \sim S_{n}}[f(\pi(x))].
+\end{equation*}
+
+\end{defi}
+
+De certa forma, o operador $S$ transforma $f$ em uma função simétrica. Se $f$ for simétrica, é fácil ver que $Sf = f$. Além do mais, se $f$ estiver ``próxima de ser simétrica'', então $Sf$ e $f$ também estão próxima.
+
+\begin{cor}
+
+Sejam $f: \mathbb{F}_{2}^{n} \to \{-1, 1\}$ e $\varepsilon > 0$. Suponha que $\Pr_{x, \pi}[f(x) = f(\pi(x))] > 1 - \varepsilon$ então
+
+\begin{equation*}
+	\lVert f - Sf \rVert_{1} < 2\varepsilon.
+\end{equation*}
+
+\end{cor}
+
+\begin{proof}
+
+Nós temos que
+
+\begin{equation*}
+	\varepsilon > \Pr_{x, \pi}[f(x) \neq f(\pi(x))] = \E_{x, \pi}[\mathbbm{1}_{f(x) \neq f(\pi(x))}(x, \pi)]
+\end{equation*}
+
+Sempre que $f(x) \neq f(\pi(x))$ é verdade que $\lvert f(x) - f(\pi(x)) \rvert = 2 = 2\times \mathbbm{1}_{f(x) \neq f(\pi(x))}(x, \pi)$ e portanto,
+
+\begin{IEEEeqnarray*} {rCl}
+	\E_{x, \pi}[\mathbbm{1}_{f(x) \neq f(\pi(x))}(x, \pi)] & = & \frac{1}{2}\E_{x, \pi}\big[\lvert f(x) - f(\pi(x)) \rvert \big] \\
+	                                                                                      & \geq & \frac{1}{2}\E_{x \sim \mathbb{F}_{2}^{n}}\Big[ \big\lvert f(x) - \E_{\pi \sim S_{n}}[f(\pi(x))] \big\rvert \Big] \\
+	                                                                                      & = & \frac{1}{2}\E_{x \sim \mathbb{F}_{2}^{n}} \big[\lvert f(x) - Sf(x) \rvert \big] \\
+	                                                                                      & = & \frac{1}{2} \lVert f - Sf \rVert_{1}.
+\end{IEEEeqnarray*}
+
+Daí nós temos que $\lVert f - Sf \rVert_{1} < 2\varepsilon$.
+
+\end{proof}
+
+\begin{cor}
+
+Sejam $f: \mathbb{F}_{2}^{n} \to \{-1, 1\}$ e $g: \mathbb{F}_{2}^{n} \to \mathbb{R}$. Defina $h_{\theta}$, para cada $\theta \in [-1, 1]$, como $h_{\theta}(x) = \sgn(g(x) - \theta)$. Se $\lVert f - g \rVert_{1} < \varepsilon$, então
+
+\begin{equation*}
+	\E_{\theta \sim [-1, 1]}[\dist(f, h_{\theta})] < \varepsilon/2.
+\end{equation*}
+
+\end{cor}
+
+\begin{proof}
+
+Nós temos que
+
+\begin{IEEEeqnarray*} {rCl}
+	\E_{\theta \sim [-1, 1]}[\dist(f, h_{\theta})] & = & \E_{\theta \sim [-1, 1]} \Big[\Pr_{x \sim \mathbb{F}_{2}^{n}}[f(x) \neq h_{\theta}(x)] \Big] \\ 
+	                                                                        & = & \E_{\theta \sim [-1, 1]} \Big[ \E_{x \sim \mathbb{F}_{2}^{n}}[\mathbbm{1}_{f(x) \neq \sgn(g(x) - \theta)}(x, \theta)] \Big] \\
+	                                                                        & = & \E_{x \sim \mathbb{F}_{2}^{n}} \Big[ \E_{\theta \sim [-1, 1]}[\mathbbm{1}_{f(x) \neq \sgn(g(x) - \theta)}(x, \theta)] \Big]
+\end{IEEEeqnarray*}
+
+Então nós vamos ver que $\E_{\theta \sim [-1, 1]}[\mathbbm{1}_{f(x) \neq \sgn(g(x) - \theta)}(x, \theta)] \leq \frac{1}{2}\lvert f(x) - g(x) \rvert$. O caso em que $\lvert f(x) - g(x) \rvert \geq 2$ é trivial.  Também não vamos nos preocupar com o caso em que $\lvert g(x) \rvert \geq \lvert f(x) \rvert$, pois $\E_{\theta \sim [-1, 1]} [\mathbbm{1}_{f(x) \neq \sgn(g(x) - \theta)}(x, \theta)] = 0$. Suponha então que $\lvert f(x) - g(x) \rvert < 2$ e que $\lvert g(x) \rvert < \lvert f(x) \rvert$. Sem perda de generalidade vamos supor que $f(x) = - 1$ (o caso $f(x) = 1$ é simétrico). Note que quando nós tiramos $\theta$ de $[-1, 1]$ uniformemente, nós estamos basicamente tirando, uniformemente, um ponto em $[g(x) - 1, g(x) + 1]$, e portanto,
+
+\begin{IEEEeqnarray*} {rCl}
+	\Pr_{\theta \sim [-1, 1]}[f(x) \neq \sgn(g(x) - \theta)] & = & \Pr_{\theta \sim [-1, 1]}[g(x) - \theta \geq 0] \\
+									  & = & \Pr_{\theta \sim [-1, 1]}[g(x) \geq \theta] \\
+									  & = & \Pr_{\theta \sim [-1, 1]}[\theta \in [-1, g(x)]] \\
+									  & = & \frac{1}{2}\lvert -1 - g(x) \rvert \\
+									  & = & \frac{1}{2}\lvert f(x) - g(x) \rvert.
+\end{IEEEeqnarray*}
+
+Então temos que
+
+\begin{equation*}
+	\E_{x \sim \mathbb{F}_{2}^{n}} \Big[ \E_{\theta \sim [-1, 1]}[\mathbbm{1}_{f(x) \neq \sgn(g(x) - \theta)}(x, \theta)] \Big] \leq \frac{1}{2}\E_{x \sim \mathbb{F}_{2}^{n}}[\lvert f(x) - g(x) \lvert] = \frac{1}{2} \lVert f - g \rVert_{1}.
+\end{equation*}
+
+Daí, como $\lVert f - g \rVert_{1} < \varepsilon$, temos que $\E_{\theta \sim [-1, 1]}[\dist(f, h_{\theta})] < \varepsilon/2$.
+
+\end{proof}
+
+\begin{prop}
+
+Seja $f: \mathbb{F}_{2}^{n} \to \{-1, 1\}$ e suponha que $\Pr_{x, \pi}[f(x) = f(\pi(x))] > 1 - \varepsilon$, então $f$ está $\varepsilon$-próxima de uma função simétrica $g: \mathbb{F}_{2}^{n} \to \{-1, 1\}$.
+
+\end{prop}
