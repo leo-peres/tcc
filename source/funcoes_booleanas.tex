@@ -278,6 +278,8 @@ E portanto, pelo teorema de Plancherel e proposição \ref{prop: T_fexpan}:
                                                   = \sum_{k = 0}^{n} \rho^{k} W^{k}[f]
 \end{equation}
 
+\subsubsection{Hipercontratividade}
+
 %Ainda nesta seção nós discutimos brevemente sobre hipercontratividade. Primeiro, citamos o teorema da hipercontratividade.
 
 %\begin{teo} (Teorema da hipercontratividade)
@@ -287,6 +289,57 @@ E portanto, pelo teorema de Plancherel e proposição \ref{prop: T_fexpan}:
 %\end{teo}
 
 %###########################################################################Tribes_N########################################################
+
+\begin{lema} (O Lema de Bonami) \label{bonami_lemma}
+
+Seja $f: \{-1, 1\}^{n} \to \mathbb{R}$ tal que $\degg(f) = k$, então $\lVert f \rVert_{4} \leq \sqrt{3}^{k}\lVert f \rVert_{2}$. Equivalentemente, $\E[f^{4}] \leq 9^{k}\E[f^{2}]^{2}$.
+
+\end{lema}
+
+\begin{proof}
+
+Nós provamos por indução em $n$, o número de variáveis.
+
+Se $n = 0$ então $f$ é uma função constante e temos que $\E[f^{4}] = \E[f^{2}]^{2} \leq \sqrt{3}\E[f^{2}]^{2}$, portanto o lema é verdade para $n = 0$. 
+
+Seja $n > 0$ e assuma que o lema é verdade para funções de $n - 1$ variáveis. Nós iremos usar o fato que $f: \{-1, 1\}^{n} \to \mathbb{R}$ pode ser escrita  como $x_{n}D_{n}f + E_{n}f$. Por conveniência nós iremos usar a mesma notação que O'Donnell: $D_{n}f = d$ e $E_{n}f = e$. Ou seja, $f = x_{n}d + e$ por esta notação. Fixe $k = \degg(f)$, temos que
+
+\begin{IEEEeqnarray*} {rCl}
+	\E[f^{4}] & = & \E \big[(x_{n}d +e)^{4} \big] \\
+	                & = & \E \big[(x_{n}d)^{4} \big] + 3\E \big[(x_{n}d)^{3}e \big] + 6\E \big[(x_{n}d)^{2}e^{2} \big] + 3\E \big[(x_{n}d)e^{3} \big] + \E[e^{4}].
+\end{IEEEeqnarray*}
+
+Daí como $d$ e $e$ são independentes de $x_{n}$ e $\E[x_{n}^{4}] = \E[x_{n}^{2}] = 1$ e $\E[x_{n}^{3}] = \E[x_{n}] = 0$:
+
+\begin{equation} \label{eq: bonami_lemma_1}
+	\E[f^{4}] = \E[d^{4}] + 6\E[d^{2}e^{2}] + \E[e^{4}].
+\end{equation}
+
+E nós podemos usar a desigualdade de Cauchy-Schwarz para ``separar'' $d^{2}$ e $e^{2}$:
+
+\begin{equation*}
+	 \E[d^{4}] + 6\E[d^{2}e^{2}] + \E[e^{4}] \leq \E[d^{4}] + 6\sqrt{\E[d^{4}]}\sqrt{\E[e^{4}]} + \E[d^{4}].
+\end{equation*}
+
+E como $d$ e $e$ são funções de $n - 1$ variáveis nós podemos usar a hipótese de indução. Precisamente, pela hipótese de indução temos que $\E[d^{4}] \leq 9^{k - 1}\E[d^{2}]^{2}$ (pois $\degg(d) = k - 1$) e $\E[e^{4}] \leq 9^{k} \E[e^{2}]^{2}$ (pois $\deg(e) = k$), daí
+
+\begin{IEEEeqnarray*} {rCl}
+	\E[d^{4}] + 6\sqrt{\E[e^{4}]}\sqrt{\E[e^{4}]} + \E[e^{4}] & \leq & 9^{k - 1}\E[d^{2}]^{2} + 6\sqrt{9\E[d^{2}]^{2}}\sqrt{9\E[e^{2}]^{2}} + 9\E[e^{2}]^{2} \\
+													      & \leq & 9^{k} \big(\E[d^{2}]^{2} + 2\E[d^{2}]\E[e^{2}] + \E[e^{2}]^{2} \big) \\
+													      & = & 9^{k} \big(\E[d^{2}] + \E[e^{2}]\big)^{2}.
+\end{IEEEeqnarray*}
+
+Portanto $\E[f^{4}] \leq 9^{k} \big(\E[d^{2}] + \E[e^{2}]\big)^{2}$ e agora só precisamos mostrar que $\E[d^{2}] + \E[e^{2}] = \E[f^{2}]$. Nós usamos basicamente o mesmo argumento que usamos para mostar \ref{eq: bonami_lemma_1}:
+
+\begin{IEEEeqnarray*} {rCl}
+	\E[f^{2}] & = & \E[(x_{n}d + e)^{2}] \\
+	                & = & \E[(x_{n}d)^{2}] + 2\E[x_{n}de] + \E[e^{2}] \\
+	                & = & \E[d^{2}] + \E[e^{2}].
+\end{IEEEeqnarray*}
+
+Daí podemos finalmente concluir que $\E[f^{4}] \leq 9^{k}\E[f^{2}]^{2}$.
+
+\end{proof}
 
 \subsubsection{Tribes$_{N}$}
 
@@ -506,122 +559,46 @@ Usando a definição dos coeficientes de Fourier e o fato que $x$ e $y$ são ind
 
 \end{proof}
 
-Nós dizemos que uma função $f: \mathbb{F}_{2}^{n} \to \mathbb{F}_{2}$ é linear se e somente se existe um $S \subseteq [n]$ tal que $f = \sum_{i \in S}x_{i}$. Seguindo essa definição, temos que se $f$ for linear então para todos $x, y \in \mathbb{F}_{2}^{n}$ é verdade que $f(x) + f(y) = f(x + y)$. Na verdade, se definissemos uma função linear como todas funções $f: \mathbb{F}_{2}^{n} \to \mathbb{F}_{2}$ tal que para todos pares $x, y$ é verdade que $f(x) + f(y) = f(x + y)$, nós teriamos uma definição equivalente de uma função linear. Para facilitar nossa vida nós iremos considerar funções lineares com contradomínio $\{-1, 1\}$, daí nós temos o seguinte:
+Nós dizemos que uma função $f: \mathbb{F}_{2}^{n} \to \mathbb{F}_{2}$ é linear se e somente se existe um $S \subseteq [n]$ tal que $f = \sum_{i \in S}x_{i}$. Seguindo essa definição, temos que se $f$ for linear então para todos $x, y \in \mathbb{F}_{2}^{n}$ é verdade que $f(x) + f(y) = f(x + y)$. Na verdade, se definissemos uma função linear como todas funções $f: \mathbb{F}_{2}^{n} \to \mathbb{F}_{2}$ tal que para todos pares $x, y$ é verdade que $f(x) + f(y) = f(x + y)$, nós teriamos uma definição equivalente de uma função linear. Para facilitar nossa vida nós iremos considerar funções lineares com contradomínio $\{-1, 1\}$. Primeiro nós demonstramos a seguinte proposição.
 
-\begin{prop} \label{linear_f_defi}
+\begin{prop} \label{linear_prox}
 
-As seguintes são definições equivelentes de uma função linear $f: \mathbb{F}_{2}^{n} \to \{-1, 1\}$:
-
-\begin{enumerate}
-
-	\item $f = \chi_{S}$, para algum $S \subseteq [n]$.
-	
-	\item $f(x)f(y) = f(x + y)$, para todos $x,y \in \mathbb{F}_{2}^{n}$.
-	
-	\item $f(x) = (f*f)(x)$, para todos $x \in \mathbb{F}_{2}^{n}$.
-
-\end{enumerate}
+Sejam $f: \mathbb{F}_{2}^{n} \to \{-1, 1\}$ e $\varepsilon > 0$. Se $\Pr_{x, y \sim \mathbb{F}_{2}^{n}}[f(x)f(x) = f(x + y)] > 1- \varepsilon$ então $f$ está $\varepsilon$-próxima de uma função linear.
 
 \end{prop}
 
 \begin{proof}
 
-Seja $f: \mathbb{F}_{2}^{n} \to \{-1, 1\}$.
-
-\begin{itemize}
-
-	\item $(1) \Rightarrow (2)$:
-	
-	Suponha que $f = \chi_{S}$, para algum $S \subseteq [n]$, e sejam $x, y \in \mathbb{F}_{2}^{n}$. Então temos que
-	
-	\begin{IEEEeqnarray*} {rCl}
-		f(x + y) & = & \chi_{S}(x + y) \\
-		       & = & (-1)^{\sum_{i = 1}^{n}(x_{i} + y_{i})} \\
-		       & = & (-1)^{\sum_{i = 1}^{n}x_{i}} \times (-1)^{\sum_{i = 1}^{n}y_{i}} \\
-		       & = & \chi_{S}(x)\chi_{S}(y) = f(x)f(y).
-	\end{IEEEeqnarray*}
-	
-	\item $(2) \Rightarrow (3)$:
-	
-	Suponha que $f$ satisfaça (2) e seja $x \in \mathbb{F}_{2}^{n}$. Temos que
-	
-	\begin{equation*}
-		f(x) = \E_{y \sim \mathbb{F}_{2}^{n}}[f(x)] = \E_{y \sim \mathbb{F}_{2}^{n}}[f(y)f(x + y)] = (f*f)(x).
-	\end{equation*}
-	
-	\item $(3) \Rightarrow (1)$:
-	
-	Suponha que $f$ satisfaça (3) e seja $x \in \mathbb{F}_{2}^{n}$:
-	
-	\begin{equation*}
-		f(x) = \E_{y \sim \mathbb{F}_{2}^{n}}[f(y)f(x + y)] = \sum_{S \subseteq [n]}\widehat{f}(S)^{2}\chi_{S}(x).
-	\end{equation*}
-
-	Então temos que $\sum_{S \subseteq [n]}\widehat{f}(S)\chi_{S}(x) = f(x) = \sum_{S \subseteq [n]}\widehat{f}(S)^{2} \chi_{S}(x)$, para todos $x \in \mathbb{F}_{2}^{n}$, o que necessariamente implica em $\widehat{f}(S) = \widehat{f}(S)^{2}$, para todos $S \subseteq [n]$. Portanto, deve haver um único $S^{*} \subseteq [n]$ tal que $\widehat{f}(S^{*}) = 1$ o que significa que $f = \chi_{S^{*}}$.
-
-\end{itemize}
-
-\end{proof}
-
-Nós também podemos provar que se $f: \mathbb{F}_{2}^{n} \to \{-1, 1\}$ estiver próxima de ter uma das 3 propriedades em \ref{linear_f_defi} então $f$ está também próxima de uma função que satisfaz estas propriedades.
-
-\begin{prop} \label{almost_linear}
-
-Sejam $f: \mathbb{F}_{2}^{n} \to \{-1, 1\}$ e $\varepsilon > 0$, se $\Pr_{x \sim \mathbb{F}_{2}^{n}}[f(x) = (f*f)(x)] > 1 - \varepsilon$ então $f$está $\varepsilon$-próxima de uma função linear.
-
-\end{prop}
-
-\begin{proof}
-
-Seja $S^{*} \subseteq [n]$ tal que $\widehat{f}(S^{*})$ é máximo, ou seja, para todos $S \subseteq [n]$ é verdade que $\widehat{f}(S^{*}) \geq \widehat{f}(S)$. Nós mostramos que $f$ está $\varepsilon$-próxima da função linear $\chi_{S^{*}}$ para obter o resultado:
+Seja $S^{*}$ tal que $\widehat{f}(S^{*})$ é máximo. Ou seja, para todo $S \subseteq [n]$ é verdade que $\widehat{f}(S^{*}) \geq \widehat{f}(S)$. Nós mostraremos que $f$ está $\varepsilon$-próxima de $\chi_{S^{*}}$. Pela forma como definimos $S^{*}$ e o teorema de Parseval temos
 
 \begin{equation*}
-	\dist(f, \chi_{S^{*}}) = \frac{1}{2} - \frac{1}{2}\widehat{f}(S^{*}) = \frac{1}{2} - \frac{1}{2}(\widehat{f}(S^{*})\sum_{S \subseteq [n]}\widehat{f}(S)^{2}) \leq \frac{1}{2} - \frac{1}{2}\sum_{S \subseteq [n]}\widehat{f}(S)^{3}.
+	\dist(f, \chi_{S^{*}}) = \frac{1}{2} - \frac{1}{2}\widehat{f}(S^{*}) = \frac{1}{2} - \frac{1}{2}\Big(\widehat{f}(S^{*})\sum_{S \subseteq [n]}\widehat{f}(S)^{2} \Big) \leq \frac{1}{2} - \frac{1}{2}\sum_{S \subseteq [n]}\widehat{f}(S)^{3}.
 \end{equation*}
 
-Pela proposição \ref{convolution_fourier} sabemos que $\sum_{S \subseteq [n]}\widehat{f}(S)^{3} = \E_{x \sim \mathbb{F}_{2}^{n}}[f(x)(f*f)(x)]$. Daí temos que
+Pelo teorema de Plancherel e a proposição \ref{convolution_fourier} nós sabemos que
 
-\begin{IEEEeqnarray*} {rCl}
-	\dist(f, \chi_{S^{*}}) & \leq & \frac{1}{2} - \frac{1}{2}\E_{x \sim \mathbb{F}_{2}^{n}}[f(x)(f*f)(x)] \\
-	                            & = & \frac{1}{2} - \frac{1}{2}(2\Pr_{x \sim \mathbb{F}_{2}^{n}}[f(x) = (f*f)(x)] - 1) \\
-	                            & < & \frac{1}{2} - \frac{1}{2}(2(1 - \varepsilon) - 1) \\
-	                            & = & \frac{1}{2} - (1 - \varepsilon) + \frac{1}{2} \\
-	                            & = & \varepsilon.
-\end{IEEEeqnarray*}
-
-\end{proof}
-
-Nós também podemos provar o seguinte.
-
-\begin{prop}
-Seja $f: \mathbb{F}_{2}^{n} \to \{-1, 1\}$, então
-	
 \begin{equation*}
-	\Pr_{x, y \sim \mathbb{F}_{2}^{n}}[f(x)f(y) = f(x + y)] = \Pr_{x \sim \mathbb{F}_{2}^{n}}[f(x) = (f*f)(x)].
+	\sum_{S \subseteq [n]}\widehat{f}(S)^{3} = \langle f, f*f \rangle = \E_{x \sim \mathbb{F}_{2}^{n}}[f(x)(f*f)(x)]
 \end{equation*}
 
-\end{prop}
-
-\begin{proof}
-
-O resultado segue de alguns simples cálculos:
+e portanto,
 
 \begin{IEEEeqnarray*} {rCl}
-	\Pr_{x, y}[f(x)f(y) = f(x + y)] & = & \frac{1}{2} + \frac{1}{2}\E_{x, y}[f(x)f(y)f(x + y)] \\
-					       & = & \frac{1}{2} + \frac{1}{2}\E_{x}\Big[f(x)\E_{y}[f(y)f(x + y)]\Big] \\
-					       & = & \frac{1}{2} + \frac{1}{2}\E_{x}[f(x)(f*f)(x)] \\
-					       & = & \Pr_{x}[f(x) = (f*f)(x)]
+	\dist(f, \chi_{S^{*}}) & \leq &  \frac{1}{2} + \frac{1}{2}\E_{x \sim \mathbb{F}_{2}^{n}}[f(x)f*f(x)] \\
+	                                   & = & \frac{1}{2} + \frac{1}{2}\E_{x \sim \mathbb{F}_{2}^{n}}\Big[f(x) \E_{y \sim \mathbb{F}_{2}^{n}}[f(y)f(x + y)]\Big] \\
+	                                   & = & \frac{1}{2} + \frac{1}{2}\E_{x, y \sim \mathbb{F}_{2}^{n}}[f(x)f(y)f(x + y)]
 \end{IEEEeqnarray*}
 
+Daí, como estamos assumindo que $\Pr_{x, y \sim \mathbb{F}_{2}^{n}}[f(x)f(y) \neq f(x + y)] < \varepsilon$:
+
+\begin{IEEEeqnarray*} {rCl}
+	\frac{1}{2} + \frac{1}{2}\E_{x, y \sim \mathbb{F}_{2}^{n}}[f(x)f(y)f(x + y)] & = & \frac{1}{2} + \frac{1}{2}(2\Pr_{x, y \sim \mathbb{F}_{2}^{n}}[f(x)f(y) = f(x + y)] - 1) \\ 
+	                                                                                                                               & < & \frac{1}{2} + \frac{1}{2}(2\varepsilon - 1) = \varepsilon.
+\end{IEEEeqnarray*}
+
+Então concluimos que $\dist(f, \chi_{S^{*}}) < \varepsilon$.
+
 \end{proof}
-
-O seguinte corolário segue diretamente.
-
-\begin{cor} \label{almost_linear_cor}
-
-Sejam $f: \mathbb{F}_{2}^{n} \to \{-1, 1\}$ e $\varepsilon > 0$. Se $\Pr_{x, y \sim \mathbb{F}_{2}^{n}}[f(x)f(y) = f(x + y)] > 1 - \varepsilon$ então $\Pr_{x \sim \mathbb{F}_{2}^{n}}[f(x) = (f*f)(x)] > 1 - \varepsilon$. 
-
-\end{cor}
 
 Agora nós podemos ver que testar se $f$ é uma função linear pode ser feito com apenas 3 consultas.
 
@@ -643,13 +620,13 @@ Os seguintes teste é um teste de propriedade para funções lineares:
 
 \begin{proof}
 
-Por definição (item (1) em \ref{linear_f_defi}), se $f$ for linear então o algoritmo irá aceitar com probabilidade 1. Além do mais, se o teste aceita uma função $f$ com probabilidade maior do que $1 - \varepsilon$, temos pelo corolário \ref{almost_linear_cor} e proposição \ref{almost_linear} que $f$ está $\varepsilon$-próxima de uma função linear.
+Por definição se $f$ for linear então o algoritmo irá aceitar com probabilidade 1. Além do mais, se o teste aceita uma função $f$ com probabilidade maior do que $1 - \varepsilon$ temos pela proposição \ref{linear_prox} que $f$ está $\varepsilon$-próxima de uma função linear.
 
 \end{proof}
 
 Além de testar se $f: \mathbb{F}_{2}^{n} \to \{-1, 1\}$ está próxima de uma das funções paridade $\chi_{S}$, também podemos ``recuperar'' $\chi_{S}$ a partir de $f$.
 
-\begin{teo}
+\begin{teo} \label{local_correcting_routine}
 
 Sejam $\varepsilon > 0$ e $f: \mathbb{F}_{2}^{n} \to \mathbb{F}_{2}$ uma função $\varepsilon$-próxima de uma função paridade $\chi_{S}$, para algum $S \subseteq [n]$, seja $x \in \mathbb{F}_{2}^{n}$ e considere o seguinte algoritmo: 
 
@@ -956,7 +933,7 @@ Se $f = \chi_{i}$ então já sabemos que tanto o teste $\NAE$ quanto o teste $\B
 
 \end{enumerate}
 
-O item (2) nos diz que $\widehat{f}(S^{*}) > 1 - \frac{1}{5}\varepsilon$, daí temos que
+O item (2) nos diz que $\widehat{f}(S^{*}) > 1 - \frac{1}{5}\varepsilon$. Se $\lvert S^{*} \rvert > 1$ temos que
 
 \begin{equation*}
 	1 = \sum_{k = 0}^{n}W^{k}[f] \geq (1 - 0,45\varepsilon) + (1 - \frac{1}{5}\varepsilon)^{2} \geq 1 - 0,45\varepsilon + 1 -\frac{2}{5}\varepsilon = 2 - 0,85\varepsilon > 1.
@@ -967,3 +944,47 @@ Logo temos que $1 > 1$, o que é uma contradição. Portanto $\lvert S^{*} \rver
 \end{proof}
 
 Nós podemos até mesmo, dado um conjunto $S \subseteq [n]$, testar se $f = \chi_{i}$, para algum $i \in S$.
+
+\begin{dicttest} \label{dict_subset_test}
+
+Seja $S \subseteq[n]$ e $\mathbbm{1}_{S} \in \{-1, 1\}^{n}$ a ``string característica'' de $S$. Dado acesso à uma função $f: \{-1, 1\}^{N} \to \{-1, 1\}$:
+
+\begin{itemize}
+
+	\item Com probabilidade $1/2$ faz o teste $\NAEplusBLR$ com acesso à $f$.
+	
+	\item Com probabilidade $1/2$ faz o método de correção local para $f$ com a string $\mathbbm{1}_{S}$ e dizemos que este passo aceita se o valor de retorno é -1.
+	
+	\item Aceita se e somente se o teste feito aceitou.
+
+\end{itemize}
+
+\end{dicttest}
+
+\begin{teo}
+
+Seja $S$ qualquer subconjunto de $[n]$, então o teste para subconjuntos das funções ditadores que acabamos de ver é um teste para a seguinte propriedade:
+
+\begin{equation*}
+	\{f: \{-1, 1\}^{n} \to \{-1 1\} \lvert f = \chi_{i} \text{ para algum } i \in S\}
+\end{equation*}
+
+\end{teo}
+
+\begin{proof}
+
+Se $f = \chi_{i}$ para algum $i \in S$ então em particular $f$ é uma função ditador e portanto o teste $\NAEplusBLR$ irá aceitá-la com probabilidade 1. Além disso, o método de correção local do teorema \ref{local_correcting_routine} irá retorna $-1$ com probabilidade 1 e portanto $f$ é aceita com probabilidade 1. Agora assuma que $f$ é aceita com probabilidade maior do que $1 - \lambda\varepsilon/10$. Então o teste $\NAEplusBLR$ deve necessariamente aceitar $f$ com probabilidade pelo menos $1 - 2\lambda\varepsilon$ e daí sabemos que $f$ está $\lambda\varepsilon$-próxima de uma função ditador.Suponha que $i \not\in S$. Por $\chi_{i}(\mathbbm{1}_{S})$ ser 1 e $f$ estar $\lambda\varepsilon$-próxima de $\chi_{i}$:
+
+\begin{equation*}
+	\Pr[\text{o método de correção local retorna } 1] \geq 1 - \lambda\varepsilon.
+\end{equation*}
+
+Por outro lado, o segunto teste também aceita com probabilidade pelo menos $1 - 2\lambda\varepsilon$ e portanto:
+
+\begin{equation*}
+	\Pr[\text{o método de correção local retorna } 1] \leq 2\lambda\varepsilon.
+\end{equation*}
+
+Então temos que $2\lambda\varepsilon \geq 1 - \lambda\varepsilon$.
+
+\end{proof}
