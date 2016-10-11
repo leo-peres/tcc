@@ -1,0 +1,821 @@
+\documentclass[landscape]{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[brazil]{babel}
+
+\usepackage{verbatim}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage{latexsym}
+\usepackage{complexity}
+\usepackage{bbm}
+
+\usepackage[retainorgcmds]{IEEEtrantools}
+
+\usepackage{hyperref}
+
+\usepackage{xcolor}
+
+\usepackage{tikz}
+\usetikzlibrary{arrows,positioning}
+
+\newtheorem{teo}{Teorema}
+\newtheorem{defi}[teo]{Definição}
+\newtheorem{lema}[teo]{Lema}
+\newtheorem{cor}[teo]{Corolário}
+\newtheorem{prop}[teo]{Proposição}
+\newtheorem{fato}[teo]{Fato}
+\newtheorem*{clique}{CLIQUE}
+\newtheorem*{maxclique}{MAX-CLIQUE}
+\newtheorem*{ETH}{Hipótese do tempo exponencial}
+\newtheorem*{SETH}{Hipótese do tempo exponencial forte}
+\newtheorem*{NAEtest}{Teste NAE}
+\newtheorem*{NAEplusBLRtest}{Teste NAE+BLR}
+\newtheorem*{dicttest}{Teste para subconjuntos de funções ditadores}
+
+%newcommands
+
+\newcommand{\binalph}{\{0, 1\}}
+\newcommand{\binalphn}{\binalph^{n}}
+\newcommand{\pmone}{\{-1, 1\}}
+\newcommand{\pmonen}{\pmone^{n}}
+\newcommand{\uniE}{\E_{x \sim \pmonen}}
+\newcommand{\UniE}{\underset{x \sim \pmonen}{\E}}
+\newcommand{\uniPr}{\Pr_{x \sim \pmonen}}
+\newcommand{\Size}{\text{Size}}
+\newcommand{\degg}{\text{deg}}
+\newcommand{\I}{\mathrm{I}}
+\newcommand{\Stab}{\text{Stab}}
+\newcommand{\Tribes}{\text{Tribes}}
+\newcommand{\Majority}{\text{Majority}}
+\newcommand{\Parity}{\text{Parity}}
+\newcommand{\supp}{\text{supp}}
+\newcommand{\dist}{\text{dist}}
+\newcommand{\sgn}{\text{sgn}}
+\newcommand{\BLR}{\text{BLR}}
+\newcommand{\NAE}{\text{NAE}}
+\newcommand{\NAEplusBLR}{\text{NAE+BLR}}
+
+\mathchardef\mhyphen="2D
+
+%newlangs
+
+\newlang{\HALT}{HALT}
+\newlang{\UHALT}{UHALT}
+\newlang{\CLIQUE}{CLIQUE}
+\newlang{\MAXCLIQUE}{MAX\mhyphen CLIQUE}
+\newlang{\CIRCUITEVAL}{CIRCUIT\mhyphen EVAL}
+\newlang{\CIRCUITSAT}{CIRCUIT\mhyphen SAT}
+\newlang{\TBQF}{TBQF}
+
+%newclasses
+
+\newclass{\DEPTH}{DEPTH}
+\newclass{\Puniform}{\P\mhyphen uniforme}
+\newclass{\loguniform}{logspace\mhyphen uniforme}
+
+%newfunctions
+
+\newfunc{\subexp}{subexp}
+\newfunc{\Sipser}{Sipser}
+
+\tikzset{
+	treenode/.style = {align=center, inner sep=0pt, text centered, font=\sffamily, size=1cm},
+	c_node/.style = {circle, draw, scale=.7, black},
+	c_node2/.style = {circle, draw, scale=.4, black},
+	s_node/.style = {draw, scale=.7, black},
+	s_node2/.style = {draw, scale=.4, black},
+	v_node/.style = {scale=.7, black},
+	g_node/.style = {circle, draw, scale=.5, black},
+	t_node/.style = {scale=.5},
+	dots_node/.style = {scale=.8},
+	r_edge/.style = {red!100},
+	b_edge/.style = {black},
+}
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+
+\titlepage
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Fórmulas FNC e FND}
+
+Uma fórmula FNC $F$ sobre as variáveis $x_{1}, \dots, x_{n}$ é a conjunção de disjunções de literais (uma das variáveis ou a tua negação).
+
+\begin{equation*}
+	F = C_{1} \land \dots \land C_{s}
+\end{equation*}
+
+Onde cada cláusula $C_{i}$ é a disjunção de literais e $s$ é o tamanho de $F$.
+
+Se cada clásula tem no máximo $k$ literais então dizemos que $F$ tem largura $k$ e dizemos que $F$ é uma $k$-FNC.
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Fórmulas FNC e FND}
+
+Uma fórmula FND $F$ por outro lado é a disjunção de conjuções de literais.
+
+\begin{equation*}
+	F = T_{1} \lor \dots \lor T_{s}
+\end{equation*}
+
+Onde cada termo $T_{i}$ é a conjunção de literais e $s$ é o tamanho de $F$.
+
+De novo, se cada termo tem no máximo $k$ literais então $F$ tem largura $k$ e $F$ é uma $k$-FND.
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}[fragile]{Árvores de decisão}
+
+Uma árvore de decisão é algo como a imagem abaixo:
+
+\begin{center}
+\begin{tikzpicture}[->, scale=.7, level/.style={sibling distance=60mm/#1, level distance = 1.3cm}]  
+
+	\node [c_node] (root) {$x_{1}$}
+		child { node [c_node] (n0) {$x_{2}$}
+			child { node [s_node] (n00) {0} edge from parent node [above, scale=.7] {0}}
+			child { node [c_node] (n01) {$x_{3}$}
+				child { node [s_node] (n010) {0} edge from parent node [above, scale=.7] {0}}
+				child {node [s_node] (n011) {1} edge from parent node [above, scale=.7] {1}}
+				edge from parent node [above, scale=.7] {1}
+			}
+			edge from parent node [above, scale=.7] {0}
+                     }
+		child{ node [c_node] (n1) {$x_{2}$}
+			child{ node [c_node] (n10) {$x_{3}$}
+				child { node [s_node] (n100) {0} edge from parent node [above, scale=.7] {0}}
+				child { node [s_node] (n101) {1} edge from parent node [above, scale=.7] {1}}
+				edge from parent node [above, scale=.7] {0}
+			}
+			child{ node [s_node] (n11) {1} edge from parent node [above, scale=.7] {1}}
+			edge from parent node [above, scale=.7] {1}
+		};
+	
+\end{tikzpicture}
+\end{center}
+
+\begin{itemize}
+
+	\item Cada nodo leva o label de uma das variáveis.
+	
+	\item Começando do nodo mais alto, o algoritmo ramifica para a direita ou à esquerda dependendo do valor da variável lida.
+	
+	\item As folhas guardam o valor da função em cada entrada que chega nela.
+
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Árvores de decisão}
+
+Denotamos a sáida de uma árvore de decisão $T$ sobre a entrada $x$ por $T(x)$. Se $f$ é tal que $f(x) = T(x)$ para todos os $x$ então dizemos que $T$ computa a função $f$.
+
+\begin{itemize}
+
+	\item Por exemplo, a árvore de decisão do slide anterior computa a função que $\Majority_{3}$, que é 1 se e somente se o número de 1s na entrada é pelo menos 2.
+
+\end{itemize}
+
+O tamanho de $T$ é o número de folhas e tua profundidade é o maior camnho do nodo mais alto até uma das folhas.
+
+\begin{itemize}
+
+	\item A árvore do slide anterior tem tamanho 6 e profundidade 3.
+
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame} {Árvores de decisão}
+
+É importante notar que árvores de decisão são mais fracas do que fórmulas FNC (FND).
+
+\begin{itemize}
+
+	\item Se $T$ é uma árvore de decisão de tamanho $s$ e profundidade $d$ então existe uma fórmula FND (FNC) $F$ tal que  $F(x) = T(x)$, para todos $x$, de tamanho $\leq s$ e largura $\leq d$.
+	
+	\begin{itemize}
+
+		\item FND: Cada caminho $P$ da árvore tal que $T(P) = 1$ define uma cláusula.
+
+		\item FNC: Cada caminho $P$ da árvore tal que $T(P) = 0$ define um termo.
+	
+	\end{itemize}
+
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame} [fragile] {Árvores de decisão}
+
+É importante notar que árvores de decisão são mais fracas do que fórmulas FNC (FND).
+
+\begin{center}
+\begin{tikzpicture}[->, scale=.7, level/.style={sibling distance=60mm/#1, level distance = 1.3cm}]
+
+	\node [c_node] (root) {$x_{1}$}
+		child { node [c_node] (n0) {$x_{2}$}
+			child { node [s_node] (n00) {0} edge from parent [b_edge] node [above, scale=.7] {0}}
+			child { node [c_node] (n01) {$x_{3}$}
+				child { node [s_node] (n010) {0} edge from parent [b_edge] node [above, scale=.7] {0}}
+				child {node [s_node] (n011) {1} edge from parent [r_edge] node [above, scale=.7] {1}}
+				edge from parent [r_edge] node [above, scale=.7] {1}
+			}
+			edge from parent [r_edge] node [above, scale=.7] {0}
+                     }
+		child{ node [c_node] (n1) {$x_{2}$}
+			child{ node [c_node] (n10) {$x_{3}$}
+				child { node [s_node] (n100) {0} edge from parent [b_edge] node [above, scale=.7] {0}}
+				child { node [s_node] (n101) {1} edge from parent [r_edge] node [above, scale=.7] {1}}
+				edge from parent [r_edge] node [above, scale=.7] {0}
+			}
+			child{ node [s_node] (n11) {1} edge from parent [r_edge] node [above, scale=.7] {1}}
+			edge from parent [r_edge] node [above, scale=.7] {1}
+		};
+	
+\end{tikzpicture}
+\end{center}
+
+\begin{equation*}
+	F = (\overline{x}_{1} \land x_{2} \land x_{3}) \lor (x_{1} \land \overline{x}_{2}\land x_{3}) \lor (x_{1} \land x_{2})
+\end{equation*}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame} [fragile] {Árvores de decisão}
+
+É importante notar que árvores de decisão são mais fracas do que fórmulas FNC (FND).
+
+\begin{center}
+\begin{tikzpicture}[->, scale=.7, level/.style={sibling distance=60mm/#1, level distance = 1.3cm}]
+
+	\node [c_node] (root) {$x_{1}$}
+		child { node [c_node] (n0) {$x_{2}$}
+			child { node [s_node] (n00) {0} edge from parent [r_edge] node [above, scale=.7] {0}}
+			child { node [c_node] (n01) {$x_{3}$}
+				child { node [s_node] (n010) {0} edge from parent [r_edge] node [above, scale=.7] {0}}
+				child {node [s_node] (n011) {1} edge from parent [b_edge] node [above, scale=.7] {1}}
+				edge from parent [r_edge] node [above, scale=.7] {1}
+			}
+			edge from parent [r_edge] node [above, scale=.7] {0}
+                     }
+		child{ node [c_node] (n1) {$x_{2}$}
+			child{ node [c_node] (n10) {$x_{3}$}
+				child { node [s_node] (n100) {0} edge from parent [r_edge] node [above, scale=.7] {0}}
+				child { node [s_node] (n101) {1} edge from parent [b_edge] node [above, scale=.7] {1}}
+				edge from parent [r_edge] node [above, scale=.7] {0}
+			}
+			child{ node [s_node] (n11) {1} edge from parent [b_edge] node [above, scale=.7] {1}}
+			edge from parent [r_edge] node [above, scale=.7] {1}
+		};
+	
+\end{tikzpicture}
+\end{center}
+
+\begin{equation*}
+	F = (x_{1} \lor x_{2}) \land (x_{1} \lor \overline{x}_{2} \lor x_{3}) \land (\overline{x}_{1} \lor x_{2} \lor x_{3})
+\end{equation*}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame} [fragile] {Circuitos}
+
+Um circuito Booleano é composto de portas lógicas computando uma das funções em $\{\land, \lor, \lnot)$ e fios ligando estas portas lógicas como mosta a figura abaixo:
+
+\begin{center}
+\begin{tikzpicture}[->, scale=.4]
+
+	\node [v_node] (x1) at (0, 9) {$x_{1}$};
+	\node [v_node] (nx1) at (2, 9) {$\overline{x}_{1}$};
+	\node [v_node] (x2) at (4, 9) {$x_{2}$};
+	\node [v_node] (nx2) at (6, 9) {$\overline{x}_{2}$};
+	\node [v_node] (x3) at (8, 9) {$x_{3}$};
+	\node [v_node] (nx3) at (10, 9) {$\overline{x}_{3}$};
+	\node [v_node] (x4) at (12, 9) {$x_{4}$};
+	\node [v_node] (nx4) at (14, 9) {$\overline{x}_{4}$};
+	
+	\node [g_node] (a11) at (1, 7) {$\land$};
+	\node [g_node] (a12) at (5, 7) {$\land$};
+	\node [g_node] (a13) at (9, 7) {$\land$};
+	\node [g_node] (a14) at (13, 7) {$\land$};
+	
+	\node [g_node] (o21) at (3, 5) {$\lor$};
+	\node [g_node] (o22) at (11, 5) {$\lor$};
+	
+	\node [g_node] (n31) at (6, 4) {$\lnot$};
+	\node [g_node] (n32) at (8, 4) {$\lnot$};
+	
+	\node [g_node] (a41) at (5, 2) {$\land$};
+	\node [g_node] (a42) at (9, 2) {$\land$};
+	
+	\node [g_node] (o51) at (7, 0) {$\lor$};
+	
+	\foreach \from/\to in {x1/a11, nx2/a11, nx1/a12, x2/a12, x3/a13, nx4/a13, nx3/a14, x4/a14,
+	                                   a11/o21, a12/o21, a13/o22, a14/o22,
+	                                   o21/n31, o22/n32,
+	                                   o21/a41, n32/a41, n31/a42, o22/a42,
+	                                   a41/o51, a42/o51}
+		\draw (\from) -- (\to);
+		
+\end{tikzpicture}
+\end{center}
+
+Este circuitos tem 4 variáveis de entrada (sem contar a negação de cada variável). Todos circuitos tem uma única porta lógica no nível mais alto, o valor desta porta lógica é a saída do circuito.
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame} {Circuitos}
+
+Nós dizemos que um circuito $C$ com $n$ variáveis de entrada computa $f: \binalph^{n} \to \binalph$ se $C(x) = f(x)$, para todos $x \in \binalph^{n}$.
+
+\begin{itemize}
+
+	\item O circuito do slide anterior computa a função $\Parity_{4}$.
+	
+	\begin{itemize}
+	
+		\item $\Parity_{4}(x) = 1$ se e somente se $x_{1} + x_{2} + x_{3} + x_{4} \equiv 1 \pmod{2}$.
+		
+	\end{itemize}
+
+\end{itemize}
+
+O tamanho de um circuito é o número de portas lógicas e a tua profundidade é o tamanho do maior caminho de uma variável de entrada até a porda de saída.
+
+\begin{itemize}
+
+	\item O nosso circuito para $Parity_{4}$ tem tamanho 11 e profundidade 4.
+	
+	\item Em geral, $\Parity_{n}$ tem um circuito de tamanho $\mathcal{O}(n)$ e profundidade $\mathcal{O}(\log n)$.
+
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame} [fragile] {Circuitos}
+
+Pela lei de De Morgan nós podemos empurrar as portas $\lnot$ para as variáveis de entrada.
+
+\begin{itemize}
+	\item Se o circuito original tinha tamanho $S$ então o circuito resultante tem tamanho $\leq 2S$.
+\end{itemize}
+
+\begin{center}
+\begin{tikzpicture}[->, scale=.4]
+
+	\node [v_node] (x1) at (0, 11) {$x_{1}$};
+	\node [v_node] (nx1) at (2, 11) {$\overline{x}_{1}$};
+	\node [v_node] (x2) at (4, 11) {$x_{2}$};
+	\node [v_node] (nx2) at (6, 11) {$\overline{x}_{2}$};
+	\node [v_node] (x3) at (8, 11) {$x_{3}$};
+	\node [v_node] (nx3) at (10, 11) {$\overline{x}_{3}$};
+	\node [v_node] (x4) at (12, 11) {$x_{4}$};
+	\node [v_node] (nx4) at (14,11) {$\overline{x}_{4}$};
+	
+	\node [g_node] (a11) at (0, 8) {$\land$};
+	\node [g_node] (a12) at (2, 8) {$\land$};
+	
+	\node [g_node] (o13) at (4, 7) {$\lor$};
+	\node [g_node] (o14) at (6, 7) {$\lor$};
+	
+	\node [g_node] (o15) at (8, 7) {$\lor$};
+	\node [g_node] (o16) at (10, 7) {$\lor$};
+	
+	\node [g_node] (a17) at (12, 8) {$\land$};
+	\node [g_node] (a18) at (14, 8) {$\land$};
+	
+	\node [g_node] (o21) at (1, 5) {$\lor$};
+	\node [g_node] (a22) at (5, 4) {$\land$};
+	
+	\node [g_node] (a23) at (9, 4) {$\land$};
+	\node [g_node] (o24) at (13, 5) {$\lor$};
+	
+	\node [g_node] (a31) at (3, 2) {$\land$};
+	\node [g_node] (a32) at (11, 2) {$\land$};
+	
+	\node [g_node] (o41) at (7, 0) {$\lor$};
+	
+	\foreach \from/\to in {x1/a11, nx2/a11, nx1/a12, x2/a12, x1/o13, nx2/o13, nx1/o14, x2/o14, x3/o15, nx4/o15, nx3/o16, x4/o16, x3/a17, nx4/a17, nx3/a18, x4/a18,
+				      a11/o21, a12/o21, o13/a22, o14/a22, o15/a23, o16/a23, a17/o24, a18/o24,
+				      o21/a31, a23/a31, a22/a32, o24/a32,
+				      a31/o41, a32/o41}
+		\draw (\from) -- (\to);
+
+
+\end{tikzpicture}
+\end{center}
+
+O circuito acima também computa $\Parity_{4}$ e tem tamanho 15.
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame} {Complexidade de circuitos}
+
+Dada uma função $f: \binalph^{n} \to \binalph$ nós queremos saber qual é o menor circuito que computa $f$.
+
+\begin{itemize}
+
+	\item Seja $\mathscr{C}$ o conjunto de circuitos que computam $f$.
+	
+	\item $\Size(f) = \min_{C \in \mathscr{C}}\{ \lvert C \rvert \}$.
+
+\end{itemize}
+
+Se $f: \binalph^{*} \to \binalph$ então temos que definir uma sequência de circuitos $\{C_{n}\}_{n \geq 1}$ onde cada $C_{n}$ computa $f$ restrita à strings de tamanho $n$.
+
+\begin{itemize}
+
+	\item $\Size(f) = \mathcal{O}(g)$ se existem constantes $c$ e $n_{0}$ tal que $\lvert C_{n} \rvert \leq cg(n)$, para todos $n \geq n_{0}$.
+	
+	\item Como já comentamos, $\Size(\Parity) = \mathcal{O}(n)$.
+
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame} {Complexidade de circuitos: $\Ppoly$}
+
+Algumas classes de complexidade de circuitos:
+
+\begin{itemize}
+
+	\item $\Ppoly:$ circuitos de tamanho polinomial.
+	
+	\begin{itemize}
+	
+		\item Contém toda a classe $\P$.
+		
+		\item Contém todas as linguagens unárias.
+		
+		\begin{itemize}
+		
+			\item Logo contém alguns problemas indecidíveis.
+	
+		\end{itemize}
+		
+		\item A tua versão $(\P$-)uniforme (ou $\loguniform$) coincide com a classe $\P$.
+	
+	\end{itemize}
+
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame} {Complexidade de circuitos: $\Ppoly$}
+
+\begin{itemize}
+
+	\item Problema em aberto: $\NP \subseteq \Ppoly$?
+	
+	\begin{itemize}
+	
+		\item $\NP \not\subseteq \Ppoly$ implicaria em $\P \neq \NP$.
+		
+		\item Teorema de Karp-Lipton: $\NP \subseteq \Ppoly \Rightarrow \PH = \Sigma_{2}^{p}$.
+	
+	\end{itemize}
+	
+	\item Problema em aberto: Existe, para todo $k \geq 1$, uma linguagem em $\P$ que não admite circuitos de tamanho $n^{k}$?
+	
+	\begin{itemize}
+	
+		\item Suponha que $\P \neq \NP$, isto é verdade porque a classe $\NP$ não admite circuitos pequenos ou é porque circuitos para problemas em $\P$ são pequenos demais?
+	
+	\end{itemize}
+
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame} {Complexidade de circuitos: $\NC$ e $\AC$}
+
+Algumas classes de complexidade de circuitos:
+
+\begin{itemize}
+
+	\item $\NC^{i}$: circuitos de tamanho polinomial e profundidade $\log^{i} n$.
+	
+	\item $\NC = \bigcup_{i \geq 0} \NC^{i}$.
+	
+	\begin{itemize}
+	
+		\item Exemplo: computar a determinante de uma matriz está em $\NC$.
+	
+	\end{itemize}
+	
+	\item $\AC^{i}$: circuitos de tamanho polinomial, profundidade $\log^{i} n$ e fan-in arbitrário.
+	
+	\item $\AC = \bigcup_{i \geq 0} \AC^{i}$.
+	
+	\item $\NC^{0} \subseteq \AC^{0} \subseteq \NC^{1} \subseteq \AC^{1} \subseteq \dots \Rightarrow \NC = \AC$.
+
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame} [fragile] {Complexidade de circuitos: $\NC$ e $\AC$}
+
+Um circuito $\AC^{0}$ é qualquer circuito com fn-in arbitrário e que alterna portas $\lor$ e portas $\land$.
+	
+\begin{itemize}
+
+	\item Por exemplo, o seguite circuito é um circuito $\AC^{0}$ para $\Parity_{4}$.
+
+\end{itemize}
+
+\begin{center}
+\begin{tikzpicture}[->, scale=.6]
+
+	\node [v_node] (x1) at (0, 6) {$x_{1}$};
+	\node [v_node] (nx1) at (2, 6) {$\overline{x}_{1}$};
+	\node [v_node] (x2) at (4, 6) {$x_{2}$};
+	\node [v_node] (nx2) at (6, 6) {$\overline{x}_{2}$};
+	\node [v_node] (x3) at (8, 6) {$x_{3}$};
+	\node [v_node] (nx3) at (10, 6) {$\overline{x}_{3}$};
+	\node [v_node] (x4) at (12, 6) {$x_{4}$};
+	\node [v_node] (nx4) at (14, 6) {$\overline{x}_{4}$};
+	
+	\node [g_node] (a11) at (0, 2) {$\land$};
+		\draw (nx1) -- (a11);
+		\draw (nx2) -- (a11);
+		\draw (nx3) -- (a11);
+		\draw (x4) -- (a11);
+	\node [g_node] (a12) at (2, 2) {$\land$};
+		\draw (nx1) -- (a12);
+		\draw (nx2) -- (a12);
+		\draw (x3) -- (a12);
+		\draw (nx4) -- (a12);
+	\node [g_node] (a13) at (4, 2) {$\land$};
+		\draw (nx1) -- (a13);
+		\draw (x2) -- (a13);
+		\draw (nx3) -- (a13);
+		\draw (nx4) -- (a13);
+	\node [g_node] (a14) at (6, 2) {$\land$};
+		\draw (nx1) -- (a14);
+		\draw (x2) -- (a14);
+		\draw (x3) -- (a14);
+		\draw (x4) -- (a14);
+	\node [g_node] (a15) at (8, 2) {$\land$};
+		\draw (x1) -- (a15);
+		\draw (nx2) -- (a15);
+		\draw (nx3) -- (a15);
+		\draw (nx4) -- (a15);
+	\node [g_node] (a16) at (10, 2) {$\land$};
+		\draw (x1) -- (a16);
+		\draw (nx2) -- (a16);
+		\draw (x3) -- (a16);
+		\draw (x4) -- (a16);
+	\node [g_node] (a17) at (12, 2) {$\land$};
+		\draw (x1) -- (a17);
+		\draw (x2) -- (a17);
+		\draw (nx3) -- (a17);
+		\draw (x4) -- (a17);
+	\node [g_node] (a18) at (14, 2) {$\land$};
+		\draw (x1) -- (a18);
+		\draw (x2) -- (a18);
+		\draw (x3) -- (a18);
+		\draw (nx4) -- (a18);
+	
+	\node [g_node] (o21) at (7, 0) {$\lor$};
+		\draw (a11) -- (o21);
+		\draw (a12) -- (o21);
+		\draw (a13) -- (o21);
+		\draw (a14) -- (o21);
+		\draw (a15) -- (o21);
+		\draw (a16) -- (o21);
+		\draw (a17) -- (o21);
+		\draw (a18) -- (o21);
+
+\end{tikzpicture}
+\end{center}
+
+\begin{itemize}
+
+	\item Todas fórmulas FNC e FND são circuitos $\AC^{0}$.
+
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame} {$\Tribes$}
+
+A função $\Tribes_{w, s}: \binalph^{ws} \to \binalph$ é definida da seguinte forma:
+
+\begin{equation*}
+	\Tribes_{w, s}(x) = \bigvee_{i = 1}^{s} (x_{1, i} \land x_{2, i} \land \dots \land x_{w, i}).
+\end{equation*}
+
+Onde as variáveis são indexadas por $(i, j) \in [w] \times [s]$.
+
+\begin{itemize}
+
+	\item $\Tribes_{w, s}$ é trivialmente computável por um circuito FND de tamanho $s + 1$.
+	
+	\item Toda árvore de decisão que computa $\Tribes_{w, s}$ tem que ter profundidade $ws$ --- $\Tribes_{w, s}$ é evasiva.
+
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame} {$\Tribes_{n}$}
+
+Nós estamos mais interessados na seguinte escolha de parâmetros:
+
+\begin{itemize}
+
+	\item Para cada $w \geq 1$, escolhemos $s$ o maior inteiro tal que
+	
+	\begin{equation*}
+		(1 - 2^{-w})^{s} = \Pr[\Tribes_{w, s}(x) = 0] \geq 1/2.
+	\end{equation*}
+	
+	\item $n = ws$.
+
+\end{itemize}
+
+Desta forma temos que $\Tribes_{n}$ é uma função ``imparcial'', os valores 1 e 0 aparece com basicamente a mesma probabilidade. Também temos que
+
+\begin{itemize}
+
+	\item $s = \Theta(\frac{n}{\log n})$.
+	
+	\item $w = \log n - \log\log n - o(1)$.
+
+\end{itemize}
+
+Na verdade, $s \approx 2^{w}ln(2)$ e portanto $(1 - 2^{-w})^{s} \rightarrow 1/2$ com $w \rightarrow \infty$.
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame} {Teorema de Baker-Gill-Solovay}
+
+O teorema de Baker-Gill-Solovay diz que existem oráculos $A$ e $B$ tais que
+
+\begin{itemize}
+
+	\item $\P^{A} = \NP^{A}$.
+	
+	\item $\P^{B} \neq \NP^{B}$.
+
+\end{itemize}
+
+Nós podemos provar que existe $B$ tal que $\P^{B} \neq \NP^{B}$ (a parte não-trivial do teorema) usando o fato que a função $\Tribes_{n}$ é evasiva.
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame} {Teorema de Baker-Gill-Solovay - Prova}
+
+Seja $M$ uma máquina de Turing de tempo polinomial que tem uma fita de oráculo e $x \in \binalph^{*}$. Nós consideramos o seguinte:
+
+\begin{itemize}
+
+	\item $\mathcal{X}$ um subconjunto finito de $\binalph^{*}$.
+	
+	\item $A \subseteq \binalph^{*} \setminus \mathcal{X}$ um oráculo.
+	
+	\item $T_{M^{A}, x}^{\mathcal{X}}$ uma árvore de decisão que recebe a string característica de um oráculo subconjunto de $\mathcal{X}$.
+	
+	\begin{itemize}
+	
+		\item A string característica de $B \subseteq \mathcal{X}$ é a string $x_{B}$ que é 1 no $i$-ésimo bit se a $i$-ésima string em $\mathcal{X}$ (sobre alguma enumeração das strings binárias) está em $B$.
+	
+	\end{itemize}
+	
+	\item $T_{M^{A}, x}^{\mathcal{X}}(x_{B}) = 1 \iff M^{A \cup B}(x) = 1$.
+
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame} [fragile] {Teorema de Baker-Gill-Solovay - Prova}
+
+Se $M$ é uma máquina de Turing de tempo polinomial e $x \in \binalph^{*}$.
+
+\begin{center}
+\begin{tikzpicture}[->, scale=.7, level/.style={sibling distance=150mm/#1, level distance = .8cm}]
+		
+	\node [t_node] (root) {algumas computações}
+		child { node [t_node] (n1) {consulta à alguma string em $\mathcal{X}$}
+			child { node [dots_node] (n2) {$\vdots$}
+				child { node [t_node] (n3) {algumas computações}
+					child { node [dots_node] (n5) {$\vdots$}
+						child { node [t_node] (n6) {consulta à alguma string em $\mathcal{X}$}
+							child { node [dots_node] (n7) {$\vdots$} edge from parent node [above, scale=.4] {0}}
+							child {node [t_node] (n8) {aceita} edge from parent node [above, scale=.4] {1}}
+							edge from parent [draw=none]
+						}
+						edge from parent [draw=none]
+					}
+					edge from parent [draw=none]
+				}
+				edge from parent node [above, scale=.4] {0}
+			}
+			child { node [dots_node] (n9) {$\vdots$}
+				child { node [t_node] (n10) {algumas computações}
+					child { node [dots_node] (n11) {$\vdots$}
+						child { node [t_node] (n12) {consulta à alguma string em $\mathcal{X}$}
+							child {node [dots_node] (n13) {$\vdots$} edge from parent node [above, scale=.4] {0}}
+							child {node [dots_node] (n14) {$\vdots$} edge from parent node [above, scale=.4] {1}}
+							edge from parent [draw=none]
+						}
+						edge from parent [draw=none]
+					}
+					edge from parent [draw=none]
+				}
+				edge from parent node[above, scale=.4] {1}
+			}
+		};
+		
+	\begin{scope} [yshift=-6cm, ->, scale=.7, level/.style={sibling distance=60mm/#1, level distance = 1.5cm}]
+	
+		\node [] (arrow) {$\Downarrow$}
+			child { node [c_node2] (root2) {$x_{4}$}
+				child { node [c_node2] (n15) {$x_{6}$}
+					child {node [dots_node] (n16) {$\vdots$} edge from parent node [above, scale=.4] {0}}
+					child {node [s_node2] (n17) {1} edge from parent node [above, scale=.4] {1}}
+					edge from parent node [above, scale=.4] {0}
+				}
+				child { node [c_node2] (n18) {$x_{11}$}
+					child {node [dots_node] (n19) {$\vdots$} edge from parent node [above, scale=.4] {0}}
+					child {node [dots_node] (n20) {$\vdots$} edge from parent node [above, scale=.4] {1}}
+					edge from parent node [above, scale=.4] {1}
+				}
+				edge from parent [draw=none]
+			};
+		
+	\end{scope}
+
+\end{tikzpicture}
+\end{center}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame} {Teorema de Baker-Gill-Solovay - Prova}
+
+No caso especial em que $\mathcal{X} = \binalph^{n}$, $n = \lvert x \rvert$.
+
+\begin{itemize}
+
+	\item $T_{M^{A}, x}^{\binalph^{n}}$ tem profundidade polilogarítmica (o que é $\ll n$).
+		
+	\item Pois se $M$ roda em tempo $\leq n^{c}$ então $M$ faz no máximo $n^{c}$ consultas ao oráculo.
+		
+	\item $n^{c} = \polylog(2^{n})$.
+		
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}

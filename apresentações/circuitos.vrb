@@ -1,0 +1,61 @@
+\frametitle{Teorema de Baker-Gill-Solovay - Prova}
+
+Se $M$ é uma máquina de Turing de tempo polinomial e $x \in \binalph^{*}$.
+
+\begin{center}
+\begin{tikzpicture}[->, scale=.7, level/.style={sibling distance=150mm/#1, level distance = .8cm}]
+
+	\node [t_node] (root) {algumas computações}
+		child { node [t_node] (n1) {consulta à alguma string em $\mathcal{X}$}
+			child { node [dots_node] (n2) {$\vdots$}
+				child { node [t_node] (n3) {algumas computações}
+					child { node [dots_node] (n5) {$\vdots$}
+						child { node [t_node] (n6) {consulta à alguma string em $\mathcal{X}$}
+							child { node [dots_node] (n7) {$\vdots$} edge from parent node [above, scale=.4] {0}}
+							child {node [t_node] (n8) {aceita} edge from parent node [above, scale=.4] {1}}
+							edge from parent [draw=none]
+						}
+						edge from parent [draw=none]
+					}
+					edge from parent [draw=none]
+				}
+				edge from parent node [above, scale=.4] {0}
+			}
+			child { node [dots_node] (n9) {$\vdots$}
+				child { node [t_node] (n10) {algumas computações}
+					child { node [dots_node] (n11) {$\vdots$}
+						child { node [t_node] (n12) {consulta à alguma string em $\mathcal{X}$}
+							child {node [dots_node] (n13) {$\vdots$} edge from parent node [above, scale=.4] {0}}
+							child {node [dots_node] (n14) {$\vdots$} edge from parent node [above, scale=.4] {1}}
+							edge from parent [draw=none]
+						}
+						edge from parent [draw=none]
+					}
+					edge from parent [draw=none]
+				}
+				edge from parent node[above, scale=.4] {1}
+			}
+		};
+
+	\begin{scope} [yshift=-6cm, ->, scale=.7, level/.style={sibling distance=60mm/#1, level distance = 1.5cm}]
+
+		\node [] (arrow) {$\Downarrow$}
+			child { node [c_node2] (root2) {$x_{4}$}
+				child { node [c_node2] (n15) {$x_{6}$}
+					child {node [dots_node] (n16) {$\vdots$} edge from parent node [above, scale=.4] {0}}
+					child {node [s_node2] (n17) {1} edge from parent node [above, scale=.4] {1}}
+					edge from parent node [above, scale=.4] {0}
+				}
+				child { node [c_node2] (n18) {$x_{11}$}
+					child {node [dots_node] (n19) {$\vdots$} edge from parent node [above, scale=.4] {0}}
+					child {node [dots_node] (n20) {$\vdots$} edge from parent node [above, scale=.4] {1}}
+					edge from parent node [above, scale=.4] {1}
+				}
+				edge from parent [draw=none]
+			};
+
+	\end{scope}
+
+\end{tikzpicture}
+\end{center}
+
