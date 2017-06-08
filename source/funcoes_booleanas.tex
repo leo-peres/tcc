@@ -197,7 +197,7 @@ Primeiro note que $\Pr_{x \in \binalphn}[f(x) \neq f(x^{\oplus i})] = \E_{x \in 
 
 Por convenção, neste trabalho nós iremos usar $\E[L_{i}f^{2}]$ como a definição de $Inf_{i}[f]$ para funções $f: \binalphn \to \binalph$, ao invés de $\Pr_{x \in \binalphn}[f(x) \neq f(x^{\oplus i})]$. O mesmo vale para funções de $\binalphn$ para $\mathbb{R}$. A vantagem disso é podermos usar a fórmula que aparece em \ref{prop: derivative_inf} como a definição da influência da $i$-ésima coordenada independente se o domínio é $\binalphn$ ou $\pmonen$.
 
-A influência total de $f$ é a soma das influências individuais de todas as coordenadas: $\I[f] = \sum_{i \in [n]} Inf_{i}[f]$. Levando em conta que $Inf_{i}[f] = \sum_{i \ni S} \widehat{f}(S)^{2}$, cada coeficiente de Fourier $\widehat{f}(S)$ aparece $\lvert S \rvert$ vezes na soma da influência total, portanto temos a seguinte fórmula: $\I[f] = \sum_{k > 0} kW^{k}[f]$.
+A influência total de $f$ é a soma das influências individuais de todas as coordenadas: $\I[f] = \sum_{i \in [n]} Inf_{i}[f]$. Levando em conta que $Inf_{i}[f] = \sum_{S \ni i} \widehat{f}(S)^{2}$, cada coeficiente de Fourier $\widehat{f}(S)$ aparece $\lvert S \rvert$ vezes na soma da influência total, portanto temos a seguinte fórmula: $\I[f] = \sum_{k > 0} kW^{k}[f]$.
 
 
 \subsubsection{Estabilidade de ruído}
@@ -324,7 +324,7 @@ E nós podemos usar a desigualdade de Cauchy-Schwarz para ``separar'' $d^{2}$ e 
 E como $d$ e $e$ são funções de $n - 1$ variáveis nós podemos usar a hipótese de indução. Precisamente, pela hipótese de indução temos que $\E[d^{4}] \leq 9^{k - 1}\E[d^{2}]^{2}$ (pois $\degg(d) = k - 1$) e $\E[e^{4}] \leq 9^{k} \E[e^{2}]^{2}$ (pois $\deg(e) = k$), daí
 
 \begin{IEEEeqnarray*} {rCl}
-	\E[d^{4}] + 6\sqrt{\E[e^{4}]}\sqrt{\E[e^{4}]} + \E[e^{4}] & \leq & 9^{k - 1}\E[d^{2}]^{2} + 6\sqrt{9\E[d^{2}]^{2}}\sqrt{9\E[e^{2}]^{2}} + 9\E[e^{2}]^{2} \\
+	\E[d^{4}] + 6\sqrt{\E[e^{4}]}\sqrt{\E[e^{4}]} + \E[e^{4}] & \leq & 9^{k - 1}\E[d^{2}]^{2} + 6\sqrt{9^{k - 1}\E[d^{2}]^{2}}\sqrt{9^{k}\E[e^{2}]^{2}} + 9^{k}\E[e^{2}]^{2} \\
 													      & \leq & 9^{k} \big(\E[d^{2}]^{2} + 2\E[d^{2}]\E[e^{2}] + \E[e^{2}]^{2} \big) \\
 													      & = & 9^{k} \big(\E[d^{2}] + \E[e^{2}]\big)^{2}.
 \end{IEEEeqnarray*}
@@ -338,6 +338,112 @@ Portanto $\E[f^{4}] \leq 9^{k} \big(\E[d^{2}] + \E[e^{2}]\big)^{2}$ e agora só 
 \end{IEEEeqnarray*}
 
 Daí podemos finalmente concluir que $\E[f^{4}] \leq 9^{k}\E[f^{2}]^{2}$.
+
+\end{proof}
+
+\begin{lema} \label{awayfromthemean}
+
+Seja $f: \pmonen \to \mathbb{R}$ de grau $k$ que satisfaz $\sigma = \text{Var}[f] > 0$, e seja $\mu = \E[f]$. Então
+
+\begin{equation*}
+\Pr_{x \sim \pmonen}[\lvert f(X) - \mu \rvert > \frac{1}{2}\sigma] \geq \frac{1}{16}9^{1 - k}.
+\end{equation*}
+
+\end{lema}
+
+\begin{proof}
+
+Seja $g = \frac{1}{\sigma}(f - \mu)$. Temos que $\degg(g) = k$ e $\lVert g \rVert_{2} = 1$. Pelo Lema de Bonami-Beckner temos que $g$ deve satifazer $\E[g^{4}] \leq 9^{k}\E[g^{2}]^{2} = 9^{k}$ e daí temos que:
+
+\begin{IEEEeqnarray*}{rCl}
+	\Pr_{x \sim \pmonen}\Big[\lvert f(X) - \mu \rvert > \frac{1}{2}\sigma\Big] & = & \Pr_{x \sim \pmonen}\Big[\sigma\lvert g \rvert > \frac{1}{2}\sigma\Big] \\
+	                                                                                                            & = & \Pr_{x \sim \pmonen}\Big[\lvert g \rvert > \frac{1}{2}\lVert g \rVert_{2}\Big] \\
+	                                                                                                            & = & \Pr_{x \sim \pmonen}\Big[g^{2} > \frac{1}{4}\E[g^{2}]  \Big].
+\end{IEEEeqnarray*}
+
+Então usamos a desigualdade de Paley-Zigmund para obter
+
+\begin{equation*}
+	\Pr_{x \sim \pmonen}\Big[g^{2} > \frac{1}{4}\E[g^{2}] \Big] \geq \Big(\frac{3}{4}\Big)^{2} \frac{\E[g^{2}]^{2}}{\E[g^{4}]}.
+\end{equation*} 
+
+E lembrando que $\E[g^{2}]^{2} = 1$ e $\E[g^{4}] \leq 9^{k}$:
+
+\begin{equation*}
+	\Big(\frac{3}{4}\Big)^{2} \frac{\E[g^{2}]^{2}}{\E[g^{4}]} \geq \frac{1}{16}9^{1 - k}.
+\end{equation*}
+
+\end{proof}
+
+Agora podemos provar o teorema de FKN:
+
+\begin{teo} (Teorema de Friedgut-Kalai-Naor) \label{fkn}
+
+Seja $f: \pmonen \to \pmone$ uma função Booleana que satisfaz $W^{1}[f] = 1 - \delta$, então $\dist(f, d_{i}) \leq k\delta$, onde $d_{i} = \pm x_{i}$ para algum $i \in [n]$ e $k > 0$ é uma constante.
+
+\end{teo}
+
+\begin{proof}
+
+Seja $f$ como no enunciado e podemos assumir que $\delta \leq 1/200$. Seja $l = f^{=1}$. Temos que a expressão de Fourier para $l^{2}$ é:
+
+\begin{equation*}
+	l^{2} = \sum_{i = 1}^{n}\widehat{f}(i)^{2} + \sum_{i \neq j}\widehat{f}(i)\widehat{f}(j)x_{i}x_{j} = (1 - \delta) + \sum_{i \neq j}\widehat{f}(i)\widehat{f}(j)x_{i}x_{j}.
+\end{equation*}
+
+Lembrando que $Var[f] = \sum_{k > 0}W^{k}[f]$ temos o seguinte:
+
+\begin{equation*}
+	\frac{1}{2}Var[l^{2}] = \sum_{i \neq j}\widehat{f}(i)^{2}\widehat{f}(j)^{2} = \Bigg(\sum_{i = 1}^{n}\widehat{f}(i)^{2}  \Bigg)^{2} - \sum_{i = 1}^{n}\widehat{f}(i)^{4}
+\end{equation*}
+
+Estamos assumindo que $\sum_{i = 1}^{n}\widehat{f}(i)^{2} = (1 - \delta)$ e portanto:
+
+\begin{equation*}
+	\Bigg(\sum_{i = 1}^{n}\widehat{f}(i)^{2}  \Bigg)^{2} - \sum_{i = 1}^{n}\widehat{f}(i)^{4} = (1 - \delta)^{2} - \sum_{i = 1}^{n}\widehat{f}(i)^{4} \geq 1 - 2\delta - \sum_{i = 1}^{n}\widehat{f}(i)^{4}.
+\end{equation*}
+
+E daí temos que
+
+\begin{equation*}
+	1 - 2\delta - \frac{1}{2}Var[l^{2}] \leq \sum_{i = 1}^{n}\widehat{f}(i)^{4} \leq \max_{i}\{ \widehat{f}(i)^{2} \}\sum_{i = 1}^{n}\widehat{f}(i)^{2} \leq \max_{i}\{\widehat{f}(i)^{2} \} \leq \max_{i}\{ \lvert \widehat{f}(i) \rvert \}.
+\end{equation*}
+
+Então só precisamos achar um limitante superior para $Var[l^{2}]$ para completar a prova e para isso usamos \ref{awayfromthemean}. Como $l^{2}$ tem grau 2 nós sabemos que
+
+\begin{equation*}
+	\Pr\Big[\lvert l^{2} - (1 - \delta) \rvert > \frac{1}{2}\sqrt{Var[l^{2}]}\Big] \geq \frac{1}{16}9^{1 - 2} = \frac{1}{144}.
+\end{equation*}
+
+Vamos assumir que $Var[l^{2}] > 6400\delta$. Como $\lvert l^{2} - (1 - \delta) \rvert > \frac{1}{2}\sqrt{Var[l^{2}]}$ implica em $\lvert l^{2} - 1 \rvert > \frac{1}{2}\sqrt{Var[l^{2}]} - \sqrt{\delta}$ temos
+
+\begin{equation*}
+	\Pr\Big[\lvert l^{2} - 1 \rvert > 39\sqrt{\delta} \Big] \geq \Pr\Big[\lvert l^{2} - 1 \rvert > \frac{1}{2}\sqrt{Var[l^{2} \Big]} - \sqrt{\delta}] \geq \frac{1}{144}.
+\end{equation*}
+
+Nós agora queremos mostrar que $\lvert l^{2} - 1 \rvert > 39 \sqrt{\delta}$ implica em $(f - l)^{2} > 169\delta$. Isso seria suficiente para chegarmos na contradição desejada já que então teriamos
+
+\begin{equation*}
+ \E[(f - l)^{2}] \geq \frac{1}{144}\times 169\delta > \delta.
+\end{equation*}
+
+O que é uma contradição já que $\E[(f - l)^{2}] = \delta$.
+
+Se $\lvert l \rvert > 2$ temos que $(f - l)^{2} > 1 > 169\delta$, por termos assumido que $\delta \leq 1/200$. Então podemos assumir sem perda de generalidade que $\lvert l \rvert \leq 2$ e portanto $\lvert f + l \rvert \leq 3$. Então temos que
+
+\begin{IEEEeqnarray*}{rCl}
+	\lvert l^{2} - 1 \rvert & > & 39\sqrt{\delta} \\
+	\lvert l^{2} - f^{2} & > & 39\sqrt{\delta} \\
+	\lvert f + l \rvert \lvert f - l \rvert & > & 39\sqrt{\delta} \\
+	3\lvert f - l \rvert & > & 39\sqrt{\delta} \\
+	(f - l)^{2} & > & 169\delta
+\end{IEEEeqnarray*}
+
+Então deve ser o caso que $Var[l^{2}] \leq 6400\delta$ e portanto
+
+\begin{equation*}
+	\max_{i}\{ \lvert \widehat{f}(i) \rvert \} \geq 1 - 2\delta - 3200\delta = 1 - 3202\delta.
+\end{equation*}
 
 \end{proof}
 
@@ -395,7 +501,7 @@ Fixando $w \geq 1$, nós vamos considerar a função Tribes$_{n}$ = Tribes$_{s, 
 
 \end{proof}
 
-Da forma que definimos $n$ para um $w$ fixo nós temos na verdade uma sequência $\{n_{w}\}_{w \geq 1}$, e podemos verificar que $n_{w + 1} > 2w_{w}$.
+Da forma que definimos $n$ para um $w$ fixo nós temos na verdade uma sequência $\{n_{w}\}_{w \geq 1}$, e podemos verificar que $n_{w + 1} > 2n_{w}$.
 
 Agora também podemos computar a influência total de Tribes$_{n}$.
 

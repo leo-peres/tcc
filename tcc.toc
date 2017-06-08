@@ -30,23 +30,24 @@
 \contentsline {subsubsection}{Influ\IeC {\^e}ncia individual e total}{31}{section*.14}
 \contentsline {subsubsection}{Estabilidade de ru\IeC {\'\i }do}{33}{section*.15}
 \contentsline {subsubsection}{Hipercontratividade}{34}{section*.16}
-\contentsline {subsubsection}{Tribes$_{N}$}{35}{section*.17}
-\contentsline {section}{\numberline {3.1}Algumas aplica\IeC {\c c}\IeC {\~o}es}{38}{section.3.1}
-\contentsline {subsection}{\numberline {3.1.1}Teste de propriedade}{38}{subsection.3.1.1}
-\contentsline {subsubsection}{Testando simetria}{41}{section*.18}
-\contentsline {subsubsection}{Testando 1-juntas}{43}{section*.19}
-\contentsline {chapter}{\numberline {4}Computa\IeC {\c c}\IeC {\~a}o relativizada e complexidade de circuitos}{47}{chapter.4}
-\contentsline {section}{\numberline {4.1}Uma prova alternativa do teorema \ref {teo: bgs}}{47}{section.4.1}
-\contentsline {section}{\numberline {4.2}P $\not =$ NP para or\IeC {\'a}culos aleat\IeC {\'o}rios}{49}{section.4.2}
-\contentsline {subsubsection}{A lei zero-um de Kolmogorov}{50}{section*.20}
-\contentsline {subsubsection}{Prova do teorema \ref {teo: P_NP_random_oracles}}{50}{section*.21}
-\contentsline {section}{\numberline {4.3}PH vs PSPACE}{51}{section.4.3}
-\contentsline {section}{\numberline {4.4}Separando a hierarquia polinomial}{53}{section.4.4}
-\contentsline {subsubsection}{Separando a hierarquia polinomial com or\IeC {\'a}culos aleat\IeC {\'o}rios}{55}{section*.22}
-\contentsline {chapter}{\numberline {5}Limites inferiores de circuitos Booleanos}{58}{chapter.5}
-\contentsline {section}{\numberline {5.1}Restri\IeC {\c c}\IeC {\~o}es aleat\IeC {\'o}rias}{58}{section.5.1}
-\contentsline {subsubsection}{O lema de H\IeC {\r a}stad}{59}{section*.23}
-\contentsline {section}{\numberline {5.2}M\IeC {\'e}todo polinomial}{59}{section.5.2}
-\contentsline {section}{\numberline {5.3}Provas Naturais}{59}{section.5.3}
-\contentsline {section}{\numberline {5.4}Limites inferiores a partir de algoritmos eficientes}{59}{section.5.4}
-\contentsline {section}{\numberline {5.5}Circuitos algebr\IeC {\'a}icos}{59}{section.5.5}
+\contentsline {subsubsection}{Tribes$_{N}$}{37}{section*.17}
+\contentsline {section}{\numberline {3.1}Algumas aplica\IeC {\c c}\IeC {\~o}es}{40}{section.3.1}
+\contentsline {subsection}{\numberline {3.1.1}Teste de propriedade}{40}{subsection.3.1.1}
+\contentsline {subsubsection}{Testando simetria}{43}{section*.18}
+\contentsline {subsubsection}{Testando 1-juntas}{45}{section*.19}
+\contentsline {chapter}{\numberline {4}Computa\IeC {\c c}\IeC {\~a}o relativizada e complexidade de circuitos}{49}{chapter.4}
+\contentsline {section}{\numberline {4.1}Uma prova alternativa do teorema \ref {teo: bgs}}{49}{section.4.1}
+\contentsline {section}{\numberline {4.2}P $\not =$ NP para or\IeC {\'a}culos aleat\IeC {\'o}rios}{51}{section.4.2}
+\contentsline {subsubsection}{A lei zero-um de Kolmogorov}{52}{section*.20}
+\contentsline {subsubsection}{Prova do teorema \ref {teo: P_NP_random_oracles}}{52}{section*.21}
+\contentsline {section}{\numberline {4.3}PH vs PSPACE}{53}{section.4.3}
+\contentsline {section}{\numberline {4.4}Separando a hierarquia polinomial}{55}{section.4.4}
+\contentsline {subsubsection}{Separando a hierarquia polinomial com or\IeC {\'a}culos aleat\IeC {\'o}rios}{57}{section*.22}
+\contentsline {chapter}{\numberline {5}Limites inferiores de circuitos Booleanos}{60}{chapter.5}
+\contentsline {section}{\numberline {5.1}Restri\IeC {\c c}\IeC {\~o}es aleat\IeC {\'o}rias}{60}{section.5.1}
+\contentsline {subsubsection}{O lema de H\IeC {\r a}stad}{61}{section*.23}
+\contentsline {subsection}{\numberline {5.1.1}Proje\IeC {\c c}\IeC {\~o}es aleat\IeC {\'o}rias e prova dos teoremas \ref {Sipser_f_lb} e (...)}{68}{subsection.5.1.1}
+\contentsline {section}{\numberline {5.2}M\IeC {\'e}todo polinomial}{71}{section.5.2}
+\contentsline {section}{\numberline {5.3}Provas Naturais}{71}{section.5.3}
+\contentsline {section}{\numberline {5.4}Limites inferiores a partir de algoritmos eficientes}{71}{section.5.4}
+\contentsline {section}{\numberline {5.5}Circuitos algebr\IeC {\'a}icos}{71}{section.5.5}

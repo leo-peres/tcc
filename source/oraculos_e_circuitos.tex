@@ -299,13 +299,13 @@ Como vimos na seção anterior, podemos representar $\Sigma_{k}^{p}$ por circuit
 
 Para $d \geq 2$ a função de Sipser $f^{d, n}$ é uma fórmula monotônica e \emph{read-once} onde o nível mais baixo tem fan-in $\sqrt{\frac{1}{2}dn\log n}$, as portas lógicas nos níveis 2 até d - 1 têm fan-in $n$ e a porta lógica no nível mais alto tem fan-in $\sqrt{\frac{n}{\log n}}$. Ou seja, podemos escrever $f^{d, n}$ como
 
-\begin{equation} \label{Sipser_f_def_1}
+\begin{equation}
 	\bigwedge_{i_{d}  = 1}^{\sqrt{\frac{n}{\log n}}}\bigvee_{i_{d - 1} = 1}^{n} \dots \bigvee_{i_{2} = 1}^{n} \bigwedge_{i_{1} = 1}^{\sqrt{\frac{1}{2}dn\log n}} x_{i_{1}, i_{2}, \dots, i_{d}}, \text{ se } d \text{ é par.}
 \end{equation}
 
 e
 
-\begin{equation} \label{Sipser_f_def_2}
+\begin{equation}
 	\bigwedge_{i_{d}  = 1}^{\sqrt{\frac{n}{\log n}}}\bigvee_{i_{d - 1} = 1}^{n} \dots \bigwedge_{i_{2} = 1}^{n} \bigvee_{i_{1} = 1}^{\sqrt{\frac{1}{2}dn\log n}} x_{i_{1}, i_{2}, \dots, i_{d}}, \text{ se } d \text{ é ímpar.}
 \end{equation}
 

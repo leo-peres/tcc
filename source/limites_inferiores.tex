@@ -34,29 +34,441 @@ Então, para provar o teorema \ref{teo: parity_lb} precisamos antes provar que c
 
 \begin{lema} (Lema de Håstad) \label{hastad_lemma}
 
-Seja $F$ uma fórmula FND (ou FNC) com largura $w$, $l \geq 1$, $p \in (0, 1]$ e $\rho \leftarrow R_{p}$, então
+Seja $F$ uma fórmula FNC (ou FND) com largura $w$, $s \geq 1$, $p \in (0, 1]$ e $\rho \leftarrow R_{p}$, então
 
 \begin{equation*}
-	\Pr[D(F_{\lvert \rho}) \geq l)] \leq (5pw)^{l}
+	\Pr[D(F_{\lvert \rho}) \geq s] \leq (5pw)^{s}
 \end{equation*}
 
 \end{lema}
 
 Nós vamos ver 2 provas diferente do lema \ref{hastad_lemma}. A primeira é a prova original do próprio Håstad. A segunda prova é de Razborov.
 
-%\begin{proof} (Primeira prova do lema de Håstad)
+Na primeira prova nós iremos considerar $F = \bigwedge_{i = 1}^{m} C_{i}$ e provaremos por indução em $m$, o número de cláusulas na prova. Na verdade, nós provamos o seguinte lema que é uma versão mais forte do lema de Håstad.
 
-%\end{proof}
+\begin{lema} \label{hastad_stronglemma}
 
-%\begin{proof} (Segunda prova do lema de Håstad)
+Seja $F$ uma fórmula FNC (ou FND) com largura $w$, $s \geq 1$, $p \in (0, 1]$ e $\rho \leftarrow R_{p}$, então
 
-%\end{proof}
+\begin{equation*}
+	\Pr[D(F_{\lvert \rho}) \geq s \lvert \rho \in \Delta] \leq (5pw)^{s}
+\end{equation*}
+
+Onde $\Delta$ é um conjunto fechado para baixo arbitrário de restrições.
+
+\end{lema}
+
+O lema \ref{hastad_stronglemma} é uma versão mais forte do lema de Håstad pois $\rho$ sempre pertence ao conjunto fechado para baixo $\{\rho \lvert (x_{1} \lor \overline{x}_{1})_{\lvert \rho} = 1\}$ mas precisamos da condicionate para que o argumento por indução funcione.
+
+\begin{proof} (Primeira prova do lema de Håstad)
+
+Como já foi dito iremos considerar  $F = \bigwedge_{i = 1}^{m} C_{i}$, onde cada cláusula $C_{i}$ tem largura no máximo $w$, e provaremos por indução em $m$.
+
+Se $m = 0$ então $F = 1$ e o lema é trivial neste caso. Suponha que $m > 0$, nós então temos que
+
+\begin{equation*}
+	\Pr[D(F_{\lvert \rho}) \geq s \lvert \rho \in \Delta] \leq \max(\Pr[D(F_{\lvert \rho}) \geq s \lvert \rho \in \Delta \land C_{1 \lvert \rho} = 1], \Pr[D(F_{\lvert \rho}) \geq s \lvert \rho \in \Delta \land C_{1 \lvert \rho} \neq 1])
+\end{equation*}
+
+Então basta mostrar que o lema é verdadeiro em ambos os casos ($C_{1 \lvert \rho} = 1$ e $C_{1 \lvert \rho} \neq 1$). Vamos primeiro considerar o caso em que $C_{1 \lvert \rho} = 1$. Se $C_{1 \lvert \rho} = 1$ então $F_{\lvert \rho} = \bigwedge_{i  = 2}^{m}C_{i \lvert \rho}$, e iremos chamar $F$ sem a tua primeira cláusula de $F^{\prime}$ (daí temos que $F_{\lvert \rho} = F^{\prime}_{\lvert \rho}$ quando $C_{1 \lvert \rho} = 1$). Temos que
+
+\begin{equation*}
+ 	\Pr[D(F_{\lvert \rho}) \geq s \lvert \rho \in \Delta \land C_{1 \lvert \rho} = 1] = \Pr[D(F_{\lvert \rho}^{\prime}) \geq s \lvert \rho \in \Delta \land C_{1 \lvert \rho} = 1].
+\end{equation*}
+
+Como $F^{\prime}$ é uma fórmula FNC de tamanho $m - 1$ podemos usar a hipótese da indução dado que a condicionante nas probabilidades acima é monotônica. Mas isto segue do seguinte fato:
+
+\begin{fato*}
+	Se $\Delta^{1}$ e $\Delta^{2}$ são conjuntos de restrições fechados para baixo então $\Delta^{1} \cap \Delta^{2}$ é um conjunto de restrições fechado para baixo.
+\end{fato*}
+
+Daí segue que
+
+\begin{equation*}
+	\Pr[D(F_{\lvert \rho}) \geq s \lvert \rho \in \Delta \land C_{1 \lvert \rho} = 1] \leq (5pw)^{s}.
+\end{equation*}
+
+Agora vamos o considerar o caso em que $C_{1 \lvert \rho} \neq 1$. Primeiro observamos que se $C_{1 \lvert \rho} = 0$ então $F_{\lvert \rho} = 0$ e o resultado é trivial. Iremos assumir então que $C_{1 \lvert \rho} \neq 0$. Neste caso, seja $T$ o conjunto de variáveis que aparecem em $C_{1}$, temos que deve haver um subconjunto não vazio $Y$ de $T $ tal que $\rho(i) = *$ para todo $i \in Y$ e $\rho(i) \in \{0, 1\}$ para todo $i \in T \setminus Y$, denotaremos este evento por $\rho(Y) = *$. Daí temos o seguinte
+
+\begin{IEEEeqnarray*}{rCl}
+	\Pr[D(F_{\lvert \rho}) \geq s \lvert \rho \in \Delta \land C_{1 \lvert \rho} \neq 1] & \leq & \sum_{Y \subseteq T, Y \neq \emptyset} \Pr[D(F_{\lvert \rho}) \geq s  \land \rho(Y) = * \lvert \rho \in \Delta \land C_{1 \lvert \rho} \neq 1] \\
+	                                                                                                                                & = & \sum_{Y \subseteq T, Y \neq \emptyset} \Pr[\rho(Y) = * \lvert \rho \in \Delta \land C_{1 \lvert \rho} \neq 1] \times \Pr[D(F_{\lvert \rho}) \geq s \lvert \rho \in \Delta \land C_{1 \lvert \rho} \neq 1 \land \rho(Y) = *].
+\end{IEEEeqnarray*}
+
+Então vamos limitar o valor de ambos os fatores. Primeiro argumentamos que
+
+\begin{equation} \label{hastad_sublemma}
+	\Pr[\rho(Y) = * \lvert \rho \in \Delta \land C_{1 \lvert \rho} \neq 1] \leq \Big(\frac{2p}{1 + p} \Big)^{\lvert Y \rvert}.
+\end{equation}
+
+Dizer que $C_{1 \lvert \rho} \neq 1$ é o mesmo que dizer que $\rho(i) \in \{b, *\}$, para cada $i \in T$ em que $b$ é 0 se $x_{i}$ aparece não-negada em $C_{1}$ e $b = 1$ caso contrário. Então dado que $\rho(i) \neq b$ temos que $\rho(i)$ é * com probabilidade $\frac{p}{1 - \frac{1-  p}{2}} = \frac{2p}{1 + p}$, e como $\rho$ atribui valores às variáveis de forma independente obtemos \ref{hastad_sublemma}.
+
+Agora estimamos o segundo fator. Para isso nós mostramos o seguinte:
+
+\begin{equation*}
+	\Pr[D(F_{\lvert \rho}) \geq s \lvert \rho \in \Delta \land C_{1 \lvert \rho} \neq 1 \land \rho(Y) = *] \leq \sum_{\pi} \Pr[D(F_{\lvert \rho \pi}) \geq s - \lvert Y \rvert \lvert \rho \in \Delta \land C_{1 \lvert \rho} \neq 1 \land \rho(Y) = *],
+\end{equation*}
+
+onde $\pi$ é uma restrição que atribui um valor à todas as variáveis em $Y$ e $\pi(i) = *$ para todo $i \notin Y$, e que também não seja a única atribuição às variáveis em $Y$ que força $C_{1}$ a ser 0. Isso é verdade pois se para todas tais atribuições $\pi$ fosse verdade que $D(F_{\lvert \rho \pi}) < s - \lvert Y \rvert$ então poderiamos construir uma árvore de decisão para $F_{\lvert \rho}$ que primeiro faz consultas à todas as variáveis de $Y$ e depois usa a árvore de decisão para $F_{\lvert \rho \pi}$, para a restrição $\pi$ consistente com as respostas às consultas da árvore de decisão. Esta árvore de decisão teria profundidade menor do que $(s - \lvert Y \rvert) + \lvert Y \rvert = s$ o que seria uma contradição.
+
+Agora, $F_{\lvert \rho \pi}$ só depende das outras cláusulas de $F$ que não sejam a primeira, por definição de $\pi$ e do conjunto $Y$, e podemos aplicar a hipótese da indução dado que a condicionante seja um conjunto fechado para baixo com respeito à restrição $\rho\pi$. Mas se escrevermos $\rho^{\prime} = \rho\pi$ onde $\rho$ é uma restrição arbitrária de $R_{p}$ e $\pi$ é uma restrição que atribui valores em $\binalph$ à exatamente as variáveis $i$ em $T$ tais que $\rho(i) = *$ então restringir ainda mais variáveis não mudará o fato que $C_{1 \lvert \rho} \neq 1$ e $\rho(Y) = *$ e portanto nós temos um conjunto fechado para baixo na condicionante.
+
+Então, pela hipótese da indução  para $\rho \in R_{p}$ tal que $\rho(Y) = *$ e $\pi$ uma restrição que atribui valores a exatamente as variáveis em $Y$ temos que
+
+\begin{equation*}
+	\Pr[D(F_{\lvert \rho \pi}) \geq s - \lvert Y \rvert \lvert \rho \in \Delta \land C_{1 \lvert \rho} = 1 \land \rho(Y) = *] \leq (5pt)^{s - \lvert Y \rvert}.
+\end{equation*}
+
+E daí temos que
+
+\begin{equation*}
+	 \Pr[D(F_{\lvert \rho}) \geq s \lvert \rho \in \Delta \land C_{1 \lvert \rho} \neq 1 \land \rho(Y) = *] \leq (2^{\lvert Y \rvert} - 1)(5pt)^{s - \lvert Y \rvert}.
+\end{equation*}
+
+E juntando (...)  e (...) temos que
+
+\begin{IEEEeqnarray*}{rCl}
+	\Pr[D(F_{\lvert \rho}) \geq s \lvert \rho \in \Delta \land C_{1 \lvert \rho} \neq 1] & \leq & \sum_{Y \subseteq T, Y \neq \emptyset} (\frac{2p}{1 + p})^{\lvert Y \rvert}(2^{\lvert Y \rvert} - 1)(5pt)^{s - \lvert Y \rvert} \\
+	                                                                                                                                & =     & \sum_{k = 0}^{\lvert T \rvert}\binom{\lvert T \rvert}{k}\bigg(\frac{2p}{1 + p}\bigg)^{k}(2^{k} - 1)(5pt)^{s - k} \\
+	                                                                                                                                & =     & (5pt)^{s}\sum_{k = 0}^{\lvert T \rvert}\binom{\lvert T \rvert}{k}\bigg(\frac{2}{5t(1 + p)}\bigg)^{k}(2^{k} - 1) \\
+	                                                                                                                                & =     & (5pt)^{s}\Bigg( \bigg(1 + \frac{4}{5t(1 + p)} \bigg)^{\lvert T \rvert} - \bigg(1 + \frac{2}{5t(1 + p)}\bigg)^{\lvert T \rvert}\Bigg) 
+\end{IEEEeqnarray*}
+
+Usando que $(1 + 2x) \leq (1 + x)^{2}$ e $(1 + x) \leq e^{x}$ nós podemos mostrar que o segundo fator acima é limitado por $e^{4/5} - e^{2/5} < 1$ e então podemos concluir que
+
+\begin{equation*}
+	\Pr[D(F_{\lvert \rho}) \geq s \lvert \rho \in \Delta \land C_{1 \lvert \rho} \neq 1] \leq (5pt)^{s}.
+\end{equation*}
+
+Então provamos que em ambos os casos em que $\rho$ faz a primeira cláusula de $F$ ser 1 ou não ser 1 a probabilidade que $D(F_{\lvert \rho}) \geq l$ é no máximo $(5pt)^{s}$ e daí obtemos o lema de  Håstad.
+
+\end{proof}
+
+Agora iremos ver a segunda prova do Lema de Håstad. Primeiro nós vamos definir a árvore de decisão canônica de uma fórmula FNC $F$.
+
+\begin{defi} (Árvore de decisão canônica de $F$) \label{can_tree}
+
+Seja $F$ uma fórmula FNC, a árvore de decisão canônica $T$ de $F$ é definida recursivamente da seguinte forma:
+
+\begin{enumerate}
+
+	\item Se $F = 0$ ou $F = 1$ então $T$ é simplesmente a árvore de decisão trivial que não faz nenhuma consulta e tem uma única folha com o valor apropriado.
+	
+	\item Seja $C_{1}$ a primeira cláusula não vazia de $F$ e $K$ o conjunto das variáveis que aparecem em $C_{1}$. Então $T$ faz consultas às variáveis em $K$ em alguma ordem arbitrária, formando em cada caminho uma folha associada à uma restrição $\rho$ que seta os valores de $K$ de forma consistente com o caminho da raiz de $T$ até esta folha. Por fim trocamos cada folha com a árvore de decisão canônica de $F_{\lvert \rho}$, em que $\rho$ é a restrição associada à folha.
+
+\end{enumerate}
+
+\end{defi}
+
+\begin{defi} \label{can_depth}
+
+A complexidade de consulta canônica de $F$ que denotaremos por $\cand(F)$ é a profundidade da árvore de decisão canônica de $F$.
+
+\end{defi}
+
+A idéia agora é codificar restrições ``más'', significando restrições $\rho \in R_{p}$ tais que $\cand(F_{\lvert \rho}) \geq s$, de forma que o mapeamento de restrições más para códigos seja injetivo, depois disso mostramos que o número de possíveis códigos é pequeno. 
+
+Na verdade, ao usar este argumento por codificações de restrições más nós provamos uma versão mais restrita do lema de Håstad. Em primeiro lugar nós iremos fixar o número de variáveis deixadas livres pela restrição. A partir de agora denotamos por $R_{n}^{l}$ o conjunto de todas as restrições à $n$ variáveis que deixa exatamente $l$ variáveis livres. Nós provamos o seguinte
+
+\begin{lema} \label{hastad_lemma_can_trees}
+
+Seja $F$ uma fórmula FNC (ou FND) com largura $w$, $s \geq 1$, $0 < p \leq 1/10$, $l = \lfloor pn \rfloor$ e $\rho \in R_{n}^{l}$, então
+
+\begin{equation*}
+	\Pr[\cand(F_{\lvert \rho}) \geq s] \leq \mathcal{O}\big((pw)^{s}\big).
+\end{equation*}
+
+\end{lema}
+
+Outra llimitação desta prova é que a constante no $\mathcal{O}(.)$ é maior do que 5. Provar \ref{hastad_lemma_can_trees} é suficiente para provar o Lema de Håstad para restrições com um número fixo de variáveis livres e com uma constante maior, e nós faremos isso agora.
+
+\begin{proof} (Segunda prova do lema de Håstad)
+
+
+Vamos considerar $F = \bigwedge_{i = 1}^{m} C_{i}$ onde cada cláusula $C_{i}$ tem largura no máximo $w$. Como já foi dito, o objetivo é codificar todas as restrições $\rho \in R_{n}^{l}$. Seja $S$ o conjunto de todas as restrições $\rho \in R_{n}^{l}$ tal que $\cand(F_{\lvert \rho}) \geq s$. O nosso mapeamento é
+
+\begin{equation*}
+	S \to R_{n}^{l - s} \times [w]^{s} \times \binalph^{s}.
+\end{equation*}
+
+O mapeamento é injetivo o que significa que $\lvert S \rvert \leq \lvert  R_{n}^{l - s} \times [w]^{s} \times \binalph^{s} \rvert$. No fundo estamos querendo provar que $\frac{\lvert S \rvert}{\lvert R_{n}^{l}\rvert}$ é pequeno, portanto para isso mostramos que o número de possíveis codificações também é pequeno.
+
+Nós iremos dividir o restante da prova em três partes. Na primeira parte iremos mostrar como construir a partir de $\rho \in S$ um código da forma $(\rho^{\prime}, \beta, d)$ onde $\rho^{\prime} \in R_{n}^{l - s}$ é uma extensão de $\rho$, enquanto que $\beta$ e $d$ guardarão informações que nos auxiliará a extrair $\rho$ a partir de tua extensão $\rho^{\prime}$. A segunda parte nós descrevemos em detalhe como recuperar $\rho$ a partir de teu código. E finalmente na terceira parte iremos mostrar que o número total de possíves códigos é pequeno o suficiente para provar esta versão do Lema de Håstad. 
+
+\begin{enumerate}
+
+	\item Construindo o código a partir de $\rho$.
+	
+	Seja $\pi$ um caminho qualquer da raíz até uma folha da árvore de decisão canônica $T$ de $F_{\lvert \rho}$ que tenha tamanho $\geq s$, truncando $\pi$ de tal forma que $\lvert \pi \rvert = s$. Nós construimos o código em estágio. Pra começar descrevemos o primeiro passo. Seja $C_{\alpha_{1}}$ a primeira cláusula da fórmula $F_{\lvert \rho}$ que não seja igual a 1 (tal cláusula deve existir porque $F_{\lvert \rho} \neq 1$) e chame de $K_{1}$ o conjunto de variáveis que aparecem em $C_{\alpha_{1} \lvert \rho}$. Seja $\pi_{1}$ a parte de $\pi$ que contém variáveis em $K_{1}$. Nós então consideramos a única atribuição às variáveis em $K_{1}$ que não satisfaz a cláusula $C_{\alpha_{1} \lvert \rho}$. Consideramos então o vetor $\beta_{1} \in [w]^{\lvert K_{i} \rvert}$ tal que a $j$-ésima coordenada de $\beta_{1}$ indica a posição da $j$-ésima variável em $K_{i}$ na clásula $C_{i}$ (lembrando que estamos assumindo alguma enumeração arbitrária das variáveis em cada cláusula de $F$).
+	
+	Para $i > 1$ nós prosseguimos da mesma forma como fizemos no primeiro estágio, mas desta vez nós definimos $C_{\alpha_{i}}$ como sendo a primeira cláusula na fórmula $F_{\lvert \rho\pi_{1}\pi_{2}\dots\pi_{i - 1}}$ que não é igual a 1. Nós chegamos no último estágio quando $\pi_{i} = \pi \setminus \pi_{1}\dots\pi_{i - 1}$. Vamos assumir que $k$ estágios foram realizados, para algum $k \geq 1$ e vale lembrar que a restrição $\pi_{k}$ pode não setar valores à todas variáveis na cláusula $C_{\alpha_{k} \lvert \rho\pi_{1}\dots\pi_{k - 1}}$ -- em outras palavras, é possível que $K_{k}$ não contenha todas as variáveis ainda vivas em $C_{\alpha_{k} \lvert \rho\pi_{1}\dots\pi_{k - 1}}$.
+	
+	Por fim definimos a string $d \in \binalph^{s}$ em que a $i$-ésima coordenada de $d$ é 1 se e somente se a $i$-ésima variável setada pela restrição $\sigma$ (seguindo o ordenamento das cláusulas de $F$ e das variáveis dentro dessas cláusulas) tem um valor atribuido diferente nas restrições $\sigma$ e $\pi$.
+
+	\item Decodificando $\code(\rho)$.
+	
+	Dado $\code(\rho) = (\rho\sigma_{1}\sigma_{2}\dots\sigma_{k}, \beta, x)$ nós recuperamos $\rho$ em estágios. Nós assumimos que no $i$-ésimo estágio nós já recuperamos as restrições $\pi_{1}, \pi_{2}, \dots, \pi_{i - 1}$, lembrando o $i$-ésimo estágio do processo de construção de $\code(\rho)$ nós tinhamos que $C_{\alpha_{i}}$ era a primeira cláusula que não era igual a 1 na fórmula $F_{\lvert \rho\pi_{1}\pi_{2}\dots\pi_{i - 1}}$, e o mesmo vale para a fórmula $F_{\lvert \rho\pi_{1}\pi_{2}\dots\pi_{i - 1}\sigma_{i}\dots\sigma_{k}}$ pois cada $\sigma_{j}$, para $j \geq i$, só atribui valores a variáveis que não aparecem em $C_{\alpha_{i} \lvert \rho \pi_{1}\pi_{2}\dots\pi_{i - 1}}$. Como $\sigma_{i}$ por definição faz $C_{\alpha_{i} \lvert \rho\pi_{1}\pi_{2}\dots\pi_{i - 1}}$ não ser igual a 1 temos que $C_{\alpha_{i}}$ é também a primeira cláusula que não é igual a 1 na fórmula $F_{\lvert \rho\pi_{1}\pi_{2}\dots\pi_{i - 1}\sigma_{i}\dots\sigma_{k}}$. Isso significa que a partir de $\rho\pi_{1}\pi_{2}\dots\pi_{i - 1}\sigma_{i}\dots\sigma_{k}$ podemos encontrar $C_{\alpha_{i}}$. Agora podemos recuperar $\pi_{i}$ a partir de $C_{\alpha_{i}}$,  $\beta_{i}$ e a string $d$. Agora, dado que sabemos cada $\pi_{i}$ podemos dizer qual parte da restrição $\rho\pi_{1}\pi_{2}\dots\pi_{k}$ é $\rho$: $\rho$ só atribui valores à variáveis que não aparece em nenhum dos $\pi_{i}$ (ou $\sigma_{i}$).
+	
+	\item Estimando $\Pr[\rho \in S]$.
+	
+	Nós temos que $\Pr[\rho \in S] = \frac{\lvert S \lvert}{\lvert R_{n}^{l} \rvert}$, e como provamos em (2) que $Code: S \to R_{n}^{l - s} \times [w]^{s} \times \binalph^{s}$ é um mapeamento injetivo temos que
+	
+	\begin{equation*}
+		\frac{\lvert S \rvert}{\lvert R_{n}^{l }\rvert} \leq \frac{\lvert R_{n}^{l - s} \times [w]^{s} \times \binalph^{s} \rvert}{\lvert R_{n}^{l} \rvert}
+	\end{equation*}
+	
+	Para estimar o lado direito da desigualdade acima a parte menos trivial é estimar $\frac{\lvert R_{n}^{l - s} \rvert}{\lvert R_{n}^{l} \rvert}$. Nós temos que $\lvert R_{n}^{l} \rvert = 2^{n - l}\binom{n}{l}$ e $\lvert R_{n}^{l - s} \rvert = 2^{n - l + s}\binom{n}{l - s}$, então
+	
+	\begin{IEEEeqnarray*} {rCl}
+		\frac{\lvert R_{n}^{l - s}\rvert}{\lvert R_{n}^{l}\rvert} & =    & \frac{2^{n - l + s}\binom{n}{l - s}}{2^{n - l}\binom{n}{l}} \\
+		                                                                                           & =    & 2^{s}\frac{n!/\big((n - l + s)!(l - s)!\big)}{n!/\big((n - l)!l!\big)} \\
+		                                                                                           & =    & 2^{s}\frac{l(l - 1)\dots (l - s + 1)}{(n - l + s)(n - l + s - 1)\dots (n - l + 1)} \\
+		                                                                                           & \leq & 2^{s} \bigg( \frac{l}{n - l + 1} \bigg)^{s} \\
+		                                                                                           & \leq & \bigg( \frac{2l}{n - l}\bigg)^{s}.
+	\end{IEEEeqnarray*}
+
+	E como escolhemos $l \leq pn$ e $p \leq 1/10$, temos
+	
+	\begin{equation*}
+		\frac{\lvert R_{n}^{l - s}\rvert}{\lvert R_{n}^{l}\rvert} \leq (2p)^{s}.
+	\end{equation*}
+
+	Agora, temos que cada $\beta_{i} \in [w]^{s}$ pode ser codificado por uma string em $\binalph^{s(\log w + 1)}$ e portanto
+	
+	\begin{equation*}
+		\frac{\lvert R_{n}^{l - s} \times [w]^{s} \times \binalph^{s} \rvert}{\lvert R_{n}^{l} \rvert} \leq (2p)^{s} 2^{s(\log w + 1)} 2^{s} = (8wp)^{s}.
+	\end{equation*}
+	
+	Isso encerra o terceiro e último passo da prova.
+
+\end{enumerate}
+
+\end{proof}
 
 Agora nós podemos ver como uma restrição aleatória simplifica um circuito $C$ de profundidade $d$. Suponha que as portas no primeiro nível de $C$ sejam portas $\land$, e portanto temos portas $\lor$ no segundo nível e portas $\land$ no terceiro nível. As portas $\lor$ no segundo nível computam uma fórmula FND e portanto se aplicarmos uma restrição às variáveis de entrada desta fórmula FND, com alta probabilidade podemos trocar ela por uma árvore de decisão que pode ser representada por uma fórmula FNC. Se fizermos o mesmo com todas as portas $\lor$ no segundo nível, teremos somente portas $\land$ no segundo nível alimentando portas $\land$ no terceiro nível, e daí podemos colapsar estes dois níveis e obter um circuito de profundidade $d - 1$.
 
-%\begin{proof} (Prova do teorema \ref{teo: parity_lb})
+Nós iremos usar este argumento para provar \ref{teo: parity_lb}.
 
-%\end{proof}
+\begin{teo}
+
+Seja $d > 0$ um inteiro. Para $n$ suficientemente grande temos que qualquer circuito de profundidade $d$ com fan-in $\polylog(n)$ no teu primeiro nível e tamanho $< 2^{\mathcal{O}\big(n^{\frac{1}{d - 1}}\big)}$ não pode computar a função paridade de $n$ variáveis corretamente em todas as entradas. 
+
+\end{teo}
+
+\begin{proof} (Prova do teorema \ref{teo: parity_lb})
+
+	Nós mostramos que $C$ e $\Parity_{n}$ com alta probabilidade colapsam para funções diferentes quando nós aplicamos uma restrição $\rho \leftarrow R_{p}$ onde
+	
+	\begin{equation*}
+		p = \frac{1}{10w}\bigg( \frac{1}{10\log(120S)} \bigg)^{d - 2}.
+	\end{equation*}
+
+	Especificamente, nós iremos mostrar que:
+	
+	\begin{enumerate}
+	
+		\item Com probabilidade maior do que $99\%$, $C_{\lvert \rho}$ tem uma árvore de decisão de profundidade no máximo 10.
+	
+		\item Com probabilidade maior do que $99\%$, $\Parity_{n \lvert \rho}$ é a função paridade ou a negação da função paridade de mais do que 10 variáveis.
+	
+	\end{enumerate}
+
+	Provar (1) e (2) é suficiente para provar o teorema porque a função paridade e a tua negação são funções evasivas, e portanto depender de mais do que 10 variáveis implica em não ter uma árvore de decisão de profundidade no máximo 10, e portanto com probabilidade maior do que $1 - 2 \times 0,01 = 0,98$, $C_{\lvert \rho} \neq \Parity_{n \lvert \rho}$ o que implica em $C$ não poder ser um circuito para a função $\Parity_{n}$. 
+
+	Provando (1):
+	
+	Nós usamos o fato que aplicar uma restrição $\rho \leftarrow R_{p}$ à uma função é o mesmo que aplicar uma sequência de restrições $\rho_{1}, \rho_{2}, \dots \rho_{d - 1}$, onde $\rho_{i} \leftarrow R_{p_{i}}$ onde $p_{i}$ é $\frac{1}{10w}$ quando i = 1 e $p_{i} = \frac{1}{10 \log(120S)}$ para $2 \leq i \leq d - 1$. Em cada aplicação das restrições $\rho_{i}$ nós usamos o Lema de Håstad para mostrar que com alta probabilidade o circuito $C_{\lvert \rho_{1}\rho_{2}\dots\rho_{i - 1}}$ tem tua profundidade diminuida, por fim teremos que, com alta probabilidade, $C_{\lvert \rho_{1}\rho_{2}\dots\rho_{d - 2}}$ é um circuito de profundidade 2 e pelo Lema de Håstad com probabilidade pelo menos $1 - \frac{1}{2^{10}}$ colapsa para um árvode de decisão de profundidade 10 quando aplicamos $\rho \leftarrow R_{p_{2}}$ às variáveis que sobreviveram todas as restrições anteriores.
+	
+	Primeiro nós temos que ao aplicar $\rho \leftarrow R_{p_{1}}$ às variáves de entrada de $C$, cada porta $\lor$ no segundo nível de $C$ podem ser substituida por uma árvore de decisão de profundidade $\log(120S)$ com probabilidade pelo menos $2^{-\log(120S)} = 1/120S$ (isto é apenas uma aplicação do Lema de Håstad). Portanto, com probabilidade pelo menos $1 - S_{2}/120S$, onde em geral nós denotaremos por $S_{i}$ o número de portas lógicas no $i$-ésimo nível de $C$, todas as portas $\lor$ no segundo nível de $C$ podem ser substituidas por árvores de decisão de profundidade $\log(120S)$. Agora nós usamos que uma árvore de decisão de profundidade $\log(120S)$ pode ser representável por uma fórmula FNC de largura $\log(120S)$ para colapsar o segundo e terceiro nível de $C$ obtendo então um circuito de profundidade $d - 1$ e fan-in $\log(120S)$ no teu nível mais baixo.
+	
+	Nós agora repetimos o mesmo processo $d - 2$ vezes usando restrições $\rho_{i} \leftarrow R_{p_{2}}$, em cada passo reduzindo a profundidade do circuito $C_{\lvert \rho_{1}\rho_{2}\dots\rho_{i - 1}}$ em um com probabilidade pelo menos $1 - S_{1}/120S$. No último passo, assumindo que $C_{\lvert \rho_{1}\rho_{2}\dots\rho_{d - 2}}$ tenha com sucesso reduzido a um circuito de profundidade 2, ao aplicarmos $\rho_{d - 2} \leftarrow R_{p_{2}}$ temos que com probabilidade pelo menos $1 - 2^{-10}$ obtemos uma árvore de decisão de profundidade no máximo 10. A probabilidade que todas as restrições $\rho_{i}$ tenha sucedidas em reduzir a profundidade de $C$ é pelo menos
+	
+	\begin{equation*}
+		1 - S_{2}/120S - S_{3}/120S - \dots - S_{d - 2}/120S - 2^{-10} \geq 1 - 1/120 - 2^{-10} \geq 0,99.
+	\end{equation*}
+	
+	Provando (2):
+	
+	Nós notamos que $D(\Parity_{n \lvert \rho}) > 10$ sempre que o número de variáveis que continuam livres na restrição $\rho \leftarrow R_{p}$ for maior do que 10. Seja $\free(\rho) = \lvert \{i \lvert \rho(i) = *\} \rvert$, então pela desigualdade de Chernoff nós temos que
+	
+	\begin{equation*}
+		\Pr[\free(\rho) \leq 10] \leq \expp \Bigg( -\frac{n}{10w} \bigg(\frac{1}{10\log(120S)} \bigg)^{d - 2}\frac{\delta^{2}}{2} \Bigg),
+	\end{equation*}
+		
+	onde $\delta = 1 - \frac{100w}{n}(10\log(120S))^{d - 2}$. Nós queremos mostrar que a probabilidade acima é no máximo uma constante então é suficiente mostrar que o valor no expoente é $-\omega(1)$.  Como $(1 - \frac{100w}{n}(10\log(120S))^{d - 2})^{2} \geq 1 - \frac{200w}{n}(10\log(120S))^{d - 2}$, segue que
+	
+	\begin{IEEEeqnarray*} {rCl}
+		\frac{n}{10w} \bigg(\frac{1}{10\log(120S)} \bigg)^{d - 2}\frac{\delta^{2}}{2} & \geq & \frac{n}{10w} \bigg(\frac{1}{10\log(120S)} \bigg)^{d - 2} \bigg(1/2 - \frac{100w}{n}(10\log(120S))^{d - 2} \bigg) \\
+		                                                                                                                        & =    & \frac{n}{20w} \bigg(\frac{1}{10\log(120S)} \bigg)^{d - 2} - 10.
+	\end{IEEEeqnarray*}
+	
+	Lembrando que $S = 2^{10n^{\frac{1}{d - 1}}}$ e $w = \log^{c}n$ temos que
+	
+	\begin{equation*}
+		\frac{n}{20w} \bigg(\frac{1}{10\log(120S)} \bigg)^{d - 2} - 10 = \Omega \bigg( \frac{n^{1 - \frac{d - 2}{d - 1}}}{\log^{c}n} \bigg)
+	\end{equation*}
+	
+	o que é $\omega(1)$ e portanto para $n$ suficientemente grande temos que isso é menor do que $0,01$, e portanto:
+	
+	\begin{equation*}
+		\Pr[\free(\rho) > 10] \geq 0,99,
+	\end{equation*}
+	
+	quando $n$ é suficientemente grande.
+	
+\end{proof}
+
+Lembrando no capítulo anterior quando mostramos que $\PH^{A} \neq \PSPACE^{A}$ com probabilidade 1 nós precisamos do teorema \ref{teo: parity_lb_app} que diz que a função paridade não pode ser nem mesmo aproximada por circuitos de profundidade constante e tamanho $2^{o(n^{\frac{1}{d - 1}})}$ (ou seja, o mesmo tipo de circuitos que consideramos no teorema \ref{teo: parity_lb}). Nós na verdade podemos provar o teorema \ref{teo: parity_lb_app} a partir da prova do teorema \ref{teo: parity_lb} acima, obervando o seguinte:
+
+\begin{fato} \label{dt_parity_inapp}
+
+Seja $n \geq 1$ e $T$ uma árvore de decisão de profundidade $\leq n - 1$, então
+
+\begin{equation*}
+	\Pr[T(x) = \Parity_{n}(x)] = 1/2.
+\end{equation*}
+
+\end{fato}
+
+Isto é verdade pois se considerarmos um caminho $\pi$ de $T$ e o conjunto $X_{\pi} = \{x \in \binalph^{n} \lvert x \text{ segue o caminho } \pi \text{ em } T\}$ então exatamente metade das strings $x \in X_{\pi}$ têm paridade igual ao valor da folha de $\pi$. Além disso nós também temos o seguinte fato:
+
+\begin{fato} \label{rr_completes_uniform}
+
+Seja $p \in (0, 1)$ e considere a seguinte distribuição $\mathcal{D}$ de strings em $\binalph^{n}$:
+
+\begin{enumerate}
+
+	\item Tire uma restrição $\rho \leftarrow R_{p}$;
+	
+	\item Tire uma string $x^{\prime}$ uniformemente de $\binalph^{\rho^{-1}(*)}$.
+
+
+\end{enumerate}
+
+Então $\mathcal{D}$ é a distribuição uniforme sobre as strings em $\binalph^{n}$.
+
+\end{fato}
+
+A partir de \ref{dt_parity_inapp} e \ref{rr_completes_uniform} e pela prova do teorema \ref{teo: parity_lb} é verdade que qualquer vantagem que um circuito $C$ que consideramos no teorema \ref{teo: parity_lb} sobre uma das funções constantes em aproximar a função $\Parity_{n}$ vem das restrições $\rho$ tais que pelo menos uma das condições (1) e (2) na prova daquele teorema não é satisfeita. O que nós mostramos é exatamente que apenas uma fração pequena das restrições falham em satisfazer ambas as condições e portanto qualquer vantagem que $C$ venha a ter é limitada por este fato. Nós temos que
+
+\begin{equation*}
+	\big\lvert \Pr[C(x) = \Parity_{n}(x)] - 1/2 \big\rvert \leq 0,2.
+\end{equation*}
+
+Isso é uma asserção mais fraca do que foi citado no enunciado do teorema \ref{teo: parity_lb_app}.
+
+\subsection{Projeções aleatórias e prova dos teoremas \ref{Sipser_f_lb} e (...)}
+
+Agora nós iremos ver como provar os teoremas \ref{Sipser_f_lb} usando uma generalização de restrições aleatórias. Lembrando que quando o nosso objetivo era provar que a hierarquia polinomial é infinita relativa a um oráculo nós precisamos de uma hierarquia de circuitos de profundidade constante. Nós podemos nos perguntar se o método de restrições aleatórias que acabamos de ver é suficiente para provar que tal hierarquia existe. Infelizmente, este não é o caso por causa de uma diferença crucial entre provar que a função paridade não tem circuitos de profundidade constante e provar que existe uma hierarquia de circuitos de profundidade constante. O argumento clássico é que agora estamos querendo mostar que circuitos de profundidade $d$, para algum $d > 1$, são capazes de computar funções com uma quantidade polinomial de portas lógicas que circuitos de profundidade $d - 1$ não conseguem. Porém, o método de restrições aleatórias foi usada exatamente para ``destruir'' circuitos de profundidade constante, então não temos mais a capacidade de distinguir circuitos de profundidade $d - 1$ da nossa função alvo por ela também se tratar de uma função com profundidade constante. 
+
+Por conveniência, a definição das funções de Sipser segue abaixo.
+
+\begin{defi} (As funções de Sipser)
+
+Para $d \geq 2$ a função de Sipser $f^{d, n}$ é uma fórmula monotônica e \emph{read-once} onde o nível mais baixo tem fan-in $\sqrt{\frac{1}{2}dn\log n}$, as portas lógicas nos níveis 2 até d - 1 têm fan-in $n$ e a porta lógica no nível mais alto tem fan-in $\sqrt{\frac{n}{\log n}}$. Ou seja, podemos escrever $f^{d, n}$ como
+
+\begin{equation} \label{Sipser_f_def_1}
+	\bigwedge_{i_{d}  = 1}^{\sqrt{\frac{n}{\log n}}}\bigvee_{i_{d - 1} = 1}^{n} \dots \bigvee_{i_{2} = 1}^{n} \bigwedge_{i_{1} = 1}^{\sqrt{\frac{1}{2}dn\log n}} x_{i_{1}, i_{2}, \dots, i_{d}}, \text{ se } d \text{ é par.}
+\end{equation}
+
+e
+
+\begin{equation}
+	\bigwedge_{i_{d}  = 1}^{\sqrt{\frac{n}{\log n}}}\bigvee_{i_{d - 1} = 1}^{n} \dots \bigwedge_{i_{2} = 1}^{n} \bigvee_{i_{1} = 1}^{\sqrt{\frac{1}{2}dn\log n}} x_{i_{1}, i_{2}, \dots, i_{d}}, \text{ se } d \text{ é ímpar.}
+\end{equation}
+
+
+\end{defi}
+
+Nós então temos que definir uma nova forma de simplificar circuitos $\AC^{0}$ que colapsa circuitos de profundidade $d - 1$ ao mesmo tempo que mantém algum tipo de estrutura ao ser aplicada sobre a função $f^{d, n}$. Com este objetivo em mente define-se projeções aleatórias que são uma generalização de restrições.
+
+\begin{defi} (Projeções aleatórias) \label{projections}
+ 
+ Sejam $\mathcal{X}, \mathcal{Y}$ espaços de variáveis tais que $n = \lvert \mathcal{X} \rvert \leq \lvert \mathcal{Y} \rvert$ e seja $y: \mathcal{X} \to \mathcal{Y}$ uma função. Nós definimos uma espaço de projeções aleatórias $P$ a partir de um espaço de restrições $R$ tal que $\rho \leftarrow P$ é formada da seguinte forma:
+ 
+ Seja $\rho^{\prime} \in \{0, 1, *\}^{n}$ uma restrição tirada de $R$, então
+ 
+ \begin{equation*}
+ 	\rho(x) = \begin{cases}
+ 	                	\rho^{\prime}(x) & \text{ se } \rho^{\prime}(x) \in \binalph. \\
+ 	                	y(x) & \text{ se } \rho^{\prime}(x) = *.
+ 	                \end{cases}
+ \end{equation*}
+
+\end{defi} 
+
+Nós podemos dizer que projeções são uma generalização de restrições pois uma restrição é uma projeção onde $\mathcal{X} = \mathcal{Y}$ e $y$ é a função identidade. Durante esta subseção quando nós aplicamos uma projeção $\rho$ sobre as variáveis de uma função nós passamos a considerar a projeção de $f$ com respeito a $\rho$ que nós definimos a seguir.
+
+\begin{defi} (Projeção de uma função) \label{projected_function}
+
+Seja $f: \binalph^{n} \to \binalph$ e $P$ um espaço de projeção sobre que mapeia variáveis em $\mathcal{X}$ de $f$ para $\binalph \cup \mathcal{Y}$. Seja $\rho \leftarrow P$, então a projeção de $f$ com respeito a $\rho$ é
+
+\begin{IEEEeqnarray*}{rCl}
+	\proj_{\rho}f: \mathcal{Y} & \to & \binalph \\
+	\proj_{\rho}f(y_{1}, y_{2}, \dots, y_{m}) & \mapsto & f(\rho(x_{1}), \rho(x_{2}), \dots, \rho(x_{n})),
+\end{IEEEeqnarray*}
+
+onde $m = \lvert \mathcal{Y} \rvert$ e neste caso específico deve-se entender $\rho(x_i)$ como carregando o mesmo valor que $y_{j}$ sempre que $\rho(x_{i}) = y_{j}$ (ao invés de ver $\rho(x_{i})$ como uma variável formal em $\mathcal{Y}$ sem nenhum valor atribuido como na definição \ref{projections}).
+
+\end{defi}
+
+Projeções aleatórias vão ter o mesmo papel na prova dos teoremas (...) e (...) que restrições aleatórias tiveram nas provas dos teoremas \ref{teo: parity_lb} e \ref{teo: parity_lb_app}. Ao provar que $f^{d, n}$ não pode ser computada por circuitos de profundidade $d - 1$ e tamanho subexponencial nós iremos definir uma sequência de espaços projeções $P_{i}$, para $i = 1, 2, \dots, d - 1$ que irão satisfazer as três condições listadas a seguir:
+
+\begin{enumerate}
+
+	\item Qualquer circuito $C$ de profundidade $d - 1$ e tamanho subexponencial colapsa para uma função simples quando aplicamos $\rho_{1}, \rho_{2}, \dots \rho_{d - 1}$ às variáveis de entrada de $C$, onde cada $\rho_{i}$ é tirada de $P_{i}$.
+	
+	\item A função $f^{d, n}$ mantém estrutura ao aplicarmos $\rho_{1}, \rho_{2}, \dots, \rho_{d - 1}$ às suas variáveis
+	\item As projeções $\rho_{1}, \rho_{2}, \dots, \rho_{d - 1}$ se completam para a distribuição uniforme sobre $\binalph^{n}$.
+
+\end{enumerate}
+O item (3) é necessário para a prova do teorema (...) e ela tem o mesmo papel que \ref{rr_completes_uniform} tem para restrições aleatórias. Um ponto importante é que a definição cada um dos espaços de projeções $P_{i}$ dependem das projeções anteriores. Vamos começar definindo $P_{1}$ depois mostramos como cada $P_{i}$, para $i > 1$ a partir da projeção $\rho_{i - 1}$. É bom lembrar que iremos definir os espaços de projeções $P_{i}$ com a função $f^{n, d}$ em mente e que nós vemos $f^{n, d}$ como um circuito com portas $\land$ no teu nível mais baixo.
+
+\begin{defi} (O espaço de projeção $P_{1}$) \label{defi_P1}
+
+Por conveniência iremos considerar apenas as variáveis em uma porta $\land$ $v$ específica pois as projeções $\rho_{1} \leftarrow P_{1}$ atribuem valores às variáveis que alimentam portas diferentes de forma independente. Seja $\inputt(v)$ o conjunto de variáveis de entrada da porta $v$. Inicialmente nós definimos o valor $\rho_{1}(x_{v})$ da seguinte forma:
+
+\begin{equation*}
+	\rho_{1}(x_{v}) = \begin{cases}
+				1 & \text{ com probabilidade } 2^{-\frac{5w}{2}}. \\
+				x_{v} & \text{ com probabilidade } 2^{-w} - 2^{-\frac{5w}{2}}. \\
+				0 & \text{ com probabilidade } 1 - 2^{-w}.
+			  \end{cases}
+\end{equation*}
+
+Em seguida nós tiramos um subconjunto não vazio $S$ de $\inputt(v)$ tirado aleatoriamante e uniformemente e fazemos $\rho_{1}(x_{w}) = 1$ para todo $x_{w} \in \inputt(v) \setminus S$ e $\rho_{1}(x_{w}) = \rho_{1}(x_{v})$ para todo $x_{w} \in S$.
+
+\end{defi}
+
+Nós fazemos a seguinte observação importante. Vamos considerar uma string $\textbf{x} \in \binalph^{2w}$ formada pelo seguite procedimento:
+
+\begin{enumerate}
+
+\item Se $\rho_{1}(x_{v}) \in \binalph$:
+
+Faça $\textbf{x}_{w} = \rho_{1}(x_{w})$ para todo $w \in [2w]$.
+
+\item Se $\rho_{1}(x_{v}) = x_{v}$:
+
+Faça $\textbf{x}_{w} = 1$ para todo $w$ tal que $\rho_{1}(x_{w}) = 1$ e para todos os outros $w$:
+
+\begin{equation*}
+	\textbf{x}_{w} = \begin{cases}
+	               	1 & \text{ com probabilidade } b_{1}. \\
+	               	0 & \text{ com probabilidade } 1 - b_{1}.
+		    \end{cases}
+\end{equation*}
+
+\end{enumerate}
+
+Lembrando que $b_{1} = \frac{2^{-2w} - 2^{-5w/2}}{2^{-w} - 2^{-5w/2}}$. Equivalentemente, nós atribuimos valores as variáveis de $\inputt(v)$ que foram mapeadas para a variável $x_{v}$ por $\rho_{1} \leftarrow P_{1}$ de acordo com a distribuição $\{0_{1 - b_{1}}, 1_{b_{1}}\}$. Nós temos que a dsitribuição acima é equivalente à distribuição uniforme sobre strings em $\binalph^{2w}$. Para ver isto nós mostramos que a probabilidade que a string $1^{2w}$ é gerada pelo procedimento acima é $2^{-2w}$ (isso é suficiente para provar que a distribuição de strings geradas é uniforme pois podemos facilmente observar que todas as outras strings são geradas com a mesma probabilidade):
+
+\begin{IEEEeqnarray*} {rCl}
+	\Pr[\textbf{x} = 1^{2w}] & = & 2^{-\frac{-5m}{2}} + \big(2^{-m} - 2^{-\frac{-5m}{2}} \big)b_{1} \\
+	                                          & = & 2^{-\frac{-5m}{2}} + \big(2^{-m} - 2^{-\frac{-5m}{2}} \big) \bigg( \frac{2^{-2m} - 2^{-5m/2}}{2^{-m} - 2^{-5m/2}} \bigg) \\
+	                                          & = & 2^{-\frac{-5m}{2}} + 2^{-2m} - 2^{-5m/2} \\
+	                                          & = & 2^{-2m}.
+\end{IEEEeqnarray*}
 
 \section{Método polinomial}
 

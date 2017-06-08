@@ -1,61 +1,48 @@
-\frametitle{Teorema de Baker-Gill-Solovay - Prova}
-
-Se $M$ é uma máquina de Turing de tempo polinomial e $x \in \binalph^{*}$.
+\frametitle{$\PH $ vs $\PSPACE $ relativizado}
 
 \begin{center}
-\begin{tikzpicture}[->, scale=.7, level/.style={sibling distance=150mm/#1, level distance = .8cm}]
+\begin{tikzpicture}[scale=.7, level/.style={sibling distance=180mm/#1, level distance = .8cm}]
 
-	\node [t_node] (root) {algumas computações}
-		child { node [t_node] (n1) {consulta à alguma string em $\mathcal{X}$}
-			child { node [dots_node] (n2) {$\vdots$}
-				child { node [t_node] (n3) {algumas computações}
-					child { node [dots_node] (n5) {$\vdots$}
-						child { node [t_node] (n6) {consulta à alguma string em $\mathcal{X}$}
-							child { node [dots_node] (n7) {$\vdots$} edge from parent node [above, scale=.4] {0}}
-							child {node [t_node] (n8) {aceita} edge from parent node [above, scale=.4] {1}}
-							edge from parent [draw=none]
-						}
-						edge from parent [draw=none]
-					}
-					edge from parent [draw=none]
-				}
-				edge from parent node [above, scale=.4] {0}
-			}
-			child { node [dots_node] (n9) {$\vdots$}
-				child { node [t_node] (n10) {algumas computações}
-					child { node [dots_node] (n11) {$\vdots$}
-						child { node [t_node] (n12) {consulta à alguma string em $\mathcal{X}$}
-							child {node [dots_node] (n13) {$\vdots$} edge from parent node [above, scale=.4] {0}}
-							child {node [dots_node] (n14) {$\vdots$} edge from parent node [above, scale=.4] {1}}
-							edge from parent [draw=none]
-						}
-						edge from parent [draw=none]
-					}
-					edge from parent [draw=none]
-				}
-				edge from parent node[above, scale=.4] {1}
-			}
-		};
+	\node [t_node, scale=1] (root) {$P_{i}(x) \iff \exists x_{1} \forall \dots \forall_{k} x_{k} M_{i}(x, x_{1}, \dots, x_{k}) = 1$};
 
-	\begin{scope} [yshift=-6cm, ->, scale=.7, level/.style={sibling distance=60mm/#1, level distance = 1.5cm}]
+	\begin{scope}[yshift=-1cm, ->, scale=.7, level/.style={sibling distance=60mm/#1, level distance = 1.5cm}]
 
-		\node [] (arrow) {$\Downarrow$}
-			child { node [c_node2] (root2) {$x_{4}$}
-				child { node [c_node2] (n15) {$x_{6}$}
-					child {node [dots_node] (n16) {$\vdots$} edge from parent node [above, scale=.4] {0}}
-					child {node [s_node2] (n17) {1} edge from parent node [above, scale=.4] {1}}
-					edge from parent node [above, scale=.4] {0}
-				}
-				child { node [c_node2] (n18) {$x_{11}$}
-					child {node [dots_node] (n19) {$\vdots$} edge from parent node [above, scale=.4] {0}}
-					child {node [dots_node] (n20) {$\vdots$} edge from parent node [above, scale=.4] {1}}
-					edge from parent node [above, scale=.4] {1}
-				}
-				edge from parent [draw=none]
-			};
+		\node [] (arrow) {$\Downarrow$};
+
+	\end{scope}
+
+	\begin{scope}[yshift=-2.5cm, scale=.7, level/.style={sibling distance=60mm/#1, level distance = 1.5cm}]
+
+		\node [dt_node] at (-6, 0) {};
+			\draw (-6.6, 1) -- (-6.6, 0.55);
+			\draw (-6.2, 1) -- (-6.2, 0.55);
+			\node [draw=none, scale=.5] (dots1) at (-5.8, .7) {$\dots$};
+			\draw (-5.4, 1) -- (-5.4, 0.55);
+
+		\node [dt_node] at (-2, 0) {};
+			\draw (-2.6, 1) -- (-2.6, 0.55);
+			\draw (-2.2, 1) -- (-2.2, 0.55);
+			\node [draw=none, scale=.5] (dots2) at (-1.8, .7) {$\dots$};
+			\draw (-1.4, 1) -- (-1.4, .55);
+
+		\node [draw=none, scale=1.5] (dots3) at (2, -.3) {$\dots$};
+
+		\node [dt_node] at (6, 0) {};
+			\draw (5.4, 1) -- (5.4, 0.55);
+			\draw (5.8, 1) -- (5.8, 0.55);
+			\node [draw=none, scale=.5] (dots3) at (6.2, .7) {$\dots$};
+			\draw (6.6, 1) -- (6.6, .55);
+
+		\node [o_node] at (0, -4) {Circuito $\AC^{0}$ com profundidade k e portas $\land$ no nível mais baixo};
+			\draw [->] (-6, -1) -- (-5, -3.5);
+			\draw [->] (-2, -1) -- (-1, -3.5);
+			\draw [->] (2, -1) -- (2, -3.5);
+			\draw [->] (6, -1) -- (5, -3.5);
 
 	\end{scope}
 
 \end{tikzpicture}
 \end{center}
+
+Cada árvore de decisão representa a computação de $M_{i}$ com a entrada $x$ e todas as possíveis escolhas de $x_{1}, x_{2}, \dots, x_{k}$.
 

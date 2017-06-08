@@ -1,4 +1,4 @@
-\documentclass[landscape]{beamer}
+\documentclass[landscape, 9pt]{beamer}
 \usepackage[utf8]{inputenc}
 \usepackage[brazil]{babel}
 
@@ -19,6 +19,7 @@
 
 \usepackage{tikz}
 \usetikzlibrary{arrows,positioning}
+\usetikzlibrary{shapes.geometric}
 
 \newtheorem{teo}{Teorema}
 \newtheorem{defi}[teo]{Definição}
@@ -88,10 +89,14 @@
 	s_node2/.style = {draw, scale=.4, black},
 	v_node/.style = {scale=.7, black},
 	g_node/.style = {circle, draw, scale=.5, black},
+	o_node/.style = {ellipse, draw, scale=.5, black},
 	t_node/.style = {scale=.5},
 	dots_node/.style = {scale=.8},
 	r_edge/.style = {red!100},
 	b_edge/.style = {black},
+	triangle/.style = {fill=blue!20, regular polygon, regular polygon sides=3},
+           border rotated/.style = {shape border rotate=180},
+           dt_node/.style = {triangle, border rotated, draw, scale=1.4},
 }
 
 \begin{document}
@@ -817,5 +822,657 @@ No caso especial em que $\mathcal{X} = \binalph^{n}$, $n = \lvert x \rvert$.
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame} {Teorema de Baker-Gill-Solovay - Prova}
+
+Nós consideramos a seguinte linguagem.
+
+\begin{equation*}
+	L(B) = \{1^{n} \lvert \Tribes_{n_{w}}(x_{B^{=n}}) = 1\}
+\end{equation*}
+
+\begin{itemize}
+
+	\item $n_{w}$ satisfaz $2^{n - 1} < n_{w} \leq 2^{n}$ (tal $n_{w}$ é unico). 
+
+	\item $B^{=n} = B \cap \binalph^{n}$.
+
+	\item Como o tamanho da string $x_{B^{=n}}$ pode ser menor do que $2^{n}$ a entrada da função $\Tribes_{n_{w}}$ é na verdade a string $x_{B^{=n}}$ truncada.
+
+\end{itemize}
+
+Para todos $A \subseteq \binalph^{*}$, $L(A) \in \NP^{A}$.
+
+\begin{itemize}
+
+	\item Dado um índice $i$ que é múltiplo de $s$ (o número de tribos) verifica se as strings $x^{(i + 1)}, \dots, x^{(i + w - 1)}$ estão em $A$ com $\Theta(\frac{n}{\log n})$ consultas.
+	
+	\begin{itemize}
+	
+		\item $x^{(i)}$ é a $i$-ésima string de tamanho $n$ na ordem lexicográfica.
+
+	\end{itemize}
+
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame} {Teorema de Baker-Gill-Solovay - Prova}
+
+$M_{1}, M_{2}, \dots$ uma enumeração de máquinas de Turing de tempo polinomial e $p_{1}, p_{2}, \dots$ seus tempos de execução. Escolha $n_{1}$ de forma que $p_{1}(n_{1}) < 2^{n_{1}}$ e $B(0) = \emptyset$.
+
+\begin{itemize}
+
+	\item Primeiro estágio:
+	
+	\begin{itemize}
+	
+		\item Defina $B^{\prime}$ de forma que $T_{M^{B(0)}, 1^{n_{1}}}^{\binalph^{n_{1}}}(x_{B^{\prime}}) \neq \Tribes_{n_{w}}(x_{B^{\prime}})$ (as funções $\Tribes$ são evasivas).
+	
+		\item Faça $B(1) = B(0) \cup B^{\prime}$.
+	
+	\end{itemize}
+
+	\item $i$-ésimo estágio:
+	
+	\begin{itemize}
+	
+		\item Escolha $n_{i}$ tal que $p_{i}(n_{i}) < 2^{n_{i}}$ e $n_{i} > n_{i - 1}$.
+		
+		\item $B^{\prime}$ tal que $T_{M^{B(i - 1)}, 1^{n_{i}}}^{\binalph^{n_{i}}}(x_{B^{\prime}}) \neq \Tribes_{n_{w}}(x_{B^{\prime}})$
+		
+		\item Faça $B(i) = B(i - 1) \cup B^{\prime}$.
+	
+	\end{itemize}
+
+	\item Por fim nós fazemos $B = \bigcup_{i \geq 1} B(i)$.
+
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame} {Teorema de Baker-Gill-Solovay - Prova}
+
+Então podemos argumentar que $\P^{B} \neq \NP^{B}$.
+
+\begin{itemize}
+
+	\item Nós definimos cada $B(i)$ de forma que a máquina $M_{i}$ falha em decidir $L(B)$ corretamente na entrada $1^{n_{i}}$ quando $M_{i}$ tem acesso a $B(i)$.
+	
+	\item Como $B(i)$ é consistente com $B$, $M_{i}$ deve falhar em decidir $L(B)$ corretamente na entrada $1^{n_{i}}$ com acesso a $B$.
+
+\end{itemize}
+
+\qed
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame} {$\P \neq \NP$ para oráculos aleatórios} 
+
+Além de $\Tribes_{n}$ ser evasiva, ela nem mesmo pode ser aproximada por árvores de decisão com profundidade polilogarítmica.
+
+\begin{itemize}
+
+	\item Nós dizemos que a árvore de decisão $T$ aproxima uma função $f$ se $T(x) = f(x)$ para quase todas as entradas.
+
+\end{itemize}
+
+\begin{teo} \label{tribes_inaproximability}
+
+Seja $A$ qualquer algoritmo de consulta com complexidade de consulta $o(\frac{n}{logn})$, então:
+
+\begin{equation*}
+    \Pr_{x \sim \binalphn}[A(x) = \Tribes_{n}(x)] < 0,51
+\end{equation*}
+
+\end{teo}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame} {$\P \neq \NP$ para oráculos aleatórios}
+
+Bastar provar que qualquer árvore de consulta que faz consultas à somente uma fração constante das tribos não consegue aproximar $\Tribes_{n}$.
+
+\begin{itemize}
+
+	\item $g(x) = 1 \iff \text{ pelo menos uma das primeiros  } \frac{1}{100} \text{ das tribos é unanimamente 1}$.
+	
+	\item Temos que $\Pr[\Tribes_{n}(x) \neq g(x)] = \E[(\Tribes_{n}(x) - g(x))^{2}]$.
+
+	\item Como $\Tribes_{n}(x) \geq g(x)$:
+	
+	\begin{itemize}
+	
+		\item $\Pr[\Tribes_{n}(x) \neq g(x)] = \E[\Tribes_{n}(x) - g(x)]$.
+	
+	\end{itemize}
+
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame} {$\P \neq \NP$ para oráculos aleatórios}
+
+Então temos que
+
+\begin{IEEEeqnarray*} {rCl}
+	\Pr[\Tribes_{n} \neq g(x)] & = & \E[\Tribes_{n}(x) - g(x)] \\
+	                                           & = & \E[\Tribes_{n}(x)] - \E[g(x)] \\
+	                                           & = & \Pr[\Tribes_{n}(x) = 1] - \Pr[g(x) = 1] \\
+	                                           & = & 1 - (1 - 2^{-w})^{s} - 1 + (1 - 2^{-w})^{\frac{1}{100}}s \\
+	                                           & = & (1 - 2^{-w})^{\frac{1}{100}s} - (1 - 2^{-w})^{s}.
+\end{IEEEeqnarray*}
+
+Com $w$ tendendo ao infinito isso é maior do que
+
+\begin{equation*}
+	2^{-1/100} - 1/2 - 0,001 > 0,492.
+\end{equation*}
+
+\begin{itemize}
+
+	\item Portanto,
+	
+	\begin{equation*}
+		\Pr[\Tribes_{n}(x) = g(x)] < 1 - 0,492 = 0,508 < 0,51.
+	\end{equation*}
+
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame} {$\P \neq \NP$ para oráculos aleatórios - Lei 0-1 de Kolmogorov}
+
+\begin{itemize}
+
+	\item Para uma sequência $X_{1}, X_{2}, \dots$ de variáveis aleatórias mutualmente independentes:
+	
+	\begin{itemize}
+	
+		\item $G_{n} = \sigma \Big(\bigcup_{i = n}^{\infty} X_{i} \Big)$ é a menor $\sigma$-álgebra para qual cada $X_{i}, i \geq n$, é mensurável.
+		
+		\item $\mathcal{T} = \bigcap_{n = 1}^{\infty} G_{n}$ é a $\sigma$-álgebra caudal de $X_{1}, X_{2}, \dots$.
+	
+	\end{itemize}
+
+\end{itemize}
+
+\begin{teo}
+
+Seja $X_{1}, X_{2}, \dots$ uma sequência de variáveis aleatórias independentes e $\mathcal{T}$ a $\sigma$-álgebra caudal destes eventos. Então todo evento $E \in \mathcal{T}$ satisfaz $\Pr[E] \in \{0, 1\}$.
+
+\end{teo}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame} {Revisando a prova do teorema de Baker-Gill-Solovay}
+
+Para provar o teorema de Baker-Gill-Solovay nós utilizamos os seguintes passos:
+
+\begin{itemize}
+
+	\item Máquina de Turing com acesso a um oráculo e uma string:
+	
+	\begin{itemize}
+	
+		\item Árvore de decisão de profundidade polilogarítmica.
+	
+	\end{itemize}
+	
+	\item Para cada oráculo $B \subseteq \binalph^{*}$ nós definimos a linguagem unária $L(B)$ que está em $\NP^{B}$.
+	
+	\begin{itemize}
+	
+		\item Cada $L(B)$ está ``estruturada'' da mesma forma usando as funções $\Tribes_{n}$.
+	
+	\end{itemize}
+
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame} {Revisando a prova do teorema de Baker-Gill-Solovay}
+
+Para provar o teorema de Baker-Gill-Solovay nós utilizamos os seguintes passos (continuando):
+
+\begin{itemize}
+
+	\item Nós definimos uma sequência $n_{1}, n_{2}, \dots$, com $1 \leq n_{1} < n_{2} < \dots$.
+
+	\item Árvores de decisão de profundidade polilogarítmica não são capazes de computar as funções $\Tribes_{n}$:
+	
+	\begin{itemize}
+	
+		\item Um oráculo $B(i)$ em que a $i$-ésima máquina de Turing de tempo polinomial falha em decidir $L(B(i))$ para a string $1^{n_{i}}$ relativo a $B(i)$.
+	
+	\end{itemize}
+	
+	\item E como último passo nós fazemos $B = \bigcup_{i \geq 1} B(i)$.
+
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame} {Revisando a prova do teorema de Baker-Gill-Solovay}
+
+Agora vamos considerar $\mathcal{C}_{1}$ e $\mathcal{C}_{2}$ classe de complexidades quaisquer e queremos provar que existe um oráculo $B \subseteq \binalph^{*}$ tal que $\mathcal{C}_{1}^{B} \neq \mathcal{C}_{2}^{B}$. 
+
+\begin{itemize}
+
+	\item Um predicado $P$ para uma linguagem em $\mathcal{C}_{1}$ e uma string $x$:
+	
+	\begin{itemize}
+	
+		\item Representados por alguma classe $\mathcal{D}$ de ``dispositivos computacionais''.
+		
+		\item Ou seja, $P(B, x) = 1 \iff D_{x}(B) = 1$, onde $D_{x} \in \mathcal{D}$.
+	
+	\end{itemize}
+	
+	\item Para cada oráculo $B \subseteq \binalph^{*}$ nós definimos a linguagem unária
+	
+	\begin{equation*}
+		L(B) = \{1^{n} \lvert f(x_{B}) = 1\},
+	\end{equation*}
+	
+	\item para alguma função $f$ que não pode ser computada em $\mathcal{D}$ e tal que $L(B) \in \mathcal{C}_{2}^{B}$.
+
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame} {Revisando a prova do teorema de Baker-Gill-Solovay}
+
+Agora vamos considerar $\mathcal{C}_{1}$ e $\mathcal{C}_{2}$ classe de complexidades quaisquer e queremos provar que existe um oráculo $B \subseteq \binalph^{*}$ tal que $\mathcal{C}_{1}^{B} \neq \mathcal{C}_{2}^{B}$ (continuando). 
+
+\begin{itemize}
+
+	\item Daí podemos repetir o mesmo argumento que usamos para a prova do Teorema de Baker-Gill-Solovay.
+	
+\end{itemize}
+
+Ou seja, podemos generalizar a prova do teorema de Baker-Gill-Solovay para provar outras separações por oráculo.
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame} {$\PH$ vs $\PSPACE$ relativizado}
+
+Lembrando a classe $\PH$:
+
+\begin{itemize}
+
+	\item Para todo $k \geq 1$, uma linguagem $L$ está em $\Sigma_{k}^{p}$ se e somente se
+	
+	\begin{equation*}
+		x \in L \iff \exists x_{1} \forall \dots Q_{k} x_{k} M(x, x_{1}, \dots, x_{k} = 1,
+	\end{equation*}
+	
+	onde $M$ é uma máquina de Turing que roda em tempo $p(n)$ e $Q_{k}$ é $\exists$ se $k$ é ímpar e $\forall$ se $k$ é par.
+	
+	\begin{itemize}
+	
+		\item Cada $x_{i}$ tem tamanho no máximo $p(\lvert x \rvert)$.
+	
+	\end{itemize}
+	
+	\item $\PH = \bigcup_{i \geq 1} \Sigma_{k}^{p}$.
+	
+	\item Vamos denotar a classe $\Sigma_{k}^{p}$ com acesso à oráculo $B$ por $\Sigma_{k}^{p, B}$.
+	
+	\item $\PH^{B} = \bigcup_{i \geq 1} \Sigma_{k}^{p, B}$.
+
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame} {$\PH$ vs $\PSPACE$ relativizado}
+
+Nós já sabemos que $\PH \subseteq \PSPACE$. É verdade que existe $B \subseteq \binalph^{*}$ tal que $\PH^{B} \nsupseteq \PSPACE^{B}$?
+
+\begin{itemize}
+
+	\item Um predicado $P_{k, i}$ em $\Sigma_{k}^{p}$ é
+	
+	\begin{equation*}
+		P_{k, i}(x) \iff \exists x_{1} \forall \dots Q_{k} x_{k} M_{i}(x, x_{1}, \dots, x_{k}) = 1,
+	\end{equation*}
+	
+	onde $M_{i}$ é a $i$-ésima máquina de Turing de tempo polinomial e $Q_{k}$ é $\exists$ ou $\forall$ dependendo de $k$ ser ímpar ou par, respectivamente.
+	
+	\item Podemos então enumerar todos os predicados $P_{i}$ em $\PH$.
+	
+	\item Para $x \in \binalph^{*}$ e $B \subseteq \binalph^{*}$:
+	
+	\begin{equation*}
+		P_{i, x}(B) = 1 \iff P_{i}^{B}(x) = 1,
+	\end{equation*}
+	
+	onde $P_{i}^{B}$ é o predicado $P_{i}$ com acesso ao oráculo $B$.
+
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame} {$\PH$ vs $\PSPACE$ relativizado}
+
+O primeiro passo para provar que existe um oráculo $B$ tal que $\PH^{B} \neq \PSPACE^{B}$ é mostrar que $P_{i, x}$ pode ser representado por um circuito $\AC^{0}$.
+
+\begin{itemize}
+
+	\item Um predicado $\PH$ $P_{i}$ é da forma
+	
+	\begin{equation*}
+		P_{i}(X) \iff \exists x_{1} \forall x_{2} \dots Q_{k} x_{k} M_{i}(x, x_{1}, \dots, x_{k}) = 1.
+	\end{equation*}
+	
+	\begin{itemize}
+	
+		\item Cada quantificador $\exists \Rightarrow$ uma camada de portas $\lor$.
+		
+		\item Cada quantificador $\forall \Rightarrow$ uma camada de portas $\land$.
+	
+	\end{itemize}
+	
+	\item Representamos $P_{i, x} \equiv P_{k, i, x}$, para algum $k \geq 1$, por um circuito $\AC^{0}$ de profundidade $k + 1$.
+
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame} [fragile] {$\PH$ vs $\PSPACE$ relativizado}
+
+\begin{center}
+\begin{tikzpicture}[scale=.7, level/.style={sibling distance=180mm/#1, level distance = .8cm}]
+	
+	\node [t_node, scale=1] (root) {$P_{i}(x) \iff \exists x_{1} \forall \dots \exists_{k} x_{k} M_{i}(x, x_{1}, \dots, x_{k}) = 1$};
+	
+	\begin{scope}[yshift=-1cm, ->, scale=.7, level/.style={sibling distance=60mm/#1, level distance = 1.5cm}]
+	
+		\node [] (arrow) {$\Downarrow$};
+	
+	\end{scope}
+	
+	\begin{scope}[yshift=-2.5cm, scale=.7, level/.style={sibling distance=60mm/#1, level distance = 1.5cm}]
+	
+		\node [dt_node] at (-6, 0) {};
+			\draw (-6.6, 1) -- (-6.6, 0.55);
+			\draw (-6.2, 1) -- (-6.2, 0.55);
+			\node [draw=none, scale=.5] (dots1) at (-5.8, .7) {$\dots$};
+			\draw (-5.4, 1) -- (-5.4, 0.55);
+			
+		\node [dt_node] at (-2, 0) {};
+			\draw (-2.6, 1) -- (-2.6, 0.55);
+			\draw (-2.2, 1) -- (-2.2, 0.55);
+			\node [draw=none, scale=.5] (dots2) at (-1.8, .7) {$\dots$};
+			\draw (-1.4, 1) -- (-1.4, .55);
+		
+		\node [draw=none, scale=1.5] (dots3) at (2, -.3) {$\dots$};
+	
+		\node [dt_node] at (6, 0) {};
+			\draw (5.4, 1) -- (5.4, 0.55);
+			\draw (5.8, 1) -- (5.8, 0.55);
+			\node [draw=none, scale=.5] (dots3) at (6.2, .7) {$\dots$};
+			\draw (6.6, 1) -- (6.6, .55);
+		
+		\node [o_node] at (0, -4) {Circuito $\AC^{0}$ com profundidade k e portas $\lor$ no nível mais baixo};
+			\draw [->] (-6, -1) -- (-5, -3.5);
+			\draw [->] (-2, -1) -- (-1, -3.5);
+			\draw [->] (2, -1) -- (2, -3.5);
+			\draw [->] (6, -1) -- (5, -3.5);
+	
+	\end{scope}
+
+\end{tikzpicture}
+\end{center}
+
+Cada árvore de decisão representa a computação de $M_{i}$ com a entrada $x$ e todas as possíveis escolhas de $x_{1}, x_{2}, \dots, x_{k}$.
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame} [fragile] {$\PH$ vs $\PSPACE$ relativizado}
+
+\begin{center}
+\begin{tikzpicture}[scale=.7, level/.style={sibling distance=180mm/#1, level distance = .8cm}]
+	
+	\node [t_node, scale=1] (root) {$P_{i}(x) \iff \exists x_{1} \forall \dots \forall_{k} x_{k} M_{i}(x, x_{1}, \dots, x_{k}) = 1$};
+	
+	\begin{scope}[yshift=-1cm, ->, scale=.7, level/.style={sibling distance=60mm/#1, level distance = 1.5cm}]
+	
+		\node [] (arrow) {$\Downarrow$};
+	
+	\end{scope}
+	
+	\begin{scope}[yshift=-2.5cm, scale=.7, level/.style={sibling distance=60mm/#1, level distance = 1.5cm}]
+	
+		\node [dt_node] at (-6, 0) {};
+			\draw (-6.6, 1) -- (-6.6, 0.55);
+			\draw (-6.2, 1) -- (-6.2, 0.55);
+			\node [draw=none, scale=.5] (dots1) at (-5.8, .7) {$\dots$};
+			\draw (-5.4, 1) -- (-5.4, 0.55);
+			
+		\node [dt_node] at (-2, 0) {};
+			\draw (-2.6, 1) -- (-2.6, 0.55);
+			\draw (-2.2, 1) -- (-2.2, 0.55);
+			\node [draw=none, scale=.5] (dots2) at (-1.8, .7) {$\dots$};
+			\draw (-1.4, 1) -- (-1.4, .55);
+		
+		\node [draw=none, scale=1.5] (dots3) at (2, -.3) {$\dots$};
+	
+		\node [dt_node] at (6, 0) {};
+			\draw (5.4, 1) -- (5.4, 0.55);
+			\draw (5.8, 1) -- (5.8, 0.55);
+			\node [draw=none, scale=.5] (dots3) at (6.2, .7) {$\dots$};
+			\draw (6.6, 1) -- (6.6, .55);
+		
+		\node [o_node] at (0, -4) {Circuito $\AC^{0}$ com profundidade k e portas $\land$ no nível mais baixo};
+			\draw [->] (-6, -1) -- (-5, -3.5);
+			\draw [->] (-2, -1) -- (-1, -3.5);
+			\draw [->] (2, -1) -- (2, -3.5);
+			\draw [->] (6, -1) -- (5, -3.5);
+	
+	\end{scope}
+
+\end{tikzpicture}
+\end{center}
+
+Cada árvore de decisão representa a computação de $M_{i}$ com a entrada $x$ e todas as possíveis escolhas de $x_{1}, x_{2}, \dots, x_{k}$.
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame} {$\PH$ vs $\PSPACE$ relativizado}
+
+Para um predicado $P_{i, x}$ nós temos um circuito $C_{P_{i}, x}$ com $N = 2^{\poly(\lvert x \rvert)}$ entradas que satisfaz:
+
+\begin{itemize}
+
+	\item Tamanho $\Theta(2^{k}N)$ e profundidade $k + 1$.
+	
+	\item Fan-in $\mathcal{O}(\log N)$ nas portas lógicas no nível mais baixo e fan-in $\mathcal{O}(N)$ nas demais portas.
+
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame} {$\PH$ vs $\PSPACE$ relativizado}
+
+Consideramos a seguinte linguagem para cada $B \subseteq \binalph^{*}$:
+
+\begin{equation*}
+	L(B) = \{1^{n} \lvert \Parity(B^{=n}) = 1\}
+\end{equation*}
+
+Nós temos que $\L(B) \in \PSPACE^{B}$. Nós temos o seguinte teorema:
+
+\begin{teo}
+
+Seja $d > 0$ um inteiro. Para $n$ suficientemente grande temos que qualquer circuito de profundidade $d$ com fan-in $\polylog(n)$ no teu primeiro nível e tamanho $< 2^{\mathcal{O}\big(n^{\frac{1}{d - 1}}\big)}$ não pode computar a função paridade de $n$ variáveis corretamente em todas as entradas. 
+
+\end{teo}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame} {$\PH$ vs $\PSPACE$ relativizado}
+
+\begin{teo}
+
+Seja $d > 0$ um inteiro. Para $n$ suficientemente grande temos que qualquer circuito de profundidade $d$ com fan-in $\polylog(n)$ no teu primeiro nível e tamanho $< 2^{\mathcal{O}\big(n^{\frac{1}{d - 1}}\big)}$ não pode computar a função paridade de $n$ variáveis corretamente em todas as entradas. 
+
+\end{teo}
+
+\begin{itemize}
+
+	\item Como haviamos discutidos, isto prova que existe um oráculo $B \subseteq \binalph^{*}$ tal que $\PH^{B} \neq \PSPACE^{B}$.
+
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame} {Separando a hierarquia polinomial}
+
+Para separar a hierarquia polinomia relativo a algum oráculo nós temos que mostar que existe um oráculo $B \subseteq \binalph^{*}$ tal que para todo $k \geq 1$
+
+\begin{equation*}
+	\Sigma_{k - 1}^{p, B} \neq \Sigma_{k}^{p, B}
+\end{equation*}
+
+\begin{itemize}
+
+	\item Nós temos que mostrar que um único oráculo separa várias classes.
+	
+	\item O nosso framework funciona para este caso?
+
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame} {Separando a hierarquia polinomial}
+
+Para cada $B \subseteq \binalph^{*}$ e $k > 1$ temos a seguinte linguagem:
+
+\begin{equation*}
+	L(B, k) = \{1^{n} \lvert f^{k + 1, N}(B^{=n}) = 1\}
+\end{equation*}
+
+Onde $N = \big( \sqrt{2/(k + 1)}2^{n}\big)^{\frac{1}{k}}$ e $f^{k, n}$ são as funções de Sipser:
+
+\begin{defi} \label{Sipser_f}
+
+A função de Sipser $f^{k, n}$ é definida da seguinte forma:
+
+\begin{equation} \label{Sipser_f_def_1}
+	\bigvee_{i_{k}  = 1}^{\sqrt{\frac{n}{\log n}}}\bigwedge_{i_{k - 1} = 1}^{n} \dots \bigwedge_{i_{2} = 1}^{n} \bigvee_{i_{1} = 1}^{\sqrt{\frac{1}{2}dn\log n}} x_{i_{1}, i_{2}, \dots, i_{k}}, \text{ se } k \text{ é par.}
+\end{equation}
+
+e
+
+\begin{equation} \label{Sipser_f_def_2}
+	\bigvee_{i_{k}  = 1}^{\sqrt{\frac{n}{\log n}}}\bigwedge_{i_{k - 1} = 1}^{n} \dots \bigvee_{i_{2} = 1}^{n} \bigwedge_{i_{1} = 1}^{\sqrt{\frac{1}{2}dn\log n}} x_{i_{1}, i_{2}, \dots, i_{k}}, \text{ se } k \text{ é ímpar.}
+\end{equation}
+
+\end{defi}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame} {Separando a hierarquia polinomial}
+
+E nós podemos ver que as funções $f^{k, d}$ têm profundidade $k$ e tamanho
+
+\begin{equation*}
+	1 + \sum_{i = 0}^{k - 2}n^{i}\sqrt{\frac{n}{\log n}} = 1 + \Big( \frac{n^{k - 1} - 1}{n - 1}\Big)\sqrt{\frac{n}{\log n}}
+\end{equation*}
+
+O número de variáveis de entrada de $f^{k, n}$ é
+
+\begin{equation*}
+	m = n^{k - 2}\sqrt{\frac{n}{\log n}}\sqrt{\frac{1}{2}kn\log n} = n^{k - 1}\sqrt{k/2}.
+\end{equation*}
+
+E daí vemos que o circuito para $f^{k, n}$ tem tamanho linear.
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame} {Separando a hierarquia polinomial}
+
+Nós também temos um limitante inferior para as funçõs $f^{k, n}$:
+
+\begin{teo} \label{Sipser_f_lb}
+
+Seja $k > 2$ e $n$ suficientemente grande, qualquer circuito de tamanho $< 2^{\Theta\big(\sqrt{\frac{n}{k\log n}}\big)}$ e profundidade $k - 1$ não computa a função $f^{k, n}$ corretamente em todas as entradas.
+
+\end{teo}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame} {Separando a hierarquia polinomial}
+
+\begin{itemize}
+
+	\item Seja $P_{1}, P_{2}, \dots$ uma enumeração de todos os predicados $\PH$ tal que cada $i$ é em particular um predicado $\Sigma_{k_{i}}^{p}$, para algum $k_{i} \geq 1$.
+
+	\item Seja $n_{1}, n_{2}, \dots$ uma sequência de inteiros tal que:
+	
+	\begin{enumerate}
+	
+		\item $C_{P_{i}, 1^{n_{i}}}$ tem tamanho polinomial e fan-in no nível mais baixo polilogarítmico.
+		
+		\item $1 < n_{1} < n_{2} < \dots$.
+	
+	\end{enumerate}
+
+	\item Para cada $i$ nós podemos fazer $P_{i}$ falhar em computar $L(B, k_{i} + 1)$ na entrada $1^{n_{i}}$ graças ao limitante inferior para as funções de Sipser.
+	
+	\item Isto é suficiente para construir um oráculo $B$ que faz a hierarquia polinomial ser infinita.
+
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \end{document}
