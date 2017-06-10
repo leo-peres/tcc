@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/W32TeX) (preloaded format=pdflatex 2016.9.4)  8 JUN 2017 10:32
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/W32TeX) (preloaded format=pdflatex 2016.9.4)  9 JUN 2017 21:26
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -717,7 +717,7 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
 een already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.50 ...IeC {\'e}todo polinomial}{71}{section.5.2}
+l.50 ...IeC {\'e}todo polinomial}{72}{section.5.2}
                                                    [2
 
 ])
@@ -1349,24 +1349,29 @@ Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 427.
  [69]
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 473.
+(babel)             in language  on input line 474.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 475.
+(babel)             in language  on input line 474.
+ [70]
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 477.
+(babel)             in language  on input line 522.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 479.
+(babel)             in language  on input line 522.
+ [71]
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 542.
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 544.
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 546.
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 548.
 ) (./source/ref.tex (./tcc.bbl
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 1.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 1.
- [70]
-Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 1.
-Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 1.
- [71]
+ [72]
 
 LaTeX Warning: Empty `thebibliography' environment on input line 3.
 
@@ -1376,7 +1381,7 @@ Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 4.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 4.
- [72
+ [73
 
 ]
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 4.
@@ -1392,42 +1397,43 @@ LaTeX Warning: There were undefined references.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 4.
  ) ) 
 Here is how much of TeX's memory you used:
- 8434 strings out of 493013
- 113705 string characters out of 6136994
- 219939 words of memory out of 5000000
- 11538 multiletter control sequences out of 15000+600000
+ 8439 strings out of 493013
+ 113743 string characters out of 6136994
+ 219965 words of memory out of 5000000
+ 11539 multiletter control sequences out of 15000+600000
  18521 words of font info for 75 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  31i,13n,35p,1813b,498s stack positions out of 5000i,500n,10000p,200000b,80000s
  <c:/Users/ASUS/.texlive2016/texmf-var/fonts/pk/ljfour/public/bbm/bbm10.600
 pk><c:/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><c:/te
 xlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><c:/texlive/201
-6/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb><c:/texlive/2016/texmf-
-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2016/texmf-dist/font
-s/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2016/texmf-dist/fonts/type1/p
-ublic/amsfonts/cm/cmmi5.pfb><c:/texlive/2016/texmf-dist/fonts/type1/public/amsf
-onts/cm/cmmi6.pfb><c:/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cm
-mi7.pfb><c:/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb><c
-:/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/
-2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb><c:/texlive/2016/texmf
--dist/fonts/type1/public/amsfonts/cm/cmr5.pfb><c:/texlive/2016/texmf-dist/fonts
-/type1/public/amsfonts/cm/cmr6.pfb><c:/texlive/2016/texmf-dist/fonts/type1/publ
-ic/amsfonts/cm/cmr7.pfb><c:/texlive/2016/texmf-dist/fonts/type1/public/amsfonts
-/cm/cmr8.pfb><c:/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.
-pfb><c:/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb><c:/te
-xlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/201
-6/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb><c:/texlive/2016/texmf-di
-st/fonts/type1/public/amsfonts/cm/cmsy6.pfb><c:/texlive/2016/texmf-dist/fonts/t
-ype1/public/amsfonts/cm/cmsy7.pfb><c:/texlive/2016/texmf-dist/fonts/type1/publi
-c/amsfonts/cm/cmsy8.pfb><c:/texlive/2016/texmf-dist/fonts/type1/public/amsfonts
-/cm/cmti10.pfb><c:/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmti7
-.pfb><c:/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb
-><c:/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb><c:
-/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm7.pfb>
-Output written on tcc.pdf (77 pages, 614955 bytes).
+6/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx7.pfb><c:/texlive/2016/texmf-di
+st/fonts/type1/public/amsfonts/cm/cmcsc10.pfb><c:/texlive/2016/texmf-dist/fonts
+/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2016/texmf-dist/fonts/type1/pu
+blic/amsfonts/cm/cmmi10.pfb><c:/texlive/2016/texmf-dist/fonts/type1/public/amsf
+onts/cm/cmmi5.pfb><c:/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cm
+mi6.pfb><c:/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb><c
+:/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb><c:/texlive/
+2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2016/texmf
+-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb><c:/texlive/2016/texmf-dist/font
+s/type1/public/amsfonts/cm/cmr5.pfb><c:/texlive/2016/texmf-dist/fonts/type1/pub
+lic/amsfonts/cm/cmr6.pfb><c:/texlive/2016/texmf-dist/fonts/type1/public/amsfont
+s/cm/cmr7.pfb><c:/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.p
+fb><c:/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb><c:/te
+xlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb><c:/texlive/2016
+/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2016/texmf-di
+st/fonts/type1/public/amsfonts/cm/cmsy5.pfb><c:/texlive/2016/texmf-dist/fonts/t
+ype1/public/amsfonts/cm/cmsy6.pfb><c:/texlive/2016/texmf-dist/fonts/type1/publi
+c/amsfonts/cm/cmsy7.pfb><c:/texlive/2016/texmf-dist/fonts/type1/public/amsfonts
+/cm/cmsy8.pfb><c:/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10
+.pfb><c:/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmti7.pfb><c:/t
+exlive/2016/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb><c:/texli
+ve/2016/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb><c:/texlive/2
+016/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm7.pfb>
+Output written on tcc.pdf (78 pages, 629507 bytes).
 PDF statistics:
- 962 PDF objects out of 1000 (max. 8388607)
- 846 compressed objects within 9 object streams
- 294 named destinations out of 1000 (max. 500000)
+ 974 PDF objects out of 1000 (max. 8388607)
+ 856 compressed objects within 9 object streams
+ 298 named destinations out of 1000 (max. 500000)
  241 words of extra memory for PDF output out of 10000 (max. 10000000)
 

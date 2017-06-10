@@ -454,8 +454,8 @@ Faça $\textbf{x}_{w} = 1$ para todo $w$ tal que $\rho_{1}(x_{w}) = 1$ e para to
 
 \begin{equation*}
 	\textbf{x}_{w} = \begin{cases}
-	               	1 & \text{ com probabilidade } b_{1}. \\
-	               	0 & \text{ com probabilidade } 1 - b_{1}.
+	               	0 & \text{ com probabilidade } 1 -  b_{1}. \\
+	               	1 & \text{ com probabilidade } b_{1}.
 		    \end{cases}
 \end{equation*}
 
@@ -469,6 +469,75 @@ Lembrando que $b_{1} = \frac{2^{-2w} - 2^{-5w/2}}{2^{-w} - 2^{-5w/2}}$. Equivale
 	                                          & = & 2^{-\frac{-5m}{2}} + 2^{-2m} - 2^{-5m/2} \\
 	                                          & = & 2^{-2m}.
 \end{IEEEeqnarray*}
+
+A idéia agora é que para todos espaços de projeções subsequentes $P_{i}$, para $i > 1$, nós iremos garantir que ao substuir as variáveis que foram projetadas por uma string aleatória tirada da distribuição $\{0_{1 - b_{i}}, 1_{b_{i}}\}$ se $i$ for ímpar ou $\{0_{b_{i}}, 1_{1 - b_{i}}\}$ se $i$ for par, nós também iremos obter a distribuição uniforme sobre todas as strings em $\binalph^{n}$ (ou seja, $P_{i}$ completa para a distribuição uniforme). Além disso, nós iremos usar o fato que $P_{i - 1}$ completa para a distribuição uniforme para provar o mesmo para $P_{i}$. Assim, para provar que um circuito $C$ de tamanho subexponencial e profundidade $d - 1$ não é nem mesmo correlacionado com $f^{m, d}$ nós iremos aplicar uma sequência de projeções $\Psi = \rho_{1}\rho_{2}\dots\rho_{d - 2}$, onde cada $\rho_{i}$ é tirada de $P^{i}$, ao circuito e à $f^{m, d}$, o que denotamos por $\Psi(C)$ e $\Psi(f^{m, d})$, e teremos que:
+
+\begin{equation*}
+	\Pr_{\textbf{x} \sim \{0_{1 - b_{d - 2}}, 1_{b_{d - 2}}\}^{n^\prime}}[ \Psi(f^{m, d})(\textbf{x}) = \Psi(C)(\textbf{x})] = \Pr_{\textbf{x} \sim \{0_{1/2}, 1_{1/2}\}^{n}}[f^{m, d}(\textbf{x}) = C(\textbf{x})], \text{ se d for par},
+\end{equation*}
+
+ou
+
+\begin{equation*}
+	\Pr_{\textbf{x} \sim \{0_{b_{d - 2}}, 1_{1 - b_{d - 2}}\}^{n^{\prime}}}[ \Psi(f^{m, d})(\textbf{x}) = \Psi(C)(\textbf{x})] = \Pr_{\textbf{x} \sim \{0_{1/2}, 1_{1/2}\}^{n}}[f^{m, d}(\textbf{x}) = C(\textbf{x})], \text{ se d for ímpar},
+\end{equation*}
+
+onde $n^{\prime}$ é o número de variáveis projetadas após a última projeção $\rho_{d - 2}$ e ambas igualdades acontecem com alta probabilidade sobre as possíveis projeções $\rho_{1}, \rho_{2}, \dots, \rho_{d - 2}$. Um outro ponto importante sobre os espaços de projeções que iremos considerar é que cada $P_{i}$, $i > 1$, depende da projeção $\rho_{i - 1}$ tirada de $P_{i - 1}$, ou seja cada $P_{i}$ é definido de forma adaptativa.
+
+Agora nós definimos $P_{i}$ para cada $i > 1$ de forma análoga a como definimos $P_{1}$.
+
+\begin{defi} (O espaço de projeção $P_{i}$) \label{defi_Pi}
+
+De novo, nós nos concetramos em uma única porta $v$ no $i$-ésimo nível do circuito de $f^{m, d}$ e sem perda de generalidade nós assumimos que $i$ é ímpar (e portanto $v$ é uma porta $\land$). Nós não perdemos em generalidade pois o caso em que $i$ é par é completamente análogo com os papeis de 0 e 1 trocados. Seja $\inputt(v)$ o conjunto de variáveis de entrada de $v$, $\rho_{i - 1} \leftarrow P_{i - 1}$ e $S_{v} = \{x_{w} \in \inputt(v) \lvert \rho_{i - 1}(x_{w}) = x_{w}\}$. Primeiro nós iremos ''rejeitar`` $\rho_{i - 1}$ se $\rho_{i - 1}(x_{w}) = 0$ para algum $x_{w} \in \inputt(v)$ ou se $\big\lvert \lvert S_{v} \rvert - 2^{-m}f_{i} \big\rvert \geq 2^{-3w/4}$. Ao rejeitar $\rho_{i - 1}$ nós fazemos $x_{w} \sim \{0_{b_{i - 1}, 1_{1 - b_{i - 1}}}\}$ para cada $x_{w} \in S_{v}$. Suponha que $\rho_{i - 1}$ não foi rejeitada, então nós fazemos
+
+\begin{equation*}
+	\rho_{i}(x_{v}) = \begin{cases}
+			        	  1 & \text{ com probabilidade } 2^{-5m/2}. \\
+			        	  x_{v} & \text{ com probabilidade } q_{v}. \\
+			        	  0 & \text{ com probabilidade } 1 - 2^{-5m/2} - q_{v}.
+			        \end{cases}
+\end{equation*}
+
+Nós escolhemos $q_{v}$ de forma que $2^{-5m/2} + q_{v}b_{i} = (1 - b_{i - 1})^{\lvert S_{v} \rvert}$ (ou seja, $q_{v} = \frac{(1 - b_{i - 1})^{\lvert S_{v} \rvert} - 2^{-5m/2})}{b_{i}}$). Em seguida tiramos um subconjunto não vazio $T$ de $S_{v}$ onde cada variável em $S_{v}$ é incluida em $T$ com probabilidade $b_{i - 1}$ e fazemos $\rho_{i}(x_{w}) = 1$ para todo $x_{w} \in S_{v} \setminus T$ e $\rho_{i}(x_{w}) = \rho_{i}(x_{v})$ para todo $x_{w} \in T$.
+
+\end{defi}
+
+Nós podemos ver que $P_{i}$, para $i > 1$, completa para a distribuição uniforme notando que cada variável em $S_{v}$ recebe o valor 0 com probabilidade $b_{i - 1}$ e 1 com probabilidade $1 - b_{i - 1}$ e argumentando indutivamente que $P_{i - 1}$ completa para a distribuição uniforme (lembrando que quando assumimos que $i$ é ímpar temos que $P_{i - 1}$ completa para a distribuição uniforme ao aplicarmos a distribuição $\{0_{b_{i - 1}}, 1_{1 - b_{i - 1}}\}$ para cada variável que foi projetada por $\rho_{i - 1} \leftarrow P_{i - 1}$) ao aplicarmos o seguinte procedimento análogo ao que vimos após a definição de $P_{1}$:
+
+\begin{enumerate}
+
+	\item Se $\rho_{i}(x_{v}) \in \binalph$:
+	
+	Faça $\textbf{x}_{w} = \rho_{i}(x_{w})$ para todo $w \in [f_{i}]$.
+	
+	\item Se $\rho_{i}(x_{v}) = x_{v}$:
+	
+	Faça $\textbf{x}_{w} = 1$ para todo $w$ tal que $\rho_{i}(x_{w}) = 1$ e para todos os outros $w$:
+	
+	\begin{equation*}
+		\textbf{x}_{w} = \begin{cases}
+				            0 & \text{ com probabilidade } 1 - b_{i}. \\
+				            1 & \text{ com probabilidade } b_{i}.
+				        \end{cases}
+	\end{equation*}
+
+\end{enumerate}
+
+Desta forma, para cada $w$ tal que $x_{w} \in S_{v}$, temos o seguinte:
+
+\begin{equation*}
+	\Pr[\textbf{x}_{w} = 1] = 1 - \frac{b_{i - 1}}{1 - (1 - b_{i - 1})^{\lvert S_{v} \rvert}} + \frac{b_{i - 1}}{1 - (1 - b_{i - 1})^{\lvert S_{v} \rvert}}\big( 2^{-5m/2} + q_{v}b_{i}\big).
+\end{equation*}
+
+Lembrando que $2^{-5m/2} + q_{v}b_{i} = (1 - b_{i - 1})^{\lvert S_{v} \rvert}$:
+
+\begin{IEEEeqnarray*} {rCl}
+	\Pr[\textbf{x}_{w} = 1] & = & 1 - \frac{b_{i - 1}}{1 - (1 - b_{i - 1})^{\lvert S_{v} \rvert}} + \frac{b_{i - 1}(1 - b_{i - 1})^{\lvert S_{v} \rvert}}{1 - (1 - b_{i - 1})^{\lvert S_{v} \rvert}} \\
+				        & = & 1 - \frac{b_{i - 1}}{1 - (1 - b_{i - 1})^{\lvert S_{v} \rvert}}\big(1 - (1 - b_{i - 1})^{\lvert S_{v} \rvert} \big) \\
+				        & = & 1 - b_{i - 1}.
+\end{IEEEeqnarray*}
+
+Podemos ver isto como uma prova que $P_{i}$ completa para a distribuição uniforme.
 
 \section{Método polinomial}
 

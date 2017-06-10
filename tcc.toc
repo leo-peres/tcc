@@ -47,7 +47,7 @@
 \contentsline {section}{\numberline {5.1}Restri\IeC {\c c}\IeC {\~o}es aleat\IeC {\'o}rias}{60}{section.5.1}
 \contentsline {subsubsection}{O lema de H\IeC {\r a}stad}{61}{section*.23}
 \contentsline {subsection}{\numberline {5.1.1}Proje\IeC {\c c}\IeC {\~o}es aleat\IeC {\'o}rias e prova dos teoremas \ref {Sipser_f_lb} e (...)}{68}{subsection.5.1.1}
-\contentsline {section}{\numberline {5.2}M\IeC {\'e}todo polinomial}{71}{section.5.2}
-\contentsline {section}{\numberline {5.3}Provas Naturais}{71}{section.5.3}
-\contentsline {section}{\numberline {5.4}Limites inferiores a partir de algoritmos eficientes}{71}{section.5.4}
-\contentsline {section}{\numberline {5.5}Circuitos algebr\IeC {\'a}icos}{71}{section.5.5}
+\contentsline {section}{\numberline {5.2}M\IeC {\'e}todo polinomial}{72}{section.5.2}
+\contentsline {section}{\numberline {5.3}Provas Naturais}{72}{section.5.3}
+\contentsline {section}{\numberline {5.4}Limites inferiores a partir de algoritmos eficientes}{72}{section.5.4}
+\contentsline {section}{\numberline {5.5}Circuitos algebr\IeC {\'a}icos}{72}{section.5.5}
