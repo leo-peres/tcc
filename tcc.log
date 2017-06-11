@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/W32TeX) (preloaded format=pdflatex 2016.9.4)  9 JUN 2017 21:26
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/W32TeX) (preloaded format=pdflatex 2016.9.4)  10 JUN 2017 21:32
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -710,14 +710,14 @@ LaTeX Font Info:    Try loading font information for U+lasy on input line 3.
 File: ulasy.fd 1998/08/17 v2.2e LaTeX symbol font definitions
 )
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 50.
+(babel)             in language  on input line 51.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 50.
+(babel)             in language  on input line 51.
 pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
 een already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.50 ...IeC {\'e}todo polinomial}{72}{section.5.2}
+l.51 ...IeC {\'e}todo polinomial}{73}{section.5.2}
                                                    [2
 
 ])
@@ -1359,19 +1359,24 @@ Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 522.
  [71]
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 542.
+(babel)             in language  on input line 574.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 544.
+(babel)             in language  on input line 574.
+ [72]
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 546.
+(babel)             in language  on input line 584.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 548.
+(babel)             in language  on input line 586.
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 588.
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 590.
 ) (./source/ref.tex (./tcc.bbl
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 1.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 1.
- [72]
+ [73]
 
 LaTeX Warning: Empty `thebibliography' environment on input line 3.
 
@@ -1381,7 +1386,7 @@ Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 4.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 4.
- [73
+ [74
 
 ]
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 4.
@@ -1397,10 +1402,10 @@ LaTeX Warning: There were undefined references.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 4.
  ) ) 
 Here is how much of TeX's memory you used:
- 8439 strings out of 493013
- 113743 string characters out of 6136994
- 219965 words of memory out of 5000000
- 11539 multiletter control sequences out of 15000+600000
+ 8445 strings out of 493013
+ 113839 string characters out of 6136994
+ 220017 words of memory out of 5000000
+ 11541 multiletter control sequences out of 15000+600000
  18521 words of font info for 75 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  31i,13n,35p,1813b,498s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1430,10 +1435,10 @@ c/amsfonts/cm/cmsy7.pfb><c:/texlive/2016/texmf-dist/fonts/type1/public/amsfonts
 exlive/2016/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb><c:/texli
 ve/2016/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb><c:/texlive/2
 016/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm7.pfb>
-Output written on tcc.pdf (78 pages, 629507 bytes).
+Output written on tcc.pdf (79 pages, 632662 bytes).
 PDF statistics:
- 974 PDF objects out of 1000 (max. 8388607)
- 856 compressed objects within 9 object streams
- 298 named destinations out of 1000 (max. 500000)
+ 987 PDF objects out of 1000 (max. 8388607)
+ 868 compressed objects within 9 object streams
+ 302 named destinations out of 1000 (max. 500000)
  241 words of extra memory for PDF output out of 10000 (max. 10000000)
 

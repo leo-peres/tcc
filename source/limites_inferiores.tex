@@ -539,6 +539,48 @@ Lembrando que $2^{-5m/2} + q_{v}b_{i} = (1 - b_{i - 1})^{\lvert S_{v} \rvert}$:
 
 Podemos ver isto como uma prova que $P_{i}$ completa para a distribuição uniforme.
 
+\subsubsection{Lema da troca para projeções aleatórias}
+
+Com o objetivo de mostrar que circuitos de tamanho subexponencial e profundidade $d - 1$ simplificam quando aplicamos as projeções $\rho_{1}, \rho_{2}, \dots, \rho_{d - 2}$ nós seguimos o mesmo framework que usamos quando provamos um limite inferior para a função paridade e mostramos um lema da troca para projeções aleátorias.
+
+Nós vamos usar a estratégia de prova de Razborov para provar os seguintes lemas:
+
+\begin{lema} (Lema da troca para projeções aleatórias para $P_{1}$) \label{projection_switching_lemma_P1}
+
+Seja $F$ uma fórmula na FNC (ou FND) com largura $w$, $s \geq 1$ e $\rho_{1} \leftarrow P_{1}$, então
+
+\begin{equation*}
+	\Pr[\cand(\proj_{\rho_{1}}F) \geq s] \leq (...).
+\end{equation*} 
+
+\end{lema}
+
+\begin{lema} (Lema da troca para projeções aleatórias para $P_{i}$) \label{projection_switching_lemma_Pi}
+
+Seja $F$ uma fórmula na FNC (ou FND) com largura $w$, $s \geq 1$ e $\rho_{1} \leftarrow P_{i}$, para algum $i > 1$, então
+
+\begin{equation*}
+	\Pr[\cand(\proj_{\rho_{1}\rho_{2}\dots\rho_{i}}F) \geq s] \leq (...).
+\end{equation*} 
+
+\end{lema}
+
+Note que vamos provar um limitante superior para a probabilidade que a \emph{projeção} de $F$ não pode ser expressa por uma árvore de decisão canônica de profundidade pequena que faz consultas às variáveis que correspondem a um bloco da projeção.
+
+Nós iremos provar primeiro o lema \ref{projection_switching_lemma_P1} adaptando levemente o processo de codificação da projeção $\rho_{1}$ e depois nós rapidamente provamos o lema \ref{projection_switching_lemma_Pi} na única parte em que a prova deste último lema difere da prova do lema anterior. Esta parte corresponde à terceira parte da segunda prova do lema da troca de Håstad em que nós argumentamos que o número de projeçõs más não é maior do que um determinado conjunto não muito grande. No entanto, agora não podemos mais apenas argumentar que a cardinalidade do conjuntos de projeções más é menor do que a cardinalidade de um determinado conjunto pelo fato que $P_{1}$ (e $P_{i}$ também) atribui pesos diferentes para projeções más, além disso não iremos mais considerar apenas projeções que fixa um número constante de variáveis. O que nós vamos fazer é mostrar que a soma
+
+\begin{equation*}
+	\sum \Pr[\bf{\rho} = \rho]
+\end{equation*}
+
+sobre as projeções $\rho \leftarrow P_{1}$ (ou $P_{i}$) que iremos chamar de más (ou seja, aquelas projeções tais que $\cand(\proj_{\rho}F)$ é muito grande) é no máximo a soma
+
+\begin{equation*}
+	\sum \Pr[\bf{\rho} = \rho^{\prime}],
+\end{equation*}
+
+onde a soma é de novo sobre as projeções más $\rho$ e $\rho^{\prime}$ é a extensão de $\rho$ que aparece no teu código, é maior do que a primeira soma acima multiplicada por uma constante. Daí, basta nós mostrarmos um limite superior para a segunda soma acima para concluir as provas dos lemas \ref{projection_switching_lemma_P1} e \ref{projection_switching_lemma_Pi}.
+
 \section{Método polinomial}
 
 \section{Provas Naturais}
