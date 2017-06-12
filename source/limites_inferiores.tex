@@ -488,7 +488,7 @@ Agora nós definimos $P_{i}$ para cada $i > 1$ de forma análoga a como definimo
 
 \begin{defi} (O espaço de projeção $P_{i}$) \label{defi_Pi}
 
-De novo, nós nos concetramos em uma única porta $v$ no $i$-ésimo nível do circuito de $f^{m, d}$ e sem perda de generalidade nós assumimos que $i$ é ímpar (e portanto $v$ é uma porta $\land$). Nós não perdemos em generalidade pois o caso em que $i$ é par é completamente análogo com os papeis de 0 e 1 trocados. Seja $\inputt(v)$ o conjunto de variáveis de entrada de $v$, $\rho_{i - 1} \leftarrow P_{i - 1}$ e $S_{v} = \{x_{w} \in \inputt(v) \lvert \rho_{i - 1}(x_{w}) = x_{w}\}$. Primeiro nós iremos ''rejeitar`` $\rho_{i - 1}$ se $\rho_{i - 1}(x_{w}) = 0$ para algum $x_{w} \in \inputt(v)$ ou se $\big\lvert \lvert S_{v} \rvert - 2^{-m}f_{i} \big\rvert \geq 2^{-3w/4}$. Ao rejeitar $\rho_{i - 1}$ nós fazemos $x_{w} \sim \{0_{b_{i - 1}, 1_{1 - b_{i - 1}}}\}$ para cada $x_{w} \in S_{v}$. Suponha que $\rho_{i - 1}$ não foi rejeitada, então nós fazemos
+De novo, nós nos concentramos em uma única porta $v$ no $i$-ésimo nível do circuito de $f^{m, d}$ e sem perda de generalidade nós assumimos que $i$ é ímpar (e portanto $v$ é uma porta $\land$). Nós não perdemos em generalidade pois o caso em que $i$ é par é completamente análogo com os papeis de 0 e 1 trocados. Seja $\inputt(v)$ o conjunto de variáveis de entrada de $v$, $\rho_{i - 1} \leftarrow P_{i - 1}$ e $S_{v} = \{x_{w} \in \inputt(v) \lvert \rho_{i - 1}(x_{w}) = x_{w}\}$. Primeiro nós iremos ''rejeitar`` $\rho_{i - 1}$ se $\rho_{i - 1}(x_{w}) = 0$ para algum $x_{w} \in \inputt(v)$ ou se $\big\lvert \lvert S_{v} \rvert - 2^{-m}f_{i} \big\rvert \geq 2^{-3w/4}$. Ao rejeitar $\rho_{i - 1}$ nós fazemos $x_{w} \sim \{0_{b_{i - 1}, 1_{1 - b_{i - 1}}}\}$ para cada $x_{w} \in S_{v}$. Suponha que $\rho_{i - 1}$ não foi rejeitada, então nós fazemos
 
 \begin{equation*}
 	\rho_{i}(x_{v}) = \begin{cases}
@@ -547,7 +547,7 @@ Nós vamos usar a estratégia de prova de Razborov para provar os seguintes lema
 
 \begin{lema} (Lema da troca para projeções aleatórias para $P_{1}$) \label{projection_switching_lemma_P1}
 
-Seja $F$ uma fórmula na FNC (ou FND) com largura $w$, $s \geq 1$ e $\rho_{1} \leftarrow P_{1}$, então
+Seja $F$ uma fórmula na FNC (ou FND) com largura $r$, $s \geq 1$ e $\rho_{1} \leftarrow P_{1}$, então
 
 \begin{equation*}
 	\Pr[\cand(\proj_{\rho_{1}}F) \geq s] \leq (...).
@@ -557,7 +557,7 @@ Seja $F$ uma fórmula na FNC (ou FND) com largura $w$, $s \geq 1$ e $\rho_{1} \l
 
 \begin{lema} (Lema da troca para projeções aleatórias para $P_{i}$) \label{projection_switching_lemma_Pi}
 
-Seja $F$ uma fórmula na FNC (ou FND) com largura $w$, $s \geq 1$ e $\rho_{1} \leftarrow P_{i}$, para algum $i > 1$, então
+Seja $F$ uma fórmula na FNC (ou FND) com largura $r$, $s \geq 1$ e $\rho_{i} \leftarrow P_{i}$, para algum $i > 1$, então
 
 \begin{equation*}
 	\Pr[\cand(\proj_{\rho_{1}\rho_{2}\dots\rho_{i}}F) \geq s] \leq (...).
@@ -570,16 +570,132 @@ Note que vamos provar um limitante superior para a probabilidade que a \emph{pro
 Nós iremos provar primeiro o lema \ref{projection_switching_lemma_P1} adaptando levemente o processo de codificação da projeção $\rho_{1}$ e depois nós rapidamente provamos o lema \ref{projection_switching_lemma_Pi} na única parte em que a prova deste último lema difere da prova do lema anterior. Esta parte corresponde à terceira parte da segunda prova do lema da troca de Håstad em que nós argumentamos que o número de projeçõs más não é maior do que um determinado conjunto não muito grande. No entanto, agora não podemos mais apenas argumentar que a cardinalidade do conjuntos de projeções más é menor do que a cardinalidade de um determinado conjunto pelo fato que $P_{1}$ (e $P_{i}$ também) atribui pesos diferentes para projeções más, além disso não iremos mais considerar apenas projeções que fixa um número constante de variáveis. O que nós vamos fazer é mostrar que a soma
 
 \begin{equation*}
-	\sum \Pr[\bf{\rho} = \rho]
+	\sum \Pr[\boldsymbol{\rho} = \rho]
 \end{equation*}
 
 sobre as projeções $\rho \leftarrow P_{1}$ (ou $P_{i}$) que iremos chamar de más (ou seja, aquelas projeções tais que $\cand(\proj_{\rho}F)$ é muito grande) é no máximo a soma
 
 \begin{equation*}
-	\sum \Pr[\bf{\rho} = \rho^{\prime}],
+	\sum \Pr[\boldsymbol{\rho} = \rho^{\prime}],
 \end{equation*}
 
 onde a soma é de novo sobre as projeções más $\rho$ e $\rho^{\prime}$ é a extensão de $\rho$ que aparece no teu código, é maior do que a primeira soma acima multiplicada por uma constante. Daí, basta nós mostrarmos um limite superior para a segunda soma acima para concluir as provas dos lemas \ref{projection_switching_lemma_P1} e \ref{projection_switching_lemma_Pi}.
+
+\begin{proof} (Prova do Lema \ref{projection_switching_lemma_P1})
+
+Nós podemos assumir que $\proj_{\rho_{1}}F = \bigwedge_{\alpha = 1}^{m} C_{\alpha}$ é uma fórmula FNC onde cada $C_{\alpha}$ tem largura no máximo $r$. Seja $\mathcal{B}$ o seguinte subconjunto de projeções tiradas de $P_{1}$:
+
+\begin{equation*}
+	\mathcal{B} = \{ \rho_{1} \lvert \cand(\proj_{\rho_{1}}F) \geq s).
+\end{equation*}
+
+Nós vamos novamente codificar $\rho_{1} \in \mathcal{B}$ mapeando $\rho_{1}$ para $(\rho_{1}^{\prime}, \mu, \beta, d)$ tal que:
+
+\begin{itemize}
+
+	\item $\rho_{1}^{\prime}$ é uma extensão de $\rho_{1}$ que vamos argumentar ter um peso maior do que $\rho_{1}$ em $P_{1}$.
+	
+	\item $\mu \subseteq Y$ é o subconjunto de blocos ''afetados`` por $\rho_{1}^{\prime}$.
+	
+	\item $\beta \subseteq X$ é o subconjunto das variáveis afetadas por $\rho_{1}^{\prime}$.
+	
+	\item $d \in \binalph^{s}$ vai ter o mesmo papel que teve na segunda prova do Lema da Troca de Håstad.
+	
+\end{itemize}
+
+Nós dividimos a prova em três partes: na primeira parte iremos descrever o processo de codificação de $\rho_{1}$, na segunda parte nós mostramos como recuperar $\rho_{1}$ a partir de teu código e na terceira parte nós mostramos um limitante superior para a soma
+
+\begin{equation} \label{projection_switching_lemma_proof_sum}
+	\sum_{\rho_{1} \in \mathcal{B}} \Pr[\boldsymbol{\rho} = \rho_{1}],
+\end{equation}
+
+obtendo o resultado desejado no enunciado do lema.
+
+\begin{enumerate}
+
+	\item Construindo o código a partir de $\rho_{1}$.
+	
+	Nós iremos considerar um caminho $\pi$ na árvode de decisão canônica de $\proj_{\rho_{1}}F$ de tamanho pelo menos $s$, truncando $\pi$ de forma que $\lvert \pi \rvert = s$. Seja $C_{\alpha_{1}}$ a primeira cláusula de $\proj_{\rho_{1}}F$ que não foi feita verdadeira, seja $\mu_{1} \subseteq Y$ o conjunto de variáveis que aparecem em $C_{\alpha_{1}}$ e seja $K_{1}$ o conjunto de variáveis em $X$ que aparecem na cláusula $C_{\alpha_{1} \lvert \rho_{1}}$ na fórmula $F$ original. Seja $\pi_{1}$ a porção de $\pi$ que faz consultas às variáveis em $\mu_{1}$. Nós consideramos a seguinte projeção $\sigma_{1}$ que atribui valores somente às variáveis que pertencem a blocos em $\mu_{1}$ da seguinte forma:
+	
+	\begin{equation} \label{sigma_i_def}
+		\sigma_{1}(x_{a, j}) = \begin{cases}
+					      	0 & \text{ se } y_{a} \text{ aparece não-negada em } C_{\alpha_{1}} \text{ e } x_{a, j} \in K_{1}. \\
+					      	1 & \text{ se } y_{a} \text{ aparece negada em } C_{\alpha_{1}} \text{ e } x_{a, j} \in K_{1}. \\
+					      	0 & \text{ se } x_{a, j} \not\in K_{1} \text{ e } \rho_{1}(x_{a, j}) = y_{a}. \\
+					      	y_{a} & \text{ se } \rho_{1}(x_{a, j}) \in \binalph.
+					      \end{cases}
+	\end{equation}
+	
+	Para cada $a$ tal que $y_{a} \in \mu_{1}$. Note que definimos $\sigma_{1}$ de forma que $C_{\alpha_{i}}$ não é satisfeita na fórmula $\proj_{\rho_{1}\sigma_{1}}F$. Nós também temos que $\rho_{1}\sigma_{1}$ fixa todas as variáveis que pertecem a algum bloco em $\mu_{1}$. Por fim seja $\beta_{1} \in [r]^{\lvert K_{1} \rvert}$ o vetor que indica a posição de cada variável em $K_{1}$ na cláusula $C_{\alpha_{1}}$.
+	
+	Para todos os outros estágios $j = 2, 3, \dots, l$ nós fazemos a mesma coisa, definindo $C_{\alpha_{j}}$ como sendo a primeira cláusula não fixada como verdadeira em $\proj_{\rho\sigma_{1}\sigma_{2}\dots\sigma_{j - 1}}F$. De novo nós chegamos no último estágio $l$ quando $\pi_{l} = \pi \setminus \pi_{1}\pi_{2}\dots\pi_{l - 1}$.
+	
+	Seja $\sigma = \sigma_{1}\sigma_{2}\dots\sigma_{l}$ e $\rho_{1}^{\prime} = \rho_{1}\sigma$, $\mu = (\mu_{1}, \mu_{2}, \dots, \mu_{l})$ e $\beta = (\beta_{1}, \beta_{2}, \dots, \beta_{l})$. Nós definimos a string $d \in \binalph^{s}$ tal que $d_{j} = 1$ se e somente se a $j$-ésima variável em $\mu$ é atribuida um valor diferente por $\sigma = \sigma_{1}\sigma_{2}\dots\sigma_{l}$ e $\pi$. Então fazemos $\code(\rho_{1}) = (\rho_{1}^{\prime}, \mu, \beta, d)$.
+	
+	\item Decodificando $\code(\rho_{1})$.
+
+	A idéia do processo de decodificação de $\code(\rho_{1})$ é basicamente o mesmo que já vimos na segunda prova do Lema da Troca de Håstad. Nós notamos que podemos obter quais variáveis $\sigma_{i}$ fixou a partir de $\beta_{i}$, $\mu_{i}$ e $\sigma$:
+	
+	\begin{equation*}
+		\sigma_{j}(x_{a, j}) \in \binalph \iff x_{a, j} \in K_{i} \text{ ou } \sigma(x_{a, j}) = 0,
+	\end{equation*}
+
+	o que vale para cada $a$ tal que $y_{a} \in \mu_{i}$. Que $\sigma_{i}(x_{a, j}) \in \binalph$ se $x_{a, j} \in K_{i}$ segue direto da definição de $\sigma_{i}$ e $K_{i}$. Além disso, como $\rho_{1}\sigma_{1}\sigma_{2}\dots\sigma_{i - 1}$ não atribui o valor 0 para nenhuma variável que pertence a algum bloco em $\mu_{i}$ e pela nossa definição de $\sigma_{i}$ em \ref{sigma_i_def} nós obtemos que $\sigma_{j}(x_{a, j}) \in \binalph$ sempre que $\sigma(x_{a, j}) = 0$. Uma vez que recuperamos $\sigma_{i}$, podemos recuperar $\pi_{i}$ com o auxílio da string $d_{i}$.
+	
+	\item Estimando $\Pr[\rho_{1} \in \mathcal{B}]$.
+	
+	Na segunda parte desta prova nós mostramos que o mapeamento $\code$ é injetivo, portanto se mostrarmos que $\Pr_{\boldsymbol{\rho} \leftarrow P_{1}}[\boldsymbol{\rho} = \rho_{1}] \leq \kappa\Pr_{\boldsymbol{\rho} \leftarrow P_{1}}[\boldsymbol{\rho} = \rho_{1}^{\prime}]$, em que $\kappa$ é uma constante, nós obtemos um limite superior para a soma \ref{projection_switching_lemma_proof_sum}. Como $\rho_{1}$ e $\rho_{1}^{\prime}$ só diferem nos blocos em $\mu$ nós iremos nos concentrar primeiro nestes blocos. Seja $a \in \mu$ e $\rho_{1}^{a}$ a parte de $\rho_{1}$ que atribui valores às variáveis em $a$, como $\rho_{1}(a) = x_{a}$:
+	
+	\begin{equation*}
+		\Pr_{\boldsymbol{\rho} \leftarrow P_{1}}[\boldsymbol{\rho^{a}} = \rho_{1}^{a}] = q\frac{2^{-m}}{1 - 2^{-m}}.
+	\end{equation*}
+
+	Enquanto que
+	
+	\begin{equation*}
+		\Pr_{\boldsymbol{\rho} \leftarrow P_{1}}[\boldsymbol{\rho^{a}} = \rho_{1}^{\prime, a}] = \begin{cases}
+																 	\lambda & \text{ se } \rho_{1}^{\prime}(x_{a}) = 1. \\
+																 	(1 - \lambda - q)\frac{2^{-m}}{1 - 2^{-m}} & \text{ se } \rho_{1}^{\prime}(x_{a}) = 0.
+		                                                        									 \end{cases}
+	\end{equation*}
+
+	Lembrando nossa observação que $\rho_{1}^{\prime}$ fixa todas as variáves que pertencem a blocos em $\mu$. Segue de imediato que
+	
+	\begin{equation*}
+		\frac{\Pr_{\boldsymbol{\rho} \leftarrow P_{1}}[\boldsymbol{\rho^{a}} = \rho_{1}^{a}]}{\Pr_{\boldsymbol{\rho} \leftarrow P_{1}}[\boldsymbol{\rho^{a}} = \rho_{1}^{\prime, a}]} = \begin{cases}
+																													         	\frac{q2^{-m}}{\lambda(1 - 2^{-m})} & \text{ se } \rho_{1}^{\prime}(x_{a}) = 1. \\
+																													         	\frac{q}{1 - \lambda - q} & \text{ se } \rho_{1}^{\prime}(x_{a}) = 0.
+																													         \end{cases}
+	\end{equation*}
+
+
+	E portanto temos que
+	
+	\begin{equation*}
+		\Pr_{\boldsymbol{\rho} \leftarrow P_{1}}[\boldsymbol{\rho}^{a} = \rho_{1}^{a}] \leq \Pr_{\boldsymbol{\rho} \leftarrow P_{1}}[\boldsymbol{\rho}^{a} = \rho_{1}^{\prime, a}] \times \max\bigg(\frac{q2^{-m}}{\lambda(1 - 2^{-m})}, \frac{q}{1 - \lambda - q} \bigg).
+	\end{equation*}
+	
+	Como $\Pr_{\boldsymbol{\rho} \leftarrow P_{1}}[\boldsymbol{\rho} = \rho_{1}] = \prod_{a \in A_{1}}\Pr_{\boldsymbol{\rho} \leftarrow P_{1}}[\boldsymbol{\rho}^{a} = \rho_{1}^{a}]$:
+	
+	\begin{IEEEeqnarray*} {rCl}
+		\Pr_{\boldsymbol{\rho} \leftarrow P_{1}}[\boldsymbol{\rho} = \rho_{1}] & =    & \prod_{a \in A_{1} \setminus \mu}\Pr_{\boldsymbol{\rho} \leftarrow P_{1}}[\boldsymbol{\rho}^{a} = \rho_{1}^{a}] \times \prod_{a \in \mu} \Pr_{\boldsymbol{\rho} \leftarrow P_{1}}[\boldsymbol{\rho}^{a} = \rho_{1}^{a}] \\
+													& \leq & \prod_{a \in A_{1} \setminus \mu}\Pr_{\boldsymbol{\rho} \leftarrow P_{1}}[\boldsymbol{\rho}^{a} = \rho_{1}^{\prime, a}] \times \prod_{a \in \mu} \Pr_{\boldsymbol{\rho} \leftarrow P_{1}}[\boldsymbol{\rho}^{a} = \rho_{1}^{\prime, a}] \times  \max\bigg(\frac{q2^{-m}}{\lambda(1 - 2^{-m})}, \frac{q}{1 - \lambda - q} \bigg) \\
+													& \leq & \kappa^{s} \Pr_{\boldsymbol{\rho} \leftarrow P_{1}}[\boldsymbol{\rho} = \rho_{1}^{\prime}].													
+	\end{IEEEeqnarray*}
+	
+	
+	Agora podemos estimar $\Pr_{\boldsymbol{\rho} \leftarrow P_{1}}[\boldsymbol{\rho} \in \mathcal{B}]$.
+	
+	\begin{IEEEeqnarray*} {rCl}
+		\Pr_{\boldsymbol{\rho} \leftarrow P_{1}}[\boldsymbol{\rho} \in \mathcal{B}] & =    & \sum_{\rho_{1} \in \mathcal{B}} \Pr_{\boldsymbol{\rho} \leftarrow P_{1}}[\boldsymbol{\rho} = \rho_{1}] \\
+		                                                                                                                           & \leq & \sum_{\rho_{1} \in \mathcal{B}} \kappa^{s} \Pr_{\boldsymbol{\rho} \leftarrow P_{1}}[\boldsymbol{\rho} = \rho_{1}^{\prime}].
+	\end{IEEEeqnarray*}
+	
+	Agora nós usamos o fato que $\code$ é um mapeamento injetivo. Seja $\mathcal{C}$ o conjunto de todas as restrições
+	
+\end{enumerate}
+
+\end{proof}
 
 \section{Método polinomial}
 
