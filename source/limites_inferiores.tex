@@ -249,7 +249,7 @@ Agora nós podemos ver como uma restrição aleatória simplifica um circuito $C
 
 Nós iremos usar este argumento para provar \ref{teo: parity_lb}.
 
-\begin{teo}
+\begin{teo} \label{parity_lb_2}
 
 Seja $d > 0$ um inteiro. Para $n$ suficientemente grande temos que qualquer circuito de profundidade $d$ com fan-in $\polylog(n)$ no teu primeiro nível e tamanho $< 2^{\mathcal{O}\big(n^{\frac{1}{d - 1}}\big)}$ não pode computar a função paridade de $n$ variáveis corretamente em todas as entradas. 
 
@@ -709,8 +709,8 @@ obtendo o resultado desejado no enunciado do lema.
 	Seja $\mathcal{C}$ o conjunto de todas as restrições $\rho$ tal que $\rho = \rho_{1}^{\prime}$ para algum $\rho_{1} \in \mathcal{B}_{1}$, usando as observações acima a respeito do número de possíveis $\mu, \beta$ e $d$ e por $\code$ ser um mapeamento injetivo:
 	
 	\begin{IEEEeqnarray*} {rCl}
-		\sum_{\rho_{1} \in \mathcal{B}} \kappa^{s} \Pr_{\boldsymbol{\rho} \leftarrow P_{1}}[\boldsymbol{\rho} = \rho_{1}^{\prime}] & \leq & (\kappa 2^{r + 4}r)^{s}\sum_{\rho_{1}^{\prime} \in \mathcal{C}} \Pr_{\boldsymbol{\rho} \leftarrow P_{1}}[\boldsymbol{\rho} = \rho_{1}^{\prime}] \\
-																					    & \leq & (\kappa 2^{r + 4}r)^{s}.  
+		\sum_{\rho_{1} \in \mathcal{B}} \kappa^{s} \Pr_{\boldsymbol{\rho} \leftarrow P_{1}}[\boldsymbol{\rho} = \rho_{1}^{\prime}] & \leq & (16\kappa 2^{r}r)^{s}\sum_{\rho_{1}^{\prime} \in \mathcal{C}} \Pr_{\boldsymbol{\rho} \leftarrow P_{1}}[\boldsymbol{\rho} = \rho_{1}^{\prime}] \\
+																					    & \leq & (16\kappa 2^{r}r)^{s}.  
 	\end{IEEEeqnarray*}
 	
 	Com isso obtemos $\Pr_{\boldsymbol{\rho} \leftarrow P_{1}}[\boldsymbol{\rho} \in \mathcal{B}_{1}] \leq (\kappa 2^{r + 4}r)^{s}$ como nós queriamos.
@@ -758,9 +758,63 @@ Agora iremos provar o Lema \ref{projection_switching_lemma_Pi}. O mapeamento $\c
 	\begin{equation*}
 		\Pr_{\boldsymbol{\rho} \leftarrow P_{i}}[\boldsymbol{\rho}^{a} = \rho_{i}^{a}] \leq \Pr_{\boldsymbol{\rho} \leftarrow P_{i}}[\boldsymbol{\rho}^{a} = \rho_{i}^{\prime, a}] \times \max \Bigg( \frac{q_{a}}{\lambda}\frac{t_{i - 1}^{\lvert S_{a} \rvert - s_{1}(a)}(1 - t_{i - 1})^{s_{1}(a)}}{1 - (1 - t_{i - 1})^{\lvert S_{a} \rvert}}, \frac{q_{a}}{1 - \lambda - q_{a}} \bigg( \frac{t_{i - 1}}{1 - t_{i - 1}}\bigg)^{\Delta_{a}} \Bigg).
 	\end{equation*}
+	
+	E como $\max \Bigg( \frac{q_{a}}{\lambda}\frac{t_{i - 1}^{\lvert S_{a} \rvert - s_{1}(a)}(1 - t_{i - 1})^{s_{1}(a)}}{1 - (1 - t_{i - 1})^{\lvert S_{a} \rvert}}, \frac{q_{a}}{1 - \lambda - q_{a}} \bigg( \frac{t_{i - 1}}{1 - t_{i - 1}}\bigg)^{\Delta_{a}} \Bigg) \leq \kappa$, temos que
+	
+	\begin{equation*}
+		\Pr_{\boldsymbol{\rho} \leftarrow P_{i}}[\boldsymbol{\rho} = \rho_{i}] \leq \kappa^{s}\Pr_{\boldsymbol{\rho} \leftarrow P_{i}}[\boldsymbol{\rho} = \rho_{i}^{\prime}].
+	\end{equation*}
+	
+	Somando sobre todas as possibilidades de $\rho_{i} \in \mathcal{B}_{i}$ e $(\mu, \beta, d)$ e definindo o conjunto $\mathcal{C}$ da mesma forma que fizemos na prova do Lema \ref{projection_switching_lemma_P1}:
+	
+	\begin{IEEEeqnarray*} {rCl}
+		Pr_{\boldsymbol{\rho} \leftarrow P_{i}}[\boldsymbol{\rho} \in \mathcal{B}_{i}] & \leq & (16\kappa 2^{r}r)^{s} \sum_{\rho_{1}^{\prime} \in \mathcal{C}} \Pr_{\boldsymbol{\rho} \leftarrow P_{i}}[\boldsymbol{\rho} = \rho_{i}^{\prime}] \\
+														& \leq & (16\kappa 2^{r}r)^{s}
+	\end{IEEEeqnarray*}
 
 \end{proof}
 
+Agora nós iremos provar o Teorema \ref{Sipser_f_lb} que nós enunciamos mais uma vez por conveniência.
+
+\begin{teo} \label{Sipser_f_lb_2}
+
+Seja $d > 2$ e $n$ suficientemente grande, qualquer circuito de tamanho $S < 2^{\Theta\big(\sqrt{\frac{n}{d\log n}}\big)}$ não computa a função $f^{d, n}$ corretamente em todas as entradas.
+
+\end{teo} 
+
+Assim como fizemos na prova do Teorema \ref{parity_lb_2}, nós iremos provar o Teorema \ref{Sipser_f_lb_2} em duas partes em que mostramos o seguinte em cada uma delas. Seja $C$ um circuito de profundidade $d$, tamanho $S = 2^{n^{\Theta(\frac{1}{d - 1})}}$ e com fan-in polilogaritmico no teu nível mais baixo:
+
+\begin{enumerate}
+
+	\item Com alta probabilidade $\Psi(C) = \proj_{\rho_{1}\rho_{2}\dots\rho_{d - 1}}C$ é  computada por uma árvore de decisão de profundidade pequena.
+	
+	\item Com alta probabilidade, $\Psi(f^{m, d}) = \proj_{\rho_{1}\rho_{2}\dots\rho_{d - 1}}$ é uma fórmula de com profundidade 1 sobre um número razoável de variáveis em $A_{d - 1}$.
+
+\end{enumerate}
+
+Primeiro iremos provar (1) mostrando que circuitos daquele tipo simplificam quando aplicamos $\Psi$, o que podemos fazer usando o mesmo argumento na prova do Teorema \ref{parity_lb_2} e uma sequência de aplicações dos Lemas \ref{projection_switching_lemma_P1} e \ref{projection_switching_lemma_Pi}.
+
+\begin{prop}
+
+Seja $d > 2$ e $n$ suficientemente grande, então qualquer circuito de tamanho $S = 2^{\mathcal{O} \big(n^{\frac{1}{d - 1}} \big)}$, profundidade $d$ e fan-in polilogarítmico no nível mais baixo satisfaz:
+
+\begin{equation*}
+	\Pr[D(\Psi(C)) < (...)] \geq (...),
+\end{equation*}
+
+onde $\Psi = \rho_{1}\rho_{2}\dots\rho_{d - 1}$ e cada $\rho_{i}$ é tirada de $P_{i}$, $i = 1, 2, \dots, d - 1$.
+
+\end{prop}
+
+\begin{proof}
+
+Suponha que o tamanho de $C$ seja $S = 2^{10n^{\frac{1}{d - 1}}}$ e o fan-in no nível mais baixo seja $\log^{c} n$, para algum $c > 0$. Vamos assumir sem perda de generalidade que as portas lógicas no nível mais baixo de $C$ são porta $\land$.
+
+Ao aplicarmos $\rho_{1}$ às variáveis em $A_{0}$ temos pelo Lema \ref{projection_switching_lemma_P1} que com probabilidade pelo menos $1 - \lvert A_{2} \rvert (...)$ podemos trocar cada porta $\lor$ no segundo nível de $C$ por uma árvore de decisão de profundidade no máximo (...) e daí podemos colapsar os segundo e terceiro níveis obtendo um circuito sobre as variáveis em $A_{1}$ com profundidade $d - 1$ e com fan-in (...) no teu nível mais baixo que computa $\proj_{\rho_1}C$.
+
+Depois disso aplicamos o lema \ref{projection_switching_lemma_Pi} $d - 2$ vezes obtendo com probabilidade pelo menos $1 - S(...)$ uma árvore de decisão de profundidade pelo menos (...) que computa $\Psi(C) = \proj_{\rho_{1}\rho_{2}\dots\rho_{d - 1}}C$.
+
+\end{proof}
 
 \section{Provas Naturais}
 

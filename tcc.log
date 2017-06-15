@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/W32TeX) (preloaded format=pdflatex 2016.9.4)  12 JUN 2017 23:32
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/W32TeX) (preloaded format=pdflatex 2016.9.4)  15 JUN 2017 00:34
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -717,7 +717,7 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
 een already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.51 ...ine {5.2}Provas Naturais}{76}{section.5.2}
+l.51 ...ine {5.2}Provas Naturais}{78}{section.5.2}
                                                    [2
 
 ])
@@ -1383,17 +1383,28 @@ Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 723.
  [75]
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 765.
+(babel)             in language  on input line 773.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 767.
+(babel)             in language  on input line 773.
+ [76]
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 769.
+(babel)             in language  on input line 819.
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 821.
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 823.
 ) (./source/ref.tex (./tcc.bbl
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 1.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 1.
- [76]
+
+[77]
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 1.
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 1.
+ [78]
 
 LaTeX Warning: Empty `thebibliography' environment on input line 3.
 
@@ -1403,7 +1414,7 @@ Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 4.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 4.
- [77
+ [79
 
 ]
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 4.
@@ -1419,10 +1430,10 @@ LaTeX Warning: There were undefined references.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 4.
  ) ) 
 Here is how much of TeX's memory you used:
- 8472 strings out of 493013
- 114155 string characters out of 6136994
- 221246 words of memory out of 5000000
- 11553 multiletter control sequences out of 15000+600000
+ 8480 strings out of 493013
+ 114227 string characters out of 6136994
+ 221296 words of memory out of 5000000
+ 11555 multiletter control sequences out of 15000+600000
  20457 words of font info for 82 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  31i,13n,35p,1813b,502s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1454,10 +1465,10 @@ live/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmti7.pfb><c:/texlive/2016/
 texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb><c:/texlive/2016/texm
 f-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb><c:/texlive/2016/texmf-di
 st/fonts/type1/public/amsfonts/symbols/msbm7.pfb>
-Output written on tcc.pdf (82 pages, 665117 bytes).
+Output written on tcc.pdf (84 pages, 670549 bytes).
 PDF statistics:
- 1018 PDF objects out of 1200 (max. 8388607)
- 894 compressed objects within 9 object streams
- 310 named destinations out of 1000 (max. 500000)
+ 1041 PDF objects out of 1200 (max. 8388607)
+ 914 compressed objects within 10 object streams
+ 316 named destinations out of 1000 (max. 500000)
  233 words of extra memory for PDF output out of 10000 (max. 10000000)
 
