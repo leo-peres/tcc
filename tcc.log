@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/W32TeX) (preloaded format=pdflatex 2016.9.4)  15 JUN 2017 00:34
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/W32TeX) (preloaded format=pdflatex 2016.9.4)  20 JUN 2017 00:15
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1349,50 +1349,50 @@ Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 427.
  [69]
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 474.
+(babel)             in language  on input line 484.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 474.
+(babel)             in language  on input line 484.
  [70]
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 522.
+(babel)             in language  on input line 523.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 522.
+(babel)             in language  on input line 523.
  [71]
-LaTeX Font Info:    Font shape `U/lasy/b/n' in size <7> not available
-(Font)              Font shape `U/lasy/m/n' tried instead on input line 575.
-LaTeX Font Info:    Font shape `U/lasy/b/n' in size <5> not available
-(Font)              Font shape `U/lasy/m/n' tried instead on input line 575.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 576.
+(babel)             in language  on input line 583.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 576.
+(babel)             in language  on input line 583.
  [72]
+LaTeX Font Info:    Font shape `U/lasy/b/n' in size <7> not available
+(Font)              Font shape `U/lasy/m/n' tried instead on input line 585.
+LaTeX Font Info:    Font shape `U/lasy/b/n' in size <5> not available
+(Font)              Font shape `U/lasy/m/n' tried instead on input line 585.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 632.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 632.
  [73]
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 671.
+(babel)             in language  on input line 676.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 671.
+(babel)             in language  on input line 676.
  [74]
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 723.
+(babel)             in language  on input line 730.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 723.
+(babel)             in language  on input line 730.
  [75]
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 773.
+(babel)             in language  on input line 783.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 773.
+(babel)             in language  on input line 783.
  [76]
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 819.
+(babel)             in language  on input line 829.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 821.
+(babel)             in language  on input line 831.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 823.
+(babel)             in language  on input line 833.
 ) (./source/ref.tex (./tcc.bbl
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 1.
@@ -1430,10 +1430,10 @@ LaTeX Warning: There were undefined references.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 4.
  ) ) 
 Here is how much of TeX's memory you used:
- 8480 strings out of 493013
- 114227 string characters out of 6136994
- 221296 words of memory out of 5000000
- 11555 multiletter control sequences out of 15000+600000
+ 8488 strings out of 493013
+ 114332 string characters out of 6136994
+ 220623 words of memory out of 5000000
+ 11559 multiletter control sequences out of 15000+600000
  20457 words of font info for 82 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  31i,13n,35p,1813b,502s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1465,10 +1465,10 @@ live/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmti7.pfb><c:/texlive/2016/
 texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb><c:/texlive/2016/texm
 f-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb><c:/texlive/2016/texmf-di
 st/fonts/type1/public/amsfonts/symbols/msbm7.pfb>
-Output written on tcc.pdf (84 pages, 670549 bytes).
+Output written on tcc.pdf (84 pages, 671176 bytes).
 PDF statistics:
- 1041 PDF objects out of 1200 (max. 8388607)
- 914 compressed objects within 10 object streams
- 316 named destinations out of 1000 (max. 500000)
+ 1050 PDF objects out of 1200 (max. 8388607)
+ 923 compressed objects within 10 object streams
+ 320 named destinations out of 1000 (max. 500000)
  233 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -424,81 +424,91 @@ Projeções aleatórias vão ter o mesmo papel na prova dos teoremas (...) e (..
 \end{enumerate}
 O item (3) é necessário para a prova do teorema (...) e ela tem o mesmo papel que \ref{rr_completes_uniform} tem para restrições aleatórias. Um ponto importante é que a definição cada um dos espaços de projeções $P_{i}$ dependem das projeções anteriores. Vamos começar definindo $P_{1}$ depois mostramos como cada $P_{i}$, para $i > 1$ a partir da projeção $\rho_{i - 1}$. É bom lembrar que iremos definir os espaços de projeções $P_{i}$ com a função $f^{n, d}$ em mente e que nós vemos $f^{n, d}$ como um circuito com portas $\land$ no teu nível mais baixo.
 
+Durante esta seção nós iremos considerar os seguintes parâmetros:
+
+\begin{equation} \label{lambda_q_defi}
+	\lambda = 2^{-5m/4} \qquad q = 2^{-7m/8} - 2^{-9m/8}.
+\end{equation}
+
 \begin{defi} (O espaço de projeção $P_{1}$) \label{defi_P1}
 
-Por conveniência iremos considerar apenas as variáveis em uma porta $\land$ $v$ específica pois as projeções $\rho_{1} \leftarrow P_{1}$ atribuem valores às variáveis que alimentam portas diferentes de forma independente. Seja $\inputt(v)$ o conjunto de variáveis de entrada da porta $v$. Inicialmente nós definimos o valor $\rho_{1}(x_{v})$ da seguinte forma:
+Por conveniência iremos considerar apenas as variáveis em uma porta $\land$ $a \in A_{1}$ específica pois as projeções $\rho_{1} \leftarrow P_{1}$ atribuem valores às variáveis que alimentam portas diferentes de forma independente. Seja $\inputt(a)$ o conjunto de variáveis de entrada da porta $a$. Inicialmente nós definimos o valor $\rho_{1}(x_{a})$ da seguinte forma:
 
-\begin{equation*}
-	\rho_{1}(x_{v}) = \begin{cases}
-				1 & \text{ com probabilidade } 2^{-\frac{5w}{2}}. \\
-				x_{v} & \text{ com probabilidade } 2^{-w} - 2^{-\frac{5w}{2}}. \\
-				0 & \text{ com probabilidade } 1 - 2^{-w}.
+\begin{equation} \label{defi_P1_eqn}
+	\rho_{1}(x_{a}) = \begin{cases}
+				1 & \text{ com probabilidade } \lambda. \\
+				x_{a} & \text{ com probabilidade } q. \\
+				0 & \text{ com probabilidade } 1 - \lambda - q.
 			  \end{cases}
-\end{equation*}
+\end{equation}
 
-Em seguida nós tiramos um subconjunto não vazio $S$ de $\inputt(v)$ tirado aleatoriamante e uniformemente e fazemos $\rho_{1}(x_{w}) = 1$ para todo $x_{w} \in \inputt(v) \setminus S$ e $\rho_{1}(x_{w}) = \rho_{1}(x_{v})$ para todo $x_{w} \in S$.
+Em seguida nós tiramos um subconjunto não vazio $S$ de $\inputt(a)$ aleatoriamante e uniformemente e fazemos $\rho_{1}(x_{a^{\prime}}) = 1$ para todo $x_{a^{\prime}} \in \inputt(a) \setminus S$ e $\rho_{1}(x_{a^{\prime}}) = \rho_{1}(x_{a})$ para todo $x_{a^{\prime}} \in S$.
 
 \end{defi}
 
-Nós fazemos a seguinte observação importante. Vamos considerar uma string $\textbf{x} \in \binalph^{2w}$ formada pelo seguite procedimento:
+Nós fazemos a seguinte observação importante. Vamos considerar uma string $\textbf{x} \in \binalph^{m}$ formada pelo seguite procedimento. Seja $t$ tal que
+
+\begin{equation} \label{t_defi_1}
+	\lambda + qt = 2^{-m}.
+\end{equation}
+
+Ou seja,
+
+\begin{equation} \label{t_defi_2}
+	t = \frac{2^{-m} - \lambda}{q} = 2^{-m/8}.
+\end{equation}
+
+Então proseguimos da seguinte forma:
 
 \begin{enumerate}
 
-\item Se $\rho_{1}(x_{v}) \in \binalph$:
+\item Se $\rho_{1}(x_{a}) \in \binalph$:
 
-Faça $\textbf{x}_{w} = \rho_{1}(x_{w})$ para todo $w \in [2w]$.
+Faça $\textbf{x}_{a^{\prime}} = \rho_{1}(x_{a^{\prime}})$ para todo $a^{\prime} \in [m]$.
 
-\item Se $\rho_{1}(x_{v}) = x_{v}$:
+\item Se $\rho_{1}(x_{a}) = x_{a}$:
 
-Faça $\textbf{x}_{w} = 1$ para todo $w$ tal que $\rho_{1}(x_{w}) = 1$ e para todos os outros $w$:
-
-\begin{equation*}
-	\textbf{x}_{w} = \begin{cases}
-	               	0 & \text{ com probabilidade } 1 -  b_{1}. \\
-	               	1 & \text{ com probabilidade } b_{1}.
-		    \end{cases}
-\end{equation*}
+Faça $\textbf{x}_{a^{\prime}} = 1$ para todo $a^{\prime}$ tal que $\rho_{1}(x_{a^{\prime}}) = 1$ e $\textbf{x}_{a^{\prime}} = b$ para todos os outros $\textbf{x}_{a^{\prime}} \in \inputt(a)$, em que $b \sim \{0_{1 - t}, 1_{t}\}$.
 
 \end{enumerate}
 
-Lembrando que $b_{1} = \frac{2^{-2w} - 2^{-5w/2}}{2^{-w} - 2^{-5w/2}}$. Equivalentemente, nós atribuimos valores as variáveis de $\inputt(v)$ que foram mapeadas para a variável $x_{v}$ por $\rho_{1} \leftarrow P_{1}$ de acordo com a distribuição $\{0_{1 - b_{1}}, 1_{b_{1}}\}$. Nós temos que a dsitribuição acima é equivalente à distribuição uniforme sobre strings em $\binalph^{2w}$. Para ver isto nós mostramos que a probabilidade que a string $1^{2w}$ é gerada pelo procedimento acima é $2^{-2w}$ (isso é suficiente para provar que a distribuição de strings geradas é uniforme pois podemos facilmente observar que todas as outras strings são geradas com a mesma probabilidade):
-
-\begin{IEEEeqnarray*} {rCl}
-	\Pr[\textbf{x} = 1^{2w}] & = & 2^{-\frac{-5m}{2}} + \big(2^{-m} - 2^{-\frac{-5m}{2}} \big)b_{1} \\
-	                                          & = & 2^{-\frac{-5m}{2}} + \big(2^{-m} - 2^{-\frac{-5m}{2}} \big) \bigg( \frac{2^{-2m} - 2^{-5m/2}}{2^{-m} - 2^{-5m/2}} \bigg) \\
-	                                          & = & 2^{-\frac{-5m}{2}} + 2^{-2m} - 2^{-5m/2} \\
-	                                          & = & 2^{-2m}.
-\end{IEEEeqnarray*}
-
-A idéia agora é que para todos espaços de projeções subsequentes $P_{i}$, para $i > 1$, nós iremos garantir que ao substuir as variáveis que foram projetadas por uma string aleatória tirada da distribuição $\{0_{1 - b_{i}}, 1_{b_{i}}\}$ se $i$ for ímpar ou $\{0_{b_{i}}, 1_{1 - b_{i}}\}$ se $i$ for par, nós também iremos obter a distribuição uniforme sobre todas as strings em $\binalph^{n}$ (ou seja, $P_{i}$ completa para a distribuição uniforme). Além disso, nós iremos usar o fato que $P_{i - 1}$ completa para a distribuição uniforme para provar o mesmo para $P_{i}$. Assim, para provar que um circuito $C$ de tamanho subexponencial e profundidade $d - 1$ não é nem mesmo correlacionado com $f^{m, d}$ nós iremos aplicar uma sequência de projeções $\Psi = \rho_{1}\rho_{2}\dots\rho_{d - 2}$, onde cada $\rho_{i}$ é tirada de $P^{i}$, ao circuito e à $f^{m, d}$, o que denotamos por $\Psi(C)$ e $\Psi(f^{m, d})$, e teremos que:
+Nós temos que a distribuição acima é equivalente à distribuição uniforme sobre strings em $\binalph^{m}$. Para ver isto nós mostramos que a probabilidade que a string $1^{m}$ é gerada pelo procedimento acima é $2^{-m}$ (isso é suficiente para provar que a distribuição de strings geradas é uniforme pois podemos facilmente observar que todas as outras strings são geradas com a mesma probabilidade). Isto segue direto da nossa definição de $\lambda$, $q$ e $t$ em \ref{lambda_q_defi}, \ref{t_defi_1} e \ref{t_defi_2}, e pela primeira e segunda linha de \ref{defi_P1_eqn}:
 
 \begin{equation*}
-	\Pr_{\textbf{x} \sim \{0_{1 - b_{d - 2}}, 1_{b_{d - 2}}\}^{n^\prime}}[ \Psi(f^{m, d})(\textbf{x}) = \Psi(C)(\textbf{x})] = \Pr_{\textbf{x} \sim \{0_{1/2}, 1_{1/2}\}^{n}}[f^{m, d}(\textbf{x}) = C(\textbf{x})], \text{ se d for par},
+	\Pr[\textbf{x} = 1^{m}]  = \lambda + qt = 2^{-m}
+\end{equation*}
+
+Ou seja, $\textbf{x}$ é $1^{m}$ sempre que $\rho_{1}(x_{a}) = 1$ ou $\rho_{1}(x_{a}) = x_{a}$ e fazemos $\textbf{x}_{a^{\prime}} = 1$ para todos $x_{a^{\prime}} \in \inputt(a)$ no passo (2) do nosso procedimento.
+
+A idéia agora é que para todos espaços de projeções subsequentes $P_{i}$, para $i > 1$, nós iremos garantir que ao substuir as variáveis que foram projetadas por uma string aleatória tirada da distribuição $\{0_{1 - t}, 1_{t}\}$ se $i$ for ímpar ou $\{0_{t}, 1_{1 - t}\}$ se $i$ for par, nós também iremos obter a distribuição uniforme sobre todas as strings em $\binalph^{n}$ (ou seja, $P_{i}$ completa para a distribuição uniforme). Além disso, nós iremos usar o fato que $P_{i - 1}$ completa para a distribuição uniforme para provar o mesmo para $P_{i}$. Assim, para provar que um circuito $C$ de tamanho subexponencial e profundidade $d - 1$ não é nem mesmo correlacionado com $f^{m, d}$ nós iremos aplicar uma sequência de projeções $\Psi = \rho_{1}\rho_{2}\dots\rho_{d - 1}$, onde cada $\rho_{i}$ é tirada de $P^{i}$, ao circuito e à $f^{m, d}$, o que denotamos por $\Psi(C)$ e $\Psi(f^{m, d})$, e teremos que:
+
+\begin{equation*}
+	\Pr_{\textbf{x} \sim \{0_{1 - t}, 1_{t}\}^{n^\prime}}[ \Psi(f^{m, d})(\textbf{x}) = \Psi(C)(\textbf{x})] = \Pr_{\textbf{x} \sim \{0_{1/2}, 1_{1/2}\}^{n}}[f^{m, d}(\textbf{x}) = C(\textbf{x})], \text{ se d for par},
 \end{equation*}
 
 ou
 
 \begin{equation*}
-	\Pr_{\textbf{x} \sim \{0_{b_{d - 2}}, 1_{1 - b_{d - 2}}\}^{n^{\prime}}}[ \Psi(f^{m, d})(\textbf{x}) = \Psi(C)(\textbf{x})] = \Pr_{\textbf{x} \sim \{0_{1/2}, 1_{1/2}\}^{n}}[f^{m, d}(\textbf{x}) = C(\textbf{x})], \text{ se d for ímpar},
+	\Pr_{\textbf{x} \sim \{0_{t}, 1_{1 - t}\}^{n^{\prime}}}[ \Psi(f^{m, d})(\textbf{x}) = \Psi(C)(\textbf{x})] = \Pr_{\textbf{x} \sim \{0_{1/2}, 1_{1/2}\}^{n}}[f^{m, d}(\textbf{x}) = C(\textbf{x})], \text{ se d for ímpar},
 \end{equation*}
 
-onde $n^{\prime}$ é o número de variáveis projetadas após a última projeção $\rho_{d - 2}$ e ambas igualdades acontecem com alta probabilidade sobre as possíveis projeções $\rho_{1}, \rho_{2}, \dots, \rho_{d - 2}$. Um outro ponto importante sobre os espaços de projeções que iremos considerar é que cada $P_{i}$, $i > 1$, depende da projeção $\rho_{i - 1}$ tirada de $P_{i - 1}$, ou seja cada $P_{i}$ é definido de forma adaptativa.
+onde $n^{\prime}$ é o número de variáveis projetadas após a última projeção $\rho_{d - 1}$ e ambas igualdades acontecem com alta probabilidade sobre as possíveis projeções $\rho_{1}, \rho_{2}, \dots, \rho_{d - 1}$. Um outro ponto importante sobre os espaços de projeções que iremos considerar é que cada $P_{i}$, $i > 1$, depende da projeção $\rho_{i - 1}$ tirada de $P_{i - 1}$, ou seja cada $P_{i}$ é definido de forma adaptativa. Nós na verdade iremos tirar cada $\rho_{i}$, para $i > 1$, do espaço de projeção $P_{i}(\rho_{i - 1})$, porém iremos na maior parte das vezes omitir esta notação que explicita a dependência sobre $\rho_{i - 1}$.
 
 Agora nós definimos $P_{i}$ para cada $i > 1$ de forma análoga a como definimos $P_{1}$.
 
 \begin{defi} (O espaço de projeção $P_{i}$) \label{defi_Pi}
 
-De novo, nós nos concentramos em uma única porta $v$ no $i$-ésimo nível do circuito de $f^{m, d}$ e sem perda de generalidade nós assumimos que $i$ é ímpar (e portanto $v$ é uma porta $\land$). Nós não perdemos em generalidade pois o caso em que $i$ é par é completamente análogo com os papeis de 0 e 1 trocados. Seja $\inputt(v)$ o conjunto de variáveis de entrada de $v$, $\rho_{i - 1} \leftarrow P_{i - 1}$ e $S_{v} = \{x_{w} \in \inputt(v) \lvert \rho_{i - 1}(x_{w}) = x_{w}\}$. Primeiro nós iremos ''rejeitar`` $\rho_{i - 1}$ se $\rho_{i - 1}(x_{w}) = 0$ para algum $x_{w} \in \inputt(v)$ ou se $\big\lvert \lvert S_{v} \rvert - 2^{-m}f_{i} \big\rvert \geq 2^{-3w/4}$. Ao rejeitar $\rho_{i - 1}$ nós fazemos $x_{w} \sim \{0_{b_{i - 1}, 1_{1 - b_{i - 1}}}\}$ para cada $x_{w} \in S_{v}$. Suponha que $\rho_{i - 1}$ não foi rejeitada, então nós fazemos
+De novo, nós nos concentramos em uma única porta $a \in A_{i}$ e sem perda de generalidade nós assumimos que $i$ é ímpar (e portanto $a$ é uma porta $\land$). Nós não perdemos em generalidade pois o caso em que $i$ é par é completamente análogo com os papeis de 0 e 1 trocados. Seja $\inputt(a) \subseteq A_{i - 1}$ o conjunto de variáveis de entrada de $a$, $\rho_{i - 1} \leftarrow P_{i - 1}$ e $S_{a} = \{x_{a^{\prime}} \in \inputt(a) \lvert \rho_{i - 1}(x_{a^{\prime}}) = x_{a^{\prime}}\}$. Primeiro nós iremos ''rejeitar`` $\rho_{i - 1}$ se $\rho_{i - 1}(x_{a^{\prime}}) = 0$ para algum $x_{a^{\prime}} \in \inputt(a)$ ou se $\big\lvert \lvert S_{a} \rvert - qw \big\rvert \geq w^{g(i - 1, d)}$. Ao rejeitar $\rho_{i - 1}$ nós fazemos $x_{a^{\prime}} \sim \{0_{t}, 1_{1 - t}\}$ para cada $x_{a^{\prime}} \in S_{a}$. Suponha que $\rho_{i - 1}$ não foi rejeitada, então nós fazemos
 
 \begin{equation*}
-	\rho_{i}(x_{v}) = \begin{cases}
-			        	  1 & \text{ com probabilidade } 2^{-5m/2}. \\
-			        	  x_{v} & \text{ com probabilidade } q_{v}. \\
-			        	  0 & \text{ com probabilidade } 1 - 2^{-5m/2} - q_{v}.
+	\rho_{i}(x_{a}) = \begin{cases}
+			        	  1 & \text{ com probabilidade } \lambda. \\
+			        	  x_{a} & \text{ com probabilidade } q_{a}. \\
+			        	  0 & \text{ com probabilidade } 1 - \lambda - q_{a}.
 			        \end{cases}
 \end{equation*}
 
-Nós escolhemos $q_{v}$ de forma que $2^{-5m/2} + q_{v}b_{i} = (1 - b_{i - 1})^{\lvert S_{v} \rvert}$ (ou seja, $q_{v} = \frac{(1 - b_{i - 1})^{\lvert S_{v} \rvert} - 2^{-5m/2})}{b_{i}}$). Em seguida tiramos um subconjunto não vazio $T$ de $S_{v}$ onde cada variável em $S_{v}$ é incluida em $T$ com probabilidade $b_{i - 1}$ e fazemos $\rho_{i}(x_{w}) = 1$ para todo $x_{w} \in S_{v} \setminus T$ e $\rho_{i}(x_{w}) = \rho_{i}(x_{v})$ para todo $x_{w} \in T$.
+Nós escolhemos $q_{a}$ de forma que $\lambda + q_{a}t = (1 -t)^{\lvert S_{a} \rvert}$ (ou seja, $q_{a} = \frac{(1 - t)^{\lvert S_{a} \rvert} - \lambda)}{t}$). Em seguida tiramos um subconjunto não vazio $T$ de $S_{a}$ onde cada variável em $S_{a}$ é incluida em $T$ com probabilidade $t$ e fazemos $\rho_{i}(x_{a^{\prime}}) = 1$ para todo $x_{a^{\prime}} \in S_{a} \setminus T$ e $\rho_{i}(x_{a^{\prime}}) = \rho_{i}(x_{a})$ para todo $x_{a^{\prime}} \in T$.
 
 \end{defi}
 
