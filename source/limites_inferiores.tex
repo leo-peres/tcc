@@ -492,7 +492,42 @@ ou
 	\Pr_{\textbf{x} \sim \{0_{t}, 1_{1 - t}\}^{n^{\prime}}}[ \Psi(f^{m, d})(\textbf{x}) = \Psi(C)(\textbf{x})] = \Pr_{\textbf{x} \sim \{0_{1/2}, 1_{1/2}\}^{n}}[f^{m, d}(\textbf{x}) = C(\textbf{x})], \text{ se d for ímpar},
 \end{equation*}
 
-onde $n^{\prime}$ é o número de variáveis projetadas após a última projeção $\rho_{d - 1}$ e ambas igualdades acontecem com alta probabilidade sobre as possíveis projeções $\rho_{1}, \rho_{2}, \dots, \rho_{d - 1}$. Um outro ponto importante sobre os espaços de projeções que iremos considerar é que cada $P_{i}$, $i > 1$, depende da projeção $\rho_{i - 1}$ tirada de $P_{i - 1}$, ou seja cada $P_{i}$ é definido de forma adaptativa. Nós na verdade iremos tirar cada $\rho_{i}$, para $i > 1$, do espaço de projeção $P_{i}(\rho_{i - 1})$, porém iremos na maior parte das vezes omitir esta notação que explicita a dependência sobre $\rho_{i - 1}$.
+onde $n^{\prime}$ é o número de variáveis projetadas após a última projeção $\rho_{d - 1}$ e ambas igualdades acontecem com alta probabilidade sobre as possíveis projeções $\rho_{1}, \rho_{2}, \dots, \rho_{d - 1}$. Então nós mostramos que $\Psi(f^{m, d})$ e $\Psi(C)$ em si não são correlacionadas para mostrar que $f^{m, d}$ e $C$ também não são correlacionadas.
+
+A obsevação acima corresponde à terceira condição que os espaços de projeção devem satisfazer. A primeira condição (que os circuitos $C$ simplificam quando aplicamos $\Psi = \rho_{1}\rho_{2}\dots\rho_{d - 1}$) nós iremos ver na próxima seção. Para a segunda condição ($f^{m, d}$ mantém estrutura) nós iremos tratar agora o caso i = 1 fazendo as seguintes observações.
+
+\begin{defi} (Projeções típicas para $P_{1}$) \label{typical_proj_P1}
+
+Seja $\rho_{1} \leftarrow P_{1}$ e para todo $a \in A_{1}$ seja $S_{a} = \{a^{\prime} \in \inputt(a) \lvert \rho_{1}(a^{\prime}) = x_{a} \}$. Nós dizemos que $\rho_{1}$ é típica se:
+
+\begin{enumerate}
+
+	\item Para todo $a \in A_{1}$, $\big\lvert \lvert S_{a} \rvert - qw \big\rvert \geq w^{g(1, d)}$, onde definimos $g(i, d) = 1/4 + (i - 1)/40d$ para todo $i \in [d - 1]$.
+	
+	\item Para todo $a \in A_{1}$, $\rho_{1}(x_{a}) = x_{a}$.
+
+
+\end{enumerate}
+
+\end{defi}
+
+Para mostrar que $f^{m, d}$ mantém estrutura nós primeiro argumentamos que $\rho_{1} \leftarrow P_{1}$ é típica com alta probabilidade.
+
+\begin{prop}
+
+Seja $\rho_{1} \leftarrow P_{1}$ e $a \in A_{2}$, então:
+
+\begin{enumerate}
+
+	\item $\Pr \Big[\big\lvert \lvert S_{a} \rvert - qw \big\rvert \leq w^{g(1, d)} \Big] = 1 - e^{-\widetilde{\Omega}(w^{1/4})}$;
+	
+	\item $\Pr[\rho_{1}(x_{a^{\prime}}) = x_{a^{\prime}} \text{ para todo } x_{a^{\prime}} \in \inputt(a) ] = 1 - \widetilde{\mathcal{O}}(w^{-1/4})$.
+
+\end{enumerate}
+
+\end{prop}
+
+Um outro ponto importante sobre os espaços de projeções que iremos considerar é que cada $P_{i}$, $i > 1$, depende da projeção $\rho_{i - 1}$ tirada de $P_{i - 1}$, ou seja cada $P_{i}$ é definido de forma adaptativa. Nós na verdade iremos tirar cada $\rho_{i}$, para $i > 1$, do espaço de projeção $P_{i}(\rho_{i - 1})$, porém iremos na maior parte das vezes omitir esta notação que explicita a dependência sobre $\rho_{i - 1}$.
 
 Agora nós definimos $P_{i}$ para cada $i > 1$ de forma análoga a como definimos $P_{1}$.
 
