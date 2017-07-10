@@ -427,7 +427,7 @@ O item (3) é necessário para a prova do teorema (...) e ela tem o mesmo papel 
 Durante esta seção nós iremos considerar os seguintes parâmetros:
 
 \begin{equation} \label{lambda_q_defi}
-	\lambda = 2^{-5m/4} \qquad q = 2^{-7m/8} - 2^{-9m/8}.
+	\lambda = 2^{-5m/2} \qquad q = 2^{-m/2} - 2^{-3m/2}.
 \end{equation}
 
 \begin{defi} (O espaço de projeção $P_{1}$) \label{defi_P1}
@@ -446,7 +446,7 @@ Em seguida nós tiramos um subconjunto não vazio $S$ de $\inputt(a)$ aleatoriam
 
 \end{defi}
 
-Nós fazemos a seguinte observação importante. Vamos considerar uma string $\textbf{x} \in \binalph^{m}$ formada pelo seguite procedimento. Seja $t$ tal que
+Nós fazemos a seguinte observação importante. Seja $a \in A_{1}$ e vamos considerar uma string $\textbf{x} \in \binalph^{m}$ formada pelo seguite procedimento. Seja $t$ tal que
 
 \begin{equation} \label{t_defi_1}
 	\lambda + qt = 2^{-m}.
@@ -455,7 +455,7 @@ Nós fazemos a seguinte observação importante. Vamos considerar uma string $\t
 Ou seja,
 
 \begin{equation} \label{t_defi_2}
-	t = \frac{2^{-m} - \lambda}{q} = 2^{-m/8}.
+	t = \frac{2^{-m} - \lambda}{q} = 2^{-m/2}.
 \end{equation}
 
 Então proseguimos da seguinte forma:
@@ -464,11 +464,11 @@ Então proseguimos da seguinte forma:
 
 \item Se $\rho_{1}(x_{a}) \in \binalph$:
 
-Faça $\textbf{x}_{a^{\prime}} = \rho_{1}(x_{a^{\prime}})$ para todo $a^{\prime} \in [m]$.
+Faça $\textbf{x}_{a^{\prime}} = \rho_{1}(x_{a^{\prime}})$ para todo $a^{\prime} \in \inputt(a)$.
 
 \item Se $\rho_{1}(x_{a}) = x_{a}$:
 
-Faça $\textbf{x}_{a^{\prime}} = 1$ para todo $a^{\prime}$ tal que $\rho_{1}(x_{a^{\prime}}) = 1$ e $\textbf{x}_{a^{\prime}} = b$ para todos os outros $\textbf{x}_{a^{\prime}} \in \inputt(a)$, em que $b \sim \{0_{1 - t}, 1_{t}\}$.
+Faça $\textbf{x}_{a^{\prime}} = 1$ para todo $a^{\prime} \in \inputt(a)$ tal que $\rho_{1}(x_{a^{\prime}}) = 1$ e $\textbf{x}_{a^{\prime}} = b$ para todos os outros $\textbf{x}_{a^{\prime}} \in \inputt(a)$, em que $b \sim \{0_{1 - t}, 1_{t}\}$.
 
 \end{enumerate}
 
@@ -478,58 +478,120 @@ Nós temos que a distribuição acima é equivalente à distribuição uniforme 
 	\Pr[\textbf{x} = 1^{m}]  = \lambda + qt = 2^{-m}
 \end{equation*}
 
-Ou seja, $\textbf{x}$ é $1^{m}$ sempre que $\rho_{1}(x_{a}) = 1$ ou $\rho_{1}(x_{a}) = x_{a}$ e fazemos $\textbf{x}_{a^{\prime}} = 1$ para todos $x_{a^{\prime}} \in \inputt(a)$ no passo (2) do nosso procedimento.
+Ou seja, $\textbf{x}$ é $1^{m}$ sempre que $\rho_{1}(x_{a}) = 1$ ou $\rho_{1}(x_{a}) = x_{a}$ e fazemos $\textbf{x}_{a^{\prime}} = 1$ para todos $x_{a^{\prime}} \in \inputt(a)$ no passo (2) do nosso procedimento. Note que um procedimento equivalente é simplesmente fazer $x_{a} \sim \{0_{1 - t}, 1_{t}\}$, e se fizermos o mesmo para todas $a \in A_{1}$ nós obtemos a distribuição uniforme sobre $\binalph^{n}$.
 
-A idéia agora é que para todos espaços de projeções subsequentes $P_{i}$, para $i > 1$, nós iremos garantir que ao substuir as variáveis que foram projetadas por uma string aleatória tirada da distribuição $\{0_{1 - t}, 1_{t}\}$ se $i$ for ímpar ou $\{0_{t}, 1_{1 - t}\}$ se $i$ for par, nós também iremos obter a distribuição uniforme sobre todas as strings em $\binalph^{n}$ (ou seja, $P_{i}$ completa para a distribuição uniforme). Além disso, nós iremos usar o fato que $P_{i - 1}$ completa para a distribuição uniforme para provar o mesmo para $P_{i}$. Assim, para provar que um circuito $C$ de tamanho subexponencial e profundidade $d - 1$ não é nem mesmo correlacionado com $f^{m, d}$ nós iremos aplicar uma sequência de projeções $\Psi = \rho_{1}\rho_{2}\dots\rho_{d - 1}$, onde cada $\rho_{i}$ é tirada de $P^{i}$, ao circuito e à $f^{m, d}$, o que denotamos por $\Psi(C)$ e $\Psi(f^{m, d})$, e teremos que:
+A idéia agora é que para todos espaços de projeções $P_{i}$ subsequentes, para $i > 1$, nós iremos garantir que ao substituir as variáveis que sobreviveram a projeção por uma string aleatória tirada da distribuição $\{0_{1 - t}, 1_{t}\}$ se $i$ for ímpar ou $\{0_{t}, 1_{1 - t}\}$ se $i$ for par, nós também iremos obter a distribuição uniforme sobre todas as strings em $\binalph^{n}$ (ou seja, $P_{i}$ completa para a distribuição uniforme). Além disso, nós iremos usar o fato que $P_{i - 1}$ completa para a distribuição uniforme para provar o mesmo para $P_{i}$. Assim, para provar que um circuito $C$ de tamanho subexponencial e profundidade $d - 1$ não é nem mesmo correlacionado com $f^{m, d}$ nós iremos aplicar uma sequência de projeções $\Psi = \rho_{1}\rho_{2}\dots\rho_{d - 1}$, onde cada $\rho_{i}$ é tirada de $P_{i}$, ao circuito e à $f^{m, d}$, o que denotamos por $\Psi(C)$ e $\Psi(f^{m, d})$, e teremos que:
 
-\begin{equation*}
+\begin{equation} \label{uniform_comp_eq_1}
 	\Pr_{\textbf{x} \sim \{0_{1 - t}, 1_{t}\}^{n^\prime}}[ \Psi(f^{m, d})(\textbf{x}) = \Psi(C)(\textbf{x})] = \Pr_{\textbf{x} \sim \{0_{1/2}, 1_{1/2}\}^{n}}[f^{m, d}(\textbf{x}) = C(\textbf{x})], \text{ se d for par},
-\end{equation*}
+\end{equation}
 
 ou
 
-\begin{equation*}
+\begin{equation} \label{uniform_comp_eq_2}
 	\Pr_{\textbf{x} \sim \{0_{t}, 1_{1 - t}\}^{n^{\prime}}}[ \Psi(f^{m, d})(\textbf{x}) = \Psi(C)(\textbf{x})] = \Pr_{\textbf{x} \sim \{0_{1/2}, 1_{1/2}\}^{n}}[f^{m, d}(\textbf{x}) = C(\textbf{x})], \text{ se d for ímpar},
-\end{equation*}
+\end{equation}
 
-onde $n^{\prime}$ é o número de variáveis projetadas após a última projeção $\rho_{d - 1}$ e ambas igualdades acontecem com alta probabilidade sobre as possíveis projeções $\rho_{1}, \rho_{2}, \dots, \rho_{d - 1}$. Então nós mostramos que $\Psi(f^{m, d})$ e $\Psi(C)$ em si não são correlacionadas para mostrar que $f^{m, d}$ e $C$ também não são correlacionadas.
+onde $n^{\prime}$ é o número de variáveis que sobreviveram a última projeção $\rho_{d - 1}$. Então nós mostramos que $\Psi(f^{m, d})$ e $\Psi(C)$ em si não são correlacionadas para mostrar que $f^{m, d}$ e $C$ também não são correlacionadas.
 
 A obsevação acima corresponde à terceira condição que os espaços de projeção devem satisfazer. A primeira condição (que os circuitos $C$ simplificam quando aplicamos $\Psi = \rho_{1}\rho_{2}\dots\rho_{d - 1}$) nós iremos ver na próxima seção. Para a segunda condição ($f^{m, d}$ mantém estrutura) nós iremos tratar agora o caso i = 1 fazendo as seguintes observações.
 
 \begin{defi} (Projeções típicas para $P_{1}$) \label{typical_proj_P1}
 
-Seja $\rho_{1} \leftarrow P_{1}$ e para todo $a \in A_{1}$ seja $S_{a} = \{a^{\prime} \in \inputt(a) \lvert \rho_{1}(a^{\prime}) = x_{a} \}$. Nós dizemos que $\rho_{1}$ é típica se:
+Seja $\rho_{1} \leftarrow P_{1}$. Para toda $a^{\prime} \in A_{2}$ seja $S_{a^{\prime}} = \{a \in \inputt(a^{\prime}) \lvert \rho_{1}(a) = x_{a} \}$ e para toda $a^{\prime \prime} \in A_{3}$ seja $S_{a^{\prime \prime}} = \{a^{\prime} \in \inputt(a^{\prime \prime}) \lvert x_{a^{\prime}} \text{ não é feita constante pela projeção } \rho_{1}\}$. Nós dizemos que $\rho_{1}$ é típica se:
 
 \begin{enumerate}
 
-	\item Para todo $a \in A_{1}$, $\big\lvert \lvert S_{a} \rvert - qw \big\rvert \geq w^{g(1, d)}$, onde definimos $g(i, d) = 1/4 + (i - 1)/40d$ para todo $i \in [d - 1]$.
+	\item Para todo $a^{\prime} \in A_{2}$, $\big\lvert \lvert S_{a^{\prime}} \rvert - qw \big\rvert \leq w^{g(1, d)}$, onde definimos $g(i, d) = 1/3 + (i - 1)/8d$ para todo $i \in [d - 1]$.
 	
-	\item Para todo $a \in A_{1}$, $\rho_{1}(x_{a}) = x_{a}$.
-
+	\item Para todo $a^{\prime \prime} \in A_{3}$, $\lvert S_{a^{\prime \prime}} \rvert \geq w - w^{4/5}$.
 
 \end{enumerate}
+
+Note que qualquer restrição $\rho_{1} \leftarrow P_{1}$ típica não fixa nenhuma porta $\lor$ $a^{\prime}$ em $A_{2}$ com o valor zero, pois para isto nós teriamos que ter $\rho_{1}(x_{a}) = 0$ para todo $a \in \inputt(a^{\prime})$, o que contradiz a condição (1). Portanto podemos equivalentemente dizer que a condição (2) exige que não mais do que $w^{4/5}$ portas $\lor$ na entrada de $a^{\prime \prime} \in A_{3}$ tenham sido fixadas com o valor 1 pela projeção $\rho_{1}$.
 
 \end{defi}
 
-Para mostrar que $f^{m, d}$ mantém estrutura nós primeiro argumentamos que $\rho_{1} \leftarrow P_{1}$ é típica com alta probabilidade.
+Nós iremos entender a idéia por trás da primeira condição que uma projeção típica tem que satisfazer depois de definirmos os espaços de projeções $P_{i}$ para $i > 1$ e após vermos o Lema da Troca para projeções. Nós precisamos da segunda condição porque queremos que ao aplicarmos $\rho_{1}$ às variáveis de entrada de $f^{m, d}$ o circuito por trás da função $f^{m, d}$ a partir do terceiro nível não seja muito afetado.
 
-\begin{prop}
+Então temos que dado que $\rho_{1} \leftarrow P_{1}$ é típica então $\proj_{\rho_{1}}f^{m, d}$ é uma fórmula com profundidade $d - 1$ sobre as variáveis em $A_{1}$ que sobreviveram $\rho_{1}$ (ou seja, não foram feitas constantes). No nível mais baixo de $\proj_{\rho_{1}}f^{m, d}$ temos portas $\lor$ com fan-in no intervalo $[qw - w^{g(1, d)}, qw + w^{g(1, d)}]$ e no terceiro nível temos portas $\land$ com fan-in $\geq w - w^{4/5}$. O restante da fórmula permanece intacta.  Para mostrar que $f^{m, d}$ mantém estrutura com alta probabilidade nós temos primeiro que argumentar que $\rho_{1} \leftarrow P_{1}$ é típica com alta probabilidade.
 
-Seja $\rho_{1} \leftarrow P_{1}$ e $a \in A_{2}$, então:
+\begin{prop} \label{typical_whp_P1}
+
+Seja $\rho_{1} \leftarrow P_{1}$, então:
 
 \begin{enumerate}
 
-	\item $\Pr \Big[\big\lvert \lvert S_{a} \rvert - qw \big\rvert \leq w^{g(1, d)} \Big] = 1 - e^{-\widetilde{\Omega}(w^{1/4})}$;
+	\item Para todo $a \in A_{2}$, $\Pr \Big[\big\lvert \lvert S_{a} \rvert - qw \big\rvert \leq w^{g(1, d)} \Big] = 1 - e^{-\widetilde{\Omega}(w^{1/6})}$;
 	
-	\item $\Pr[\rho_{1}(x_{a^{\prime}}) = x_{a^{\prime}} \text{ para todo } x_{a^{\prime}} \in \inputt(a) ] = 1 - \widetilde{\mathcal{O}}(w^{-1/4})$.
+	\item Para todo $a \in A_{3}$, $\Pr \big[ \lvert S_{a} \rvert \geq w - w^{4/5} \big] = 1 - e^{-\Omega(w^{1/3})}$.
 
 \end{enumerate}
 
+Daí segue pelo Princípio da Inclusão-Exclusão que $\rho_{1}$ é típica com probabilidade $1 - \big( \lvert A_{2} \rvert + \lvert A_{3} \rvert \big)e^{-\Omega(w^{1/3})}$. Como $\lvert A_{i} \rvert = w^{\mathcal{O}(d)}$, para todo $i \in [d]$, temos que $\rho_{1}$ é típica como probabilidade $1 - e^{-\Omega(w^{1/3})}$.
+
 \end{prop}
+
+\begin{proof}
+
+Nós podemos provar ambos os itens no enunciado aplicando a desigualdade de Chernoff. Vale lembrar que se $a^{\prime \prime} \in A_{3}$ e $a^{\prime} \in \inputt(a)$ então $a^{\prime} \in A_{2}$. Similarmente, se $a^{\prime} \in A_{2}$ e $a \in \inputt(a^{\prime})$ então $a \in A_{1}$.
+
+\begin{enumerate}
+
+	\item Provando o item (1).
+	
+	Seja $a^{\prime} \in A_{2}$. Uma variável $x_{a} \in \inputt(a^{\prime})$  satisfaz $\rho_{1}(x_{a}) = x_{a}$ com probabilidade $q$ pela definição de $P_{1}$ em \ref{defi_P1}. Portanto, temos que $E[\lvert S_{a^{\prime}} \rvert] = qw = \widetilde{\Theta}(w^{1/2})$, e pela desigualdade de Chernoff temos que
+	
+	\begin{equation*}
+		\Pr \Big[\big\lvert \lvert S_{a^{\prime}} \rvert - qw \big\rvert \geq w^{g(1, d)} \Big] \leq e^{\frac{\delta^{2}}{3}qw},
+	\end{equation*}
+	
+	onde $\delta$ satisfaz $\delta qw = w^{g(1, d)}$. Equivalentemente, $\delta = w^{g(1, d)}/qw$, e lembrando que da forma como definimos a função $g$ temos que $g(1, d) = 1/3$ e então segue que $\delta = \widetilde{\Omega}(w^{-1/6})$, onde nós também usamos que $qw = \widetilde{\Theta}(w^{1/2})$, e portanto
+	
+	\begin{equation*}
+		e^{-\frac{\delta^{2}}{3}qw} = e^{-\widetilde{\Omega}(w^{1/6})}.
+	\end{equation*}
+	
+	E por fim podemos concluir que
+	
+	\begin{equation*}
+		\Pr \Big[ \big\lvert \lvert S_{a^{\prime}} \rvert - qw \big\rvert < w^{g(1, d)}\Big] = 1 - e^{-\widetilde{\Omega}(w^{1/6})}.
+	\end{equation*}
+	
+	
+	\item Provando o item (2).
+	
+	Seja $a^{\prime \prime} \in A_{3}$ e $a^{\prime} \in \inputt(a)$. Como nós observamos em \ref{typical_proj_P1} nós podemos assumir que $a^{\prime}$ é substituida pela constante 1 sempre que $a^{\prime} \not\in S_{a^{\prime \prime}}$. Temos que $a^{\prime}$ não é forçada para 1 por $\rho_{1}$ se todos $a \in \inputt(a^{\prime})$ satisfazem $\rho_{1}(x_{a}) \neq 1$, o que acontece com probabilidade $(1 - \lambda)^{w}$ pela definição de $P_{1}$ em \ref{defi_P1}. Como $e^{-\lambda w} \geq (1 - \lambda)^{w}$ temos que
+	
+	\begin{equation*}
+		E \big[ \lvert S_{a^{\prime \prime}} \rvert \big] \leq we^{-\lambda w} = we^{-\widetilde{\Omega}(w^{-3/2})},
+	\end{equation*}
+	
+	e pela desigualdade de Chernoff segue que
+	
+	\begin{equation*}
+		\Pr \big[ \lvert S_{a^{\prime \prime}} \rvert \leq w - w^{4/5} \big] \leq e^{-\frac{\delta^{2}}{2}we^{-\widetilde{\Omega}(w^{-3/2})}},
+	\end{equation*}
+	
+	onde $\delta$ é tal que $(1 - \delta)we^{-\widetilde{\Omega}(w^{-1/4})} = w - w^{4/5}$. Equivalentemente, $\delta = 1 - \frac{w - w^{4/5}}{we^{-\widetilde{\Omega}(w^{-1/4})}} = \Omega(w^{-1/5})$. Portanto,
+	
+	\begin{equation*}
+		 e^{-\frac{\delta^{2}}{2}we^{-\widetilde{\Omega}(w^{-1/4})}} = e^{-\Omega(w^{1/3})}.
+	\end{equation*}
+	
+	Daí podemos concluir que
+	
+	\begin{equation*}
+		\Pr \big[ \lvert S_{a^{\prime \prime}} \rvert \geq w - w^{4/5} \big] = 1 - e^{-\Omega(w^{1/3})}.
+	\end{equation*}
+	
+\end{enumerate}
+
+\end{proof}
 
 Um outro ponto importante sobre os espaços de projeções que iremos considerar é que cada $P_{i}$, $i > 1$, depende da projeção $\rho_{i - 1}$ tirada de $P_{i - 1}$, ou seja cada $P_{i}$ é definido de forma adaptativa. Nós na verdade iremos tirar cada $\rho_{i}$, para $i > 1$, do espaço de projeção $P_{i}(\rho_{i - 1})$, porém iremos na maior parte das vezes omitir esta notação que explicita a dependência sobre $\rho_{i - 1}$.
 
-Agora nós definimos $P_{i}$ para cada $i > 1$ de forma análoga a como definimos $P_{1}$.
+Agora nós definimos $P_{i}$ para cada $i > 1$ de forma análoga a como definimos $P_{1}$. Em seguida nós também iremos ver que cada $P_{i}$ completa para a distribuição uniforme e extendemos a nossa definição de projeções típicas para $P_{i}$ e mostraremos que $\rho_{i} \leftarrow P_{i}$ é típica com alta probabilidade.
 
 \begin{defi} (O espaço de projeção $P_{i}$) \label{defi_Pi}
 
@@ -547,42 +609,179 @@ Nós escolhemos $q_{a}$ de forma que $\lambda + q_{a}t = (1 -t)^{\lvert S_{a} \r
 
 \end{defi}
 
-Nós podemos ver que $P_{i}$, para $i > 1$, completa para a distribuição uniforme notando que cada variável em $S_{v}$ recebe o valor 0 com probabilidade $b_{i - 1}$ e 1 com probabilidade $1 - b_{i - 1}$ e argumentando indutivamente que $P_{i - 1}$ completa para a distribuição uniforme (lembrando que quando assumimos que $i$ é ímpar temos que $P_{i - 1}$ completa para a distribuição uniforme ao aplicarmos a distribuição $\{0_{b_{i - 1}}, 1_{1 - b_{i - 1}}\}$ para cada variável que foi projetada por $\rho_{i - 1} \leftarrow P_{i - 1}$) ao aplicarmos o seguinte procedimento análogo ao que vimos após a definição de $P_{1}$:
+Daqui pra frente a seguinte relação entre $q$ e $q_{a}$, para qualquer $a \in \bigcup_{i = 2}^{d - 1}A_{i}$, nos será útil.
+
+\begin{prop} \label{q_qa}
+
+Seja $q_{a} = \frac{(1 - t)^{\lvert S_{a} \rvert} - \lambda}{t}$, onde $\big\lvert \lvert S_{a} \rvert - qw \big\rvert \leq w^{11/24}$, então
+
+\begin{equation*}
+	\frac{q}{2} \leq q_{a} \leq 2q.
+\end{equation*}
+
+\end{prop}
+
+\begin{proof}
+
+Como $\big\lvert \lvert S_{a} \rvert - qw \big\rvert \leq w^{11/24}$ temos que
+
+\begin{equation*}
+	\frac{(1 - t)^{qw + w^{11/24}} - \lambda}{t} \leq q_{a} \leq \frac{(1 - t)^{qw - w^{11/24}} - \lambda}{t}.
+\end{equation*}
+
+Podemos ver que $(1 - t)^{qw} = 2^{-m}(1 + o(1))$ e
+
+\begin{equation*}
+	(1 - t)^{w^{11/24}} \geq 1 - w^{11/24}t = 1 - \widetilde{\mathcal{O}}(w^{-1/24}),
+\end{equation*}
+
+E daí podemos afirmar que para $m$ suficientemente grande:
+
+\begin{equation*}
+	(1 - t)^{qw + w^{11/24}} = 2^{-m}(1 - o(1)) \qquad \text{ e } \qquad (1 - t)^{qw - w^{11/24}} = 2^{-m}(1 + o(1)).
+\end{equation*}
+
+E como $q = \frac{2^{-m} - \lambda}{t}$ nós obtemos que
+
+\begin{equation*}
+	q_{a} \geq \frac{2^{-m}(1 - o(1)) - \lambda}{t} = q(1 - o(1)) \geq \frac{q}{2},
+\end{equation*}
+
+e
+
+\begin{equation*}
+	q_{a} \leq \frac{2^{-m}(1 + o(1)) - \lambda}{t} = q(1 + o(1)) \leq 2q.
+\end{equation*}
+
+\end{proof}
+
+Nós podemos ver que $P_{i}$ completa para a distribuição uniforme notando que cada variável em $S_{a}$ recebe o valor 0 com probabilidade $t$ e 1 com probabilidade $1 - t$ e usando a hipótese indutiva que $P_{i - 1}$ completa para a distribuição uniforme (lembrando que quando assumimos que $i$ é ímpar temos que $P_{i - 1}$ completa para a distribuição uniforme ao aplicarmos a distribuição $\{0_{t}, 1_{1 - t}\}$ para cada variável em $A_{i - 1}$ que sobreviveu $\rho_{i - 1} \leftarrow P_{i - 1}$) ao aplicarmos o seguinte procedimento análogo ao que vimos após a definição de $P_{1}$. Seja $a \in A_{i}$:
 
 \begin{enumerate}
 
-	\item Se $\rho_{i}(x_{v}) \in \binalph$:
+	\item Se $\rho_{i}(x_{a}) \in \binalph$:
 	
-	Faça $\textbf{x}_{w} = \rho_{i}(x_{w})$ para todo $w \in [f_{i}]$.
+	Faça $\textbf{x}_{a^{\prime}} = \rho_{i}(x_{a})$ para todo $a^{\prime} \in \inputt(a)$.
 	
-	\item Se $\rho_{i}(x_{v}) = x_{v}$:
+	\item Se $\rho_{i}(x_{a}) = x_{a}$:
 	
-	Faça $\textbf{x}_{w} = 1$ para todo $w$ tal que $\rho_{i}(x_{w}) = 1$ e para todos os outros $w$:
+	Faça $\textbf{x}_{a^{\prime}} = 1$ para todo $a^{\prime} \in \inputt(a)$ tal que $\rho_{i}(x_{a^{\prime}}) = 1$ e para todos os outros $a^{\prime}$:
 	
 	\begin{equation*}
-		\textbf{x}_{w} = \begin{cases}
-				            0 & \text{ com probabilidade } 1 - b_{i}. \\
-				            1 & \text{ com probabilidade } b_{i}.
+		\textbf{x}_{a^{\prime}} = \begin{cases}
+				            0 & \text{ com probabilidade } 1 - t. \\
+				            1 & \text{ com probabilidade } t.
 				        \end{cases}
 	\end{equation*}
 
 \end{enumerate}
 
-Desta forma, para cada $w$ tal que $x_{w} \in S_{v}$, temos o seguinte:
+Desta forma, para cada $a^{\prime}$ tal que $x_{a^{\prime}} \in S_{a}$, nós temos o seguinte:
 
 \begin{equation*}
-	\Pr[\textbf{x}_{w} = 1] = 1 - \frac{b_{i - 1}}{1 - (1 - b_{i - 1})^{\lvert S_{v} \rvert}} + \frac{b_{i - 1}}{1 - (1 - b_{i - 1})^{\lvert S_{v} \rvert}}\big( 2^{-5m/2} + q_{v}b_{i}\big).
+	\Pr[\textbf{x}_{a^{\prime}} = 1] = 1 - \frac{t}{1 - (1 -t)^{\lvert S_{a} \rvert}} + \frac{t}{1 - (1 - t)^{\lvert S_{a} \rvert}}\big( \lambda + q_{a}t\big).
 \end{equation*}
 
-Lembrando que $2^{-5m/2} + q_{v}b_{i} = (1 - b_{i - 1})^{\lvert S_{v} \rvert}$:
+Lembrando que $\lambda + q_{a}t = (1 - t)^{\lvert S_{a} \rvert}$:
 
 \begin{IEEEeqnarray*} {rCl}
-	\Pr[\textbf{x}_{w} = 1] & = & 1 - \frac{b_{i - 1}}{1 - (1 - b_{i - 1})^{\lvert S_{v} \rvert}} + \frac{b_{i - 1}(1 - b_{i - 1})^{\lvert S_{v} \rvert}}{1 - (1 - b_{i - 1})^{\lvert S_{v} \rvert}} \\
-				        & = & 1 - \frac{b_{i - 1}}{1 - (1 - b_{i - 1})^{\lvert S_{v} \rvert}}\big(1 - (1 - b_{i - 1})^{\lvert S_{v} \rvert} \big) \\
-				        & = & 1 - b_{i - 1}.
+	\Pr[\textbf{x}_{a^{\prime}} = 1] & = & 1 - \frac{t}{1 - (1 - t)^{\lvert S_{a} \rvert}} + \frac{t(1 - t)^{\lvert S_{a} \rvert}}{1 - (1 - t)^{\lvert S_{a} \rvert}} \\
+				        & = & 1 - \frac{t}{1 - (1 - t)^{\lvert S_{a} \rvert}}\big(1 - (1 - t)^{\lvert S_{a} \rvert} \big) \\
+				        & = & 1 - t.
 \end{IEEEeqnarray*}
 
-Podemos ver isto como uma prova que $P_{i}$ completa para a distribuição uniforme.
+Podemos ver isto como uma prova que $P_{i}$ completa para a distribuição uniforme. Nós temos o seguinte lema como consequência.
+
+\begin{lema} \label{complete_to_uniform}
+
+Seja $\Psi = \rho_{1}\rho_{2}\dots\rho_{d-1}$, onde cada projeção $\rho_{i}$ foi tirada de $P_{i}$, e seja $S$ o conjunto das variáveis em $A_{d - 1}$ que sobreviveram a última restrição $\rho_{d - 1}$, então assumindo que $d$ é par (o caso em que $d$ é ímpar é simétrico) temos que para todas funções $f: \binalph^{n} \to \binalph$:
+
+\begin{equation*}
+	\Pr_{\textbf{x} \sim \{0_{1 - t}, 1_{t}\}^{S}}[\Psi(f)(\textbf{x}) = 1] = \Pr_{\textbf{x} \sim \binalph^{n}}[f(\textbf{x}) = 1].
+\end{equation*}
+
+\end{lema}
+
+Lembrando então as equações \ref{uniform_comp_eq_1} e \ref{uniform_comp_eq_2} temos pelo lema \ref{complete_to_uniform} que ao provar que para todo circuito $C$ de profundidade $d - 1$ e tamanho subexponencial difere de $f^{m, d}$ com alta probabilidade após aplicarmos $\Psi = \rho_{1}\rho_{2}\dots\rho_{d - 1}$ a ambos, o que iremos fazer mais pra frente, obtemos que $C$ e $f^{m, d}$ sequer podem estar correlacionados.
+
+Agora nos voltamos para o objetivo de garantir que os espaços de projeções $P_{2}, P_{3}, \dots, P_{d - 1}$ mantém a função $f^{m, d}$ bem estruturada. Nós prosseguimos de forma bem parecida de como fizemos para o espaço de projeção $P_{1}$. Primeiro nós iremos definir o que é uma projeção típica para $P_{i}$.
+
+\begin{defi} (Projeções típicas para $P_{i}$) \label{typical_proj_Pi}
+
+Para algum $i \in \{2, 3, \dots, d - 1\}$ seja $\rho_{i} \leftarrow P_{i}$. Para toda variável $x_{a^{\prime}} \in A_{i + 1}$ seja $S_{a^{\prime}} = \{x_{a} \in \inputt(a^{\prime}) \lvert \rho_{i}(x_{a}) = x_{a}\}$ e para todo variável $x_{a^{\prime \prime}} \in A_{i + 2}$ seja $S_{a^{\prime \prime}} = \{x_{a^{\prime}} \in \inputt(a^{\prime \prime}) \lvert x_{a^{\prime}} $ não é feita constante pela projeção $\rho_{1}\}$. Nós dizemos que $\rho_{i}$ é típica se:
+
+\begin{enumerate}
+
+	\item Para toda variável $x_{a} \in S_{i + 1}$, $\big\lvert \lvert S_{a} \rvert - qw \big\rvert \leq w^{g(i, d)}$.
+	
+	\item Para todo variável $x_{a} \in S_{i + 2}$, $\lvert S_{a} \rvert \geq w - w^{4/5}$.
+
+\end{enumerate}
+
+
+Se $i = d - 1$ nós ignoramos o item (2).
+
+\end{defi}
+
+Portanto dado que $\rho_{i}$ é típica temos que $\proj_{\rho_{1}\rho_{2}\dots\rho_{i}}f^{m, d}$ tem a mesma estrutura que $\proj_{\rho_{1}}f^{m, d}$ quando $\rho_{1}$ é típica mas com profundidade $d - i$ ao invés de $d - 1$. Nós queremos provar que $\rho_{i}$ é típica com alta probabilidade, mas é suficiente para nós provar que $\rho_{i} \leftarrow P_{i}(\rho_{i - 1})$ é típica com alta probabilidade quando $\rho_{i - 1} \leftarrow P_{i - 1}$ por sua vez também é típica. Nós temos a seguite proposição análoga à \ref{typical_whp_P1}.
+
+\begin{prop} \label{typical_whp_Pi}
+
+Seja $\rho_{i - 1} \leftarrow P_{i - 1}$ uma projeção típica e $\rho_{i} \leftarrow P_{i}(\rho_{i - 1})$, para algum $i \in \{2, 3, \dots, d- 1\}$, então:
+
+\begin{enumerate}
+
+	\item Para todo $a \in A_{i + 1}$, $\Pr \Big[\big\lvert \lvert S_{a} \rvert - qw \big\rvert \leq w^{g(i, d)} \Big] = 1 - e^{-\widetilde{\Omega}(w^{1/6})}$;
+	
+	\item Para todo $a \in A_{i + 2}$, $\Pr \big[ \lvert S_{a} \rvert \geq w - w^{4/5} \big] = 1 - e^{-\Omega(w^{1/3})}$.
+
+\end{enumerate}
+
+Daí segue pelo Princípio da Inclusão-Exclusão que $\rho_{i}$ é típica com probabilidade $1 - \big( \lvert A_{i + 1} \rvert + \lvert A_{i + 2} \rvert \big)e^{-\Omega(w^{1/3})} = 1 - e^{-\Omega(w^{1/3})}$. Se $i = d - 1$ nós ignoramos o item (2).
+
+\end{prop}
+
+\begin{proof}
+
+Nós de novo podemos usar a desigualdade de Chernoff para provar ambos os itens. A prova do item (2) é idêntica a que vimos na prova da proposição \ref{typical_whp_P1}, portanto só iremos provar o item (1) que ainda tem uma prova bastante parecida com a prova do item (1) de \ref{typical_whp_P1}. Para provar o item (1) agora temos que levar em conta que se $\rho_{i - 1}$ é típica então a probabilidade que $\rho_{i}(x_{a}) = 1$ para $a \in A_{i}$ é $q_{a}$ como definimos em \ref{typical_proj_Pi}, mas para isso podemos usar a proposição \ref{q_qa}. 
+	
+Seja $a^{\prime} \in A_{i + 1}$. Agora temos que $a \in \inputt(a^{\prime})$ satisfaz $\rho_{i - 1}(x_{a}) = x_{a}$ com probabilidade $q_{a^{\prime}}$ e portanto $\mu = E[\lvert S_{a^{\prime}} \rvert] = \sum_{a \in S_{a^{\prime}}} q_{a}$. Por \ref{q_qa} e o fato que $\rho_{i - 1}$ é típica temos que $\frac{q}{2}(w - w^{4/5}) \leq \mu \leq 2q(w - w^{4/5})$, ou seja $\mu = \widetilde{\Theta}(w^{1/2})$. Pela desigualdade de Chernoff temos que
+	
+\begin{equation*}
+	\Pr\big[ \big\lvert \lvert S_{a^{\prime}} \rvert - qw \big\rvert \geq w^{g(i - 1, d)} \big] \leq e^{-\frac{\delta^{2}}{3}\mu},
+\end{equation*}
+	
+em que $\delta$ deve satisfazer $(1 + \delta)\frac{q}{2}(w - w^{4/5}) = qw + w^{g(i - 1, d)} \geq \frac{q(w - w^{4/5})}{2} + w^{g(i - 1, d)}$ e $(1 - \delta)2qw = qw - w^{g(i - 1, d)} \leq 2qw - w^{g(i -1, d)}$. Então temos $\delta = \widetilde{\Omega}(w^{-1/24})$ e portanto
+
+\begin{equation*}
+	e^{-\frac{\delta^{2}}{3}\mu} = e^{-\widetilde{\Omega}(w^{1/2})}.
+\end{equation*}
+
+Daí temos que
+
+\begin{equation*}
+	\Pr \big[ \big\lvert \lvert S_{a^{\prime}} \rvert - qw \big\rvert \leq w^{g(i - 1, d)} \big] = 1 - e^{-\widetilde{\Omega}(w^{1/2})}.
+\end{equation*}
+
+\end{proof}
+
+Nós já podemos mostrar que a função $f^{m, d}$ mantém alguma estrutura quando aplicamos $\Psi = \rho_{1}\rho_{2}\dots\rho_{d - 1}$. Nós usamos as proposições \ref{typical_whp_P1} e \ref{typical_whp_Pi} para mostrar que com alta probabilidade todas projeções $\rho_{i}$ são típicas e então argumentamos que se cada $\rho_{i}$ é típica então $\Psi(f^{m, d})$ é o $\lor$ de $n^{\prime}$ variáveis em $A_{d - 1}$, onde $n^{\prime} \in [qw - w^{1/3}, qw + w^{1/3}]$.
+
+\begin{prop} ($f^{m, d}$ mantém estrutura) \label{struct_preserve}
+
+Seja $\Psi = \rho_{1}\rho_{2}\dots\rho_{d - 1}$, onde cada $\rho_{i} \leftarrow P_{i}$, então é verdade que com probabilidade $1 - e^{-\Omega(w^{1/3})}$ $\Psi(f^{m, d})$ é o uma fórmula de profundaide 1 sobre $n^{\prime}$ variáveis em $A_{d - 1}$, em que $n^{\prime} \in [qw - w^{1/3}, qw + w^{1/3}]$.
+
+Mais especificamente, $\Psi(f^{m, d})$ é o $\lor$ de $n^{\prime}$ variáveis se $d$ é par ou o $\land$ de $n^{\prime}$ variáves se $d$ é ímpar.
+
+\end{prop}
+
+\begin{proof}
+
+É suficiente argumentar que todas as projeções $\rho_{i}$ são típicas com alta probabilidade, porque como vimos $\proj_{\rho_{1}\rho_{2}\dots\rho_{i}}f^{m, d}$ é uma fórmula com profundidade $d - i$ com fan-in no nível mais baixo no intervalo $[qw - w^{1/3}, qw + w^{1/3}]$. Em particular, $\proj_{\rho_{1}\rho_{2}\dots\rho_{d - 1}}f^{m, d} = \Psi(f^{m, d})$ é uma fórmula com profundidade 1 e fan-in $n^{\prime} \in [qw - w^{1/3}, qw + w^{1/3}]$.
+
+Pelas proposições \ref{typical_whp_P1} e \ref{typical_whp_Pi} e o Príncipio da Inclusão-Exclusão temos que todas projeções são típicas com probabilidade maior do que $1 - (d - 1)e^{-\Omega(w^{1/3})}$, e como $d$ é constante temos que isso é $1 - e^{-\Omega(w^{1/3})}$. 
+
+\end{proof}
 
 \subsubsection{Lema da troca para projeções aleatórias}
 
