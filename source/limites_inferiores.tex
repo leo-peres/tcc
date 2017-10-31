@@ -1,150 +1,247 @@
-\chapter{Limites inferiores de circuitos Booleanos}
+\chapter{Restrições e projeções aleatórias} \label{chapter_random_restrictions_and_projections}
 
-O objetivo deste capítulo é mostrar algumas técnicas para provar limites inferiores no tamanho de circuitos Booleanos. Começaremos apresentando o método das restrições que foi usado para provar todos os limites inferiores que vimos no capítulo anterior. Depois vemos o método polinomial, aproximamos circuitos Booleanos por polinômios e daí provamos limites inferiores. Depois veremos que ambas estas técnicas têm suas limitações e em seguida falaremos de uma forma de evitar estas limitações. Por fim falaremos de circuitos algebráicos.
+Nós já vimos no capítulo anterior que a busca por separações de algumas classes de complexidade no mundo relativizado motivou a pesquisa em complexidade de circuitos. Em especial, nós vimos como alguns limitantes inferiores para classes de circuito que somente admitem circuitos de profundidade constante implicariam no colapso de algumas classes de complexidade relativas a algum oráculo. Agora iremos ver como provar estes limitante inferiores, concluindo então as provas dos teoremas do capítulo \ref{chapter_oracles_and_circuit_complexity}.
 
-\section{Restrições aleatórias}
+Na seção \ref{section_hastad_proofs} iremos provar o resultado de (...) que as funções paridades que definimos em \ref{parity} não têm circuitos de profundidade constante e tamanho subexponencial. Este resultado pode também ser expresso como $\Parity \not\in \AC^{0}$.
 
-De maneira geral, uma restrição a um conjunto de variáveis $X = \{x_{i}\}_{i \in [n]}$ é uma mapeamento $\rho: X \to \{*, 0, 1\}^{n}$. Se $\rho(x_{i}) = *$ dizemos que $x_{i}$ é uma variável livre. Se $f$ é uma função sobre as variáveis $X$ e aplicamos uma restrição $\rho$ sobre $X$, obtemos uma nova função $f_{\lvert \rho}$ sobre as variáveis em $\rho^{-1}(*)$.
+Também, como foi visto em \ref{section_separating_PH}, nos interessa provar que existe uma hierarquia de circuitos de profundidade constante. Ou seja, que circuitos de profundidade $d$ são estritamente mais fortes do que circuitos de profundidade $d - 1$ para todo $d \geq 2$. Se denotarmos por $\AC_{d}^{0}$ a classe $AC^{0}$ restrita a circuitos de profundidade $d$ então a existência de uma hierarquia de profundidade implicaria em $AC_{d}^{0} \nsubseteq AC_{d - 1}^{0}$, para todo $d \geq 2$. Este resultado foi provado pela primeira vez por H{\aa}stad em \cite{haastad1987computational}. Na seção \ref{section_RST_proof} nós iremos ver a prova de Rossman, Servedio e Tan \cite{rossman2015average} que também nos dá uma hierarquia de profundidade constante até mesmo quando apenas exigimos que circuitos de profundidade $d - 1$ sejam capazes de aproximar circuitos de profundidade $d$.
 
-Para o propósito de provar limites inferiores, restrições são interessantes porque elas simplificam funções. Se $\rho$ for uma restrição apropriada sobre as variáveis de entrada de uma função $f$, temos que $f_{\lvert \rho}$ há de ser uma função mais simples. Em particular, $f_{\lvert \rho}$ pode acabar sendo uma constante, ou uma função representável por uma árvore de decisão de profundidade pequena. Para tentar ser mais concretos, vamos definir restrições aleátorias.
+Um componente chave das estratégias adotada nas duas seções deste capítulo envolve aleatoriamente restringir algumas variáveis de entrada do circuito com o objetivo de obter um circuito mais simples do que o original. Esta técnica é atribuida à Subbotovskaya que a introduziu em \cite{subbotovskaya1961realizations}. Nós iremos ver que para provar que circuitos simplificam ao aplicarmos uma restrição aleatória sobre suas variáveis de entrada nós precisamos de um lema da troca que prova o ``caso base'' que fórmulas FNCs e FNDs com alta probabilidade simpĺificam ao serem atingidas por restrições aleatórias. Em \cite{beame1994switching}, Beame discute algumas aplicações de lemas da troca.
+
+\section{Restrições aleatórias e a prova de H{\aa}stad dos teoremas \ref{teo: parity_lb} e \ref{teo: parity_lb_app}} \label{section_hastad_proofs}
+
+De maneira geral, uma restrição a um conjunto de variáveis $X = \{x_{i}\}_{i \in [n]}$ é um mapeamento $\rho: X \to \{*, 0, 1\}^{n}$. Se $\rho(x_{i}) = *$ dizemos que $x_{i}$ é uma variável livre. Se $f$ é uma função sobre as variáveis $X$ e aplicamos uma restrição $\rho$ sobre $X$, obtemos uma nova função $f_{\lvert \rho}$ sobre as variáveis em $\rho^{-1}(*)$. Se $f: \binalph^{n} \to \binalph$, então temos que
+
+\begin{equation*}
+    f_{\lvert \rho}(x_{1}, x_{2}, \dots, x_{n}) = f(val_{\rho}(x_{1}), val_{\rho}(x_{2}), \dots, val_{\rho}(x_{n})),
+\end{equation*}
+
+em que $val_{\rho}(x_{i})$ é 0 ou 1 se $\rho(x_{i})$ é 0 ou 1, respectivamente, e $val_{\rho}(x_{i}) = x_{i}$ caso contrário. 
+
+Como já discutimos, ao tentar provar limitantes inferiores restrições são interessantes pois elas simplificam circuitos. Em particular, se considerarmos um circuito $C$ de profundidade constante temos que $C_{\lvert \rho}$ pode acabar sendo uma constante, ou uma função representável por uma árvore de decisão de profundidade pequena. Para que possarmos ser mais concretos, nós iremos agora dar uma definição formal para restrições aleatórias.
 
 \begin{defi} (Restrições aleatórias) \label{random_restrictions}
 
-Seja $p \in (0, 1]$, uma restrição aleátoria $\rho$ sobre as variáveis $\{x_{i}\}_{i \in [n]}$ é tirada da seguinte distribuição $R_{p}$:
+Seja $p \in (0, 1]$, uma restrição aleátoria $\boldsymbol{\rho}$ sobre as variáveis $\{x_{i}\}_{i \in [n]}$ é tirada da seguinte distribuição $R_{p}$. Para cada $i \in [n]$,
 
 \begin{equation*}
-	x_{i} = \begin{cases}
+	\boldsymbol{\rho}(x_{i}) = \begin{cases}
 			* & \text{ com probabilidade } p \\
 			0 & \text{ com probabilidade } (1 - p)/2 \\
-			1 & \text{ com probabilidade } (1 - p)/2
+			1 & \text{ com probabilidade } (1 - p)/2.
 		\end{cases}
 \end{equation*}
 
-Quando $\rho$ for tirada de $R_{p}$ escreveremos $\rho \leftarrow R_{p}$.
+Quando $\boldsymbol{\rho}$ for tirada de $R_{p}$ escreveremos $\boldsymbol{\rho} \leftarrow R_{p}$. Se $\rho^{-1}(*) = \emptyset$ nós dizemos que $\rho$ é uma \emph{atribuição}.
 
 \end{defi}
 
-A idéia é que quando aplicamos uma restrição $\rho \leftarrow R_{p}$, para algum valor $p$ bem próximo de 0, sobre as variáveis de entrada de um circuito $C$, com alta probabilidade este circuito irá degenerá-se em uma função extremamente simples (por exemplo, uma constante). Daí, se houver uma função $f$ que provademente não simplifica sobre uma restrição $\rho \leftarrow R_{p}$ (i.e., mantém algum tipo de estrutura) poderemos concluir que o circuito $C$ não pode computar a função $f$. Uma função $f$ que mantém algum tipo de estrutura sobre uma restrição é algo bem realista. Considere por exemplo a função $\Parity_{n}$ que definimos em \ref{parity}. Se aplicarmos uma restrição $\rho \leftarrow R_{p}$ sobre as $n$ variáveis de entrada de $\Parity_{n}$ obteremos uma função sobre $n^{\prime}$, em que $\E[n^{\prime}] = pn$, variáveis que é somente a função $\Parity_{n^{\prime}}$ ou a função $1 - \Parity_{n^{\prime}}$.
+A idéia é que quando aplicamos uma restrição $\boldsymbol{\rho} \leftarrow R_{p}$, para algum valor $p \in (0, 1]$ bem próximo de 0, sobre as variáveis de entrada de um circuito $C$, com alta probabilidade este circuito irá degenerá-se em uma função extremamente simples (por exemplo, uma árvore de decisão de baixa profundidade). Daí, se houver uma função $f$ que provademente não simplifica sobre uma restrição $\boldsymbol{\rho} \leftarrow R_{p}$ (i.e., mantém algum tipo de estrutura) poderemos concluir que o circuito $C$ não pode computar a função $f$.
 
-\subsubsection{O lema de Håstad}
+Como exemplo de funções que não simplifica ao ter uma restrição tirada de $R_{p}$ aplicada às suas variáveis de entrada, nós podemos tomar as funções $\Parity_{n}$. Nós veremos que ao aplicarmos uma restrição $\boldsymbol{\rho} \leftarrow R_{p}$ sobre as $n$ variáveis de entrada de $\Parity_{n}$ obteremos uma função sobre $n^{\prime}$ variáveis, em que $E[n^{\prime}] = pn$, que é somente a função $\Parity_{n^{\prime}}$ ou a função $1 - \Parity_{n^{\prime}}$. Em particular, $n^{\prime}$ irá crescer em expectativa enquanto $n$ também cresce. Assim, podemos provar que com probabilidade muito alta as funções $\Parity_{n}$ não são representáveis por árvores de decisão de profundidade constante quando $n$ é suficientemente grande, pois também é verdade que as funções paridades são evasivas\footnote{Como já foi dito na seção \ref{section_alternative_proof_bgs} uma função sobre $n$ variáveis é dita ser evasiva se ela não pode ser representável por uma árvore de decisão com profundidade menor do que $n$}.
 
-Nós queremos provar o teorema \ref{teo: parity_lb}. Para isso, nós provaremos que se fizermos $p$ pequeno o suficiente, então uma restrição $\rho \leftarrow R_{p}$ fará o circuito $C_{\lvert \rho}$ computar uma função representável por uma árvore de decisão de profundidade pequena. Note que isso é o suficiente para provar que $C$ não poderia computar $\Parity$ porque quando restringimos as variáveis de entrada de $\Parity$ de forma que o número não tão pequeno de variáveis permaneçam livre, nós simplesmente obtemos uma nova função paridade que por sua vez não pode ser computada por árvores de decisão com profundidade pequena.
+\subsubsection{O lema da troca de Håstad}
+
+Nós queremos provar o teorema \ref{teo: parity_lb}. Para isso, nós provaremos que se fizermos $p$ pequeno o suficiente, então para algum circuito $C$ de profundidade constante uma restrição $\boldsymbol{\rho} \leftarrow R_{p}$ fará o circuito $C_{\lvert \boldsymbol{\rho}}$ computar uma função representável por uma árvore de decisão de profundidade constante. Note que isso é o suficiente para provar que $C$ não poderia computar $\Parity_{n}$ porque quando restringimos as variáveis de entrada de $\Parity_{n}$ de forma que um número não tão pequeno de variáveis permaneçam livre, nós simplesmente obtemos uma nova função paridade que por sua vez não pode ser computada por árvores de decisão com profundidade pequena.
 
 Então, para provar o teorema \ref{teo: parity_lb} precisamos antes provar que circuitos simplificam após uma restrição, e para isso usamos o lema de Håstad.
 
 \begin{lema} (Lema de Håstad) \label{hastad_lemma}
 
-Seja $F$ uma fórmula FNC (ou FND) com largura $w$, $s \geq 1$, $p \in (0, 1]$ e $\rho \leftarrow R_{p}$, então
+Seja $F$ uma fórmula FNC (ou FND) com largura $w$, $s \geq 1$, $p \in (0, 1]$ e $\boldsymbol{\rho} \leftarrow R_{p}$, então
 
 \begin{equation*}
-	\Pr[D(F_{\lvert \rho}) \geq s] \leq (5pw)^{s}
+	\Pr[D(F_{\lvert \boldsymbol{\boldsymbol{\rho}}}) \geq s] \leq (5pw)^{s}
 \end{equation*}
 
 \end{lema}
 
-Nós vamos ver 2 provas diferente do lema \ref{hastad_lemma}. A primeira é a prova original do próprio Håstad. A segunda prova é de Razborov.
+Nós vamos ver 2 provas diferente do lema \ref{hastad_lemma}. A primeira é a prova original do próprio Håstad~\cite{haastad1987computational}. A segunda prova é de Razborov e aparece em~\cite{beame1994switching}.
 
-Na primeira prova nós iremos considerar $F = \bigwedge_{i = 1}^{m} C_{i}$ e provaremos por indução em $m$, o número de cláusulas na prova. Na verdade, nós provamos o seguinte lema que é uma versão mais forte do lema de Håstad.
+Na primeira prova nós iremos considerar $F = \bigwedge_{i = 1}^{m} C_{i}$ e iremos argumentar por indução em $m$, o número de cláusulas na prova. Na verdade, nós provamos o lema \ref{hastad_stronglemma} que é uma versão mais forte do lema de H{\aa}stad. Antes precisamos das seguinte definições.
+
+\begin{defi} [Extensão de uma restrição]
+
+Seja $\rho \in \{*, 0, 1\}^{n}$ uma restrição às variáveis $\{x_{i} \}_{i \in [n]}$. Uma restrição $\rho^{\prime}$ é dita ser uma extensão de $\rho$ se e somente $\rho^{\prime -1}(*) \subseteq \rho^{-1}(*)$.
+
+\end{defi}
+
+Ou seja, $\rho^{\prime}$ é uma extensão de $\rho$ se todas as variáveis que foram fixadas como uma constante em $\rho$ também são fixadas como uma constante em $\rho^{\prime}$, e adicionalmente $\rho^{\prime}$ pode ter fixado algumas variáveis a mais como constantes. 
+
+Sendo assim podemos até mesmo definir uma ordem parcial sobre as restrições em $\{*, 0, 1\}^{n}$ em que $\rho \leq \rho^{\prime}$ se e somente $\rho^{\prime}$ é uma extensão de $\rho$. Neste caso temos que atribuições são os elementos maximais deste ordenamento.
+
+\begin{defi} [Conjuntos inferiores]
+
+Seja $\Delta$ um conjunto de restrições em $\{*, 0, 1\}^{n}$. Nós dizemos que $\Delta$ é um conjunto inferior se para toda restrição $\rho \in \Delta$ e toda extensão $\rho^{\prime}$ de $\rho$ é verdade que $\rho^{\prime} \in \Delta$.
+
+\end{defi}
+
+Em outras palavras, se $\Delta$ for um conjunto inferior e $\rho \in \Delta$ então restringir ainda mais variáves de $\rho$ resultará numa restrição que ainda está em $\Delta$.
+
+Uma cadeia é um conjunto de restrições tal que o ordenamento induzido pelos elementos deste conjunto é um ordenamento total. Nós precisamos ainda da seguinte definição.
+
+\begin{defi} [Subconjunto inferior maximal]
+
+Seja $S$ um conjunto qualquer de restrições em $\{*, 0, 1\}^{n}$. O subconjunto inferior maximal de $S$, que iremos denotar por $S^{0}$ é a união de todos subconjuntos de $S$ que são cadeias e contêm um elemento maximal -- equivalentemente, contêm uma atribuição.
+
+\end{defi}
+
+Nós podemos notar que
+
+\begin{itemize}
+
+    \item $S^{0}$ é o maior conjunto inferior contido em $S$.
+    
+    \item $S^{0}$ pode ser obtido removendo todas restrições $\rho$ em $S$ tais que existe uma extensão $\rho^{\prime}$ de $\rho$ e $\rho^{\prime} \not\in S$.
+
+\end{itemize}
+
+Agora podemos enunciar a versão mais forte do lema de H{\aa}stad que iremos provar.
 
 \begin{lema} \label{hastad_stronglemma}
 
-Seja $F$ uma fórmula FNC (ou FND) com largura $w$, $s \geq 1$, $p \in (0, 1]$ e $\rho \leftarrow R_{p}$, então
+Seja $F$ uma fórmula FNC (ou FND) com largura $w$, $s \geq 1$, $p \in (0, 1]$ e $\boldsymbol{\rho} \leftarrow R_{p}$, então
 
 \begin{equation*}
-	\Pr[D(F_{\lvert \rho}) \geq s \lvert \rho \in \Delta] \leq (5pw)^{s}
+	\Pr[D(F_{\lvert \boldsymbol{\rho}}) \geq s \lvert \boldsymbol{\rho} \in \Delta] \leq (5pw)^{s},
 \end{equation*}
 
-Onde $\Delta$ é um conjunto fechado para baixo arbitrário de restrições.
+onde $\Delta$ é um conjunto inferior arbitrário.
 
 \end{lema}
 
-O lema \ref{hastad_stronglemma} é uma versão mais forte do lema de Håstad pois $\rho$ sempre pertence ao conjunto fechado para baixo $\{\rho \lvert (x_{1} \lor \overline{x}_{1})_{\lvert \rho} = 1\}$ mas precisamos da condicionate para que o argumento por indução funcione.
+O lema \ref{hastad_stronglemma} é uma versão mais forte do lema de Håstad pois o conjunto de todas restrições em $\{*, 0, 1\}^{n}$ é um conjunto inferior. Porém, iremos precisar da condicionate para que o argumento por indução funcione.
 
 \begin{proof} (Primeira prova do lema de Håstad)
 
-Como já foi dito iremos considerar  $F = \bigwedge_{i = 1}^{m} C_{i}$, onde cada cláusula $C_{i}$ tem largura no máximo $w$, e provaremos por indução em $m$.
+Como já foi dito iremos considerar  $F = \bigwedge_{i = 1}^{m} C_{i}$, onde cada cláusula $C_{i}$ tem largura no máximo $w$. Nós iremos argumentar por indução em $m$, o número de cláusulas em $F$. Nós iremos assumir ao longo da prova que $5pw < 1$, pois caso contrário o lema é trivial.
 
-Se $m = 0$ então $F = 1$ e o lema é trivial neste caso. Suponha que $m > 0$, nós então temos que
+Se $m = 0$ então $F = 1$ e não precisamos mais fazer nada. Suponha agora que $m > 0$, nós então temos que
 
 \begin{equation*}
-	\Pr[D(F_{\lvert \rho}) \geq s \lvert \rho \in \Delta] \leq \max(\Pr[D(F_{\lvert \rho}) \geq s \lvert \rho \in \Delta \land C_{1 \lvert \rho} = 1], \Pr[D(F_{\lvert \rho}) \geq s \lvert \rho \in \Delta \land C_{1 \lvert \rho} \neq 1])
+	\Pr[D(F_{\lvert \rho}) \geq s \lvert \rho \in \Delta] \leq \max(\Pr[D(F_{\lvert \rho}) \geq s \lvert \rho \in \Delta \land C_{1 \lvert \rho} = 1], \Pr[D(F_{\lvert \rho}) \geq s \lvert \rho \in \Delta \land C_{1 \lvert \rho} \neq 1]),
 \end{equation*}
 
-Então basta mostrar que o lema é verdadeiro em ambos os casos ($C_{1 \lvert \rho} = 1$ e $C_{1 \lvert \rho} \neq 1$). Vamos primeiro considerar o caso em que $C_{1 \lvert \rho} = 1$. Se $C_{1 \lvert \rho} = 1$ então $F_{\lvert \rho} = \bigwedge_{i  = 2}^{m}C_{i \lvert \rho}$, e iremos chamar $F$ sem a tua primeira cláusula de $F^{\prime}$ (daí temos que $F_{\lvert \rho} = F^{\prime}_{\lvert \rho}$ quando $C_{1 \lvert \rho} = 1$). Temos que
+em que $\Delta$ é um conjunto inferior qualquer. Desta forma apenas nos basta mostrar que o lema é verdadeiro em ambos os casos ($C_{1 \lvert \rho} = 1$ e $C_{1 \lvert \rho} \neq 1$). Vamos primeiro considerar o caso em que $C_{1 \lvert \rho} = 1$. Se $C_{1 \lvert \rho} = 1$ então $F_{\lvert \rho} = \bigwedge_{i  = 2}^{m}C_{i \lvert \rho}$, e iremos chamar $F$ sem a sua primeira cláusula de $F^{\prime}$ (daí temos que $F_{\lvert \rho} = F^{\prime}_{\lvert \rho}$ quando $C_{1 \lvert \rho} = 1$). Temos que
 
 \begin{equation*}
  	\Pr[D(F_{\lvert \rho}) \geq s \lvert \rho \in \Delta \land C_{1 \lvert \rho} = 1] = \Pr[D(F_{\lvert \rho}^{\prime}) \geq s \lvert \rho \in \Delta \land C_{1 \lvert \rho} = 1].
 \end{equation*}
 
-Como $F^{\prime}$ é uma fórmula FNC de tamanho $m - 1$ podemos usar a hipótese da indução dado que a condicionante nas probabilidades acima é monotônica. Mas isto segue do seguinte fato:
+Como $F^{\prime}$ é uma fórmula FNC com $m - 1$ cláusulas podemos usar a hipótese da indução dado que a condicionante nas probabilidades acima induz um conjunto inferior. Mas isto segue do seguinte fato:
 
-\begin{fato*}
-	Se $\Delta^{1}$ e $\Delta^{2}$ são conjuntos de restrições fechados para baixo então $\Delta^{1} \cap \Delta^{2}$ é um conjunto de restrições fechado para baixo.
-\end{fato*}
+\begin{fato} \label{downward_closure_closed_intersection}
+	Se $\Delta_{1}$ e $\Delta_{2}$ são conjuntos inferiores então $\Delta_{1} \cap \Delta_{2}$ é um conjunto inferior de restrições.
+\end{fato}
 
-Daí segue que
+E como o conjunto de todas as restrições que satisfazem a primeira cláusula é um conjunto inferior, segue que
 
 \begin{equation*}
 	\Pr[D(F_{\lvert \rho}) \geq s \lvert \rho \in \Delta \land C_{1 \lvert \rho} = 1] \leq (5pw)^{s}.
 \end{equation*}
 
-Agora vamos o considerar o caso em que $C_{1 \lvert \rho} \neq 1$. Primeiro observamos que se $C_{1 \lvert \rho} = 0$ então $F_{\lvert \rho} = 0$ e o resultado é trivial. Iremos assumir então que $C_{1 \lvert \rho} \neq 0$. Neste caso, seja $T$ o conjunto de variáveis que aparecem em $C_{1}$, temos que deve haver um subconjunto não vazio $Y$ de $T $ tal que $\rho(i) = *$ para todo $i \in Y$ e $\rho(i) \in \{0, 1\}$ para todo $i \in T \setminus Y$, denotaremos este evento por $\rho(Y) = *$. Daí temos o seguinte
+%Agora iremos o considerar o caso em que $C_{1 \lvert \rho} \neq 1$. Primeiro observamos que se $C_{1 \lvert \rho} = 0$ então $F_{\lvert \rho} = 0$ e o resultado é trivial pois a função 0 tem uma árvore de decisão de profundidade 0. Iremos assumir então que $C_{1 \lvert \rho} \neq 0$. Neste caso, seja $T$ o conjunto de variáveis que aparecem em $C_{1}$, temos que deve haver um subconjunto não vazio $Y$ de $T $ tal que $\rho(i) = *$ para todo $i \in Y$ e $\rho(i) \in \{0, 1\}$ para todo $i \in T \setminus Y$, denotaremos este evento por $\rho(Y) = *$. Daí temos o seguinte
 
-\begin{IEEEeqnarray*}{rCl}
-	\Pr[D(F_{\lvert \rho}) \geq s \lvert \rho \in \Delta \land C_{1 \lvert \rho} \neq 1] & \leq & \sum_{Y \subseteq T, Y \neq \emptyset} \Pr[D(F_{\lvert \rho}) \geq s  \land \rho(Y) = * \lvert \rho \in \Delta \land C_{1 \lvert \rho} \neq 1] \\
-	                                                                                                                                & = & \sum_{Y \subseteq T, Y \neq \emptyset} \Pr[\rho(Y) = * \lvert \rho \in \Delta \land C_{1 \lvert \rho} \neq 1] \times \Pr[D(F_{\lvert \rho}) \geq s \lvert \rho \in \Delta \land C_{1 \lvert \rho} \neq 1 \land \rho(Y) = *].
-\end{IEEEeqnarray*}
+Agora iremos o considerar o caso em que $C_{1 \lvert \rho} \neq 1$. Primeiro observamos que se $C_{1 \lvert \rho} = 0$ então $F_{\lvert \rho} = 0$ e o resultado é trivial pois a função 0 tem uma árvore de decisão de profundidade 0. Iremos assumir então que $C_{1 \lvert \rho} \neq 0$. Agora não temos mais que $C_{1 \lvert \rho} \neq 1$ representa um conjunto inferior, portanto teremos que fazer algum esforço antes de poder usar a hipótese da indução.
 
-Então vamos limitar o valor de ambos os fatores. Primeiro argumentamos que
+Seja $T$ o conjunto das variáveis que aparecem em $C_{1}$. Também, seja $\rho$ uma restrição tal que $C_{1 \lvert \rho} \neq 1$ e $D(F_{\lvert \rho}) \geq s$. Como estamos assumindo que $C_{1 \lvert \rho} \neq 0$ temos que deve haver um subconjunto $Y$ de $T$ tal que $\rho(x_{i}) = *$, para todo $x_{i} \in T$, e $\rho(x_{j}) \in \{0, 1\}$ para todo $x_{j} \in T \setminus Y$. Iremos chamar este evento de $\rho(Y) = *$. Para cada atribuição $\pi$ às variáveis em $Y$ nós definimos o conjunto $X_{\pi}$ da seguinte forma.
+
+\begin{equation*}
+    X_{\pi} = \{ \rho^{\prime} \lvert \rho^{\prime} = \rho\pi \text{ para alguma restrição } \rho \text{ e } C_{1 \lvert \rho} \neq 1\}.
+\end{equation*}
+
+O conjunto que realmente nos interessa é o subconjunto inferior maximal de $X_{\pi}$ que denotamos por $X_{\pi}^{0}$. Nós podemos notar que $\rho^{\prime} \in X_{\pi}^{0}$ se e somente se $\rho^{\prime} = \rho\pi$ e $\rho$ é tal que $\rho(Y) = *$. Temos a seguinte identidade.
+
+\begin{equation} \label{hastad_proof_expanding_prob}
+    \Pr[D(F_{\lvert \boldsymbol{\rho}}) \geq s \lvert \boldsymbol{\rho} \in \Delta \land C_{1 \lvert \boldsymbol{\rho}} \neq 1] = \sum_{Y \subseteq T, Y \neq \emptyset} \Pr[\boldsymbol{\rho}(Y) = * \lvert \boldsymbol{\rho} \in \Delta \land C_{1 \lvert \boldsymbol{\rho}}] \times \Pr[D(F_{\lvert} \boldsymbol{\rho}) \geq s \lvert \boldsymbol{\rho} \in \Delta \land C_{1 \lvert \boldsymbol{\rho}} \neq 1 \land \boldsymbol{\rho}(Y) = *].
+\end{equation}
+
+%\begin{IEEEeqnarray*}{rCl}
+%	\Pr[D(F_{\lvert \rho}) \geq s \lvert \rho \in \Delta \land C_{1 \lvert \rho} \neq 1] & \leq & \sum_{Y \subseteq T, Y \neq \emptyset} \Pr[D(F_{\lvert \rho}) \geq s  \land \rho(Y) = * \lvert \rho \in \Delta \land C_{1 \lvert \rho} \neq 1] \\
+	                                                                                                                                %& = & \sum_{Y \subseteq T, Y \neq \emptyset} %\Pr[\rho(Y) = * \lvert \rho \in \Delta \land C_{1 \lvert \rho} \neq 1] \times \Pr[D(F_{\lvert \rho}) \geq s \lvert \rho \in \Delta \land C_{1 \lvert \rho} \neq 1 \land \rho(Y) = *].
+%\end{IEEEeqnarray*}
+
+Então vamos limitar o valor de ambos os fatores que aparecem em cada termo no somatório do lado direito de \ref{hastad_proof_expanding_prob}. Primeiro argumentamos que
 
 \begin{equation} \label{hastad_sublemma}
 	\Pr[\rho(Y) = * \lvert \rho \in \Delta \land C_{1 \lvert \rho} \neq 1] \leq \Big(\frac{2p}{1 + p} \Big)^{\lvert Y \rvert}.
 \end{equation}
 
-Dizer que $C_{1 \lvert \rho} \neq 1$ é o mesmo que dizer que $\rho(i) \in \{b, *\}$, para cada $i \in T$ em que $b$ é 0 se $x_{i}$ aparece não-negada em $C_{1}$ e $b = 1$ caso contrário. Então dado que $\rho(i) \neq b$ temos que $\rho(i)$ é * com probabilidade $\frac{p}{1 - \frac{1-  p}{2}} = \frac{2p}{1 + p}$, e como $\rho$ atribui valores às variáveis de forma independente obtemos \ref{hastad_sublemma}.
+Dizer que $C_{1 \lvert \rho} \neq 1$ é o mesmo que dizer que $\rho(x_{i}) \in \{b, *\}$, para cada variável $x_{i} \in T$ em que $b$ é 0 se $x_{i}$ aparece não-negada em $C_{1}$ e $b = 1$ caso contrário. Então dado que $\rho(x_{i}) \neq b$ temos que $\rho(i)$ é * com probabilidade $\frac{p}{1 - \frac{1-  p}{2}} = \frac{2p}{1 + p}$, e como $\rho$ atribui valores às variáveis de forma independente obtemos \ref{hastad_sublemma}.
 
-Agora estimamos o segundo fator. Para isso nós mostramos o seguinte:
+Para estimar o segundo fator nós precisamos do seguinte fato.
+
+\begin{fato} \label{extending_rho}
+
+    Se $\rho$ é tal que $D(F_{\lvert \rho}) \geq s$ e $\rho(Y) = *$, então existe uma atribuição $\pi$ às variáveis em $Y$ tal que $C_{1 \lvert \pi} = 1$ e $D(F_{\lvert \rho\pi}) \geq s - \lvert Y \rvert$.
+
+\end{fato}
+
+%\begin{equation*}
+	%\Pr[D(F_{\lvert \rho}) \geq s \lvert \rho \in \Delta \land C_{1 \lvert \rho} \neq 1 \land \rho(Y) = *] \leq \sum_{\pi} \Pr[D(F_{\lvert \rho \pi}) \geq s - \lvert Y \rvert \lvert \rho \in \Delta \land C_{1 \lvert \rho} \neq 1 \land \rho(Y) = *],
+%\end{equation*}
+
+Isso é verdade pois se para todas tais atribuições $\pi$ fosse verdade que $D(F_{\lvert \rho \pi}) < s - \lvert Y \rvert$, então poderiamos construir uma árvore de decisão para $F_{\lvert \rho}$ que primeiro faz consultas à todas as variáveis de $Y$ e depois usa a árvore de decisão de profundidade menor do que $s - \lvert Y \rvert$ para $F_{\lvert \rho \pi}$, em que $\pi$ é a atribuição consistente com as respostas das consultas da árvore de decisão. Esta árvore de decisão teria profundidade menor do que $(s - \lvert Y \rvert) + \lvert Y \rvert = s$, o que é uma contradição. Além disso, a única atribuição $\pi_{\text{falsa}}$ às variáveis de $Y$ que torna a cláusula $C_{1}$ falsa ao ser composta com $\rho$ satisfaz $F_{\lvert \rho\pi_{\text{falsa}}} = 0$ e portanto ela não pode ser a atribuição que contradiz a asserção $D(F_{\lvert \rho\pi}) < s - \lvert Y \rvert$ para todas atribuições $\pi$. 
+
+Então, pelo princípio da inclusão-exclusão, nós temos a seguinte desigualdade.
+
+\begin{equation} \label{hastad_second_factor}
+    \Pr[D(F_{\lvert \boldsymbol{\rho}}) \geq s \lvert \boldsymbol{\rho} \in \Delta \land C_{1 \lvert \boldsymbol{\rho}} \neq 1 \land \boldsymbol{\rho}(Y) = *] \leq \sum_{\pi} \Pr[D(F_{\lvert \boldsymbol{\rho}\pi}) \geq s - \lvert Y \rvert \lvert \boldsymbol{\rho} \in \Delta \land C_{1 \lvert \boldsymbol{\rho}} \neq 1 \land \boldsymbol{\rho}(Y) = *],
+\end{equation}
+
+em que a soma no lado direito é somente sobre as atribuições $\pi$ que tornam $C_{1}$ verdadeira. Mas agora temos que $C_{1 \lvert \rho} \neq 1$ e $\rho(Y) = *$ se e somente se $\rho\pi \in X_{\pi}^{0}$. Nos podemos então expressar a desigualdade \ref{hastad_second_factor} da seguinte forma.
+
+\begin{equation} \label{hastad_second_factor_2}
+     \Pr[D(F_{\lvert \boldsymbol{\rho}}) \geq s \lvert \boldsymbol{\rho} \in \Delta \land C_{1 \lvert \boldsymbol{\rho}} \neq 1 \land \boldsymbol{\rho}(Y) = *] \leq \sum_{\pi} \Pr[D(F_{\lvert \boldsymbol{\rho}\pi}) \geq s - \lvert Y \rvert \lvert \boldsymbol{\rho} \in \Delta \land \boldsymbol{\rho}\pi \in X_{\pi}^{0}].
+\end{equation}
+
+%Agora temos que $F_{\lvert \rho \pi}$ só depende das outras cláusulas de $F$ que não sejam a primeira, por definição de $\pi$ e do conjunto $Y$, e podemos então aplicar a hipótese da indução dado que a condicionante seja um conjunto fechado para baixo com respeito à restrição $\rho\pi$. Mas se escrevermos $\rho^{\prime} = \rho\pi$ onde $\rho$ é uma restrição arbitrária de $R_{p}$ e $\pi$ é uma restrição que atribui valores em $\binalph$ à exatamente as variáveis $i$ em $T$ tais que $\rho(i) = *$ então restringir ainda mais variáveis não mudará o fato que $C_{1 \lvert \rho} \neq 1$ e $\rho(Y) = *$ e portanto nós temos um conjunto fechado para baixo na condicionante.
+
+Pelo subconjunto inferior maximal de um conjunto ser certamente um conjunto inferior e o fato \ref{downward_closure_closed_intersection}, temos que agora há um conjunto inferior expresso na condicionante~\footnote{Bem, na verdade temos que condicionar em $\boldsymbol{\rho}$ pertencer a um conjunto inferior. Mas o conjunto de restrições $\rho$ tais que $\rho\pi \in X_{\pi}^{0}$ ainda é um conjunto inferior.}. Além disso, como $F_{\lvert \rho\pi}$ não depende da primeira cláusula de $F$, nós por fim podemos usar a hipótese indutiva para deduzir que para todo $\pi$ que estamos levando em consideração é verdade que
+
+\begin{equation} \label{induction_hypothesis_second_factor}
+	\Pr[D(F_{\lvert \boldsymbol{\rho} \pi}) \geq s - \lvert Y \rvert \lvert \boldsymbol{\rho} \in \Delta \land \boldsymbol{\rho}\pi \in X_{\pi}^{0}] \leq (5pw)^{s - \lvert Y \rvert}.
+\end{equation}
+
+Lembrando que por estarmos assumindo que $5pw < 1$ nós podemos até mesmo assumir que $\lvert Y \rvert < s$ sem perda de generalidade. Usando que há $2^{\lvert Y \rvert} - 1$ atribuições às variáveis de $Y$ que tornam $C_{1}$ verdadeira, nós podemos reescrever a desigualdade \ref{hastad_second_factor_2} como
+
+\begin{equation} \label{hastad_second_factor_3}
+	 \Pr[D(F_{\lvert \rho}) \geq s \lvert \rho \in \Delta \land C_{1 \lvert \rho} \neq 1 \land \rho(Y) = *] \leq (2^{\lvert Y \rvert} - 1)(5pw)^{s - \lvert Y \rvert}.
+\end{equation}
+
+Juntando \ref{hastad_proof_expanding_prob}, \ref{hastad_sublemma}  e \ref{hastad_second_factor_3} temos que
 
 \begin{equation*}
-	\Pr[D(F_{\lvert \rho}) \geq s \lvert \rho \in \Delta \land C_{1 \lvert \rho} \neq 1 \land \rho(Y) = *] \leq \sum_{\pi} \Pr[D(F_{\lvert \rho \pi}) \geq s - \lvert Y \rvert \lvert \rho \in \Delta \land C_{1 \lvert \rho} \neq 1 \land \rho(Y) = *],
+	\Pr[D(F_{\lvert \rho}) \geq s \lvert \rho \in \Delta \land C_{1 \lvert \rho} \neq 1] \leq \sum_{Y \subseteq T, Y \neq \emptyset} \Big( \frac{2p}{1 + p} \Big)^{\lvert Y \rvert}(2^{\lvert Y \rvert} - 1)(5pw)^{s - \lvert Y \rvert}.
 \end{equation*}
 
-onde $\pi$ é uma restrição que atribui um valor à todas as variáveis em $Y$ e $\pi(i) = *$ para todo $i \notin Y$, e que também não seja a única atribuição às variáveis em $Y$ que força $C_{1}$ a ser 0. Isso é verdade pois se para todas tais atribuições $\pi$ fosse verdade que $D(F_{\lvert \rho \pi}) < s - \lvert Y \rvert$ então poderiamos construir uma árvore de decisão para $F_{\lvert \rho}$ que primeiro faz consultas à todas as variáveis de $Y$ e depois usa a árvore de decisão para $F_{\lvert \rho \pi}$, para a restrição $\pi$ consistente com as respostas às consultas da árvore de decisão. Esta árvore de decisão teria profundidade menor do que $(s - \lvert Y \rvert) + \lvert Y \rvert = s$ o que seria uma contradição.
+Rearranjando os termos do somatório pela cardinalidade do conjunto $Y$ nós temos que
 
-Agora, $F_{\lvert \rho \pi}$ só depende das outras cláusulas de $F$ que não sejam a primeira, por definição de $\pi$ e do conjunto $Y$, e podemos aplicar a hipótese da indução dado que a condicionante seja um conjunto fechado para baixo com respeito à restrição $\rho\pi$. Mas se escrevermos $\rho^{\prime} = \rho\pi$ onde $\rho$ é uma restrição arbitrária de $R_{p}$ e $\pi$ é uma restrição que atribui valores em $\binalph$ à exatamente as variáveis $i$ em $T$ tais que $\rho(i) = *$ então restringir ainda mais variáveis não mudará o fato que $C_{1 \lvert \rho} \neq 1$ e $\rho(Y) = *$ e portanto nós temos um conjunto fechado para baixo na condicionante.
-
-Então, pela hipótese da indução  para $\rho \in R_{p}$ tal que $\rho(Y) = *$ e $\pi$ uma restrição que atribui valores a exatamente as variáveis em $Y$ temos que
-
-\begin{equation*}
-	\Pr[D(F_{\lvert \rho \pi}) \geq s - \lvert Y \rvert \lvert \rho \in \Delta \land C_{1 \lvert \rho} = 1 \land \rho(Y) = *] \leq (5pt)^{s - \lvert Y \rvert}.
-\end{equation*}
-
-E daí temos que
-
-\begin{equation*}
-	 \Pr[D(F_{\lvert \rho}) \geq s \lvert \rho \in \Delta \land C_{1 \lvert \rho} \neq 1 \land \rho(Y) = *] \leq (2^{\lvert Y \rvert} - 1)(5pt)^{s - \lvert Y \rvert}.
-\end{equation*}
-
-E juntando (...)  e (...) temos que
-
-\begin{IEEEeqnarray*}{rCl}
-	\Pr[D(F_{\lvert \rho}) \geq s \lvert \rho \in \Delta \land C_{1 \lvert \rho} \neq 1] & \leq & \sum_{Y \subseteq T, Y \neq \emptyset} (\frac{2p}{1 + p})^{\lvert Y \rvert}(2^{\lvert Y \rvert} - 1)(5pt)^{s - \lvert Y \rvert} \\
-	                                                                                                                                & =     & \sum_{k = 0}^{\lvert T \rvert}\binom{\lvert T \rvert}{k}\bigg(\frac{2p}{1 + p}\bigg)^{k}(2^{k} - 1)(5pt)^{s - k} \\
-	                                                                                                                                & =     & (5pt)^{s}\sum_{k = 0}^{\lvert T \rvert}\binom{\lvert T \rvert}{k}\bigg(\frac{2}{5t(1 + p)}\bigg)^{k}(2^{k} - 1) \\
-	                                                                                                                                & =     & (5pt)^{s}\Bigg( \bigg(1 + \frac{4}{5t(1 + p)} \bigg)^{\lvert T \rvert} - \bigg(1 + \frac{2}{5t(1 + p)}\bigg)^{\lvert T \rvert}\Bigg) 
+\begin{IEEEeqnarray*} {rCl}
+    \Pr[D(F_{\lvert \boldsymbol{\rho}}) \geq s \lvert \boldsymbol{\rho} \in \Delta \land C_{1 \lvert \boldsymbol{\rho}} \neq 1] & \leq & \sum_{k = 0}^{\lvert T \rvert} \binom{\lvert T \rvert}{k} \Big( \frac{2p}{1 + p} \Big)^{k} (2^{k} - 1) (5pw)^{s - k} \\
+                                                                                                                                & =    & (5pw)^{s} \sum_{k = 0}^{\lvert T \rvert} \binom{\lvert T \rvert}{k} \Big( \frac{2}{5w(1 + p)} \Big)^{k} (2^{k} - 1) \\
+                                                                                                                                & =    & (5pw)^{s} \bigg( \Big(1 + \frac{4}{5w(1 + p)} \Big)^{\lvert T \rvert} - \Big( 1 + \frac{2}{5w(1 + p)} \Big) \bigg).
 \end{IEEEeqnarray*}
 
-Usando que $(1 + 2x) \leq (1 + x)^{2}$ e $(1 + x) \leq e^{x}$ nós podemos mostrar que o segundo fator acima é limitado por $e^{4/5} - e^{2/5} < 1$ e então podemos concluir que
+Usando que $(1 + 2x) \leq (1 + x)^{2}$ e $(1 + x) \leq e^{x}$ nós obtemos que
 
 \begin{equation*}
-	\Pr[D(F_{\lvert \rho}) \geq s \lvert \rho \in \Delta \land C_{1 \lvert \rho} \neq 1] \leq (5pt)^{s}.
+    \Pr[D(F_{\lvert \boldsymbol{\rho}}) \geq s \lvert \boldsymbol{\rho} \in \Delta \land C_{1 \lvert \boldsymbol{\rho}} \neq 1] \leq (5pw)^{s}\big(e^{4p\lvert T \rvert/5w(1 + p)} - e^{2p\lvert T \rvert/5w(1 + p)} \big).
 \end{equation*}
 
-Então provamos que em ambos os casos em que $\rho$ faz a primeira cláusula de $F$ ser 1 ou não ser 1 a probabilidade que $D(F_{\lvert \rho}) \geq l$ é no máximo $(5pt)^{s}$ e daí obtemos o lema de  Håstad.
+Usando que $\lvert T \rvert \leq w$ e notando que $e^{4/2} - e^{2/5} < 1$ nós podemos finalmente concluir que
+
+\begin{equation*}
+	\Pr[D(F_{\lvert \rho}) \geq s \lvert \rho \in \Delta \land C_{1 \lvert \rho} \neq 1] \leq (5pw)^{s}.
+\end{equation*}
+
+Então provamos que em ambos os casos em que $\rho$ faz a primeira cláusula de $F$ ser 1 ou não ser 1 a probabilidade que $D(F_{\lvert \rho}) \geq s$ é no máximo $(5pw)^{s}$, concluindo então esta prova do lema de H{\aa}stad.
 
 \end{proof}
 
-Agora iremos ver a segunda prova do Lema de Håstad. Primeiro nós vamos definir a árvore de decisão canônica de uma fórmula FNC $F$.
+\subsubsection{Prova do Lema da troca de H\.{a}stad usando o método de Razborov}
+
+Agora iremos ver a segunda prova do Lema de Håstad. Primeiro nós vamos definir o que é a árvore de decisão canônica de uma fórmula FNC $F$.
 
 \begin{defi} (Árvore de decisão canônica de $F$) \label{can_tree}
 
@@ -166,98 +263,99 @@ A complexidade de consulta canônica de $F$ que denotaremos por $\cand(F)$ é a 
 
 \end{defi}
 
-A idéia agora é codificar restrições ``más'', significando restrições $\rho \in R_{p}$ tais que $\cand(F_{\lvert \rho}) \geq s$, de forma que o mapeamento de restrições más para códigos seja injetivo, depois disso mostramos que o número de possíveis códigos é pequeno. 
-
-Na verdade, ao usar este argumento por codificações de restrições más nós provamos uma versão mais restrita do lema de Håstad. Em primeiro lugar nós iremos fixar o número de variáveis deixadas livres pela restrição. A partir de agora denotamos por $R_{n}^{l}$ o conjunto de todas as restrições à $n$ variáveis que deixa exatamente $l$ variáveis livres. Nós provamos o seguinte
+A idéia agora é codificar restrições ``más'', significando restrições $\rho \in \{*, 0, 1\}^{n}$ tais que $\cand(F_{\lvert \rho}) \geq s$, de forma que o mapeamento de restrições más para códigos seja injetivo. Depois disso mostramos que o número de possíveis códigos é pequeno dando então um limitante superior para o número de restrições más.
 
 \begin{lema} \label{hastad_lemma_can_trees}
 
-Seja $F$ uma fórmula FNC (ou FND) com largura $w$, $s \geq 1$, $0 < p \leq 1/10$, $l = \lfloor pn \rfloor$ e $\rho \in R_{n}^{l}$, então
+Seja $F$ uma fórmula FNC (ou FND) com largura $w$, $s \geq 1$, $0 < p \leq 1/5$ e $\rho \leftarrow R_{p}$, então
 
 \begin{equation*}
-	\Pr[\cand(F_{\lvert \rho}) \geq s] \leq \mathcal{O}\big((pw)^{s}\big).
+	\Pr[\cand(F_{\lvert \boldsymbol{\rho}}) \geq s] \leq (5pw)^{s}.
 \end{equation*}
 
 \end{lema}
 
-Outra llimitação desta prova é que a constante no $\mathcal{O}(.)$ é maior do que 5. Provar \ref{hastad_lemma_can_trees} é suficiente para provar o Lema de Håstad para restrições com um número fixo de variáveis livres e com uma constante maior, e nós faremos isso agora.
+Note que adicionamos a restrição $p \leq 1/5$, o que todavia não tem nenhum impacto em qualquer aplicação do Lema da troca de Håstad que aparece neste trabalho. Porém, como veremos, não podemos remover tal restrição sem aumentar a constante que aparece no lado direito da desigualdade no enunciado do lema.
 
 \begin{proof} (Segunda prova do lema de Håstad)
 
 
-Vamos considerar $F = \bigwedge_{i = 1}^{m} C_{i}$ onde cada cláusula $C_{i}$ tem largura no máximo $w$. Como já foi dito, o objetivo é codificar todas as restrições $\rho \in R_{n}^{l}$. Seja $S$ o conjunto de todas as restrições $\rho \in R_{n}^{l}$ tal que $\cand(F_{\lvert \rho}) \geq s$. O nosso mapeamento é
+Vamos considerar $F = \bigwedge_{i = 1}^{m} C_{i}$ onde cada cláusula $C_{i}$ tem largura no máximo $w$. Como já foi dito, o objetivo é codificar todas as restrições $\rho \in \{*, 0, 1\}^{n}$ que sejam más. Seja $\mathcal{B}$ o conjunto de todas as restrições $\rho \in \{*, 0, 1\}^{n}$ tais que $\cand(F_{\lvert \rho}) \geq s$. O nosso mapeamento é
 
-\begin{equation*}
-	S \to R_{n}^{l - s} \times [w]^{s} \times \binalph^{s}.
-\end{equation*}
+\begin{IEEEeqnarray*} {rCl}
+	& \code: \mathcal{B} \to \{*, 0, 1\}^{n} \times [w]^{s} \times \binalph^{s} & \\
+	& \code(\rho) \mapsto (\rho^{\prime}, \beta, \delta).                  & 
+\end{IEEEeqnarray*}
 
-O mapeamento é injetivo o que significa que $\lvert S \rvert \leq \lvert  R_{n}^{l - s} \times [w]^{s} \times \binalph^{s} \rvert$. No fundo estamos querendo provar que $\frac{\lvert S \rvert}{\lvert R_{n}^{l}\rvert}$ é pequeno, portanto para isso mostramos que o número de possíveis codificações também é pequeno.
+Em que $\rho^{\prime}$ é uma extensão de $\rho$ e $\beta$ e $\delta$ são informações adicionais que serão importante no processo de recuperar $\rho$ a partir do seu código. Note que como $p \leq 1/5 < 1/2$ temos que qualquer extensão de uma restrição $\rho$ terá um peso maior do que $\rho$ no espaço de restrições $R_{p}$. Nós queremos que o mapeamento seja injetivo para que possamos usar o fato que $\rho^{\prime}$ tem um peso maior do que $\rho$ para provar um limitante superior para a probabilidade $\Pr[\boldsymbol{\rho} \in \mathcal{B}]$.
 
-Nós iremos dividir o restante da prova em três partes. Na primeira parte iremos mostrar como construir a partir de $\rho \in S$ um código da forma $(\rho^{\prime}, \beta, d)$ onde $\rho^{\prime} \in R_{n}^{l - s}$ é uma extensão de $\rho$, enquanto que $\beta$ e $d$ guardarão informações que nos auxiliará a extrair $\rho$ a partir de tua extensão $\rho^{\prime}$. A segunda parte nós descrevemos em detalhe como recuperar $\rho$ a partir de teu código. E finalmente na terceira parte iremos mostrar que o número total de possíves códigos é pequeno o suficiente para provar esta versão do Lema de Håstad. 
+Nós iremos dividir o restante da prova em três partes. Na primeira parte iremos descrever o processo de construir a partir de $\rho \in \mathcal{B}$ um código da forma $(\rho^{\prime}, \beta, \delta)$. Na segunda parte nós descrevemos em detalhe como recuperar $\rho$ a partir de seu código. E finalmente na terceira parte nós estimamos a probabilidade que uma restrição $\rho \leftarrow R_{p}$ está no conjunto $\mathcal{B}$.
 
 \begin{enumerate}
 
 	\item Construindo o código a partir de $\rho$.
 	
-	Seja $\pi$ um caminho qualquer da raíz até uma folha da árvore de decisão canônica $T$ de $F_{\lvert \rho}$ que tenha tamanho $\geq s$, truncando $\pi$ de tal forma que $\lvert \pi \rvert = s$. Nós construimos o código em estágio. Pra começar descrevemos o primeiro passo. Seja $C_{\alpha_{1}}$ a primeira cláusula da fórmula $F_{\lvert \rho}$ que não seja igual a 1 (tal cláusula deve existir porque $F_{\lvert \rho} \neq 1$) e chame de $K_{1}$ o conjunto de variáveis que aparecem em $C_{\alpha_{1} \lvert \rho}$. Seja $\pi_{1}$ a parte de $\pi$ que contém variáveis em $K_{1}$. Nós então consideramos a única atribuição às variáveis em $K_{1}$ que não satisfaz a cláusula $C_{\alpha_{1} \lvert \rho}$. Consideramos então o vetor $\beta_{1} \in [w]^{\lvert K_{i} \rvert}$ tal que a $j$-ésima coordenada de $\beta_{1}$ indica a posição da $j$-ésima variável em $K_{i}$ na clásula $C_{i}$ (lembrando que estamos assumindo alguma enumeração arbitrária das variáveis em cada cláusula de $F$).
+	Seja $\rho \in \mathcal{B}$. Seja $\pi$ um caminho qualquer da raíz até uma folha da árvore de decisão canônica $T$ de $F_{\lvert \rho}$ que tenha tamanho $\geq s$, truncando $\pi$ de tal forma que $\lvert \pi \rvert = s$. Nós iremos ver $\pi$ como uma atribuição natural às variávels que foram consultadas por $T$ no caminho $\pi$. Nós construimos o código em estágio. Pra começar descrevemos o primeiro passo. Seja $C_{\alpha_{1}}$ a primeira cláusula da fórmula $F_{\lvert \rho}$ que não seja igual a 1 (tal cláusula deve existir porque $F_{\lvert \rho} \neq 1$) e chame de $K_{1}$ o conjunto de variáveis que aparecem em $C_{\alpha_{1} \lvert \rho}$. Seja $\pi_{1}$ a parte de $\pi$ que contém variáveis em $K_{1}$. Seja $\sigma_{1}$ a única atribuição às variáveis em $K_{1}$ que não satisfaz a cláusula $C_{\alpha_{1} \lvert \rho}$. Consideramos então o vetor $\beta_{1} \in [w]^{\lvert K_{i} \rvert}$ tal que a $j$-ésima coordenada de $\beta_{1}$ indica a posição da $j$-ésima variável em $K_{i}$ na clásula $C_{i}$ (nós podemos assumir alguma enumeração arbitrária das variáveis em cada cláusula de $F$).
 	
-	Para $i > 1$ nós prosseguimos da mesma forma como fizemos no primeiro estágio, mas desta vez nós definimos $C_{\alpha_{i}}$ como sendo a primeira cláusula na fórmula $F_{\lvert \rho\pi_{1}\pi_{2}\dots\pi_{i - 1}}$ que não é igual a 1. Nós chegamos no último estágio quando $\pi_{i} = \pi \setminus \pi_{1}\dots\pi_{i - 1}$. Vamos assumir que $k$ estágios foram realizados, para algum $k \geq 1$ e vale lembrar que a restrição $\pi_{k}$ pode não setar valores à todas variáveis na cláusula $C_{\alpha_{k} \lvert \rho\pi_{1}\dots\pi_{k - 1}}$ -- em outras palavras, é possível que $K_{k}$ não contenha todas as variáveis ainda vivas em $C_{\alpha_{k} \lvert \rho\pi_{1}\dots\pi_{k - 1}}$.
+	Para $i > 1$ nós fazemos $C_{\alpha_{i}}$ ser a primeira cláusula na fórmula $F_{\lvert \rho\pi_{1}\pi_{2}\dots\pi_{i - 1}}$ que não é igual a 1 e definimos $\sigma_{i}$, $\beta_{i}$ e $\pi_{i}$ de forma análoga a como fizemos no primeiro passo. Nós chegamos no último estágio quando $\pi_{i} = \pi \setminus \pi_{1}\dots\pi_{i - 1}$. Vamos assumir que $k$ estágios foram realizados, para algum $k \geq 1$ e notamos que a restrição $\pi_{k}$ pode não setar valores à todas variáveis na cláusula $C_{\alpha_{k} \lvert \rho\pi_{1}\dots\pi_{k - 1}}$ -- em outras palavras, é possível que $\sigma_{k}$ não tenha atribuido valores à todas as variáveis ainda vivas em $C_{\alpha_{k} \lvert \rho\pi_{1}\dots\pi_{k - 1}}$ -- pois truncamos o caminho $\pi$ da árvore de decisão canônica de forma que ela contenha exatamente $s$ variáveis. Porém, como veremos, necessitamos apenas que esta cláusula não seja satisfeita pela atribuição $\sigma_{k}$.
 	
-	Por fim definimos a string $d \in \binalph^{s}$ em que a $i$-ésima coordenada de $d$ é 1 se e somente se a $i$-ésima variável setada pela restrição $\sigma$ (seguindo o ordenamento das cláusulas de $F$ e das variáveis dentro dessas cláusulas) tem um valor atribuido diferente nas restrições $\sigma$ e $\pi$.
+	Seja $\sigma = \sigma_{1}\sigma_{2}\dots\sigma_{k}$ e $\beta = \bigcup_{i = 1}^{k} \beta_{i}$. Por fim definimos a string $\delta \in \binalph^{s}$ em que a $i$-ésima coordenada de $d$ é 1 se e somente se a $i$-ésima variável setada pela restrição $\sigma$ (seguindo algum ordenamento das cláusulas de $F$ e das variáveis dentro dessas cláusulas) tem um valor atribuido diferente nas restrições $\sigma$ e $\pi$.
+	
+	A extensão de $\rho$ que aparece no seu código é $\rho^{\prime} = \rho\sigma = \rho\sigma_{1}\sigma_{2}\dots\sigma_{k}$. Nós então fazemos $\code(\rho) = (\rho^{\prime}, \beta, \delta)$.
 
 	\item Decodificando $\code(\rho)$.
 	
-	Dado $\code(\rho) = (\rho\sigma_{1}\sigma_{2}\dots\sigma_{k}, \beta, x)$ nós recuperamos $\rho$ em estágios. Nós assumimos que no $i$-ésimo estágio nós já recuperamos as restrições $\pi_{1}, \pi_{2}, \dots, \pi_{i - 1}$, lembrando o $i$-ésimo estágio do processo de construção de $\code(\rho)$ nós tinhamos que $C_{\alpha_{i}}$ era a primeira cláusula que não era igual a 1 na fórmula $F_{\lvert \rho\pi_{1}\pi_{2}\dots\pi_{i - 1}}$, e o mesmo vale para a fórmula $F_{\lvert \rho\pi_{1}\pi_{2}\dots\pi_{i - 1}\sigma_{i}\dots\sigma_{k}}$ pois cada $\sigma_{j}$, para $j \geq i$, só atribui valores a variáveis que não aparecem em $C_{\alpha_{i} \lvert \rho \pi_{1}\pi_{2}\dots\pi_{i - 1}}$. Como $\sigma_{i}$ por definição faz $C_{\alpha_{i} \lvert \rho\pi_{1}\pi_{2}\dots\pi_{i - 1}}$ não ser igual a 1 temos que $C_{\alpha_{i}}$ é também a primeira cláusula que não é igual a 1 na fórmula $F_{\lvert \rho\pi_{1}\pi_{2}\dots\pi_{i - 1}\sigma_{i}\dots\sigma_{k}}$. Isso significa que a partir de $\rho\pi_{1}\pi_{2}\dots\pi_{i - 1}\sigma_{i}\dots\sigma_{k}$ podemos encontrar $C_{\alpha_{i}}$. Agora podemos recuperar $\pi_{i}$ a partir de $C_{\alpha_{i}}$,  $\beta_{i}$ e a string $d$. Agora, dado que sabemos cada $\pi_{i}$ podemos dizer qual parte da restrição $\rho\pi_{1}\pi_{2}\dots\pi_{k}$ é $\rho$: $\rho$ só atribui valores à variáveis que não aparece em nenhum dos $\pi_{i}$ (ou $\sigma_{i}$).
+	Dado $\code(\rho) = (\rho\sigma_{1}\sigma_{2}\dots\sigma_{k}, \beta, \delta)$ nós recuperamos $\rho$ em estágios. Nós assumimos que no $i$-ésimo estágio nós já recuperamos as restrições $\pi_{1}, \pi_{2}, \dots, \pi_{i - 1}$. Lembrando o $i$-ésimo estágio do processo de construção de $\code(\rho)$ nós tinhamos que $C_{\alpha_{i}}$ era a primeira cláusula que não era igual a 1 na fórmula $F_{\lvert \rho\pi_{1}\pi_{2}\dots\pi_{i - 1}}$, e o mesmo vale para a fórmula $F_{\lvert \rho\pi_{1}\pi_{2}\dots\pi_{i - 1}\sigma_{i}\dots\sigma_{k}}$ pois cada $\sigma_{j}$, para $j > i$, só atribui valores a variáveis que não aparecem em $C_{\alpha_{i} \lvert \rho \pi_{1}\pi_{2}\dots\pi_{i - 1}}$ e também $\sigma_{i}$ foi definida de forma que $C_{\alpha_{i} \lvert \rho\pi_{1}\pi_{2}\dots\pi_{i - 1}\sigma_{i}}$ não é igual a 1. Isso significa que a partir de $\rho\pi_{1}\pi_{2}\dots\pi_{i - 1}\sigma_{i}\dots\sigma_{k}$ podemos encontrar $C_{\alpha_{i}}$. Agora podemos recuperar $\pi_{i}$ a partir de $C_{\alpha_{i}}$,  $\beta_{i}$ e a string $\delta$. Agora, dado que sabemos cada $\pi_{i}$ podemos dizer qual parte da restrição $\rho\pi_{1}\pi_{2}\dots\pi_{k}$ é $\rho$: $\rho$ só atribui valores à variáveis que não aparece em nenhum dos $\pi_{i}$ (ou $\sigma_{i}$).
 	
-	\item Estimando $\Pr[\rho \in S]$.
+	\item Estimando $\Pr[\boldsymbol{\rho} \in \mathcal{B}]$.
 	
-	Nós temos que $\Pr[\rho \in S] = \frac{\lvert S \lvert}{\lvert R_{n}^{l} \rvert}$, e como provamos em (2) que $Code: S \to R_{n}^{l - s} \times [w]^{s} \times \binalph^{s}$ é um mapeamento injetivo temos que
-	
-	\begin{equation*}
-		\frac{\lvert S \rvert}{\lvert R_{n}^{l }\rvert} \leq \frac{\lvert R_{n}^{l - s} \times [w]^{s} \times \binalph^{s} \rvert}{\lvert R_{n}^{l} \rvert}
-	\end{equation*}
-	
-	Para estimar o lado direito da desigualdade acima a parte menos trivial é estimar $\frac{\lvert R_{n}^{l - s} \rvert}{\lvert R_{n}^{l} \rvert}$. Nós temos que $\lvert R_{n}^{l} \rvert = 2^{n - l}\binom{n}{l}$ e $\lvert R_{n}^{l - s} \rvert = 2^{n - l + s}\binom{n}{l - s}$, então
-	
-	\begin{IEEEeqnarray*} {rCl}
-		\frac{\lvert R_{n}^{l - s}\rvert}{\lvert R_{n}^{l}\rvert} & =    & \frac{2^{n - l + s}\binom{n}{l - s}}{2^{n - l}\binom{n}{l}} \\
-		                                                                                           & =    & 2^{s}\frac{n!/\big((n - l + s)!(l - s)!\big)}{n!/\big((n - l)!l!\big)} \\
-		                                                                                           & =    & 2^{s}\frac{l(l - 1)\dots (l - s + 1)}{(n - l + s)(n - l + s - 1)\dots (n - l + 1)} \\
-		                                                                                           & \leq & 2^{s} \bigg( \frac{l}{n - l + 1} \bigg)^{s} \\
-		                                                                                           & \leq & \bigg( \frac{2l}{n - l}\bigg)^{s}.
-	\end{IEEEeqnarray*}
-
-	E como escolhemos $l \leq pn$ e $p \leq 1/10$, temos
+	Seja $\rho \in \mathcal{B}$ e $a$ o número de variáveis feitas constante por $\rho$. Então temos o seguinte:
 	
 	\begin{equation*}
-		\frac{\lvert R_{n}^{l - s}\rvert}{\lvert R_{n}^{l}\rvert} \leq (2p)^{s}.
+	    \frac{\Pr[\boldsymbol{\rho} = \rho]}{\Pr[\boldsymbol{\rho} = \rho^{\prime}]} = \frac{p^{n - a}(1 - p)^{a}}{p^{n - a- s}(1 - p)^{a + s}} = \bigg( \frac{p}{1 - p} \bigg)^{s},
 	\end{equation*}
-
-	Agora, temos que cada $\beta_{i} \in [w]^{s}$ pode ser codificado por uma string em $\binalph^{s(\log w + 1)}$ e portanto
+	
+	em que $n$ é o número total de variáveis na fórmula e $\rho^{\prime}$ é a extensão de $\rho$ que aparece em seu código. Portanto,
 	
 	\begin{equation*}
-		\frac{\lvert R_{n}^{l - s} \times [w]^{s} \times \binalph^{s} \rvert}{\lvert R_{n}^{l} \rvert} \leq (2p)^{s} 2^{s(\log w + 1)} 2^{s} = (8wp)^{s}.
+	    \Pr[\boldsymbol{\rho} = \rho] = \bigg(\frac{p}{1 - p} \bigg)^{s} \Pr[\boldsymbol{\rho} = \rho^{\prime}].
 	\end{equation*}
 	
-	Isso encerra o terceiro e último passo da prova.
+	Como estamos assumindo que $p \leq 1/5$:
+	
+	\begin{equation*}
+	    \Pr[\boldsymbol{\rho} = \rho] \leq \Big( \frac{5p}{4} \Big)^{s} \Pr[\boldsymbol{\rho} = \rho^{\prime}].
+	\end{equation*}
+	
+    Seja $\mathcal{C}$ o conjunto de todas as possíveis extensões $\rho^{\prime}$ das restrições $\rho \in \mathcal{B}$. Usando o fato que $\code$ é um mapeamento injetivo e que $\beta$ pode ser representado por uma string em $\binalph^{s(\log w + 1)}$ enquanto que $d$ é representável por uma string em $\binalph^{s}$:
+    
+    \begin{IEEEeqnarray*} {rCl}
+        \Pr[\boldsymbol{\rho} \in \mathcal{B}] & =    & \sum_{\rho \in \mathcal{B}} \Pr[\boldsymbol{\rho} = \rho] \\
+                        & \leq & 2^{s(\log w + 1)}2^{s} \Big( \frac{5p}{4} \Big)^{s} \sum_{\rho^{\prime} \in \mathcal{C}} \Pr[\boldsymbol{\rho} = \rho^{\prime}] \\
+                        & \leq & (5pw)^{s},
+    \end{IEEEeqnarray*}	
+	
+	onde na última desigualdade nós usamos que a soma de probabilidades é no máximo 1.
 
 \end{enumerate}
 
 \end{proof}
 
-Agora nós podemos ver como uma restrição aleatória simplifica um circuito $C$ de profundidade $d$. Suponha que as portas no primeiro nível de $C$ sejam portas $\land$, e portanto temos portas $\lor$ no segundo nível e portas $\land$ no terceiro nível. As portas $\lor$ no segundo nível computam uma fórmula FND e portanto se aplicarmos uma restrição às variáveis de entrada desta fórmula FND, com alta probabilidade podemos trocar ela por uma árvore de decisão que pode ser representada por uma fórmula FNC. Se fizermos o mesmo com todas as portas $\lor$ no segundo nível, teremos somente portas $\land$ no segundo nível alimentando portas $\land$ no terceiro nível, e daí podemos colapsar estes dois níveis e obter um circuito de profundidade $d - 1$.
+\subsubsection{Prova dos teoremas \ref{teo: parity_lb} e \ref{teo: parity_lb_app}}
+
+Agora nós podemos ver como uma restrição aleatória simplifica um circuito $C$ de profundidade $d$. Suponha que as portas no primeiro nível de $C$ sejam portas $\land$, e portanto temos portas $\lor$ no segundo nível e portas $\land$ no terceiro nível. As portas $\lor$ no segundo nível computam uma fórmula FND e portanto se aplicarmos uma restrição às variáveis de entrada desta fórmula FND, com alta probabilidade podemos trocar ela por uma árvore de decisão, o que também pode ser vista como uma fórmula FNC. Se fizermos o mesmo com todas as portas $\lor$ no segundo nível, teremos somente portas $\land$ no segundo nível alimentando portas $\land$ no terceiro nível. Então podemos absorver as portas $\land$ no segundo nível diminuindo a profundidade do circuito em 1.
 
 Nós iremos usar este argumento para provar \ref{teo: parity_lb}.
 
 \begin{teo} \label{parity_lb_2}
 
-Seja $d > 0$ um inteiro. Para $n$ suficientemente grande temos que qualquer circuito de profundidade $d$ com fan-in $\polylog(n)$ no teu primeiro nível e tamanho $< 2^{\mathcal{O}\big(n^{\frac{1}{d - 1}}\big)}$ não pode computar a função paridade de $n$ variáveis corretamente em todas as entradas. 
+Seja $d > 0$ um inteiro. Para $n$ suficientemente grande temos que qualquer circuito de profundidade $d$ com fan-in $\polylog(n)$ no seu primeiro nível e tamanho $< 2^{\mathcal{O}\big(n^{\frac{1}{d - 1}}\big)}$ não pode computar a função paridade de $n$ variáveis corretamente em todas as entradas. 
 
 \end{teo}
 
 \begin{proof} (Prova do teorema \ref{teo: parity_lb})
 
-	Nós mostramos que $C$ e $\Parity_{n}$ com alta probabilidade colapsam para funções diferentes quando nós aplicamos uma restrição $\rho \leftarrow R_{p}$ onde
+	Nós mostraremos que $C$ e $\Parity_{n}$ com alta probabilidade colapsam para funções diferentes quando nós aplicamos uma restrição $\rho \leftarrow R_{p}$ onde
 	
 	\begin{equation*}
 		p = \frac{1}{10w}\bigg( \frac{1}{10\log(120S)} \bigg)^{d - 2}.
@@ -273,13 +371,13 @@ Seja $d > 0$ um inteiro. Para $n$ suficientemente grande temos que qualquer circ
 	
 	\end{enumerate}
 
-	Provar (1) e (2) é suficiente para provar o teorema porque a função paridade e a tua negação são funções evasivas, e portanto depender de mais do que 10 variáveis implica em não ter uma árvore de decisão de profundidade no máximo 10, e portanto com probabilidade maior do que $1 - 2 \times 0,01 = 0,98$, $C_{\lvert \rho} \neq \Parity_{n \lvert \rho}$ o que implica em $C$ não poder ser um circuito para a função $\Parity_{n}$. 
+	Provar (1) e (2) é suficiente para provar o teorema porque a função paridade e a sua negação são funções evasivas, e portanto depender de mais do que 10 variáveis implica em não ter uma árvore de decisão de profundidade no máximo 10. Então temos que com probabilidade maior do que $1 - 2 \times 0,01 = 0,98$, $C_{\lvert \rho} \neq \Parity_{n \lvert \rho}$ o que implica em $C$ não poder ser um circuito para a função $\Parity_{n}$. 
 
 	Provando (1):
 	
-	Nós usamos o fato que aplicar uma restrição $\rho \leftarrow R_{p}$ à uma função é o mesmo que aplicar uma sequência de restrições $\rho_{1}, \rho_{2}, \dots \rho_{d - 1}$, onde $\rho_{i} \leftarrow R_{p_{i}}$ onde $p_{i}$ é $\frac{1}{10w}$ quando i = 1 e $p_{i} = \frac{1}{10 \log(120S)}$ para $2 \leq i \leq d - 1$. Em cada aplicação das restrições $\rho_{i}$ nós usamos o Lema de Håstad para mostrar que com alta probabilidade o circuito $C_{\lvert \rho_{1}\rho_{2}\dots\rho_{i - 1}}$ tem tua profundidade diminuida, por fim teremos que, com alta probabilidade, $C_{\lvert \rho_{1}\rho_{2}\dots\rho_{d - 2}}$ é um circuito de profundidade 2 e pelo Lema de Håstad com probabilidade pelo menos $1 - \frac{1}{2^{10}}$ colapsa para um árvode de decisão de profundidade 10 quando aplicamos $\rho \leftarrow R_{p_{2}}$ às variáveis que sobreviveram todas as restrições anteriores.
+	Nós usamos o fato que aplicar uma restrição $\rho \leftarrow R_{p}$ à uma função é o mesmo que aplicar uma sequência de restrições $\rho_{1}, \rho_{2}, \dots \rho_{d - 1}$, onde $\rho_{i} \leftarrow R_{p_{i}}$ onde $p_{i}$ é $\frac{1}{10w}$ quando i = 1 e $p_{i} = \frac{1}{10 \log(120S)}$ para $2 \leq i \leq d - 1$. Em cada aplicação das restrições $\rho_{i}$ nós usamos o Lema de Håstad para mostrar que com alta probabilidade o circuito $C_{\lvert \rho_{1}\rho_{2}\dots\rho_{i - 1}}$ tem sua profundidade diminuida, por fim teremos que, com alta probabilidade, $C_{\lvert \rho_{1}\rho_{2}\dots\rho_{d - 2}}$ é um circuito de profundidade 2 e pelo Lema de Håstad com probabilidade pelo menos $1 - \frac{1}{2^{10}}$ colapsa para um árvode de decisão de profundidade 10 quando aplicamos $\rho \leftarrow R_{p_{2}}$ às variáveis que sobreviveram todas as restrições anteriores.
 	
-	Primeiro nós temos que ao aplicar $\rho \leftarrow R_{p_{1}}$ às variáves de entrada de $C$, cada porta $\lor$ no segundo nível de $C$ podem ser substituida por uma árvore de decisão de profundidade $\log(120S)$ com probabilidade pelo menos $2^{-\log(120S)} = 1/120S$ (isto é apenas uma aplicação do Lema de Håstad). Portanto, com probabilidade pelo menos $1 - S_{2}/120S$, onde em geral nós denotaremos por $S_{i}$ o número de portas lógicas no $i$-ésimo nível de $C$, todas as portas $\lor$ no segundo nível de $C$ podem ser substituidas por árvores de decisão de profundidade $\log(120S)$. Agora nós usamos que uma árvore de decisão de profundidade $\log(120S)$ pode ser representável por uma fórmula FNC de largura $\log(120S)$ para colapsar o segundo e terceiro nível de $C$ obtendo então um circuito de profundidade $d - 1$ e fan-in $\log(120S)$ no teu nível mais baixo.
+	Primeiro nós temos que ao aplicar $\rho \leftarrow R_{p_{1}}$ às variáves de entrada de $C$, cada porta $\lor$ no segundo nível de $C$ podem ser substituida por uma árvore de decisão de profundidade $\log(120S)$ com probabilidade pelo menos $2^{-\log(120S)} = 1/120S$ (isto é apenas uma aplicação do Lema de Håstad). Portanto, com probabilidade pelo menos $1 - S_{2}/120S$, onde em geral nós denotaremos por $S_{i}$ o número de portas lógicas no $i$-ésimo nível de $C$, todas as portas $\lor$ no segundo nível de $C$ podem ser substituidas por árvores de decisão de profundidade $\log(120S)$. Agora nós usamos que uma árvore de decisão de profundidade $\log(120S)$ pode ser representável por uma fórmula FNC de largura $\log(120S)$ para colapsar o segundo e terceiro nível de $C$ obtendo então um circuito de profundidade $d - 1$ e fan-in $\log(120S)$ no seu nível mais baixo.
 	
 	Nós agora repetimos o mesmo processo $d - 2$ vezes usando restrições $\rho_{i} \leftarrow R_{p_{2}}$, em cada passo reduzindo a profundidade do circuito $C_{\lvert \rho_{1}\rho_{2}\dots\rho_{i - 1}}$ em um com probabilidade pelo menos $1 - S_{1}/120S$. No último passo, assumindo que $C_{\lvert \rho_{1}\rho_{2}\dots\rho_{d - 2}}$ tenha com sucesso reduzido a um circuito de profundidade 2, ao aplicarmos $\rho_{d - 2} \leftarrow R_{p_{2}}$ temos que com probabilidade pelo menos $1 - 2^{-10}$ obtemos uma árvore de decisão de profundidade no máximo 10. A probabilidade que todas as restrições $\rho_{i}$ tenha sucedidas em reduzir a profundidade de $C$ é pelo menos
 	
@@ -318,7 +416,7 @@ Seja $d > 0$ um inteiro. Para $n$ suficientemente grande temos que qualquer circ
 	
 \end{proof}
 
-Lembrando no capítulo anterior quando mostramos que $\PH^{A} \neq \PSPACE^{A}$ com probabilidade 1 nós precisamos do teorema \ref{teo: parity_lb_app} que diz que a função paridade não pode ser nem mesmo aproximada por circuitos de profundidade constante e tamanho $2^{o(n^{\frac{1}{d - 1}})}$ (ou seja, o mesmo tipo de circuitos que consideramos no teorema \ref{teo: parity_lb}). Nós na verdade podemos provar o teorema \ref{teo: parity_lb_app} a partir da prova do teorema \ref{teo: parity_lb} acima, obervando o seguinte:
+Lembrando no capítulo anterior quando mostramos que $\PH^{A} \neq \PSPACE^{A}$ com probabilidade 1 para um oráculo aleatório (ver \ref{teo: pspace_vs_ph_random}) nós precisamos do teorema \ref{teo: parity_lb_app} que diz que a função paridade não pode nem mesmo ser aproximada por circuitos de profundidade constante e tamanho $2^{o(n^{\frac{1}{d - 1}})}$ (ou seja, o mesmo tipo de circuitos que consideramos no teorema \ref{teo: parity_lb}). Nós na verdade podemos provar o teorema \ref{teo: parity_lb_app} a partir da prova do teorema \ref{teo: parity_lb} acima, obervando o seguinte:
 
 \begin{fato} \label{dt_parity_inapp}
 
@@ -357,51 +455,114 @@ A partir de \ref{dt_parity_inapp} e \ref{rr_completes_uniform} e pela prova do t
 
 Isso é uma asserção mais fraca do que foi citado no enunciado do teorema \ref{teo: parity_lb_app}.
 
-\subsection{Projeções aleatórias e prova dos teoremas \ref{Sipser_f_lb} e (...)}
+\subsubsection{Circuitos de profundidade $d$ para $\Parity_{n}$}
+
+Nós acabamos de ver limitante inferior para o tamanho de um circuito de profundidade $d$ para $\Parity_{n}$ quando $d$ é constante. Então podemos nos perguntar quanto portas lógicas são o suficiente para um circuito de profundidade $d$ poder computar $\Parity_{n}$. Na verdade, nós podemos ver que o limitante inferior do teorema \ref{teo: parity_lb} é essencialmente ótimo como demostra o teorema a seguir.
+
+\begin{teo} \label{parity_upper_bound}
+
+Seja $d \geq 2$ uma constante. Então existe um circuito de profundidade $d$ e tamanho $\mathcal{O} \Big(n^{\frac{d - 2}{d - 1}}2^{n^{\frac{1}{d - 1}}} \Big)$ com fan-in no nível mais baixo igual a $n^{\frac{d - 2}{d - 1}}$ que computa $\Parity_{n}$.
+
+\end{teo}
+
+\begin{proof}
+
+Seja $S^{n}(d)$ o tamanho do menor circuito de profundidade $d$ que computa $\Parity_{n}$. Nós provaremos por indução em $d$ que
+
+\begin{equation*}
+    S^{n}(d) \leq 2^{n^{\frac{1}{d - 1}}} \sum_{k = 0}^{d - 2}2^{k - 1}n^{\frac{k}{d - 1}} + 1 = \mathcal{O} \Big(n^{\frac{d - 2}{d - 1}}2^{n^{\frac{1}{d - 1}}} \Big).
+\end{equation*}
+
+A última desigualdade é verdade pois o somatório acima é no máximo $d2^{d}n^{\frac{d - 2}{d - 1}}$ que por sua vez é $\mathcal{O} \big( n^{\frac{d - 2}{d - 1}} \big)$ (nós estamos considerando $d$ constante).
+
+Para $d = 2$, a fórmula FND que computa a soma dos mintermos da função $\Parity_{n}$ tem tamanho $2^{n - 1} + 1$ e portanto o caso base é verdadeiro.
+
+Agora seja $d > 2$. Nós podemos construir um circuito para $\Parity_{n}$ de profundidade $d$ com o seguinte procedimento.
+
+\begin{enumerate}
+
+    \item Particione as $n$ variáveis de entrada em $n^{\frac{1}{d - 1}}$ blocos de tamanho $m = n^{\frac{d - 2}{d - 1}}$ cada.
+    
+    \item Use o circuito de profundidade $d - 1$ e tamanho $S^{m}(d - 1)$ para computar a paridade e a negação da paridade das variáveis de cada bloco.
+    
+    \item Compute a paridade das saídas dos subcircuitos que computam $\Parity_{m}$ do passo (2) usando uma fórmula FND com $2^{n^{\frac{1}{d - 1}} - 1} + 1$ portas lógicas.
+
+\end{enumerate}
+
+Agora nós analizamos quantas portas lógica o procedimento acima cria. Nós podemos ver que a profundidade do circuito é $d$ já que podemos colapsar a porta de saída de cada subcircuito para $\Parity_{m}$ ou a sua negação com as portas $\land$ da fórmula FND que computa a paridade dos subcircuitos. Como temos $2n^{\frac{1}{d - 1}}$ subcircuitos de tamanho $S^{m}(d - 1)$ mais a fórmula FND que computa a paridade das saídas dos subcircuitos temos que o tamanho do circuito gerado é
+
+\begin{equation*}
+    2n^{\frac{1}{d - 1}}(S^{m}(d - 1) - 1) + 2^{n^{\frac{1}{d - 1}} - 1} + 1.
+\end{equation*}
+
+Nós temos um fator $S^{m}(d - 1) - 1$ pois nós removemos uma porta lógica de cada subcircuito quando colapsamos um dos níveis do circuito. Pela hípotese da indução e por termos definido $S^{n}(d)$ como sendo o menor circuito que computa $\Parity_{n}$:
+
+\begin{equation*}
+    S^{n}(d) \leq 2n^{\frac{1}{d -1}}2^{m^{\frac{1}{d - 2}}}\sum_{k = 0}^{d - 3} 2^{k - 1}m^{\frac{k}{d - 2}} + 2^{n^{\frac{1}{d - 1}} - 1} + 1.
+\end{equation*}
+
+E como $m = n^{\frac{d - 2}{d - 1}}$:
+
+\begin{IEEEeqnarray*} {rCl}
+    S^{n}(d) & \leq & 2n^{\frac{1}{d - 1}}2^{n^{\frac{1}{d - 1}}} \sum_{k = 0}^{d - 3}2^{k - 1}n^{\frac{k}{d - 1}} + 2^{n^{\frac{1}{d - 1}} - 1} + 1 \\
+             & =    & 2^{n^{\frac{1}{d - 1}}} \sum_{k = 1}^{d - 2} 2^{k - 1}n^{\frac{k}{d - 1}} + 2^{n^{\frac{1}{d - 1}} - 1} + 1 \\
+             & =    & 2^{n^{\frac{1}{d - 1}}} \Bigg( \sum_{k = 1}^{d - 2}2^{k - 1}n^{\frac{k}{d - 1}} + 1/2 \Bigg) + 1 \\
+             & =    & 2^{n^{\frac{1}{d - 1}}} \sum_{k = 0}^{d - 2}2^{k - 1}n^{\frac{k}{d - 1}} + 1.
+\end{IEEEeqnarray*}
+
+O que conclui o último passo da indução.
+
+Quanto ao fan-in do circuito, é suficiente notar que o fan-in do circuito é igual ao fan-in dos subcircuitos que computam a paridade das variáveis em cada bloco. Como cada bloco tem $n^{\frac{d - 2}{d - 1}}$ variáveis temos que o fan-in de cada subcircuito é no máximo este valor.
+ 
+\end{proof}
+
+\section{Projeções aleatórias e a prova de RST dos teoremas \ref{Sipser_f_lb} e \ref{Sipser_f_lb_app}} \label{section_RST_proof}
 
 Agora nós iremos ver como provar os teoremas \ref{Sipser_f_lb} usando uma generalização de restrições aleatórias. Lembrando que quando o nosso objetivo era provar que a hierarquia polinomial é infinita relativa a um oráculo nós precisamos de uma hierarquia de circuitos de profundidade constante. Nós podemos nos perguntar se o método de restrições aleatórias que acabamos de ver é suficiente para provar que tal hierarquia existe. Infelizmente, este não é o caso por causa de uma diferença crucial entre provar que a função paridade não tem circuitos de profundidade constante e provar que existe uma hierarquia de circuitos de profundidade constante. O argumento clássico é que agora estamos querendo mostar que circuitos de profundidade $d$, para algum $d > 1$, são capazes de computar funções com uma quantidade polinomial de portas lógicas que circuitos de profundidade $d - 1$ não conseguem. Porém, o método de restrições aleatórias foi usada exatamente para ``destruir'' circuitos de profundidade constante, então não temos mais a capacidade de distinguir circuitos de profundidade $d - 1$ da nossa função alvo por ela também se tratar de uma função com profundidade constante. 
 
-Por conveniência, a definição das funções de Sipser segue abaixo.
+Para provar a existência de uma hierarquia de profundidade constante nós usamos as funções de Sipser que por conveniência definimos mais uma vez abaixo.
 
 \begin{defi} (As funções de Sipser)
 
-Para $d \geq 2$ a função de Sipser $f^{d, n}$ é uma fórmula monotônica e \emph{read-once} onde o nível mais baixo tem fan-in $\sqrt{\frac{1}{2}dn\log n}$, as portas lógicas nos níveis 2 até d - 1 têm fan-in $n$ e a porta lógica no nível mais alto tem fan-in $\sqrt{\frac{n}{\log n}}$. Ou seja, podemos escrever $f^{d, n}$ como
+Para $d \geq 2$ a função de Sipser $f^{m, d}$ é uma fórmula monotônica e \emph{read-once} onde o nível mais baixo tem fan-in $m$, as portas lógicas nos níveis 2 até d - 1 têm fan-in $w = 2^{m}mln(2)$ e a porta lógica no nível mais alto tem fan-in $w_{d}$ que nós definiremos mais tarde. Ou seja, podemos escrever $f^{m, d}$ como
 
 \begin{equation} \label{Sipser_f_def_1}
-	\bigwedge_{i_{d}  = 1}^{\sqrt{\frac{n}{\log n}}}\bigvee_{i_{d - 1} = 1}^{n} \dots \bigvee_{i_{2} = 1}^{n} \bigwedge_{i_{1} = 1}^{\sqrt{\frac{1}{2}dn\log n}} x_{i_{1}, i_{2}, \dots, i_{d}}, \text{ se } d \text{ é par.}
+	\bigwedge_{i_{1}  = 1}^{m}\bigvee_{i_{2} = 1}^{w} \dots \bigvee_{i_{d - 1} = 1}^{w} \bigwedge_{i_{d} = 1}^{w_{d}} x_{i_{1}, i_{2}, \dots, i_{d}}, \text{ se } d \text{ é par.}
 \end{equation}
 
 e
 
 \begin{equation}
-	\bigwedge_{i_{d}  = 1}^{\sqrt{\frac{n}{\log n}}}\bigvee_{i_{d - 1} = 1}^{n} \dots \bigwedge_{i_{2} = 1}^{n} \bigvee_{i_{1} = 1}^{\sqrt{\frac{1}{2}dn\log n}} x_{i_{1}, i_{2}, \dots, i_{d}}, \text{ se } d \text{ é ímpar.}
+	\bigwedge_{i_{1}  = 1}^{m}\bigvee_{i_{2} = 1}^{w} \dots \bigwedge_{i_{d - 1} = 1}^{w} \bigvee_{i_{d} = 1}^{w_{d}} x_{i_{1}, i_{2}, \dots, i_{d}}, \text{ se } d \text{ é ímpar.}
 \end{equation}
 
 
 \end{defi}
 
-Nós então temos que definir uma nova forma de simplificar circuitos $\AC^{0}$ que colapsa circuitos de profundidade $d - 1$ ao mesmo tempo que mantém algum tipo de estrutura ao ser aplicada sobre a função $f^{d, n}$. Com este objetivo em mente define-se projeções aleatórias que são uma generalização de restrições.
+Nós então temos que definir uma nova forma de simplificar circuitos $\AC^{0}$ que colapsa circuitos de profundidade $d - 1$ ao mesmo tempo que mantém algum tipo de estrutura ao ser aplicada sobre a função $f^{m, d}$. Com este objetivo em mente define-se projeções aleatórias que são uma generalização de restrições.
 
 \begin{defi} (Projeções aleatórias) \label{projections}
  
- Sejam $\mathcal{X}, \mathcal{Y}$ espaços de variáveis tais que $n = \lvert \mathcal{X} \rvert \leq \lvert \mathcal{Y} \rvert$ e seja $y: \mathcal{X} \to \mathcal{Y}$ uma função. Nós definimos uma espaço de projeções aleatórias $P$ a partir de um espaço de restrições $R$ tal que $\rho \leftarrow P$ é formada da seguinte forma:
+ Sejam $\mathcal{X}, \mathcal{Y}$ espaços de variáveis tais que $n = \lvert \mathcal{X} \rvert \leq \lvert \mathcal{Y} \rvert$ e seja $\block: \mathcal{X} \to \mathcal{Y}$ uma função. Nós definimos um espaço de projeções aleatórias $P$ a partir de um espaço de restrições $R$ tal que $\rho \leftarrow P$ é formada da seguinte forma:
  
- Seja $\rho^{\prime} \in \{0, 1, *\}^{n}$ uma restrição tirada de $R$, então
+ Seja $\rho^{\prime} \in \{*, 0, 1\}^{n}$ uma restrição tirada de $R$, então
  
  \begin{equation*}
  	\rho(x) = \begin{cases}
- 	                	\rho^{\prime}(x) & \text{ se } \rho^{\prime}(x) \in \binalph. \\
- 	                	y(x) & \text{ se } \rho^{\prime}(x) = *.
+ 	                	\rho^{\prime}(x) & \text{ se } \rho^{\prime}(x) \in \binalph \\
+ 	                	\block(x) & \text{ se } \rho^{\prime}(x) = *.
  	                \end{cases}
  \end{equation*}
 
+ Para cada variável $y \in \mathcal{Y}$, o conjunto $\{x \in \mathcal{X} \lvert \block(x) = y \}$ é denoninado o bloco de $y$. Se $x$ pertence ao bloco de $y$ e $\rho(x) = y$ nós dizemos que $x$ foi projetada para $y$.
+
 \end{defi} 
 
-Nós podemos dizer que projeções são uma generalização de restrições pois uma restrição é uma projeção onde $\mathcal{X} = \mathcal{Y}$ e $y$ é a função identidade. Durante esta subseção quando nós aplicamos uma projeção $\rho$ sobre as variáveis de uma função nós passamos a considerar a projeção de $f$ com respeito a $\rho$ que nós definimos a seguir.
+Nós podemos dizer que projeções são uma generalização de restrições pois uma restrição é uma projeção onde $\mathcal{X} = \mathcal{Y}$ e $\block$ é a função identidade. Durante esta subseção ao aplicarmos uma projeção $\rho$ sobre as variáveis de uma função nós passamos a considerar a projeção de $f$ com respeito a $\rho$ que nós definimos a seguir.
 
 \begin{defi} (Projeção de uma função) \label{projected_function}
 
-Seja $f: \binalph^{n} \to \binalph$ e $P$ um espaço de projeção sobre que mapeia variáveis em $\mathcal{X}$ de $f$ para $\binalph \cup \mathcal{Y}$. Seja $\rho \leftarrow P$, então a projeção de $f$ com respeito a $\rho$ é
+Seja $f: \binalph^{n} \to \binalph$ e $P$ um espaço de projeção que mapeia as variáveis de entrada da função $f$ para $\binalph \cup \mathcal{Y}$. Seja $\rho \leftarrow P$, então a projeção de $f$ com respeito a $\rho$ é
 
 \begin{IEEEeqnarray*}{rCl}
 	\proj_{\rho}f: \mathcal{Y} & \to & \binalph \\
@@ -412,27 +573,35 @@ onde $m = \lvert \mathcal{Y} \rvert$ e neste caso específico deve-se entender $
 
 \end{defi}
 
-Projeções aleatórias vão ter o mesmo papel na prova dos teoremas (...) e (...) que restrições aleatórias tiveram nas provas dos teoremas \ref{teo: parity_lb} e \ref{teo: parity_lb_app}. Ao provar que $f^{d, n}$ não pode ser computada por circuitos de profundidade $d - 1$ e tamanho subexponencial nós iremos definir uma sequência de espaços projeções $P_{i}$, para $i = 1, 2, \dots, d - 1$ que irão satisfazer as três condições listadas a seguir:
+Projeções aleatórias vão ter o mesmo papel na prova dos teoremas \ref{Sipser_f_lb} e \ref{Sipser_f_lb_app} que restrições aleatórias tiveram nas provas dos teoremas \ref{teo: parity_lb} e \ref{teo: parity_lb_app}. Para provar que $f^{m, d}$ não pode ser computada por circuitos de profundidade $d - 1$ e tamanho subexponencial nós iremos usar uma sequência de espaços de projeções $P_{i}$, para $i = 1, 2, \dots, d - 1$, que irão satisfazer as três condições listadas a seguir:
 
 \begin{enumerate}
 
 	\item Qualquer circuito $C$ de profundidade $d - 1$ e tamanho subexponencial colapsa para uma função simples quando aplicamos $\rho_{1}, \rho_{2}, \dots \rho_{d - 1}$ às variáveis de entrada de $C$, onde cada $\rho_{i}$ é tirada de $P_{i}$.
 	
-	\item A função $f^{d, n}$ mantém estrutura ao aplicarmos $\rho_{1}, \rho_{2}, \dots, \rho_{d - 1}$ às suas variáveis
-	\item As projeções $\rho_{1}, \rho_{2}, \dots, \rho_{d - 1}$ se completam para a distribuição uniforme sobre $\binalph^{n}$.
+	\item A função $f^{m, d}$ mantém estrutura ao aplicarmos $\rho_{1}, \rho_{2}, \dots, \rho_{d - 1}$ às suas variáveis.
+	
+	\item As projeções $\rho_{1}, \rho_{2}, \dots, \rho_{d - 1}$ completam para a distribuição uniforme sobre $\binalph^{n}$.
 
 \end{enumerate}
-O item (3) é necessário para a prova do teorema (...) e ela tem o mesmo papel que \ref{rr_completes_uniform} tem para restrições aleatórias. Um ponto importante é que a definição cada um dos espaços de projeções $P_{i}$ dependem das projeções anteriores. Vamos começar definindo $P_{1}$ depois mostramos como cada $P_{i}$, para $i > 1$ a partir da projeção $\rho_{i - 1}$. É bom lembrar que iremos definir os espaços de projeções $P_{i}$ com a função $f^{n, d}$ em mente e que nós vemos $f^{n, d}$ como um circuito com portas $\land$ no teu nível mais baixo.
+
+O item (3) é necessário para a prova do teorema \ref{Sipser_f_lb_app} e ela tem o mesmo papel que \ref{rr_completes_uniform} tem para restrições aleatórias. Um ponto importante é que a definição de cada um dos espaços de projeções $P_{i}$ dependem das projeções anteriores. Nós iremos definir $P_{i}(\rho_{i - 1})$, onde $\rho_{i - 1} \leftarrow P_{i - 1}$, mas na maioria da vez nós iremos deixar implícita a dependência sobre $\rho_{i - 1}$.
+
+Nós definimos cada espaço de projeção $P_{i}$ com a função $f^{m, d}$ em mente. Sejam $A_{0}, A_{1}, \dots, A_{d}$ espaços de variáves em que $A_{0}$ é o conjunto das variáveis de entrada de $f^{m, d}$ e para cada $A_{i}$, com $i > 0$, $A_{i}$ tem uma variável $x_{a}$ para cada porta lógica $a$ que aparece no $i$-ésimo nível da fórmula $f^{m, d}$. Nós faremos um abuso de notação e escreveremos $a \in A_{i}$ para denotar que $a$ é uma porta lógica no $i$-ésimo nível de $f^{m, d}$. Para $a \in A_{i}$ seja $\inputt(a)$ o conjunto de portas lógicas ou variáveis de entrada que alimentam $a$. Com isto dito, o espaço de projeção $P_{i}$ irá mapear variáveis em $A_{i -1}$ para $\binalph \cup A_{i}$ em que para cada $x_{a} \in A_{i}$ é verdade que uma variável $x_{a^{\prime}} \in A_{i - 1}$ pode ser projetada para $x_{a}$ se e somente se $a^{\prime} \in \inputt(a)$, em outras palavras $x_{a^{\prime}}$ pertence ao bloco de $x_{a}$ se e somente se $a^{\prime} \in \inputt(a)$.
+
+\subsubsection{O espaço de projeções $P_{1}$}
+
+Vamos começar definindo $P_{1}$ e depois mostramos como cada $P_{i}$, para $i > 1$, é definida a partir da projeção $\rho_{i - 1}$ tirada de $P_{i - 1}$. Ao definir cada $P_{i}$ nós iremos atribuir um valor $\rho_{i}(x_{a})$ para cada $x_{a} \in A_{i}$ que denotará o valor na saída da porta lógica $a$ após aplicarmos a projeção aleatória. Apesar disso não aparecer na definição \ref{projections} de projeções aleatórias, é útil para nós guardar este valor. 
 
 Durante esta seção nós iremos considerar os seguintes parâmetros:
 
 \begin{equation} \label{lambda_q_defi}
-	\lambda = 2^{-5m/2} \qquad q = 2^{-m/2} - 2^{-3m/2}.
+	\lambda = 2^{-5m/4} \qquad q = 2^{-m/2} - 2^{-10m/9}.
 \end{equation}
 
 \begin{defi} (O espaço de projeção $P_{1}$) \label{defi_P1}
 
-Por conveniência iremos considerar apenas as variáveis em uma porta $\land$ $a \in A_{1}$ específica pois as projeções $\rho_{1} \leftarrow P_{1}$ atribuem valores às variáveis que alimentam portas diferentes de forma independente. Seja $\inputt(a)$ o conjunto de variáveis de entrada da porta $a$. Inicialmente nós definimos o valor $\rho_{1}(x_{a})$ da seguinte forma:
+Por conveniência iremos considerar apenas as variáveis em uma porta $a \in A_{1}$ específica pois as projeções $\rho_{1} \leftarrow P_{1}$ atribuem valores às variáveis que alimentam portas diferentes de forma independente. Inicialmente nós definimos o valor $\rho_{1}(x_{a})$ da seguinte forma:
 
 \begin{equation} \label{defi_P1_eqn}
 	\rho_{1}(x_{a}) = \begin{cases}
@@ -446,19 +615,19 @@ Em seguida nós tiramos um subconjunto não vazio $S$ de $\inputt(a)$ aleatoriam
 
 \end{defi}
 
-Nós fazemos a seguinte observação importante. Seja $a \in A_{1}$ e vamos considerar uma string $\textbf{x} \in \binalph^{m}$ formada pelo seguite procedimento. Seja $t$ tal que
+Nós fazemos a seguinte observação importante. Seja $a \in A_{1}$ e vamos considerar uma string $\textbf{x} \in \binalph^{m}$ formada pelo seguite procedimento. Seja $t_{1}$ tal que
 
 \begin{equation} \label{t_defi_1}
-	\lambda + qt = 2^{-m}.
+	\lambda + qt_{1} = 2^{-m}.
 \end{equation}
 
 Ou seja,
 
 \begin{equation} \label{t_defi_2}
-	t = \frac{2^{-m} - \lambda}{q} = 2^{-m/2}.
+	t_{1} = \frac{2^{-m} - \lambda}{q} = \frac{2^{-m} - 2^{-5m/4}}{2^{-m/2} - 2^{-10m/9}},
 \end{equation}
 
-Então proseguimos da seguinte forma:
+o que é bem próximo de $2^{-m/2}$. Então prosseguimos da seguinte forma:
 
 \begin{enumerate}
 
@@ -468,43 +637,51 @@ Faça $\textbf{x}_{a^{\prime}} = \rho_{1}(x_{a^{\prime}})$ para todo $a^{\prime}
 
 \item Se $\rho_{1}(x_{a}) = x_{a}$:
 
-Faça $\textbf{x}_{a^{\prime}} = 1$ para todo $a^{\prime} \in \inputt(a)$ tal que $\rho_{1}(x_{a^{\prime}}) = 1$ e $\textbf{x}_{a^{\prime}} = b$ para todos os outros $\textbf{x}_{a^{\prime}} \in \inputt(a)$, em que $b \sim \{0_{1 - t}, 1_{t}\}$.
+Faça $\textbf{x}_{a^{\prime}} = 1$ para todo $a^{\prime} \in \inputt(a)$ tal que $\rho_{1}(x_{a^{\prime}}) = 1$ e $\textbf{x}_{a^{\prime}} = b$ para todos os outros $\textbf{x}_{a^{\prime}} \in \inputt(a)$, em que $b \sim \{0_{1 - t_{1}}, 1_{t_{1}}\}$.
 
 \end{enumerate}
 
-Nós temos que a distribuição acima é equivalente à distribuição uniforme sobre strings em $\binalph^{m}$. Para ver isto nós mostramos que a probabilidade que a string $1^{m}$ é gerada pelo procedimento acima é $2^{-m}$ (isso é suficiente para provar que a distribuição de strings geradas é uniforme pois podemos facilmente observar que todas as outras strings são geradas com a mesma probabilidade). Isto segue direto da nossa definição de $\lambda$, $q$ e $t$ em \ref{lambda_q_defi}, \ref{t_defi_1} e \ref{t_defi_2}, e pela primeira e segunda linha de \ref{defi_P1_eqn}:
+Nós temos que a distribuição acima é equivalente à distribuição uniforme sobre strings em $\binalph^{m}$. Para ver isto nós mostramos que a probabilidade que a string $1^{m}$ é gerada pelo procedimento acima é $2^{-m}$ (isso é suficiente para provar que a distribuição de strings geradas é uniforme pois podemos facilmente observar que todas as outras strings são geradas com a mesma probabilidade). Isto segue direto da nossa definição de $\lambda$, $q$ e $t_{1}$ em \ref{lambda_q_defi}, \ref{t_defi_1} e \ref{t_defi_2}, e pela primeira e segunda linha de \ref{defi_P1_eqn}:
 
 \begin{equation*}
-	\Pr[\textbf{x} = 1^{m}]  = \lambda + qt = 2^{-m}
+	\Pr[\textbf{x} = 1^{m}]  = \lambda + qt_{1} = 2^{-m}
 \end{equation*}
 
-Ou seja, $\textbf{x}$ é $1^{m}$ sempre que $\rho_{1}(x_{a}) = 1$ ou $\rho_{1}(x_{a}) = x_{a}$ e fazemos $\textbf{x}_{a^{\prime}} = 1$ para todos $x_{a^{\prime}} \in \inputt(a)$ no passo (2) do nosso procedimento. Note que um procedimento equivalente é simplesmente fazer $x_{a} \sim \{0_{1 - t}, 1_{t}\}$, e se fizermos o mesmo para todas $a \in A_{1}$ nós obtemos a distribuição uniforme sobre $\binalph^{n}$.
+Ou seja, $\textbf{x}$ é $1^{m}$ sempre que $\rho_{1}(x_{a}) = 1$ ou $\rho_{1}(x_{a}) = x_{a}$ e fazemos $\textbf{x}_{a^{\prime}} = 1$ para todos $x_{a^{\prime}} \in \inputt(a)$ no passo (2) do nosso procedimento. Aplicando o mesmo procedimento para todas $a \in A_{1}$ nós obtemos a distribuição uniforme sobre $\binalph^{n}$.
 
-A idéia agora é que para todos espaços de projeções $P_{i}$ subsequentes, para $i > 1$, nós iremos garantir que ao substituir as variáveis que sobreviveram a projeção por uma string aleatória tirada da distribuição $\{0_{1 - t}, 1_{t}\}$ se $i$ for ímpar ou $\{0_{t}, 1_{1 - t}\}$ se $i$ for par, nós também iremos obter a distribuição uniforme sobre todas as strings em $\binalph^{n}$ (ou seja, $P_{i}$ completa para a distribuição uniforme). Além disso, nós iremos usar o fato que $P_{i - 1}$ completa para a distribuição uniforme para provar o mesmo para $P_{i}$. Assim, para provar que um circuito $C$ de tamanho subexponencial e profundidade $d - 1$ não é nem mesmo correlacionado com $f^{m, d}$ nós iremos aplicar uma sequência de projeções $\Psi = \rho_{1}\rho_{2}\dots\rho_{d - 1}$, onde cada $\rho_{i}$ é tirada de $P_{i}$, ao circuito e à $f^{m, d}$, o que denotamos por $\Psi(C)$ e $\Psi(f^{m, d})$, e teremos que:
+O que o procedimento acima faz é basicamente atribuir valores tirados aleatoriamente de $\{0_{1 - t_{i}}, 1_{t_{i}}\}$ às variáveis em $A_{1}$ que sobreviveram $\rho_{1}$. Então, se temos uma projeção $\rho_{1} \leftarrow P_{1}$ e para cada $a \in A_{1}$ tal que $\rho_{1}(x_{a}) = x_{a}$ nós fizermos $x_{a} \sim \{0_{1 - t_{1}}, 1_{t_{1}}\}$, nós temos uma distribuição de valores para as variáveis em $A_{1}$ que é equivalente a se nós tivessemos tirado uma atribuição às variáveis de entrada de $f^{m, d}$ da distribuição uniforme e olhassemos para a saída de cada porta $\land$ no primeiro nível da fórmula $f^{m, d}$.
+
+Para $i > 1$ defina recursivamente
+
+\begin{equation} \label{t_1_defi}
+	t_{i} = \frac{(1 -  t_{i - 1})^{qw} - \lambda}{q}.
+\end{equation}
+
+A idéia agora é que para todos espaços de projeções $P_{i}$ subsequentes nós iremos garantir que ao substituir as variáveis que sobreviveram a projeção por um valor aleatório tirado da distribuição $\{0_{1 - t_{i}}, 1_{t_{i}}\}$ se $i$ for ímpar ou $\{0_{t_{i}}, 1_{1 - t_{i}}\}$ se $i$ for par, nós também iremos obter a distribuição que teriamos se nós tivessemos tirado uma atribuição às variáveis de entrada da distribuição uniforme e olhassemos para o valor na saída de cada porta lógica em $A_{i}$ (ou seja, $P_{i}$ completa para a distribuição uniforme). Além disso, nós iremos usar o fato que $P_{i - 1}$ completa para a distribuição uniforme para provar o mesmo para $P_{i}$. Assim, para provar que um circuito $C$ de tamanho subexponencial e profundidade $d - 1$ não é nem mesmo correlacionado com $f^{m, d}$ nós iremos aplicar uma sequência de projeções $\rho_{1}\rho_{2}\dots\rho_{d - 1}$, onde cada $\rho_{i}$ é tirada de $P_{i}$, ao circuito $C$ e à $f^{m, d}$ e usando a notação $\Psi = \proj_{\rho_{1}\rho_{2}\dots\rho_{d - 1}}$ teremos que:
 
 \begin{equation} \label{uniform_comp_eq_1}
-	\Pr_{\textbf{x} \sim \{0_{1 - t}, 1_{t}\}^{n^\prime}}[ \Psi(f^{m, d})(\textbf{x}) = \Psi(C)(\textbf{x})] = \Pr_{\textbf{x} \sim \{0_{1/2}, 1_{1/2}\}^{n}}[f^{m, d}(\textbf{x}) = C(\textbf{x})], \text{ se d for par},
+	E_{\Psi} \bigg[ \Pr_{\textbf{x} \sim \{0_{1 - t_{d - 1}}, 1_{t_{d - 1}}\}^{A_{d - 1}}} \big[ \Psi(f^{m, d})(\textbf{x}) \neq \Psi(C)(\textbf{x}) \big] \bigg] = \Pr_{\textbf{x} \sim \{0_{1/2}, 1_{1/2}\}^{n}} \big[ f^{m, d}(\textbf{x}) \neq C(\textbf{x}) \big], \text{ se d for par},
 \end{equation}
 
 ou
 
 \begin{equation} \label{uniform_comp_eq_2}
-	\Pr_{\textbf{x} \sim \{0_{t}, 1_{1 - t}\}^{n^{\prime}}}[ \Psi(f^{m, d})(\textbf{x}) = \Psi(C)(\textbf{x})] = \Pr_{\textbf{x} \sim \{0_{1/2}, 1_{1/2}\}^{n}}[f^{m, d}(\textbf{x}) = C(\textbf{x})], \text{ se d for ímpar},
+	E_{\Psi} \bigg[ \Pr_{\textbf{x} \sim \{0_{t_{d - 1}}, 1_{1 - t_{d - 1}}\}^{A_{d - 1}}} \big[ \Psi(f^{m, d})(\textbf{x}) \neq \Psi(C)(\textbf{x}) \big] \bigg] = \Pr_{\textbf{x} \sim \{0_{1/2}, 1_{1/2}\}^{n}} \big[f^{m, d}(\textbf{x}) \neq C(\textbf{x}) \big], \text{ se d for ímpar},
 \end{equation}
 
-onde $n^{\prime}$ é o número de variáveis que sobreviveram a última projeção $\rho_{d - 1}$. Então nós mostramos que $\Psi(f^{m, d})$ e $\Psi(C)$ em si não são correlacionadas para mostrar que $f^{m, d}$ e $C$ também não são correlacionadas.
+Então nós mostraremos que $\Psi(f^{m, d})$ e $\Psi(C)$ em si não são correlacionadas para mostrar que $f^{m, d}$ e $C$ também não são correlacionadas.
 
-A obsevação acima corresponde à terceira condição que os espaços de projeção devem satisfazer. A primeira condição (que os circuitos $C$ simplificam quando aplicamos $\Psi = \rho_{1}\rho_{2}\dots\rho_{d - 1}$) nós iremos ver na próxima seção. Para a segunda condição ($f^{m, d}$ mantém estrutura) nós iremos tratar agora o caso i = 1 fazendo as seguintes observações.
+A observação acima corresponde à terceira condição que os espaços de projeção devem satisfazer. A primeira condição (que os circuitos $C$ simplificam quando aplicamos $\Psi = \proj_{\rho_{1}\rho_{2}\dots\rho_{d - 1}}$) nós iremos ver mais pra frente quando provarmos um lema da troca para os espaços de projeções $P_{i}$. Para a segunda condição ($f^{m, d}$ mantém estrutura) nós iremos tratar agora o caso i = 1 fazendo as seguintes observações.
 
 \begin{defi} (Projeções típicas para $P_{1}$) \label{typical_proj_P1}
 
-Seja $\rho_{1} \leftarrow P_{1}$. Para toda $a^{\prime} \in A_{2}$ seja $S_{a^{\prime}} = \{a \in \inputt(a^{\prime}) \lvert \rho_{1}(a) = x_{a} \}$ e para toda $a^{\prime \prime} \in A_{3}$ seja $S_{a^{\prime \prime}} = \{a^{\prime} \in \inputt(a^{\prime \prime}) \lvert x_{a^{\prime}} \text{ não é feita constante pela projeção } \rho_{1}\}$. Nós dizemos que $\rho_{1}$ é típica se:
+Seja $\rho_{1} \leftarrow P_{1}$. Para toda $a^{\prime} \in A_{2}$ seja $S_{a^{\prime}} = \{a \in \inputt(a^{\prime}) \lvert \rho_{1}(x_{a}) = x_{a} \}$ e para toda $a^{\prime \prime} \in A_{3}$ seja $U_{a^{\prime \prime}} = \{a^{\prime} \in \inputt(a^{\prime \prime}) \lvert x_{a^{\prime}} \text{ não é feita constante pela projeção } \rho_{1}\}$. Nós dizemos que $\rho_{1}$ é típica se:
 
 \begin{enumerate}
 
-	\item Para todo $a^{\prime} \in A_{2}$, $\big\lvert \lvert S_{a^{\prime}} \rvert - qw \big\rvert \leq w^{g(1, d)}$, onde definimos $g(i, d) = 1/3 + (i - 1)/8d$ para todo $i \in [d - 1]$.
+	\item Para todo $a^{\prime} \in A_{2}$, $\big\lvert \lvert S_{a^{\prime}} \rvert - qw \big\rvert \leq w^{1/3}$.
 	
-	\item Para todo $a^{\prime \prime} \in A_{3}$, $\lvert S_{a^{\prime \prime}} \rvert \geq w - w^{4/5}$.
+	\item Para todo $a^{\prime \prime} \in A_{3}$, $\lvert U_{a^{\prime \prime}} \rvert \geq w - w^{4/5}$.
 
 \end{enumerate}
 
@@ -512,9 +689,9 @@ Note que qualquer restrição $\rho_{1} \leftarrow P_{1}$ típica não fixa nenh
 
 \end{defi}
 
-Nós iremos entender a idéia por trás da primeira condição que uma projeção típica tem que satisfazer depois de definirmos os espaços de projeções $P_{i}$ para $i > 1$ e após vermos o Lema da Troca para projeções. Nós precisamos da segunda condição porque queremos que ao aplicarmos $\rho_{1}$ às variáveis de entrada de $f^{m, d}$ o circuito por trás da função $f^{m, d}$ a partir do terceiro nível não seja muito afetado.
+Nós iremos entender a idéia por trás da primeira condição que uma projeção típica tem que satisfazer depois de definirmos os espaços de projeções $P_{i}$ para $i > 1$ e após vermos o lema da troca para projeções $P_{i}$. Nós precisamos da segunda condição porque queremos que ao aplicarmos $\rho_{1}$ às variáveis de entrada de $f^{m, d}$ o circuito por trás da função $f^{m, d}$ a partir do terceiro nível não seja afetado.
 
-Então temos que dado que $\rho_{1} \leftarrow P_{1}$ é típica então $\proj_{\rho_{1}}f^{m, d}$ é uma fórmula com profundidade $d - 1$ sobre as variáveis em $A_{1}$ que sobreviveram $\rho_{1}$ (ou seja, não foram feitas constantes). No nível mais baixo de $\proj_{\rho_{1}}f^{m, d}$ temos portas $\lor$ com fan-in no intervalo $[qw - w^{g(1, d)}, qw + w^{g(1, d)}]$ e no terceiro nível temos portas $\land$ com fan-in $\geq w - w^{4/5}$. O restante da fórmula permanece intacta.  Para mostrar que $f^{m, d}$ mantém estrutura com alta probabilidade nós temos primeiro que argumentar que $\rho_{1} \leftarrow P_{1}$ é típica com alta probabilidade.
+Então temos que dado que $\rho_{1} \leftarrow P_{1}$ é típica então $\proj_{\rho_{1}}f^{m, d}$ é uma fórmula com profundidade $d - 1$ sobre as variáveis em $A_{1}$ que sobreviveram $\rho_{1}$ (ou seja, não foram feitas constantes). No nível mais baixo de $\proj_{\rho_{1}}f^{m, d}$ temos portas $\lor$ com fan-in no intervalo $[qw - w^{1/3}, qw + w^{1/3}]$ e no segundo nível temos portas $\land$ com fan-in $\geq w - w^{4/5}$. O restante da fórmula permanece intacta.  Para mostrar que $f^{m, d}$ mantém estrutura com alta probabilidade nós temos primeiro que argumentar que $\rho_{1} \leftarrow P_{1}$ é típica com alta probabilidade.
 
 \begin{prop} \label{typical_whp_P1}
 
@@ -522,19 +699,19 @@ Seja $\rho_{1} \leftarrow P_{1}$, então:
 
 \begin{enumerate}
 
-	\item Para todo $a \in A_{2}$, $\Pr \Big[\big\lvert \lvert S_{a} \rvert - qw \big\rvert \leq w^{g(1, d)} \Big] = 1 - e^{-\widetilde{\Omega}(w^{1/6})}$;
+	\item Para todo $a^{\prime} \in A_{2}$, $\Pr \Big[\big\lvert \lvert S_{a^{\prime}} \rvert - qw \big\rvert \leq w^{1/3} \Big] = 1 - e^{-\widetilde{\Omega}(w^{1/6})}$;
 	
-	\item Para todo $a \in A_{3}$, $\Pr \big[ \lvert S_{a} \rvert \geq w - w^{4/5} \big] = 1 - e^{-\Omega(w^{1/3})}$.
+	\item Para todo $a^{\prime \prime} \in A_{3}$, $\Pr \big[ \lvert U_{a^{\prime \prime}} \rvert \geq w - w^{4/5} \big] = 1 - e^{-\widetilde{\Omega}(w^{4/5})}$.
 
 \end{enumerate}
 
-Daí segue pelo Princípio da Inclusão-Exclusão que $\rho_{1}$ é típica com probabilidade $1 - \big( \lvert A_{2} \rvert + \lvert A_{3} \rvert \big)e^{-\Omega(w^{1/3})}$. Como $\lvert A_{i} \rvert = w^{\mathcal{O}(d)}$, para todo $i \in [d]$, temos que $\rho_{1}$ é típica como probabilidade $1 - e^{-\Omega(w^{1/3})}$.
+Daí segue pelo Princípio da Inclusão-Exclusão que $\rho_{1}$ é típica com probabilidade $1 - \big( \lvert A_{2} \rvert + \lvert A_{3} \rvert \big)e^{-\widetilde{\Omega}(w^{1/6})}$. Como $\lvert A_{i} \rvert = w^{\mathcal{O}(d)}$, para todo $i \in [d]$, temos que $\rho_{1}$ é típica como probabilidade $1 - e^{-\widetilde{\Omega}(w^{1/6})}$.
 
 \end{prop}
 
 \begin{proof}
 
-Nós podemos provar ambos os itens no enunciado aplicando a desigualdade de Chernoff. Vale lembrar que se $a^{\prime \prime} \in A_{3}$ e $a^{\prime} \in \inputt(a)$ então $a^{\prime} \in A_{2}$. Similarmente, se $a^{\prime} \in A_{2}$ e $a \in \inputt(a^{\prime})$ então $a \in A_{1}$.
+Nós podemos provar ambos os itens no enunciado aplicando a desigualdade de Chernoff. Vale lembrar que se $a^{\prime \prime} \in A_{3}$ e $a^{\prime} \in \inputt(a^{\prime \prime})$ então $a^{\prime} \in A_{2}$. Similarmente, se $a^{\prime} \in A_{2}$ e $a \in \inputt(a^{\prime})$ então $a \in A_{1}$.
 
 \begin{enumerate}
 
@@ -543,59 +720,79 @@ Nós podemos provar ambos os itens no enunciado aplicando a desigualdade de Cher
 	Seja $a^{\prime} \in A_{2}$. Uma variável $x_{a} \in \inputt(a^{\prime})$  satisfaz $\rho_{1}(x_{a}) = x_{a}$ com probabilidade $q$ pela definição de $P_{1}$ em \ref{defi_P1}. Portanto, temos que $E[\lvert S_{a^{\prime}} \rvert] = qw = \widetilde{\Theta}(w^{1/2})$, e pela desigualdade de Chernoff temos que
 	
 	\begin{equation*}
-		\Pr \Big[\big\lvert \lvert S_{a^{\prime}} \rvert - qw \big\rvert \geq w^{g(1, d)} \Big] \leq e^{\frac{\delta^{2}}{3}qw},
+		\Pr \Big[\big\lvert \lvert S_{a^{\prime}} \rvert - qw \big\rvert \geq w^{1/3} \Big] \leq e^{-\frac{\delta^{2}}{2 + \delta}qw},
 	\end{equation*}
 	
-	onde $\delta$ satisfaz $\delta qw = w^{g(1, d)}$. Equivalentemente, $\delta = w^{g(1, d)}/qw$, e lembrando que da forma como definimos a função $g$ temos que $g(1, d) = 1/3$ e então segue que $\delta = \widetilde{\Omega}(w^{-1/6})$, onde nós também usamos que $qw = \widetilde{\Theta}(w^{1/2})$, e portanto
+	onde $\delta$ satisfaz $\delta qw = w^{1/3}$. Equivalentemente, $\delta = w^{1/3}/qw$, então segue que $\delta = \widetilde{\Omega}(w^{-1/6})$, onde nós também usamos que $qw = \widetilde{\Theta}(w^{1/2})$, e portanto
 	
 	\begin{equation*}
-		e^{-\frac{\delta^{2}}{3}qw} = e^{-\widetilde{\Omega}(w^{1/6})}.
+		e^{-\frac{\delta^{2}}{2 + \delta}qw} = e^{-\widetilde{\Omega}(w^{1/6})}.
 	\end{equation*}
 	
 	E por fim podemos concluir que
 	
 	\begin{equation*}
-		\Pr \Big[ \big\lvert \lvert S_{a^{\prime}} \rvert - qw \big\rvert < w^{g(1, d)}\Big] = 1 - e^{-\widetilde{\Omega}(w^{1/6})}.
+		\Pr \Big[ \big\lvert \lvert S_{a^{\prime}} \rvert - qw \big\rvert \leq w^{1/3}\Big] = 1 - e^{-\widetilde{\Omega}(w^{1/6})}.
 	\end{equation*}
 	
 	
 	\item Provando o item (2).
 	
-	Seja $a^{\prime \prime} \in A_{3}$ e $a^{\prime} \in \inputt(a)$. Como nós observamos em \ref{typical_proj_P1} nós podemos assumir que $a^{\prime}$ é substituida pela constante 1 sempre que $a^{\prime} \not\in S_{a^{\prime \prime}}$. Temos que $a^{\prime}$ não é forçada para 1 por $\rho_{1}$ se todos $a \in \inputt(a^{\prime})$ satisfazem $\rho_{1}(x_{a}) \neq 1$, o que acontece com probabilidade $(1 - \lambda)^{w}$ pela definição de $P_{1}$ em \ref{defi_P1}. Como $e^{-\lambda w} \geq (1 - \lambda)^{w}$ temos que
+	Seja $a^{\prime \prime} \in A_{3}$ e $a^{\prime} \in \inputt(a^{\prime \prime})$. Como nós observamos em \ref{typical_proj_P1} nós podemos assumir que $a^{\prime}$ é substituida pela constante 1 sempre que $a^{\prime} \not\in U_{a^{\prime \prime}}$. Temos que $a^{\prime}$ não é forçada para 1 por $\rho_{1}$ se todos $a \in \inputt(a^{\prime})$ satisfazem $\rho_{1}(x_{a}) \neq 1$ (pois $a^{\prime}$ é uma porta $\lor$), o que acontece com probabilidade $(1 - \lambda)^{w}$ pela definição de $P_{1}$ em \ref{defi_P1} e por $\rho_{1}$ agir de forma independente nos blocos $a \in A_{1}$. Segue então que $E \big[ \lvert U_{a^{\prime \prime}} \rvert \big] = w(1 - \lambda)^{w}$. Como $(1 - \lambda)^{w} \geq 1 - w\lambda$ também temos que
 	
 	\begin{equation*}
-		E \big[ \lvert S_{a^{\prime \prime}} \rvert \big] \leq we^{-\lambda w} = we^{-\widetilde{\Omega}(w^{-3/2})},
+		E \big[\lvert U_{a^{\prime \prime}} \rvert \big] = w(1 - \lambda)^{w} \geq w(1 - w\lambda),
 	\end{equation*}
 	
 	e pela desigualdade de Chernoff segue que
 	
 	\begin{equation*}
-		\Pr \big[ \lvert S_{a^{\prime \prime}} \rvert \leq w - w^{4/5} \big] \leq e^{-\frac{\delta^{2}}{2}we^{-\widetilde{\Omega}(w^{-3/2})}},
+		\Pr \big[ w - \lvert U_{a^{\prime \prime}} \rvert \geq w^{4/5} \big] \leq e^{-\frac{\delta^{2}}{2 + \delta}(w - E[ \lvert U_{a^{\prime \prime}} \rvert ])},
 	\end{equation*}
 	
-	onde $\delta$ é tal que $(1 - \delta)we^{-\widetilde{\Omega}(w^{-1/4})} = w - w^{4/5}$. Equivalentemente, $\delta = 1 - \frac{w - w^{4/5}}{we^{-\widetilde{\Omega}(w^{-1/4})}} = \Omega(w^{-1/5})$. Portanto,
+	onde $\delta$ é tal que $(1 + \delta)(w - E[ \lvert U_{a^{\prime \prime}} \rvert ]) = w^{4/5}$. Como $w - E \big[ \lvert U_{a^{\prime \prime}} \rvert \big] \leq w(1 - (1 - w\lambda)) = w^{2}\lambda$ podemos dizer que $\delta \geq \frac{w^{4/5}}{w^{2}\lambda} - 1 = \widetilde{\Omega}(w^{1/20})$. Portanto,
 	
 	\begin{equation*}
-		 e^{-\frac{\delta^{2}}{2}we^{-\widetilde{\Omega}(w^{-1/4})}} = e^{-\Omega(w^{1/3})}.
+		 e^{-\frac{\delta^{2}}{2 + \delta}(w - E[\lvert U_{a^{\prime \prime}} \rvert])} = e^{-\widetilde{\Omega}(w^{1/20})(w - E[ \lvert U_{a^{\prime \prime}}\rvert])}.
+	\end{equation*}
+	
+	Como $(1 - \lambda)^{w} \leq e^{-w\lambda} \leq 1 - w\lambda + \frac{w^{2}\lambda^{2}}{2}$, temos que $w^{2}\lambda - \frac{w^{3}\lambda^{2}}{2} \leq w - E \big[ \lvert U_{a^{\prime \prime}} \rvert \big] \leq w^{2}\lambda$. Ou seja, $w - E \big[ \lvert U_{a^{\prime \prime}} \rvert \big] = \widetilde{\Theta}(w^{3/4})$. Então:
+	
+	\begin{equation*}
+		e^{-\widetilde{\Omega}(w^{1/20})(w - E[ \lvert U_{a^{\prime \prime}}\rvert])} = e^{-\widetilde{\Omega}(w^{4/5})}.
 	\end{equation*}
 	
 	Daí podemos concluir que
 	
 	\begin{equation*}
-		\Pr \big[ \lvert S_{a^{\prime \prime}} \rvert \geq w - w^{4/5} \big] = 1 - e^{-\Omega(w^{1/3})}.
+		\Pr \big[ w - \lvert U_{a^{\prime \prime}} \rvert \leq w^{4/5} \big] = 1 - e^{-\widetilde{\Omega}(w^{4/5})},
+	\end{equation*}
+	
+	o que é equivalente à
+	
+	\begin{equation*}
+		\Pr \big[ \lvert U_{a^{\prime \prime}} \rvert \geq w - w^{4/5} \big] = 1 - e^{-\widetilde{\Omega}(w^{4/5})}.
 	\end{equation*}
 	
 \end{enumerate}
 
 \end{proof}
 
-Um outro ponto importante sobre os espaços de projeções que iremos considerar é que cada $P_{i}$, $i > 1$, depende da projeção $\rho_{i - 1}$ tirada de $P_{i - 1}$, ou seja cada $P_{i}$ é definido de forma adaptativa. Nós na verdade iremos tirar cada $\rho_{i}$, para $i > 1$, do espaço de projeção $P_{i}(\rho_{i - 1})$, porém iremos na maior parte das vezes omitir esta notação que explicita a dependência sobre $\rho_{i - 1}$.
+\subsubsection{Os espaços de projeções $P_{i}$}
 
-Agora nós definimos $P_{i}$ para cada $i > 1$ de forma análoga a como definimos $P_{1}$. Em seguida nós também iremos ver que cada $P_{i}$ completa para a distribuição uniforme e extendemos a nossa definição de projeções típicas para $P_{i}$ e mostraremos que $\rho_{i} \leftarrow P_{i}$ é típica com alta probabilidade.
+Agora nós definimos $P_{i}$ para cada $i > 1$ de forma análoga a como definimos $P_{1}$. Em seguida nós também iremos ver que cada $P_{i}$ completa para a distribuição uniforme e estendemos a definição de projeções típicas para $P_{i}$ e mostraremos que $\rho_{i} \leftarrow P_{i}$ é típica com alta probabilidade.
+
+A partir de agora nós iremos usar a função $g$ definida como:
+
+\begin{equation*}
+    g(i, d) = 1/3 + \frac{i - 1}{12d}.
+\end{equation*}
+
+Vale notar que para $1 \leq i \leq d - 1$, temos $1/3 \leq g(i, d) \leq 5/12 < 1/2$.
 
 \begin{defi} (O espaço de projeção $P_{i}$) \label{defi_Pi}
 
-De novo, nós nos concentramos em uma única porta $a \in A_{i}$ e sem perda de generalidade nós assumimos que $i$ é ímpar (e portanto $a$ é uma porta $\land$). Nós não perdemos em generalidade pois o caso em que $i$ é par é completamente análogo com os papeis de 0 e 1 trocados. Seja $\inputt(a) \subseteq A_{i - 1}$ o conjunto de variáveis de entrada de $a$, $\rho_{i - 1} \leftarrow P_{i - 1}$ e $S_{a} = \{x_{a^{\prime}} \in \inputt(a) \lvert \rho_{i - 1}(x_{a^{\prime}}) = x_{a^{\prime}}\}$. Primeiro nós iremos ''rejeitar`` $\rho_{i - 1}$ se $\rho_{i - 1}(x_{a^{\prime}}) = 0$ para algum $x_{a^{\prime}} \in \inputt(a)$ ou se $\big\lvert \lvert S_{a} \rvert - qw \big\rvert \geq w^{g(i - 1, d)}$. Ao rejeitar $\rho_{i - 1}$ nós fazemos $x_{a^{\prime}} \sim \{0_{t}, 1_{1 - t}\}$ para cada $x_{a^{\prime}} \in S_{a}$. Suponha que $\rho_{i - 1}$ não foi rejeitada, então nós fazemos
+De novo, nós nos concentramos em uma única porta $a \in A_{i}$ e sem perda de generalidade nós assumimos que $i$ é ímpar (e portanto $a$ é uma porta $\land$). Nós não perdemos em generalidade pois o caso em que $i$ é par é completamente análogo com os papeis de 0 e 1 trocados. Seja $S_{a} = \{x_{a^{\prime}} \in \inputt(a) \lvert \rho_{i - 1}(x_{a^{\prime}}) = x_{a^{\prime}}\}$. Primeiro nós iremos ''rejeitar`` $\rho_{i - 1}$ se $\rho_{i - 1}(x_{a^{\prime}}) = 0$ para algum $x_{a^{\prime}} \in \inputt(a)$ ou se $\big\lvert \lvert S_{a} \rvert - qw \big\rvert > w^{g(i - 1, d)}$. Ao rejeitar $\rho_{i - 1}$ nós fazemos $x_{a^{\prime}} \sim \{0_{t_{i - 1}}, 1_{1 - t_{i - 1}}\}$ para cada $x_{a^{\prime}} \in S_{a}$. Suponha que $\rho_{i - 1}$ não foi rejeitada, então nós fazemos
 
 \begin{equation*}
 	\rho_{i}(x_{a}) = \begin{cases}
@@ -605,7 +802,7 @@ De novo, nós nos concentramos em uma única porta $a \in A_{i}$ e sem perda de 
 			        \end{cases}
 \end{equation*}
 
-Nós escolhemos $q_{a}$ de forma que $\lambda + q_{a}t = (1 -t)^{\lvert S_{a} \rvert}$ (ou seja, $q_{a} = \frac{(1 - t)^{\lvert S_{a} \rvert} - \lambda)}{t}$). Em seguida tiramos um subconjunto não vazio $T$ de $S_{a}$ onde cada variável em $S_{a}$ é incluida em $T$ com probabilidade $t$ e fazemos $\rho_{i}(x_{a^{\prime}}) = 1$ para todo $x_{a^{\prime}} \in S_{a} \setminus T$ e $\rho_{i}(x_{a^{\prime}}) = \rho_{i}(x_{a})$ para todo $x_{a^{\prime}} \in T$.
+Nós escolhemos $q_{a}$ de forma que $\lambda + q_{a}t_{i} = (1 -t_{i - 1})^{\lvert S_{a} \rvert}$ (ou seja, $q_{a} = \frac{(1 - t_{i - 1})^{\lvert S_{a} \rvert} - \lambda)}{t_{i}}$). Em seguida tiramos um subconjunto não vazio $T$ de $S_{a}$ onde cada variável em $S_{a}$ é incluida em $T$ com probabilidade $t_{i - 1}$ e fazemos $\rho_{i}(x_{a^{\prime}}) = 1$ para todo $x_{a^{\prime}} \in S_{a} \setminus T$ e $\rho_{i}(x_{a^{\prime}}) = \rho_{i}(x_{a})$ para todo $x_{a^{\prime}} \in T$.
 
 \end{defi}
 
@@ -613,64 +810,36 @@ Daqui pra frente a seguinte relação entre $q$ e $q_{a}$, para qualquer $a \in 
 
 \begin{prop} \label{q_qa}
 
-Seja $q_{a} = \frac{(1 - t)^{\lvert S_{a} \rvert} - \lambda}{t}$, onde $\big\lvert \lvert S_{a} \rvert - qw \big\rvert \leq w^{11/24}$, então
+Seja $a \in A_{i}$ e $q_{a} = \frac{(1 - t_{i - 1})^{\lvert S_{a} \rvert} - \lambda}{t_{i}}$, onde $\big\lvert \lvert S_{a} \rvert - qw \big\rvert \leq w^{g(i -1, d)}$, então
 
 \begin{equation*}
-	\frac{q}{2} \leq q_{a} \leq 2q.
+	q(1 - 3w^{g(i -1, d)}t_{i - 1}) \leq q_{a} \leq q(1 + 3w^{g(i -1, d)}t_{i - 1}).
 \end{equation*}
 
 \end{prop}
 
-\begin{proof}
+Mais pra frente nós será útil a seguinte relação mais fraca entre $q$ e $q_{a}$:
 
-Como $\big\lvert \lvert S_{a} \rvert - qw \big\rvert \leq w^{11/24}$ temos que
+\begin{equation} \label{weaker_q_q_a}
+    q/2 \leq q_{a} \leq 2q.
+\end{equation}
 
-\begin{equation*}
-	\frac{(1 - t)^{qw + w^{11/24}} - \lambda}{t} \leq q_{a} \leq \frac{(1 - t)^{qw - w^{11/24}} - \lambda}{t}.
-\end{equation*}
-
-Podemos ver que $(1 - t)^{qw} = 2^{-m}(1 + o(1))$ e
-
-\begin{equation*}
-	(1 - t)^{w^{11/24}} \geq 1 - w^{11/24}t = 1 - \widetilde{\mathcal{O}}(w^{-1/24}),
-\end{equation*}
-
-E daí podemos afirmar que para $m$ suficientemente grande:
-
-\begin{equation*}
-	(1 - t)^{qw + w^{11/24}} = 2^{-m}(1 - o(1)) \qquad \text{ e } \qquad (1 - t)^{qw - w^{11/24}} = 2^{-m}(1 + o(1)).
-\end{equation*}
-
-E como $q = \frac{2^{-m} - \lambda}{t}$ nós obtemos que
-
-\begin{equation*}
-	q_{a} \geq \frac{2^{-m}(1 - o(1)) - \lambda}{t} = q(1 - o(1)) \geq \frac{q}{2},
-\end{equation*}
-
-e
-
-\begin{equation*}
-	q_{a} \leq \frac{2^{-m}(1 + o(1)) - \lambda}{t} = q(1 + o(1)) \leq 2q.
-\end{equation*}
-
-\end{proof}
-
-Nós podemos ver que $P_{i}$ completa para a distribuição uniforme notando que cada variável em $S_{a}$ recebe o valor 0 com probabilidade $t$ e 1 com probabilidade $1 - t$ e usando a hipótese indutiva que $P_{i - 1}$ completa para a distribuição uniforme (lembrando que quando assumimos que $i$ é ímpar temos que $P_{i - 1}$ completa para a distribuição uniforme ao aplicarmos a distribuição $\{0_{t}, 1_{1 - t}\}$ para cada variável em $A_{i - 1}$ que sobreviveu $\rho_{i - 1} \leftarrow P_{i - 1}$) ao aplicarmos o seguinte procedimento análogo ao que vimos após a definição de $P_{1}$. Seja $a \in A_{i}$:
+Agora iremos usar a hipótese que $P_{i - 1}$ completa para a distribuição uniforme para provar que $P_{i}$ também completa para a distribuição unifome. Caso $\rho_{i - 1}$ não tenha sido rejeitada nós aplicamos o seguinte procedimento análogo ao que vimos após a definição de $P_{1}$. Seja $a \in A_{i}$:
 
 \begin{enumerate}
 
 	\item Se $\rho_{i}(x_{a}) \in \binalph$:
 	
-	Faça $\textbf{x}_{a^{\prime}} = \rho_{i}(x_{a})$ para todo $a^{\prime} \in \inputt(a)$.
+	Faça $\textbf{x}_{a^{\prime}} = \rho_{i}(x_{a^{\prime}})$ para todo $a^{\prime} \in \inputt(a)$.
 	
 	\item Se $\rho_{i}(x_{a}) = x_{a}$:
 	
-	Faça $\textbf{x}_{a^{\prime}} = 1$ para todo $a^{\prime} \in \inputt(a)$ tal que $\rho_{i}(x_{a^{\prime}}) = 1$ e para todos os outros $a^{\prime}$:
+	Faça $\textbf{x}_{a^{\prime}} = 1$ para todo $a^{\prime} \in \inputt(a)$ tal que $\rho_{i}(x_{a^{\prime}}) = 1$ e para todos os outros $a^{\prime}$ faça $\textbf{x}_{a^{\prime}} = b$ onde
 	
 	\begin{equation*}
-		\textbf{x}_{a^{\prime}} = \begin{cases}
-				            0 & \text{ com probabilidade } 1 - t. \\
-				            1 & \text{ com probabilidade } t.
+		b = \begin{cases}
+				            0 & \text{ com probabilidade } 1 - t_{i} \\
+				            1 & \text{ com probabilidade } t_{i}.
 				        \end{cases}
 	\end{equation*}
 
@@ -679,42 +848,71 @@ Nós podemos ver que $P_{i}$ completa para a distribuição uniforme notando que
 Desta forma, para cada $a^{\prime}$ tal que $x_{a^{\prime}} \in S_{a}$, nós temos o seguinte:
 
 \begin{equation*}
-	\Pr[\textbf{x}_{a^{\prime}} = 1] = 1 - \frac{t}{1 - (1 -t)^{\lvert S_{a} \rvert}} + \frac{t}{1 - (1 - t)^{\lvert S_{a} \rvert}}\big( \lambda + q_{a}t\big).
+	\Pr[\textbf{x}_{a^{\prime}} = 1] = 1 - \frac{t_{i - 1}}{1 - (1 -t_{i - 1})^{\lvert S_{a} \rvert}} + \frac{t_{i - 1}}{1 - (1 - t_{i - 1})^{\lvert S_{a} \rvert}}\big( \lambda + q_{a}t_{i}\big).
 \end{equation*}
 
-Lembrando que $\lambda + q_{a}t = (1 - t)^{\lvert S_{a} \rvert}$:
+Lembrando que $\lambda + q_{a}t_{i} = (1 - t_{i - 1})^{\lvert S_{a} \rvert}$ pela forma como definimos $q_{a}$:
 
 \begin{IEEEeqnarray*} {rCl}
-	\Pr[\textbf{x}_{a^{\prime}} = 1] & = & 1 - \frac{t}{1 - (1 - t)^{\lvert S_{a} \rvert}} + \frac{t(1 - t)^{\lvert S_{a} \rvert}}{1 - (1 - t)^{\lvert S_{a} \rvert}} \\
-				        & = & 1 - \frac{t}{1 - (1 - t)^{\lvert S_{a} \rvert}}\big(1 - (1 - t)^{\lvert S_{a} \rvert} \big) \\
-				        & = & 1 - t.
+	\Pr[\textbf{x}_{a^{\prime}} = 1] & = & 1 - \frac{t_{i - 1}}{1 - (1 - t_{i - 1})^{\lvert S_{a} \rvert}} + \frac{t_{i - 1}(1 - t_{i - 1})^{\lvert S_{a} \rvert}}{1 - (1 - t_{i - 1})^{\lvert S_{a} \rvert}} \\
+				        & = & 1 - \frac{t_{i - 1}}{1 - (1 - t_{i - 1})^{\lvert S_{a} \rvert}}\big(1 - (1 - t_{i - 1})^{\lvert S_{a} \rvert} \big) \\
+				        & = & 1 - t_{i - 1}.
 \end{IEEEeqnarray*}
 
-Podemos ver isto como uma prova que $P_{i}$ completa para a distribuição uniforme. Nós temos o seguinte lema como consequência.
+Ou seja, atribuir um valor tirado da distribuição $\{0_{1 - t_{i}}, 1_{t_{i}} \}$ às variáveis que sobreviveram $\rho_{i}$ é equivalente a ter setado todas as variáveis em $S_{a}$ em um valor tirado de $\{0_{t_{i - 1}}, 1_{1 - t_{i - 1}}\}$. Como $i - 1$ é par e pela hipótese que $P_{i - 1}$ completa para a distribuição uniforme devemos ter que $\rho_{i} \leftarrow P_{i}$ também completa para a distribuição uniforme. No caso em que $\rho_{i - 1}$ é rejeitada nós temos de imediato que as variáveis em $S_{a}$ são atribuidas com valores tirados de $\{0_{t_{i - 1}}, 1_{1 - t_{i - 1}} \}$ e portanto ao todo $P_{i}$ completa para a distribuição uniforme. Nós temos a seguinte proposição como consequência.
 
-\begin{lema} \label{complete_to_uniform}
+\begin{prop} \label{complete_to_uniform}
 
-Seja $\Psi = \rho_{1}\rho_{2}\dots\rho_{d-1}$, onde cada projeção $\rho_{i}$ foi tirada de $P_{i}$, e seja $S$ o conjunto das variáveis em $A_{d - 1}$ que sobreviveram a última restrição $\rho_{d - 1}$, então assumindo que $d$ é par (o caso em que $d$ é ímpar é simétrico) temos que para todas funções $f: \binalph^{n} \to \binalph$:
+Levando em conta a notação $\Psi = \proj_{\rho_{1}\rho_{2}\dots\rho_{d-1}}$, onde cada projeção $\rho_{i}$ foi tirada de $P_{i}$, então assumindo que $d$ é par (o caso em que $d$ é ímpar é simétrico) temos que para todas funções $f: \binalph^{n} \to \binalph$:
 
 \begin{equation*}
-	\Pr_{\textbf{x} \sim \{0_{1 - t}, 1_{t}\}^{S}}[\Psi(f)(\textbf{x}) = 1] = \Pr_{\textbf{x} \sim \binalph^{n}}[f(\textbf{x}) = 1].
+	E_{\Psi} \bigg[ \Pr_{\textbf{x} \sim \{0_{1 - t_{d - 1}}, 1_{t_{d - 1}}\}^{A_{d - 1}}}[\Psi(f)(\textbf{x}) = 1] \bigg] = \Pr_{\textbf{x} \sim \binalph^{n}}[f(\textbf{x}) = 1].
 \end{equation*}
 
-\end{lema}
+\end{prop}
 
-Lembrando então as equações \ref{uniform_comp_eq_1} e \ref{uniform_comp_eq_2} temos pelo lema \ref{complete_to_uniform} que ao provar que para todo circuito $C$ de profundidade $d - 1$ e tamanho subexponencial difere de $f^{m, d}$ com alta probabilidade após aplicarmos $\Psi = \rho_{1}\rho_{2}\dots\rho_{d - 1}$ a ambos, o que iremos fazer mais pra frente, obtemos que $C$ e $f^{m, d}$ sequer podem estar correlacionados.
+E então temos o seguinte corolário.
+
+\begin{cor} \label{complete_to_uniform_cor}
+Para todas as funções $f, g: \binalph^{n} \to \binalph$ e assumindo que $d$ é par (o caso em que $d$ é ímpar é de novo simétrico) é verdade que
+
+\begin{equation*}
+E_{\Psi} \bigg[ \Pr_{\boldsymbol{x} \sim \{0_{1 - t_{d - 1}}, 1_{t_{d - 1}}\}^{A_{d - 1}}}[\Psi(f)(\boldsymbol{x}) \neq \Psi(g)(\boldsymbol{x})] \bigg] = \Pr_{\boldsymbol{x} \sim \binalph^{n}}[f(\boldsymbol{x}) \neq g(\boldsymbol{x})].
+\end{equation*}
+
+Em que $\Psi = \proj_{\rho_{1}\rho_{2}\dots\rho_{d - 1}}$.
+
+\end{cor}
+
+Agora sabemos que para provar que um circuito arbitrário $C$ de tamanho subexponencial e profundidade d - 1 não pode aproximar $f^{m, d}$ basta nós mostrarmos que com alta probabilidade $\Psi(C)$ e $\Psi(f^{m, d})$ são funções não correlacionadas.
 
 Agora nos voltamos para o objetivo de garantir que os espaços de projeções $P_{2}, P_{3}, \dots, P_{d - 1}$ mantém a função $f^{m, d}$ bem estruturada. Nós prosseguimos de forma bem parecida de como fizemos para o espaço de projeção $P_{1}$. Primeiro nós iremos definir o que é uma projeção típica para $P_{i}$.
 
 \begin{defi} (Projeções típicas para $P_{i}$) \label{typical_proj_Pi}
 
-Para algum $i \in \{2, 3, \dots, d - 1\}$ seja $\rho_{i} \leftarrow P_{i}$. Para toda variável $x_{a^{\prime}} \in A_{i + 1}$ seja $S_{a^{\prime}} = \{x_{a} \in \inputt(a^{\prime}) \lvert \rho_{i}(x_{a}) = x_{a}\}$ e para todo variável $x_{a^{\prime \prime}} \in A_{i + 2}$ seja $S_{a^{\prime \prime}} = \{x_{a^{\prime}} \in \inputt(a^{\prime \prime}) \lvert x_{a^{\prime}} $ não é feita constante pela projeção $\rho_{1}\}$. Nós dizemos que $\rho_{i}$ é típica se:
+Para algum $i \in \{2, 3, \dots, d - 1\}$ seja $\rho_{i} \leftarrow P_{i}$. Para toda variável $x_{a^{\prime}} \in A_{i + 1}$ seja $S_{a^{\prime}} = \{x_{a} \in \inputt(a^{\prime}) \lvert \rho_{i}(x_{a}) = x_{a}\}$ e para todo variável $x_{a^{\prime \prime}} \in A_{i + 2}$ seja $U_{a^{\prime \prime}} = \{x_{a^{\prime}} \in \inputt(a^{\prime \prime}) \lvert x_{a^{\prime}} $ não é feita constante pela projeção $\rho_{i}\}$. Nós dizemos que $\rho_{i}$ é típica se:
 
 \begin{enumerate}
 
-	\item Para toda variável $x_{a} \in S_{i + 1}$, $\big\lvert \lvert S_{a} \rvert - qw \big\rvert \leq w^{g(i, d)}$.
+	\item Para toda variável $x_{a} \in A_{i + 1}$:
 	
-	\item Para todo variável $x_{a} \in S_{i + 2}$, $\lvert S_{a} \rvert \geq w - w^{4/5}$.
+	\begin{enumerate}
+	
+		\item $\big\lvert \lvert S_{a} \rvert - qw \big\rvert \leq w^{g(i, d)}$, se $i < d - 1$.
+		
+		\item $\big\lvert \lvert S_{a} \rvert - qw_{d} \big\rvert \leq w^{g(i, d)}$, se $i = d - 1$
+	
+	\end{enumerate}
+	
+	\item Para todo variável $x_{a} \in A_{i + 2}$:
+	
+	\begin{enumerate}
+	
+		\item $\lvert U_{a} \rvert \geq w - w^{4/5}$, se $i < d - 2$.
+		
+		\item $\lvert U_{a} \rvert \geq w_{d} - w_{d}^{4/5}$, se $i = d - 2$.
+	
+	\end{enumerate}
 
 \end{enumerate}
 
@@ -723,7 +921,7 @@ Se $i = d - 1$ nós ignoramos o item (2).
 
 \end{defi}
 
-Portanto dado que $\rho_{i}$ é típica temos que $\proj_{\rho_{1}\rho_{2}\dots\rho_{i}}f^{m, d}$ tem a mesma estrutura que $\proj_{\rho_{1}}f^{m, d}$ quando $\rho_{1}$ é típica mas com profundidade $d - i$ ao invés de $d - 1$. Nós queremos provar que $\rho_{i}$ é típica com alta probabilidade, mas é suficiente para nós provar que $\rho_{i} \leftarrow P_{i}(\rho_{i - 1})$ é típica com alta probabilidade quando $\rho_{i - 1} \leftarrow P_{i - 1}$ por sua vez também é típica. Nós temos a seguite proposição análoga à \ref{typical_whp_P1}.
+Portanto dado que $\rho_{i}$ é típica temos que $\proj_{\rho_{1}\rho_{2}\dots\rho_{i}}f^{m, d}$ tem a mesma estrutura que $\proj_{\rho_{1}}f^{m, d}$ quando $\rho_{1}$ é típica mas com profundidade $d - i$ ao invés de $d - 1$. Nós queremos provar que $\rho_{i}$ é típica com alta probabilidade e para isso é suficiente provar que $\rho_{i} \leftarrow P_{i}(\rho_{i - 1})$ é típica com alta probabilidade quando $\rho_{i - 1} \leftarrow P_{i - 1}$ por sua vez também é típica. Nós temos a seguite proposição análoga à \ref{typical_whp_P1}.
 
 \begin{prop} \label{typical_whp_Pi}
 
@@ -731,45 +929,129 @@ Seja $\rho_{i - 1} \leftarrow P_{i - 1}$ uma projeção típica e $\rho_{i} \lef
 
 \begin{enumerate}
 
-	\item Para todo $a \in A_{i + 1}$, $\Pr \Big[\big\lvert \lvert S_{a} \rvert - qw \big\rvert \leq w^{g(i, d)} \Big] = 1 - e^{-\widetilde{\Omega}(w^{1/6})}$;
+	\item Para todo $a \in A_{i + 1}$:
 	
-	\item Para todo $a \in A_{i + 2}$, $\Pr \big[ \lvert S_{a} \rvert \geq w - w^{4/5} \big] = 1 - e^{-\Omega(w^{1/3})}$.
+	\begin{enumerate}
+	
+		\item $\Pr \Big[\big\lvert \lvert S_{a} \rvert - qw \big\rvert \leq w^{g(i, d)} \Big] = 1 - e^{-\widetilde{\Omega}(w^{1/6})}$, se $i < d - 1$.
+		
+		\item $\Pr \Big[\big\lvert \lvert S_{a} \rvert - qw_{d} \big\rvert \leq w^{g(i, d)} \Big] = 1 - e^{-\widetilde{\Omega}(w^{1/6})}$, se $i = d - 1$.
+	
+	\end{enumerate}
+	
+	\item Para todo $a \in A_{i + 2}$:
+	
+	\begin{enumerate}
+	
+		\item $\Pr \big[ \lvert U_{a} \rvert \geq w - w^{4/5} \big] = 1 - e^{-\widetilde{\Omega}(w^{4/5})}$, se $i < d - 2$;
+		
+		\item $\Pr \big[ \lvert U_{a} \rvert \geq w_{d} - w_{d}^{4/5} \big] = 1 - e^{-\widetilde{\Omega}(w^{4/5})}$, se $i = d - 2$.
+	
+	\end{enumerate}
 
 \end{enumerate}
 
-Daí segue pelo Princípio da Inclusão-Exclusão que $\rho_{i}$ é típica com probabilidade $1 - \big( \lvert A_{i + 1} \rvert + \lvert A_{i + 2} \rvert \big)e^{-\Omega(w^{1/3})} = 1 - e^{-\Omega(w^{1/3})}$. Se $i = d - 1$ nós ignoramos o item (2).
+Daí segue pelo Princípio da Inclusão-Exclusão que $\rho_{i}$ é típica com probabilidade $1 - \big( \lvert A_{i + 1} \rvert + \lvert A_{i + 2} \rvert \big)e^{-\widetilde{\Omega}(w^{1/6})} = 1 - e^{-\widetilde{\Omega}(w^{1/6})}$. Se $i = d - 1$ nós ignoramos o item (2).
 
 \end{prop}
 
 \begin{proof}
 
-Nós de novo podemos usar a desigualdade de Chernoff para provar ambos os itens. A prova do item (2) é idêntica a que vimos na prova da proposição \ref{typical_whp_P1}, portanto só iremos provar o item (1) que ainda tem uma prova bastante parecida com a prova do item (1) de \ref{typical_whp_P1}. Para provar o item (1) agora temos que levar em conta que se $\rho_{i - 1}$ é típica então a probabilidade que $\rho_{i}(x_{a}) = 1$ para $a \in A_{i}$ é $q_{a}$ como definimos em \ref{typical_proj_Pi}, mas para isso podemos usar a proposição \ref{q_qa}. 
-	
-Seja $a^{\prime} \in A_{i + 1}$. Agora temos que $a \in \inputt(a^{\prime})$ satisfaz $\rho_{i - 1}(x_{a}) = x_{a}$ com probabilidade $q_{a^{\prime}}$ e portanto $\mu = E[\lvert S_{a^{\prime}} \rvert] = \sum_{a \in S_{a^{\prime}}} q_{a}$. Por \ref{q_qa} e o fato que $\rho_{i - 1}$ é típica temos que $\frac{q}{2}(w - w^{4/5}) \leq \mu \leq 2q(w - w^{4/5})$, ou seja $\mu = \widetilde{\Theta}(w^{1/2})$. Pela desigualdade de Chernoff temos que
-	
-\begin{equation*}
-	\Pr\big[ \big\lvert \lvert S_{a^{\prime}} \rvert - qw \big\rvert \geq w^{g(i - 1, d)} \big] \leq e^{-\frac{\delta^{2}}{3}\mu},
-\end{equation*}
-	
-em que $\delta$ deve satisfazer $(1 + \delta)\frac{q}{2}(w - w^{4/5}) = qw + w^{g(i - 1, d)} \geq \frac{q(w - w^{4/5})}{2} + w^{g(i - 1, d)}$ e $(1 - \delta)2qw = qw - w^{g(i - 1, d)} \leq 2qw - w^{g(i -1, d)}$. Então temos $\delta = \widetilde{\Omega}(w^{-1/24})$ e portanto
+Nós de novo podemos usar a desigualdade de Chernoff para provar ambos os itens.
 
-\begin{equation*}
-	e^{-\frac{\delta^{2}}{3}\mu} = e^{-\widetilde{\Omega}(w^{1/2})}.
-\end{equation*}
+\begin{enumerate}
 
-Daí temos que
+	\item Provando o item (1).
 
-\begin{equation*}
-	\Pr \big[ \big\lvert \lvert S_{a^{\prime}} \rvert - qw \big\rvert \leq w^{g(i - 1, d)} \big] = 1 - e^{-\widetilde{\Omega}(w^{1/2})}.
-\end{equation*}
+	Primeiro vamos assumir que $i < d  -1$. Seja $a^{\prime} \in A_{i + 1}$. Agora temos que $a \in \inputt(a^{\prime})$ satisfaz $\rho_{i - 1}(x_{a}) = x_{a}$ com probabilidade $q_{a}$ e portanto $E[\lvert S_{a^{\prime}} \rvert] = \sum_{a \in S_{a^{\prime}}} q_{a}$. Usando a estimativa mais fraca para $q_{a}$ em \ref{weaker_q_q_a} e o fato que $\rho_{i - 1}$ é típica temos que $\frac{q}{2}(w - w^{4/5}) \leq E\big[ \lvert S_{a^{\prime}} \rvert \big] \leq 2qw$, ou seja $\mu = \widetilde{\Theta}(w^{1/2})$. Pela desigualdade de Chernoff temos que
+	
+	\begin{equation} \label{typical_condition_1_eq}
+		\Pr\Big[ \big\lvert \lvert S_{a^{\prime}} \rvert - qw \big\rvert \geq w^{g(i, d)} \Big] = e^{- \min\big( \frac{\delta_{1}^{2}}{2 + \delta_{1}}, \frac{\delta_{2}^{2}}{2} \big) \times \widetilde{\Omega}(w^{1/2})},
+	\end{equation}
+	
+	em que $\delta_{1}$ satisfaz $(1 + \delta_{1})(qw + 3qw^{g(i - 1, d) + 1}t_{i - 1}) \geq qw + w^{g(i, d)}$ e $\delta_{2}$ satisfaz $(1 - \delta_{2})(qw - 3qw^{g(i - 1, d) + 1}t_{i - 1}) \leq qw - w^{g(i, d)}$ (nós estamos usando \ref{q_qa}). Então temos $\delta_{1} = \widetilde{\Omega}(w^{g(i, d) - 1/2})$ e $\delta_{2} = \widetilde{\Omega}(w^{g(i, d) - 1/2})$, e como $g(i, d) - 1/2 \geq -1/6$ nós obtemos o seguinte quando trocamos $\min \big(\frac{\delta_{1}^{2}}{2 + \delta_{1}}, \frac{\delta_{2}^{2}}{2} \big)$ por um fator $\widetilde{\Omega}(w^{-1/6})$ no lado direito da desigualdade \ref{typical_condition_1_eq}:
+
+	\begin{equation*}
+		  \Pr\Big[ \big\lvert \lvert S_{a^{\prime}} \rvert - qw \big\rvert \geq w^{g(i, d)} \Big] = e^{-\widetilde{\Omega}(w^{1/6})}.
+	\end{equation*}
+
+	Daí temos que
+
+	\begin{equation*}
+		\Pr \Big[ \big\lvert \lvert S_{a^{\prime}} \rvert - qw \big\rvert \leq w^{g(i, d)} \Big] = 1 - e^{-\widetilde{\Omega}(w^{1/6})}.
+	\end{equation*}
+
+    Como os mesmos argumentos acima funcionam se trocarmos $w$ por $w_{d}$ nós também obtemos o resultado para o caso em que $i = d - 1$.
+
+	\item Provando o item (2).
+	
+	Nós iremos provar o item (2) considerando separadamente o caso em que $i < d - 2$ e o caso $i = d - 2$, apesar de ambos os casos serem bastantes parecidos. Em ambos os casos nós iremos usar o fato que nenhuma porta $\lor$ no $(i + 1)$-ésimo nível é fixada em 0 quando $\rho_{i}$ é típica.
+	
+	\begin{enumerate}
+	
+		\item O caso $i < d - 2$.
+	
+		Seja $a^{\prime \prime} \in A_{i + 2}$. Considere um $a^{\prime} \in \inputt(a^{\prime \prime})$, por estarmos assumindo que $i$ é ímpar temos que $a^{\prime}$ é uma porta $\lor$ e portanto $\rho_{i}$ fixa $a^{\prime}$ em 1 se existe um $a \in \inputt(a^{\prime})$ tal que $\rho_{i}(x_{a}) = 1$. Para cada $a \in \inputt(a^{\prime})$ temos que $\Pr[\rho_{i}(x_{a}) = 1] = \lambda$ pois estamos assumindo que $\rho_{i - 1}$ é típica. Seja $\inputt_{\rho_{i - 1}}(a^{\prime}) = \{ a \in \inputt(a^{\prime}) \lvert x_{a} \text{ não foi feita constante por } \rho_{i - 1}\}$, então por $\rho_{i - 1}$ ser típica temos que $w - w^{4/5} \leq \lvert \inputt_{\rho_{i - 1}}(a^{\prime}) \rvert \leq w$. Daí temos que
+		
+		\begin{equation*}
+			E \big[ \lvert U_{a^{\prime \prime}} \rvert \big] = \sum_{a^{\prime} \in \inputt(a^{\prime \prime})} (1 - \lambda)^{\lvert \inputt_{\rho_{i - 1}}(a^{\prime}) \rvert}.
+		\end{equation*}
+		
+		e
+		
+		\begin{equation*}
+		    w(1 - \lambda)^{w} \leq E \big[ \lvert U_{a^{\prime \prime}} \rvert \big] \leq w(1- \lambda)^{w - w^{4/5}}.
+		\end{equation*}
+		
+		Usando que $w(1 - \lambda)^{w - w^{4/5}} \leq we^{-(w- w^{4/5})\lambda} \leq w \big( 1 - (w - w^{4/5})\lambda + \frac{(w - w^{4/5})^{2}\lambda^{2}}{2} \big)$ e $w(1 - \lambda)^{w} \geq w(1 - w\lambda)$, nós temos as seguintes desigualdades:
+		
+		\begin{equation*}
+			w(w - w^{4/5})\lambda - \frac{w(w - w^{4/5})^{2}\lambda^{2}}{2} \leq w - E \big[ \lvert U_{a^{\prime \prime}} \rvert \big] \leq w^{2}\lambda,
+		\end{equation*}
+
+		e podemos concluir que $w - E \big[ \lvert U_{a^{\prime \prime}} \rvert \big] = \widetilde{\Theta}(w^{3/4})$. Então, pela desigualdade de Chernoff temos que
+		
+		\begin{equation*}
+			\Pr \Big[ w - \lvert U_{a^{\prime \prime}} \rvert \geq w^{4/5} \Big] \leq e^{-\frac{\delta^{2}}{2 + \delta}\widetilde{\Omega}(w^{3/4})},
+		\end{equation*}
+
+		onde $\delta$ satisfaz $(1 + \delta)w^{2}\lambda \geq w^{4/5}$, o que implica em $\delta = \widetilde{\Omega}(w^{1/20})$. Substituindo na desigualdade acima e rearranjando nós podemos concluir que
+		
+		\begin{equation*}
+			\Pr \Big[ \lvert U_{a^{\prime \prime}} \rvert \geq w - w^{4/5} \Big] \geq 1 - e^{-\widetilde{\Omega}(w^{4/5})}.
+		\end{equation*}
+		
+		\item O caso $i = d - 2$.
+		
+		Seja $a^{\prime \prime} \in A_{d}$ (como $\lvert A_{d} \rvert = 1$ temos que $a^{\prime \prime}$ é necessariamente a porta de saída da fórmula $f^{m, d}$). Nós prosseguimos da mesma maneira como na prova do caso $i < d - 2$ e obtemos as desigualdades
+		
+		\begin{equation*}
+			w_{d}(w - w^{4/5})\lambda - \frac{w_{d}(w - w^{4/5})^{2}\lambda^{2}}{2} \leq w_{d} - E \big[ \lvert U_{a^{\prime \prime}} \rvert \big] \leq w_{d}w\lambda.
+		\end{equation*}
+
+		Mas como $w_{d} = \widetilde{\Theta}(w)$ nós ainda temos que $w_{d} - E \big[ \lvert U_{a^{\prime \prime}} \rvert \big] = \widetilde{\Theta}(w^{3/4})$. Então pela desigualdade de Chernoff,
+		
+		\begin{equation*}
+			\Pr[w_{d} - \lvert U_{a^{\prime \prime}} \rvert \geq w_{d}^{4/5}] \leq e^{-\frac{\delta^{2}}{2 + \delta}\widetilde{\Omega}(w^{3/4})},
+		\end{equation*}
+		
+		em que $\delta$ satisfaz $(1 + \delta)w_{d}w\lambda \geq w_{d}^{4/5}$, e portanto $\delta = \widetilde{\Omega}(w^{1/20})$. Por fim obtemos que
+		
+		\begin{equation*}
+			\Pr[\lvert U_{a^{\prime \prime}} \rvert \geq w_{d} - w_{d}^{4/5}] \geq 1 - e^{-\widetilde{\Omega}(w^{4/5})}.
+		\end{equation*}
+
+	\end{enumerate}
+
+\end{enumerate}
 
 \end{proof}
 
-Nós já podemos mostrar que a função $f^{m, d}$ mantém alguma estrutura quando aplicamos $\Psi = \rho_{1}\rho_{2}\dots\rho_{d - 1}$. Nós usamos as proposições \ref{typical_whp_P1} e \ref{typical_whp_Pi} para mostrar que com alta probabilidade todas projeções $\rho_{i}$ são típicas e então argumentamos que se cada $\rho_{i}$ é típica então $\Psi(f^{m, d})$ é o $\lor$ de $n^{\prime}$ variáveis em $A_{d - 1}$, onde $n^{\prime} \in [qw - w^{1/3}, qw + w^{1/3}]$.
+Nós já podemos mostrar que a função $f^{m, d}$ mantém alguma estrutura quando aplicamos as projeções $\rho_{1}, \rho_{2}, \dots, \rho_{d - 1}$. Nós usamos as proposições \ref{typical_whp_P1} e \ref{typical_whp_Pi} para mostrar que com alta probabilidade todas projeções $\rho_{i}$ são típicas e então argumentamos que se cada $\rho_{i}$ é típica então $\Psi(f^{m, d})$ é uma fórmula com profundidade 1 e fan-in em torno de $qw_{d}$.
 
 \begin{prop} ($f^{m, d}$ mantém estrutura) \label{struct_preserve}
 
-Seja $\Psi = \rho_{1}\rho_{2}\dots\rho_{d - 1}$, onde cada $\rho_{i} \leftarrow P_{i}$, então é verdade que com probabilidade $1 - e^{-\Omega(w^{1/3})}$ $\Psi(f^{m, d})$ é o uma fórmula de profundaide 1 sobre $n^{\prime}$ variáveis em $A_{d - 1}$, em que $n^{\prime} \in [qw - w^{1/3}, qw + w^{1/3}]$.
+Com probabilidade $1 - e^{-\widetilde{\Omega}(w^{1/6})}$ temos que $\Psi(f^{m, d})$ é uma fórmula com profundidade 1 sobre $n^{\prime}$ variáveis em $A_{d - 1}$, em que $n^{\prime} \in [qw_{d} - w^{g(d - 1, d)}, qw_{d} + w^{g(d -1, d)}]$.
 
 Mais especificamente, $\Psi(f^{m, d})$ é o $\lor$ de $n^{\prime}$ variáveis se $d$ é par ou o $\land$ de $n^{\prime}$ variáves se $d$ é ímpar.
 
@@ -777,55 +1059,41 @@ Mais especificamente, $\Psi(f^{m, d})$ é o $\lor$ de $n^{\prime}$ variáveis se
 
 \begin{proof}
 
-É suficiente argumentar que todas as projeções $\rho_{i}$ são típicas com alta probabilidade, porque como vimos $\proj_{\rho_{1}\rho_{2}\dots\rho_{i}}f^{m, d}$ é uma fórmula com profundidade $d - i$ com fan-in no nível mais baixo no intervalo $[qw - w^{1/3}, qw + w^{1/3}]$. Em particular, $\proj_{\rho_{1}\rho_{2}\dots\rho_{d - 1}}f^{m, d} = \Psi(f^{m, d})$ é uma fórmula com profundidade 1 e fan-in $n^{\prime} \in [qw - w^{1/3}, qw + w^{1/3}]$.
+É suficiente argumentar que todas as projeções $\rho_{i}$ são típicas com alta probabilidade, porque como vimos $\proj_{\rho_{1}\rho_{2}\dots\rho_{i}}f^{m, d}$ é uma fórmula com profundidade $d - i$ com fan-in no nível mais baixo no intervalo $[qw - w^{g(i, d)}, qw + w^{g(i, d)}]$. Em particular, $\proj_{\rho_{1}\rho_{2}\dots\rho_{d - 1}}f^{m, d} = \Psi(f^{m, d})$ é uma fórmula com profundidade 1 e fan-in $n^{\prime} \in [qw_{d} - w^{g(d - 1, d)}, qw_{d} + w^{g(d - 1, d)}]$.
 
-Pelas proposições \ref{typical_whp_P1} e \ref{typical_whp_Pi} e o Príncipio da Inclusão-Exclusão temos que todas projeções são típicas com probabilidade maior do que $1 - (d - 1)e^{-\Omega(w^{1/3})}$, e como $d$ é constante temos que isso é $1 - e^{-\Omega(w^{1/3})}$. 
+Pelas proposições \ref{typical_whp_P1} e \ref{typical_whp_Pi} e o Príncipio da Inclusão-Exclusão temos que todas projeções são típicas com probabilidade maior do que $1 - (d - 1)e^{-\Omega(w^{1/6})}$, e como $d$ é constante temos que isso é $1 - e^{-\Omega(w^{1/6})}$. 
 
 \end{proof}
 
 \subsubsection{Lema da troca para projeções aleatórias}
 
-Com o objetivo de mostrar que circuitos de tamanho subexponencial e profundidade $d - 1$ simplificam quando aplicamos as projeções $\rho_{1}, \rho_{2}, \dots, \rho_{d - 2}$ nós seguimos o mesmo framework que usamos quando provamos um limite inferior para a função paridade e mostramos um lema da troca para projeções aleátorias.
+Com o objetivo de mostrar que circuitos de tamanho subexponencial e profundidade $d - 1$ simplificam quando aplicamos as projeções $\rho_{1}, \rho_{2}, \dots, \rho_{d - 1}$ nós seguimos o mesmo método que usamos quando provamos um limitante inferior para a função paridade e mostramos um lema da troca para projeções aleátorias.
 
 Nós vamos usar a estratégia de prova de Razborov para provar os seguintes lemas:
 
 \begin{lema} (Lema da troca para projeções aleatórias $\rho_{1} \leftarrow P_{1}$) \label{projection_switching_lemma_P1}
 
-Seja $F$ uma fórmula na FNC (ou FND) com largura $r$, $s \geq 1$ e $\rho_{1} \leftarrow P_{1}$, então
+Seja $F: A_{0} \to \binalph$ uma fórmula FNC (ou FND) com largura $r$, $s \geq 1$ e $\rho_{1} \leftarrow P_{1}$, então
 
 \begin{equation*}
-	\Pr[\cand(\proj_{\rho_{1}}F) \geq s] \leq (...).
+	\Pr[\cand(\proj_{\rho_{1}}F) \geq s] = \widetilde{\mathcal{O}}(r2^{r}w^{-1/4})^{s}.
 \end{equation*} 
 
 \end{lema}
 
 \begin{lema} (Lema da troca para projeções aleatórias $\rho_{i} \leftarrow P_{i}$) \label{projection_switching_lemma_Pi}
 
-Seja $F$ uma fórmula na FNC (ou FND) com largura $r$, $s \geq 1$ e $\rho_{i} \leftarrow P_{i}$, para algum $i > 1$, então
+Sejam $\rho_{1}, \rho_{2}, \dots, \rho_{i - 1}$ tiradas de $P_{1}, P_{2}, \dots, P_{i - 1}$ e seja $F: A_{i - 1} \to \binalph$ uma fórmula FNC (ou FND) com largura $r$ e tal que $F = \proj_{\rho_{1}\rho_{2}\dots\rho_{i - 1}}f$, para alguma função $f: A_{0} \to \binalph$ qualquer. Se $s \geq 1$ e $\rho_{i} \leftarrow P_{i}(\rho_{i - 1})$, então
 
 \begin{equation*}
-	\Pr[\cand(\proj_{\rho_{1}\rho_{2}\dots\rho_{i}}F) \geq s] \leq (...).
-\end{equation*} 
-
-Onde cada $\rho_{j}$, $1 \leq j \leq i - 1$, é tirada de $P_{j}$.
+	\Pr[\cand(\proj_{\rho_{1}\rho_{2}\dots\rho_{i}}f) \geq s]  = \widetilde{\mathcal{O}}(re^{r\frac{t_{i - 1}}{1 - t_{i - 1}}}w^{-1/4})^{s}.
+\end{equation*}
 
 \end{lema}
 
-Note que vamos provar um limitante superior para a probabilidade que a \emph{projeção} de $F$ não pode ser expressa por uma árvore de decisão canônica de profundidade pequena que faz consultas às variáveis que correspondem a um bloco da projeção.
+Note que vamos provar um limitante superior para a probabilidade que a \emph{projeção} de $F$ não pode ser expressa por uma árvore de decisão canônica de profundidade pequena que faz consultas às variáveis que representam um bloco da projeção. Como exemplo, para o lema \ref{projection_switching_lemma_P1} nós estamos considerando a probabilidade que $\proj_{\rho_{1}}F$ não pode ser computada por uma árvore de decisão de profundidade $s$ que faz consultas às variáveis em $A_{1}$.
 
-Nós iremos provar primeiro o lema \ref{projection_switching_lemma_P1} adaptando levemente o processo de codificação da projeção $\rho_{1}$ e depois nós rapidamente provamos o lema \ref{projection_switching_lemma_Pi} na única parte em que a prova deste último lema difere da prova do lema anterior. Esta parte corresponde à terceira parte da segunda prova do lema da troca de Håstad em que nós argumentamos que o número de projeçõs más não é maior do que um determinado conjunto não muito grande. No entanto, agora não podemos mais apenas argumentar que a cardinalidade do conjuntos de projeções más é menor do que a cardinalidade de um determinado conjunto pelo fato que $P_{1}$ (e $P_{i}$ também) atribui pesos diferentes para projeções más, além disso não iremos mais considerar apenas projeções que fixa um número constante de variáveis. O que nós vamos fazer é mostrar que a soma
-
-\begin{equation*}
-	\sum \Pr[\boldsymbol{\rho} = \rho]
-\end{equation*}
-
-sobre as projeções $\rho \leftarrow P_{1}$ (ou $P_{i}$) que iremos chamar de más (ou seja, aquelas projeções tais que $\cand(\proj_{\rho}F)$ é muito grande) é no máximo a soma
-
-\begin{equation*}
-	\sum \Pr[\boldsymbol{\rho} = \rho^{\prime}],
-\end{equation*}
-
-onde a soma é de novo sobre as projeções más $\rho$ e $\rho^{\prime}$ é a extensão de $\rho$ que aparece no teu código, é maior do que a primeira soma acima multiplicada por uma constante. Daí, basta nós mostrarmos um limite superior para a segunda soma acima para concluir as provas dos lemas \ref{projection_switching_lemma_P1} e \ref{projection_switching_lemma_Pi}.
+Nós iremos provar primeiro o lema \ref{projection_switching_lemma_P1} adaptando levemente o processo de codificação da projeção $\rho_{1}$, depois provamos o lema \ref{projection_switching_lemma_Pi} na única parte em que a prova deste último lema difere da prova do lema anterior. Esta parte corresponde à terceira parte da segunda prova do lema da troca de Håstad em que nós argumentamos que ao estender a projeção $\rho_{i}$ durante o processo de codificação nós obtemos um aumento no peso da projeção.
 
 \begin{proof} (Prova do Lema \ref{projection_switching_lemma_P1})
 
@@ -839,20 +1107,20 @@ Nós vamos novamente codificar $\rho_{1} \in \mathcal{B}_{1}$ mapeando $\rho_{1}
 
 \begin{itemize}
 
-	\item $\rho_{1}^{\prime} = \rho_{1}\sigma$ é uma extensão de $\rho_{1}$ que vamos argumentar ter um peso maior do que $\rho_{1}$ em $P_{1}$.
+	\item $\rho_{1}^{\prime} = \rho_{1}\sigma$ é uma extensão de $\rho_{1}$.
 	
-	\item $\mu \subseteq Y$ é o subconjunto de blocos ''afetados`` por $\sigma$.
+	\item $\mu \subseteq A_{1}$ é o subconjunto de blocos ''afetados`` por $\sigma$.
 	
-	\item $\beta \subseteq X$ é o subconjunto das variáveis afetadas por $\sigma$.
+	\item $\beta \subseteq A_{0}$ é um subconjunto das variáveis afetadas por $\sigma$.
 	
-	\item $d \in \binalph^{s}$ vai ter o mesmo papel que teve na segunda prova do Lema da Troca de Håstad.
+	\item $\delta \in \binalph^{s}$ vai ter o mesmo papel que teve na segunda prova do Lema da Troca de Håstad.
 	
 \end{itemize}
 
-Nós dividimos a prova em três partes: na primeira parte iremos descrever o processo de codificação de $\rho_{1}$, na segunda parte nós mostramos como recuperar $\rho_{1}$ a partir de teu código e na terceira parte nós mostramos um limitante superior para a soma
+Nós dividimos a prova em três partes: na primeira parte iremos descrever o processo de codificação de $\rho_{1}$, na segunda parte nós mostramos como recuperar $\rho_{1}$ a partir de seu código e na terceira parte nós mostramos um limitante superior para a soma
 
 \begin{equation} \label{projection_switching_lemma_proof_sum}
-	\sum_{\rho_{1} \in \mathcal{B}} \Pr[\boldsymbol{\rho} = \rho_{1}],
+	\sum_{\rho_{1} \in \mathcal{B}_{1}} \Pr[\boldsymbol{\rho} = \rho_{1}],
 \end{equation}
 
 obtendo o resultado desejado no enunciado do lema.
@@ -861,45 +1129,44 @@ obtendo o resultado desejado no enunciado do lema.
 
 	\item Construindo o código a partir de $\rho_{1}$.
 	
-	Nós iremos considerar um caminho $\pi$ na árvode de decisão canônica de $\proj_{\rho_{1}}F$ de tamanho pelo menos $s$, truncando $\pi$ de forma que $\lvert \pi \rvert = s$. Seja $C_{\alpha_{1}}$ a primeira cláusula de $\proj_{\rho_{1}}F$ que não foi feita verdadeira por $\rho_{1}$, $\pi_{1}$ a porção de $\pi$ que faz consultas à variáveis que aparecem em $C_{\alpha_{1}}$, $\mu_{1} \subseteq A_{1}$ o conjunto de variáveis que aparecem em $\pi_{1}$ e  $\beta_{1} \subseteq A_{0}$ o conjunto de variáveis em $A_{0}$ que aparecem na cláusula $C_{\alpha_{1} \lvert \rho_{1}}$ na fórmula $F$ original e pertencem a alguma variável em $\mu_{1}$. Nós consideramos a seguinte projeção $\sigma_{1}$ que atribui valores somente às variáveis que pertencem a blocos em $\mu_{1}$ da seguinte forma:
+	Nós iremos considerar um caminho $\pi$ na árvore de decisão canônica de $\proj_{\rho_{1}}F$ de tamanho pelo menos $s$, truncando $\pi$ de forma que $\lvert \pi \rvert = s$. Seja $C_{\alpha_{1}}$ a primeira cláusula de $\proj_{\rho_{1}}F$ que não foi feita verdadeira por $\rho_{1}$, $\pi_{1}$ a porção de $\pi$ que faz consultas à variáveis que aparecem em $C_{\alpha_{1}}$, $\mu_{1} \subseteq A_{1}$ o conjunto de variáveis que aparecem em $\pi_{1}$ e  $\beta_{1} \subseteq A_{0}$ o conjunto de variáveis em $A_{0}$ que aparecem como um literal negado na cláusula $C_{\alpha_{1}}$ na fórmula $F$ original, pertencem à alguma variável em $\mu_{1}$ e foram projetadas pela projeção $\rho_{1}$. Nós consideramos a seguinte projeção $\sigma_{1}$ que atribui valores somente às variáveis que pertencem a blocos em $\mu_{1}$ da seguinte forma. Seja $a \in \mu_{1}$ e $a^{\prime} \in \inputt(a)$:
 	
 	\begin{equation} \label{sigma_i_def}
-		\sigma_{1}(x_{a, j}) = \begin{cases}
-					      	0 & \text{ se } y_{a} \text{ aparece não-negada em } C_{\alpha_{1}} \text{ e } x_{a, j} \in \beta_{1}. \\
-					      	1 & \text{ se } y_{a} \text{ aparece negada em } C_{\alpha_{1}} \text{ e } x_{a, j} \in \beta_{1}. \\
-					      	0 & \text{ se } x_{a, j} \not\in \beta_{1} \text{ e } \rho_{1}(x_{a, j}) = y_{a}. \\
-					      	x_{a} & \text{ se } \rho_{1}(x_{a, j}) \in \binalph.
+		\sigma_{1}(x_{a^{\prime}}) = \begin{cases}
+					      	1 & \text{ se } x_{a^{\prime}} \in \beta_{1}. \\
+					      	0 & \text{ se } \rho_{1}(x_{a^{\prime}}) = x_{a} \text{ e } x_{a^{\prime}} \not\in \beta_{1} \\
+					      	x_{a} & \text{ se } \rho_{1}(x_{a^{\prime}}) \in \binalph.
 					      \end{cases}
 	\end{equation}
 	
-	Para cada $a$ tal que $x_{a} \in \mu_{1}$, e fixamos $\sigma_{1}(x_{a})$ para o valor em $\binalph$ apropriado. Note que definimos $\sigma_{1}$ de forma que $C_{\alpha_{i}}$ não é satisfeita na fórmula $\proj_{\rho_{1}\sigma_{1}}F$. Nós também temos que $\rho_{1}\sigma_{1}$ fixa todas as variáveis que pertecem a algum bloco em $\mu_{1}$.
+	Nós fixamos $\sigma_{1}(x_{a})$ para o valor em $\binalph$ apropriado. Note que definimos $\sigma_{1}$ de forma que $C_{\alpha_{1}}$ não é satisfeita na fórmula $\proj_{\rho_{1}\sigma_{1}}F$. Nós também temos que $\rho_{1}\sigma_{1}$ fixa todas as variáveis que pertecem a algum bloco em $\mu_{1}$.
 	
-	Para todos os outros estágios $j = 2, 3, \dots, l$ nós fazemos a mesma coisa, definindo $C_{\alpha_{j}}$ como sendo a primeira cláusula não fixada como verdadeira em $\proj_{\rho\sigma_{1}\sigma_{2}\dots\sigma_{j - 1}}F$. De novo nós chegamos no último estágio $l$ quando $\pi_{l} = \pi \setminus \pi_{1}\pi_{2}\dots\pi_{l - 1}$.
+	Para todos os outros estágios $j = 2, 3, \dots, l$ nós fazemos a mesma coisa, definindo $C_{\alpha_{j}}$ como sendo a primeira cláusula não fixada como verdadeira em $\proj_{\rho\pi_{1}\pi_{2}\dots\pi_{j - 1}}F$. De novo nós chegamos no último estágio $l$ quando $\pi_{l} = \pi \setminus \pi_{1}\pi_{2}\dots\pi_{l - 1}$.
 	
-	Seja $\sigma = \sigma_{1}\sigma_{2}\dots\sigma_{l}$ e $\rho_{1}^{\prime} = \rho_{1}\sigma$, $\mu = (\mu_{1}, \mu_{2}, \dots, \mu_{l})$ e $\beta = (\beta_{1}, \beta_{2}, \dots, \beta_{l})$. Nós definimos a string $d \in \binalph^{s}$ tal que $d_{j} = 1$ se e somente se a $j$-ésima variável em $\mu$, seguindo a ordem em que estas variáveis aparecem no caminho $\pi$, é atribuida um valor diferente por $\sigma = \sigma_{1}\sigma_{2}\dots\sigma_{l}$ e $\pi$. Então fazemos $\code(\rho_{1}) = (\rho_{1}^{\prime}, \mu, \beta, d)$.
+	Sejam $\sigma = \sigma_{1}\sigma_{2}\dots\sigma_{l}$, $\rho_{1}^{\prime} = \rho_{1}\sigma$, $\mu = (\mu_{1}, \mu_{2}, \dots, \mu_{l})$ e $\beta = (\beta_{1}, \beta_{2}, \dots, \beta_{l})$. Nós definimos a string $\delta \in \binalph^{s}$ tal que $\delta_{j} = 1$ se e somente se a $j$-ésima variável em $\mu$, seguindo a ordem em que estas variáveis aparecem no caminho $\pi$, é atribuida um valor diferente por $\sigma$ e $\pi$. Então fazemos $\code(\rho_{1}) = (\rho_{1}^{\prime}, \mu, \beta, \delta)$.
 	
 	\item Decodificando $\code(\rho_{1})$.
 
-	A idéia do processo de decodificação de $\code(\rho_{1})$ é basicamente o mesmo que já vimos na segunda prova do Lema da Troca de Håstad. Nós notamos que podemos obter quais variáveis $\sigma_{i}$ fixou a partir de $\beta_{i}$, $\mu_{i}$ e $\sigma$:
+	A idéia do processo de decodificação de $\code(\rho_{1})$ é basicamente o mesmo que já vimos na segunda prova do Lema da Troca de Håstad. Nós notamos que podemos obter quais variáveis $\sigma_{i}$ fixou a partir de $\beta_{i}$, $\mu_{i}$ e $\sigma$. Para todo $a \in \mu_{i}$ e $a^{\prime} \in \inputt(a)$ temos que
 	
 	\begin{equation*}
-		\sigma_{j}(x_{a, j}) \in \binalph \iff x_{a, j} \in \beta_{i} \text{ ou } \sigma(x_{a, j}) = 0,
+		\sigma_{i}(x_{a^{\prime}}) \in \binalph \iff x_{a^{\prime}} \in \beta_{i} \text{ ou } \sigma(x_{a^{\prime}}) = 0.
 	\end{equation*}
 
-	o que vale para cada $a$ tal que $x_{a} \in \mu_{i}$. Que $\sigma_{i}(x_{a, j}) \in \binalph$ se $x_{a, j} \in \beta_{i}$ segue direto da definição de $\sigma_{i}$ e $\beta_{i}$. Além disso, como $\rho_{1}\sigma_{1}\sigma_{2}\dots\sigma_{i - 1}$ não atribui o valor 0 para nenhuma variável que pertence a algum bloco em $\mu_{i}$ e pela nossa definição de $\sigma_{i}$ em \ref{sigma_i_def} nós obtemos que $\sigma_{j}(x_{a, j}) \in \binalph$ sempre que $\sigma(x_{a, j}) = 0$. Uma vez que recuperamos $\sigma_{i}$, podemos recuperar $\pi_{i}$ com o auxílio da string $d_{i}$. Daí podemos desfazer $\sigma_{i}$ e montar a projeção $\rho_{1}\pi_{1}\pi_{2}\dots\pi_{i}\sigma_{i + 1}\dots\sigma_{l}$ o que nos permite avançar para o $(i + 1)$-ésimo estágio. Ao recuperarmos $\sigma$ podemos extrair $\rho_{1}$ de $\rho_{1}^{\prime} = \rho_{1}\sigma$.
+	Que $\sigma_{i}(x_{a^{\prime}}) = 1$ se e somente se $x_{a^{\prime}} \in \beta_{i}$ segue direto da primeira linha na definição de $\sigma_{i}$ em \ref{sigma_i_def}. Também, como $\rho_{1}\sigma_{1}\sigma_{2}\dots\sigma_{i - 1}$ não atribui o valor 0 para nenhuma variável que pertence a algum bloco em $\mu_{i}$ nós obtemos que $\sigma_{i}(x_{a^{\prime}}) = 0$ se e somente se $\sigma(x_{a^{\prime}}) = 0$. Uma vez que recuperamos $\sigma_{i}$, podemos recuperar $\pi_{i}$ com o auxílio da string $\delta$. Daí podemos desfazer $\sigma_{i}$ e montar a projeção $\rho_{1}\pi_{1}\pi_{2}\dots\pi_{i}\sigma_{i + 1}\dots\sigma_{l}$ o que nos permite avançar para o $(i + 1)$-ésimo estágio. Ao recuperarmos $\sigma$ podemos extrair $\rho_{1}$ de $\rho_{1}^{\prime} = \rho_{1}\sigma$.
 	
 	\item Estimando $\Pr[\rho_{1} \in \mathcal{B}_{1}]$.
 	
-	Na segunda parte desta prova nós mostramos que o mapeamento $\code$ é injetivo, portanto se mostrarmos que $\Pr_{\boldsymbol{\rho} \leftarrow P_{1}}[\boldsymbol{\rho} = \rho_{1}] \leq \kappa\Pr_{\boldsymbol{\rho} \leftarrow P_{1}}[\boldsymbol{\rho} = \rho_{1}^{\prime}]$ para cada $\rho_{1} \in \mathcal{B}_{1}$, em que $\kappa$ é uma constante, nós obtemos um limite superior para a soma \ref{projection_switching_lemma_proof_sum}. Como $\rho_{1}$ e $\rho_{1}^{\prime}$ só diferem nos blocos em $\mu$ nós iremos nos concentrar primeiro nestes blocos. Seja $a \in \mu$ e $\rho_{1}^{a}$ a parte de $\rho_{1}$ que atribui valores às variáveis em $a$, como $\rho_{1}(a) = x_{a}$:
+	Na segunda parte desta prova nós mostramos que o mapeamento $\code$ é injetivo, portanto se mostrarmos que $\Pr_{\boldsymbol{\rho} \leftarrow P_{1}}[\boldsymbol{\rho} = \rho_{1}] \leq \kappa\Pr_{\boldsymbol{\rho} \leftarrow P_{1}}[\boldsymbol{\rho} = \rho_{1}^{\prime}]$ para cada $\rho_{1} \in \mathcal{B}_{1}$, em que $\kappa$ é u um fator $\widetilde{\mathcal{O}}(w^{-s/4})$, nós obtemos um limitante superior para a soma \ref{projection_switching_lemma_proof_sum}. Como $\rho_{1}$ e $\rho_{1}^{\prime}$ só diferem nos blocos em $\mu$ nós iremos nos concentrar primeiro nestes blocos. Seja $a \in \mu$ e $\rho_{1}^{a}$ a parte de $\rho_{1}$ que atribui valores às variáveis no bloco de $a$. Como $\rho_{1}(x_{a}) = x_{a}$:
 	
 	\begin{equation*}
-		\Pr_{\boldsymbol{\rho} \leftarrow P_{1}}[\boldsymbol{\rho^{a}} = \rho_{1}^{a}] = q\frac{2^{-m}}{1 - 2^{-m}}.
+		\Pr_{\boldsymbol{\rho} \leftarrow P_{1}}[\boldsymbol{\rho}^{a} = \rho_{1}^{a}] = q\frac{2^{-m}}{1 - 2^{-m}}.
 	\end{equation*}
 
 	Enquanto que
 	
 	\begin{equation*}
-		\Pr_{\boldsymbol{\rho} \leftarrow P_{1}}[\boldsymbol{\rho^{a}} = \rho_{1}^{\prime, a}] = \begin{cases}
+		\Pr_{\boldsymbol{\rho} \leftarrow P_{1}}[\boldsymbol{\rho}^{a} = \rho_{1}^{\prime, a}] = \begin{cases}
 																 	\lambda & \text{ se } \rho_{1}^{\prime}(x_{a}) = 1. \\
 																 	(1 - \lambda - q)\frac{2^{-m}}{1 - 2^{-m}} & \text{ se } \rho_{1}^{\prime}(x_{a}) = 0.
 		                                                        									 \end{cases}
@@ -908,7 +1175,7 @@ obtendo o resultado desejado no enunciado do lema.
 	Lembrando nossa observação que $\rho_{1}^{\prime}$ fixa todas as variáves que pertencem a blocos em $\mu$. Segue de imediato que
 	
 	\begin{equation*}
-		\frac{\Pr_{\boldsymbol{\rho} \leftarrow P_{1}}[\boldsymbol{\rho^{a}} = \rho_{1}^{a}]}{\Pr_{\boldsymbol{\rho} \leftarrow P_{1}}[\boldsymbol{\rho^{a}} = \rho_{1}^{\prime, a}]} = \begin{cases}
+		\frac{\Pr_{\boldsymbol{\rho} \leftarrow P_{1}}[\boldsymbol{\rho}^{a} = \rho_{1}^{a}]}{\Pr_{\boldsymbol{\rho} \leftarrow P_{1}}[\boldsymbol{\rho}^{a} = \rho_{1}^{\prime, a}]} = \begin{cases}
 																													         	\frac{q2^{-m}}{\lambda(1 - 2^{-m})} & \text{ se } \rho_{1}^{\prime}(x_{a}) = 1. \\
 																													         	\frac{q}{1 - \lambda - q} & \text{ se } \rho_{1}^{\prime}(x_{a}) = 0.
 																													         \end{cases}
@@ -918,46 +1185,46 @@ obtendo o resultado desejado no enunciado do lema.
 	E portanto temos que
 	
 	\begin{equation} \label{projection_switching_lemma_eq1}
-		\Pr_{\boldsymbol{\rho} \leftarrow P_{1}}[\boldsymbol{\rho}^{a} = \rho_{1}^{a}] \leq \Pr_{\boldsymbol{\rho} \leftarrow P_{1}}[\boldsymbol{\rho}^{a} = \rho_{1}^{\prime, a}] \times \max\bigg(\frac{q2^{-m}}{\lambda(1 - 2^{-m})}, \frac{q}{1 - \lambda - q} \bigg).
+		\Pr_{\boldsymbol{\rho} \leftarrow P_{1}}[\boldsymbol{\rho}^{a} = \rho_{1}^{a}] \leq \Pr_{\boldsymbol{\rho} \leftarrow P_{1}}[\boldsymbol{\rho}^{a} = \rho_{1}^{\prime, a}] \times \max\bigg(\frac{q2^{-m}}{\lambda(1 - 2^{-m})}, \frac{q}{1 - \lambda - q} \bigg) = \widetilde{\mathcal{O}}(w^{-1/4})\Pr_{\boldsymbol{\rho} \leftarrow P_{1}}[\boldsymbol{\rho}^{a} = \rho_{1}^{\prime, a}]
 	\end{equation}
 	
 	Como $\Pr_{\boldsymbol{\rho} \leftarrow P_{1}}[\boldsymbol{\rho} = \rho_{1}] = \prod_{a \in A_{1}}\Pr_{\boldsymbol{\rho} \leftarrow P_{1}}[\boldsymbol{\rho}^{a} = \rho_{1}^{a}]$:
 	
 	\begin{IEEEeqnarray*} {rCl}
 		\Pr_{\boldsymbol{\rho} \leftarrow P_{1}}[\boldsymbol{\rho} = \rho_{1}] & =    & \prod_{a \in A_{1} \setminus \mu}\Pr_{\boldsymbol{\rho} \leftarrow P_{1}}[\boldsymbol{\rho}^{a} = \rho_{1}^{a}] \times \prod_{a \in \mu} \Pr_{\boldsymbol{\rho} \leftarrow P_{1}}[\boldsymbol{\rho}^{a} = \rho_{1}^{a}] \\
-													& \leq & \prod_{a \in A_{1} \setminus \mu}\Pr_{\boldsymbol{\rho} \leftarrow P_{1}}[\boldsymbol{\rho}^{a} = \rho_{1}^{\prime, a}] \times \prod_{a \in \mu} \Pr_{\boldsymbol{\rho} \leftarrow P_{1}}[\boldsymbol{\rho}^{a} = \rho_{1}^{\prime, a}] \times  \max\bigg(\frac{q2^{-m}}{\lambda(1 - 2^{-m})}, \frac{q}{1 - \lambda - q} \bigg) \\
-													& \leq & \kappa^{s} \Pr_{\boldsymbol{\rho} \leftarrow P_{1}}[\boldsymbol{\rho} = \rho_{1}^{\prime}].													
+													& \leq & \prod_{a \in A_{1} \setminus \mu}\Pr_{\boldsymbol{\rho} \leftarrow P_{1}}[\boldsymbol{\rho}^{a} = \rho_{1}^{\prime, a}] \times \prod_{a \in \mu} \widetilde{\mathcal{O}}(w^{-1/4}) \Pr_{\boldsymbol{\rho} \leftarrow P_{1}}[\boldsymbol{\rho}^{a} = \rho_{1}^{\prime, a}] \\
+													& =    & \widetilde{\mathcal{O}}(w^{-s/4})\Pr_{\boldsymbol{\rho} \leftarrow P_{1}}[\boldsymbol{\rho} = \rho_{1}^{\prime}].													
 	\end{IEEEeqnarray*}
 	
 	
-	Na primeira desigualdade nós usamos \ref{projection_switching_lemma_eq1} e que $\Pr[\boldsymbol{\rho}^{a} = \rho_{1}^{a}] = \Pr[\boldsymbol{\rho} = \rho_{1}^{\prime, a}]$ sempre que $x_{a} \in A_{1} \setminus \mu$, enquanto que na segunda desigualdade nós usamos que $\lvert \mu \rvert = s$. Agora podemos estimar $\Pr_{\boldsymbol{\rho} \leftarrow P_{1}}[\boldsymbol{\rho} \in \mathcal{B}_{1}]$.
+	Na primeira desigualdade nós usamos \ref{projection_switching_lemma_eq1} e que $\Pr[\boldsymbol{\rho}^{a} = \rho_{1}^{a}] = \Pr[\boldsymbol{\rho}^{a} = \rho_{1}^{\prime, a}]$ sempre que $x_{a} \in A_{1} \setminus \mu$, enquanto que na segunda desigualdade nós usamos que $\lvert \mu \rvert = s$. Agora podemos estimar $\Pr_{\boldsymbol{\rho} \leftarrow P_{1}}[\boldsymbol{\rho} \in \mathcal{B}_{1}]$.
 	
 	\begin{IEEEeqnarray*} {rCl}
 		\Pr_{\boldsymbol{\rho} \leftarrow P_{1}}[\boldsymbol{\rho} \in \mathcal{B}_{1}] & =    & \sum_{\rho_{1} \in \mathcal{B}} \Pr_{\boldsymbol{\rho} \leftarrow P_{1}}[\boldsymbol{\rho} = \rho_{1}] \\
-		                                                                                                                           & \leq & \sum_{\rho_{1} \in \mathcal{B}} \kappa^{s} \Pr_{\boldsymbol{\rho} \leftarrow P_{1}}[\boldsymbol{\rho} = \rho_{1}^{\prime}].
+		                                                                                                                           & \leq & \sum_{\rho_{1} \in \mathcal{B}} \widetilde{\mathcal{O}}(w^{-s/4})\Pr_{\boldsymbol{\rho} \leftarrow P_{1}}[\boldsymbol{\rho} = \rho_{1}^{\prime}].
 	\end{IEEEeqnarray*}
 	
-	Agora nós iremos usar o fato que $\code$ é um mapeamento injetivo. Note primeiro que podemos representar $\mu, \beta$ e $d$ da seguinte forma: 
+	Agora nós iremos usar o fato que $\code$ é um mapeamento injetivo. Note primeiro que podemos representar $\mu, \beta$ e $\delta$ da seguinte forma: 
 	
 	
 	\begin{itemize}
 	
-		\item Cada $\mu_{i}$ em $\mu$ é representada por um vetor em $[r]^{\lvert \mu_{i} \rvert}$ onde a $j$-ésima coordenada do vetor guarda a posição da primeira variável pertencendo ao $j$-ésimo bloco em $\mu_{i}$ na cláusula $C_{\alpha_{i}}$. Desta forma representamos $\mu$ como uma string de tamanho $s(\lceil \log r \rceil + 1) \leq s(\log r + 2)$ e portanto existe no máximo $2^{s(\log r + 2)} = (4r)^{s}$ possibilidades para $\mu$.
+		\item Cada $\mu_{i}$ em $\mu$ é representada por um vetor em $[r]^{\lvert \mu_{i} \rvert}$ onde a $j$-ésima coordenada do vetor guarda a posição da primeira variável pertencendo ao $j$-ésimo bloco em $\mu_{i}$ na cláusula $C_{\alpha_{i}}$. Desta forma representamos $\mu$ como uma string de tamanho $s(\log r+ 1)$ e portanto existem no máximo $2^{s(\log r + 1)} = (2r)^{s}$ possibilidades para $\mu$.
 		
 		\item Cada $\beta_{i}$ em $\beta$ é representado por um vetor em $(\binalph^{r})^{\lvert \mu_{i} \rvert}$ em que cada string de tamanho $r$ neste vetor indica pela posição em que aparece na cláusula $C_{\alpha_{i}}$ quais variáveis em um dos blocos de $\mu_{i}$ estão em $\beta_{i}$. Podemos então representar $\beta$ por uma string de tamanho $s(r + 1)$ e daí temos que há no máximo $2^{s(r + 1)} = (2^{r + 1})^{s}$ possibilidades para $\beta$.
 		
-		\item $d$ é uma string em $\binalph^{s}$ e portanto existem $2^{s}$ possibilidades para a string $s$.  
+		\item $\delta$ é uma string em $\binalph^{s}$ e portanto existem $2^{s}$ possibilidades para $\delta$.  
 	
 	\end{itemize}
 	
-	Seja $\mathcal{C}$ o conjunto de todas as restrições $\rho$ tal que $\rho = \rho_{1}^{\prime}$ para algum $\rho_{1} \in \mathcal{B}_{1}$, usando as observações acima a respeito do número de possíveis $\mu, \beta$ e $d$ e por $\code$ ser um mapeamento injetivo:
+	Seja $\mathcal{C}$ o conjunto de todas as restrições $\rho$ tal que $\rho = \rho_{1}^{\prime}$ para algum $\rho_{1} \in \mathcal{B}_{1}$. Usando as observações acima a respeito do número de possíveis $\mu, \beta$ e $\delta$ e por $\code$ ser um mapeamento injetivo:
 	
 	\begin{IEEEeqnarray*} {rCl}
-		\sum_{\rho_{1} \in \mathcal{B}} \kappa^{s} \Pr_{\boldsymbol{\rho} \leftarrow P_{1}}[\boldsymbol{\rho} = \rho_{1}^{\prime}] & \leq & (16\kappa 2^{r}r)^{s}\sum_{\rho_{1}^{\prime} \in \mathcal{C}} \Pr_{\boldsymbol{\rho} \leftarrow P_{1}}[\boldsymbol{\rho} = \rho_{1}^{\prime}] \\
-																					    & \leq & (16\kappa 2^{r}r)^{s}.  
+		\sum_{\rho_{1} \in \mathcal{B}} \widetilde{\mathcal{O}}(w^{-s/4})\Pr_{\boldsymbol{\rho} \leftarrow P_{1}}[\boldsymbol{\rho} = \rho_{1}^{\prime}] & = & \widetilde{\mathcal{O}}(r2^{r}w^{-1/4})^{s}\sum_{\rho_{1}^{\prime} \in \mathcal{C}} \Pr_{\boldsymbol{\rho} \leftarrow P_{1}}[\boldsymbol{\rho} = \rho_{1}^{\prime}] \\
+																					    & = & \widetilde{\mathcal{O}}(r2^{r}w^{-1/4})^{s}.  
 	\end{IEEEeqnarray*}
 	
-	Com isso obtemos $\Pr_{\boldsymbol{\rho} \leftarrow P_{1}}[\boldsymbol{\rho} \in \mathcal{B}_{1}] \leq (\kappa 2^{r + 4}r)^{s}$ como nós queriamos.
+	Com isso obtemos $\Pr_{\boldsymbol{\rho} \leftarrow P_{1}}[\boldsymbol{\rho} \in \mathcal{B}_{1}] =  \widetilde{\mathcal{O}}(r2^{r}w^{-1/4})^{s}$ como nós queriamos.
 	
 \end{enumerate}
 
@@ -967,13 +1234,13 @@ Agora iremos provar o Lema \ref{projection_switching_lemma_Pi}. O mapeamento $\c
 
 \begin{proof} (Prova do Lema \ref{projection_switching_lemma_Pi}.)
 
-	Nós vamos considerar que $F = \bigwedge_{\alpha = 1}^{z}C_{\alpha}$ é uma fórmula $FNC$. De novo nós estamos considerando o conjunto $\mathcal{B}$ definido como:
+	Nós vamos considerar que $F = \proj_{\rho_{1}\rho_{2}\dots\rho_{i - 1}}f = \bigwedge_{\alpha = 1}^{z}C_{\alpha}$ é uma fórmula $FNC$ em que cada cláusula contém no máximo $r$ variáveis. Desta vez nós temos o conjunto $\mathcal{B}_{i}$ definido como:
 	
 	\begin{equation*}
-		\mathcal{B}_{i} = \{\rho_{i} \leftarrow P_{i} \lvert \cand(\proj_{\rho_{1}\rho_{2}\dots\rho_{i}}F) \geq s\}.
+		\mathcal{B}_{i} = \{\rho_{i} \leftarrow P_{i}(\rho_{i - 1}) \lvert \cand(\proj_{\rho_{i}}F) \geq s\},
 	\end{equation*}
 	
-	Também iremos assumir que $i$ é ímpar (a prova para o caso em que $i$ é par é perfeitamente análoga com os papeis de 0 e 1 trocados). Seja $\rho_{i} \in \mathcal{B}_{i}$ e para cada $x_{a} \in A_{i}$ seja $S_{a}$ como definido em \ref{defi_Pi} e lembrando que estamos assumindo que $\big\lvert \lvert S_{a} \rvert - 2^{-m}f_{i} \big\rvert < (...)$. Seja $s_{1}(a)$ o número de 1s que aparecem em $S_{a}$, $s_{1}^{\prime}(a)$ o número de 1s que aparecem em $S_{a}$ na extensão $\rho_{i}^{\prime}$ de $\rho_{i}$ e $\Delta_{a} = s_{1}^{\prime}(a) - s_{1}(a) \geq 0$. Nós temos que
+	em que $\proj_{\rho_{i}}F = \proj_{\rho_{1}\rho_{2}\dots\rho_{i}}f$. Também iremos assumir que $i$ é ímpar (a prova para o caso em que $i$ é par é perfeitamente análoga com os papeis de 0 e 1 trocados). Seja $\rho_{i} \in \mathcal{B}_{i}$ e para cada $a \in \mu$ seja $S_{a}$ como definido em \ref{defi_Pi}. Note que por $\rho^{\prime}$ ter alterado o bloco $a$ nós necessariamente devemos ter $\big\lvert \lvert S_{a} \rvert - qw \big\rvert \leq w^{g(i  - 1, d)}$, pois senão a projeção $\rho_{i}$ tirada de $P_{i}(\rho_{i - 1})$ teria fixada todas as variáveis em $\inputt(a)$ com um valor constante. Seja $s_{1}(a)$ o número de variáveis em $S_{a}$ que foram atribuidas o valor 1 por $\rho_{i}$, $s_{1}^{\prime}(a)$ o número de variáveis em $S_{a}$ que foram fixadas com o valor 1 na extensão $\rho_{i}^{\prime}$ de $\rho_{i}$ e $\Delta_{a} = s_{1}^{\prime}(a) - s_{1}(a) \geq 0$. Definindo $\rho_{i}^{a}$ como sendo a parte de $\rho_{i}$ que atribui valores às variáveis no bloco de $a$, nós temos que
 	
 	\begin{equation*}
 		\Pr_{\boldsymbol{\rho} \leftarrow P_{i}}[\boldsymbol{\rho}^{a} = \rho_{i}^{a}] = q_{a}\frac{t_{i - 1}^{\lvert S_{a} \rvert - s^{1}(a)}(1 - t_{i - 1})^{s_{1}(a)}}{1 - (1 - t_{i - 1})^{\lvert S_{a} \rvert}},
@@ -992,76 +1259,230 @@ Agora iremos provar o Lema \ref{projection_switching_lemma_Pi}. O mapeamento $\c
 	
 	\begin{equation*}
 		\frac{\Pr_{\boldsymbol{\rho} \leftarrow P_{i}}[\boldsymbol{\rho}^{a} = \rho_{i}^{a}]}{\Pr_{\boldsymbol{\rho} \leftarrow P_{i}}[\boldsymbol{\rho}^{a} = \rho_{i}^{\prime, a}]} = \begin{cases}
-																														\frac{q_{a}}{\lambda}\frac{t_{i - 1}^{\lvert S_{a} \rvert - s_{1}(a)}(1 - t_{i - 1})^{s_{1}(a)}}{1 - (1 - t_{i - 1})^{\lvert S_{a} \rvert}} & \text{ se } \rho_{i}^{\prime}(x_{a}) = 1. \\
-																														\frac{q_{a}}{1 - \lambda - q_{a}} \bigg( \frac{t_{i - 1}}{1 - t_{i - 1}}\bigg)^{\Delta_{a}} & \text{ se } \rho_{1}^{\prime}(x_{a}) = 0.
+																														\frac{q_{a}}{\lambda}\frac{t_{i - 1}^{\Delta_{a}}(1 - t_{i - 1})^{\lvert S_{a} \rvert - \Delta_{a}}}{1 - (1 - t_{i - 1})^{\lvert S_{a} \rvert}} & \text{ se } \rho_{i}^{\prime}(x_{a}) = 1 \\
+																														\frac{q_{a}}{1 - \lambda - q_{a}} \bigg( \frac{t_{i - 1}}{1 - t_{i - 1}}\bigg)^{\Delta_{a}} & \text{ se } \rho_{1}^{\prime}(x_{a}) = 0,
 																													    \end{cases}
 	\end{equation*}
 
-	Daí obtemos que
+	onde nós usamos que $s_{1}^{\prime}(a) = \lvert S_{a} \rvert$ sempre que $\rho_{i}^{\prime}(x_{a}) = 1$. Daí obtemos que
 	
 	\begin{equation*}
-		\Pr_{\boldsymbol{\rho} \leftarrow P_{i}}[\boldsymbol{\rho}^{a} = \rho_{i}^{a}] \leq \Pr_{\boldsymbol{\rho} \leftarrow P_{i}}[\boldsymbol{\rho}^{a} = \rho_{i}^{\prime, a}] \times \max \Bigg( \frac{q_{a}}{\lambda}\frac{t_{i - 1}^{\lvert S_{a} \rvert - s_{1}(a)}(1 - t_{i - 1})^{s_{1}(a)}}{1 - (1 - t_{i - 1})^{\lvert S_{a} \rvert}}, \frac{q_{a}}{1 - \lambda - q_{a}} \bigg( \frac{t_{i - 1}}{1 - t_{i - 1}}\bigg)^{\Delta_{a}} \Bigg).
+		\Pr_{\boldsymbol{\rho} \leftarrow P_{i}}[\boldsymbol{\rho}^{a} = \rho_{i}^{a}] \leq \Pr_{\boldsymbol{\rho} \leftarrow P_{i}}[\boldsymbol{\rho}^{a} = \rho_{i}^{\prime, a}] \times \max \Bigg( \frac{q_{a}}{\lambda}\frac{t_{i - 1}^{\Delta_{a}}(1 - t_{i - 1})^{\lvert S_{a} \rvert - \Delta_{a}}}{1 - (1 - t_{i - 1})^{\lvert S_{a} \rvert}}, \frac{q_{a}}{1 - \lambda - q_{a}} \bigg( \frac{t_{i - 1}}{1 - t_{i - 1}}\bigg)^{\Delta_{a}} \Bigg).
 	\end{equation*}
 	
-	E como $\max \Bigg( \frac{q_{a}}{\lambda}\frac{t_{i - 1}^{\lvert S_{a} \rvert - s_{1}(a)}(1 - t_{i - 1})^{s_{1}(a)}}{1 - (1 - t_{i - 1})^{\lvert S_{a} \rvert}}, \frac{q_{a}}{1 - \lambda - q_{a}} \bigg( \frac{t_{i - 1}}{1 - t_{i - 1}}\bigg)^{\Delta_{a}} \Bigg) \leq \kappa$, temos que
+	Nós queremos um limitante superior para ambas expressões que aparecem dentro do $\max$. Como temos que $qw - w^{g(i -1, d)} \leq \lvert S_{a} \rvert \leq qw + w^{g(i -1, d)}$:
 	
 	\begin{equation*}
-		\Pr_{\boldsymbol{\rho} \leftarrow P_{i}}[\boldsymbol{\rho} = \rho_{i}] \leq \kappa^{s}\Pr_{\boldsymbol{\rho} \leftarrow P_{i}}[\boldsymbol{\rho} = \rho_{i}^{\prime}].
+		(1 - t_{i - 1})^{qw + w^{g(i -1, d)}} \leq (1 - t_{i - 1})^{\lvert S_{a} \rvert} \leq (1 - t_{i - 1})^{qw - w^{g(i -1, d)}},
 	\end{equation*}
 	
-	Somando sobre todas as possibilidades de $\rho_{i} \in \mathcal{B}_{i}$ e $(\mu, \beta, d)$ e definindo o conjunto $\mathcal{C}$ da mesma forma que fizemos na prova do Lema \ref{projection_switching_lemma_P1}:
+	o que implica em $(1 - t_{i - 1})^{\lvert S_{a} \rvert} = 2^{-m}(1 \pm o(1))$. Daí, relembrando a relação entre $q_{a}$ e $q$ da proposição \ref{q_qa} e que $\frac{q2^{-m}}{\lambda} = \widetilde{\mathcal{O}}(w^{-1/4})$, temos que
 	
 	\begin{IEEEeqnarray*} {rCl}
-		Pr_{\boldsymbol{\rho} \leftarrow P_{i}}[\boldsymbol{\rho} \in \mathcal{B}_{i}] & \leq & (16\kappa 2^{r}r)^{s} \sum_{\rho_{1}^{\prime} \in \mathcal{C}} \Pr_{\boldsymbol{\rho} \leftarrow P_{i}}[\boldsymbol{\rho} = \rho_{i}^{\prime}] \\
-														& \leq & (16\kappa 2^{r}r)^{s}
+		\frac{q_{a}}{\lambda} \frac{t_{i - 1}^{\Delta_{a}}(1 - t_{i - 1})^{\lvert S_{a} \rvert - \Delta_{a}}}{1 - (1 - t_{i - 1})^{\lvert S_{a} \rvert}} & = & \frac{q_{a}}{\lambda} \frac{(1 - t_{i - 1})^{\lvert S_{a} \rvert}}{1 - (1 - t_{i - 1})^{\lvert S_{a} \rvert}}\bigg( \frac{t_{i - 1}}{1 - t_{i - 1}} \bigg)^{\Delta_{a}} \\
+																				& = & \frac{q_{a}}{\lambda}2^{-m}(1 \pm o(1)) \bigg( \frac{t_{i - 1}}{1 - t_{i - 1}} \bigg)^{\Delta_{a}} \\
+																				& = & \widetilde{\mathcal{O}}(w^{-1/4}) \bigg( \frac{t_{i - 1}}{1 - t_{i - 1}}\bigg)^{\Delta_{a}}.
 	\end{IEEEeqnarray*}
+	
+	Também temos que $\frac{q_{a}}{1 - \lambda - q_{a}} = \widetilde{\mathcal{O}}(w^{-1/2}) = \widetilde{\mathcal{O}}(w^{-1/4})$ e portanto podemos concluir que
+	
+	\begin{equation*}
+		\Pr_{\boldsymbol{\rho} \leftarrow P_{i}}[\boldsymbol{\rho}^{a} = \rho_{i}^{a}] = \widetilde{\mathcal{O}}(w^{-1/4}) \bigg( \frac{t_{i - 1}}{1 - t_{i - 1}} \bigg)^{\Delta_{a}}\Pr_{\boldsymbol{\rho} \leftarrow P_{i}}[\boldsymbol{\rho}^{a} = \rho_{i}^{\prime, a}].
+	\end{equation*}
+	
+	Seja $\lVert \beta \rVert = \sum_{a \in \mu} \Delta_{a}$ o número total de variáveis que foram fixadas em 1 por $\sigma$, ou equivalentemente o peso de Hamming de $\beta$. Então temos que
+	
+	\begin{equation} \label{estimating_eqn}
+		\Pr_{\boldsymbol{\rho} \leftarrow P_{i}}[\boldsymbol{\rho} = \rho_{i}] = \widetilde{\mathcal{O}}(w^{-s/4}) \bigg( \frac{t_{i - 1}}{1 - t_{i - 1}} \bigg)^{\lVert \beta \rVert}\Pr_{\boldsymbol{\rho} \leftarrow P_{i}}[\boldsymbol{\rho} = \rho_{i}^{\prime}],
+	\end{equation}
+	
+	para todo $\rho_{i} \in \mathcal{B}_{i}$. Definindo o conjunto $\mathcal{C}$ da mesma forma que fizemos na prova do Lema \ref{projection_switching_lemma_P1} e somando sobre todas as possibilidades de $\beta$ obtemos o seguinte: 
+	
+	\begin{equation} \label{summing_over_beta}
+		\sum_{\beta}\sum_{\rho_{i}^{\prime} \in \mathcal{C}} \bigg( \frac{t_{i - 1}}{1 - t_{i - 1}} \bigg)^{\lVert \beta \rVert} \Pr_{\boldsymbol{\rho} \leftarrow P_{i}}[\boldsymbol{\rho} = \rho_{i}^{\prime}] \leq \sum_{k = 0}^{rs} \binom{rs}{k} \bigg( \frac{t_{i - 1}}{1 - t_{i - 1}} \bigg)^{k} \Pr_{\boldsymbol{\rho} \leftarrow P_{i}}[\boldsymbol{\rho} \in \mathcal{C}] \leq \bigg( 1 + \frac{t_{i - 1}}{1 - t_{i - 1}}\bigg)^{rs} \leq e^{rs\frac{t_{i - 1}}{1 - t_{i - 1}}}.
+	\end{equation}
+	
+	Se somarmos também sobre todas as possibilidades de $\mu$ e $\delta$ e levando em conta as desigualdades \ref{estimating_eqn} e \ref{summing_over_beta} temos que:
+	
+	\begin{equation*}
+		\Pr_{\boldsymbol{\rho} \leftarrow P_{i}}[\boldsymbol{\rho} \in \mathcal{B}_{i}] = \widetilde{\mathcal{O}}(re^{r\frac{t_{i - 1}}{1 - t_{i - 1}}}w^{-1/4})^{s},
+	\end{equation*}
+
+	o que conclui a prova do lema.
 
 \end{proof}
+
+\subsubsection{Prova dos Teoremas \ref{Sipser_f_lb} e \ref{Sipser_f_lb_app}}
 
 Agora nós iremos provar o Teorema \ref{Sipser_f_lb} que nós enunciamos mais uma vez por conveniência.
 
 \begin{teo} \label{Sipser_f_lb_2}
 
-Seja $d > 2$ e $n$ suficientemente grande, qualquer circuito de tamanho $S < 2^{\Theta\big(\sqrt{\frac{n}{d\log n}}\big)}$ não computa a função $f^{d, n}$ corretamente em todas as entradas.
+Seja $d > 2$ e $m$ suficientemente grande, então qualquer circuito de tamanho $S \leq 2^{w^{1/5}}$ e profundidade $d - 1$ não computa a função $f^{m, d}$ corretamente em todas as entradas.
 
 \end{teo} 
 
-Assim como fizemos na prova do Teorema \ref{parity_lb_2}, nós iremos provar o Teorema \ref{Sipser_f_lb_2} em duas partes em que mostramos o seguinte em cada uma delas. Seja $C$ um circuito de profundidade $d$, tamanho $S = 2^{n^{\Theta(\frac{1}{d - 1})}}$ e com fan-in polilogaritmico no teu nível mais baixo:
+\begin{teo} \label{Sipser_f_lb_app_2}
+
+Seja $d > 2$ e $m$ suficientemente grande, então qualquer circuito de tamanho $S \leq 2^{w^{1/5}}$ e profundidade $d - 1$ falha em computar a função $f^{m, d}$ corretamente numa fração maior do que $1/2 - \widetilde{\mathcal{O}}(w^{-1/2})$ das entradas.
+
+\end{teo}
+
+O Teorema \ref{Sipser_f_lb_2} é consequência de dois fatos que listamos a seguir. Seja $C$ um circuito de profundidade $d$ com no máximo $2^{w^{1/5}}$ portas lógicas no seu segundo nível pra cima e com fan-in $m/5$ no seu nível mais baixo:
 
 \begin{enumerate}
 
-	\item Com alta probabilidade $\Psi(C) = \proj_{\rho_{1}\rho_{2}\dots\rho_{d - 1}}C$ é  computada por uma árvore de decisão de profundidade pequena.
+	\item Com alta probabilidade, $\Psi(C) = \proj_{\rho_{1}\rho_{2}\dots\rho_{d - 1}}C$ é  computada por uma árvore de decisão de profundidade pequena.
 	
-	\item Com alta probabilidade, $\Psi(f^{m, d}) = \proj_{\rho_{1}\rho_{2}\dots\rho_{d - 1}}$ é uma fórmula de com profundidade 1 sobre um número razoável de variáveis em $A_{d - 1}$.
+	\item Com alta probabilidade, $\Psi(f^{m, d}) = \proj_{\rho_{1}\rho_{2}\dots\rho_{d - 1}}f^{m, d}$ é uma fórmula de profundidade 1 sobre um número razoável de variáveis em $A_{d - 1}$.
 
 \end{enumerate}
 
-Primeiro iremos provar (1) mostrando que circuitos daquele tipo simplificam quando aplicamos $\Psi$, o que podemos fazer usando o mesmo argumento na prova do Teorema \ref{parity_lb_2} e uma sequência de aplicações dos Lemas \ref{projection_switching_lemma_P1} e \ref{projection_switching_lemma_Pi}.
+O item (2) é a Proposição \ref{struct_preserve}. O item (1) nós usamos a mesma estratégia na prova do Teorema \ref{parity_lb_2} usando uma sequência de aplicações dos Lemas \ref{projection_switching_lemma_P1} e \ref{projection_switching_lemma_Pi} para reduzir a profundidade do circuito. Note que estamos agora falando de circuitos com profundidade $d$, mas a proposição \ref{Sipser_f_lb_2} segue pois qualquer circuito de profundidade $d - 1$ pode trivialmente ser convertido em um circuito de profundidade $d$ com fan-in arbitrário se trocarmos cada variável de entrada que alimenta uma porta $\land$ ($\lor$) no seu nível mais baixo por uma porta $\lor$ ($\land$) que recebe como entrada somente aquela variável de entrada.
 
-\begin{prop}
+\begin{prop} \label{circuit_simplifies}
 
-Seja $d > 2$ e $n$ suficientemente grande, então qualquer circuito de tamanho $S = 2^{\mathcal{O} \big(n^{\frac{1}{d - 1}} \big)}$, profundidade $d$ e fan-in polilogarítmico no nível mais baixo satisfaz:
+Seja $d > 2$, então qualquer circuito $C$ de profundidade $d$ com no máximo $2^{w^{1/5}}$ portas no seu segundo nível pra cima e fan-in $m/5$ no nível mais baixo satisfaz:
 
 \begin{equation*}
-	\Pr[D(\Psi(C)) < (...)] \geq (...),
+	\Pr[D(\Psi(C)) \leq 10] \geq 1 - \widetilde{\mathcal{O}}(w^{-1/2}),
 \end{equation*}
 
-onde $\Psi = \rho_{1}\rho_{2}\dots\rho_{d - 1}$ e cada $\rho_{i}$ é tirada de $P_{i}$, $i = 1, 2, \dots, d - 1$.
+onde $\Psi = \proj_{\rho_{1}\rho_{2}\dots\rho_{d - 1}}$ em que cada $\rho_{i} \leftarrow P_{i}$.
 
 \end{prop}
 
 \begin{proof}
 
-Suponha que o tamanho de $C$ seja $S = 2^{10n^{\frac{1}{d - 1}}}$ e o fan-in no nível mais baixo seja $\log^{c} n$, para algum $c > 0$. Vamos assumir sem perda de generalidade que as portas lógicas no nível mais baixo de $C$ são porta $\land$.
+Vamos denotar por $S_{i}$ o número de portas lógicas no $i$-ésimo nível de $C$ e $S^{*} = \sum_{i = 2}^{d} S_{i} \leq 2^{w^{1/5}}$.
 
-Ao aplicarmos $\rho_{1}$ às variáveis em $A_{0}$ temos pelo Lema \ref{projection_switching_lemma_P1} que com probabilidade pelo menos $1 - \lvert A_{2} \rvert (...)$ podemos trocar cada porta $\lor$ no segundo nível de $C$ por uma árvore de decisão de profundidade no máximo (...) e daí podemos colapsar os segundo e terceiro níveis obtendo um circuito sobre as variáveis em $A_{1}$ com profundidade $d - 1$ e com fan-in (...) no teu nível mais baixo que computa $\proj_{\rho_1}C$.
+Vamos assumir sem perda de generalidade que as portas lógicas no nível mais baixo de $C$ são portas $\land$. O que nós queremos fazer é aplicar os lemas \ref{projection_switching_lemma_P1} e \ref{projection_switching_lemma_Pi} em cada nível do circuito, assim como fizemos na prova do teorema \ref{teo: parity_lb}, reduzindo a profundidade do circuito em 1 com alta probabilidade. Agora mostramos como proceder com este argumento.
 
-Depois disso aplicamos o lema \ref{projection_switching_lemma_Pi} $d - 2$ vezes obtendo com probabilidade pelo menos $1 - S(...)$ uma árvore de decisão de profundidade pelo menos (...) que computa $\Psi(C) = \proj_{\rho_{1}\rho_{2}\dots\rho_{d - 1}}C$.
+\begin{itemize}
+
+    \item Primeiro nós aplicamos o lema da troca para o espaço de projeções $P_{1}$ (\ref{projection_switching_lemma_P1}) com os parâmetros $r = m/5$ e $s = \log S^{* 2}$. Seja $a$ uma porta $\lor$ no segundo nível de $C$ e seja $f_{a}$ a fórmula FND computada por $a$. Pelo lema da troca para $P_{1}$ e por $C$ ter fan-in $m/5$ no seu nível mais baixo, nós temos o seguinte.
+    
+    \begin{equation*}
+        \Pr[\cand(\proj_{\rho_{1}}f_{a}) \geq \log S^{* 2}] = \widetilde{\mathcal{O}}\Big( \frac{m}{5}2^{m/5} w^{-1/4}\Big)^{\log S^{* 2}}.
+    \end{equation*}
+    
+    E como $\frac{m}{5}2^{m/5}w^{-1/4} = \widetilde{\mathcal{O}}(w^{-1/20}) = o(1)$ temos que para $m$ suficientemente grande (lembrando que $w$ depende de $m$) é verdade que
+    
+    \begin{equation*}
+        \Pr[\cand(\proj_{\rho_{1}}f_{a}) \geq \log S^{* 2}] \leq 2^{-\log S^{* 2}} = \frac{1}{S^{* 2}}.
+    \end{equation*}
+    
+    \item Agora, seja $i \in \{2, 3, \dots, d - 2\}$ e assuma que as projeções $\rho_{1}, \rho_{2}, \dots, \rho_{i - 1}$ sucederam em todas as suas aplicações. Nós aplicamos o lema da troca para o espaço de projeção $P_{i}$ com os parâmetros $r = s = \log S^{* 2}$. Seja $a$ uma porta lógica no $(i + 1)$-ésimo nível de $C$ que computa $f_{a}$ que no caso seria uma fórmula FND se $i$ é ímpar ou uma fórmula FNC se $i$ é par. Por \ref{projection_switching_lemma_Pi} e pelas portas lógicas no $i$-ésimo nível agora terem fan-in no máximo $\log S^{* 2}$ nós temos que
+    
+    \begin{equation*}
+        \Pr[\cand(\proj_{\rho_{1}\rho_{2}\dots\rho_{i}}f_{a}) \geq \log S^{* 2}] = \widetilde{\mathcal{O}} \big( \log S^{* 2} e^{\log S^{* 2} \frac{t_{i - 1}}{1 - t_{i - 1}}} w^{-1/4} \big)^{\log S^{* 2}}.
+    \end{equation*}
+    
+    Nós temos de novo que a expressão na base da exponenciação é $\widetilde{\mathcal{O}}(w^{-1/20}) = o(1)$ e portanto para $m$ suficientemente grande,
+    
+    \begin{equation*}
+        \Pr[\cand(\proj_{\rho_{1}\rho_{2}\dots\rho_{i}}f_{a}) \geq \log S^{* 2}] \leq 2^{-\log S^{* 2}} = \frac{1}{S^{* 2}}.
+    \end{equation*}    
+    
+    \item Para o último passo assuma que todas projeções anteriores sucederam e portanto o que resta é uma fórmula de profundidade 2 sobre as variáveis em $A_{d - 2}$. Nós aplicamos o lema de troca para o espaço de projeções $P_{d - 1}$ às variáves de $A_{d - 2}$ com os parâmetros $r = \log S^{* 2}$ e $r = 10$ e temos que
+    
+    \begin{equation} \label{last_projection_step}
+        \Pr[\cand(\Psi(C)) \geq 10] = \widetilde{\mathcal{O}} \big( \log S^{* 2} e^{\log S^{* 2} \frac{t_{i - 1}}{1 - t_{i - 1}}} w^{-1/4} \big)^{10},
+    \end{equation}
+    
+    o que implica em
+    
+    \begin{equation*}
+        \Pr[\cand(\Psi(C)) \geq 10] = \widetilde{\mathcal{O}}(w^{-1/2}),
+    \end{equation*}
+    
+    porque a expressão na base da exponenciação em \ref{last_projection_step} é $\widetilde{\mathcal{O}}(w^{-1/20})$.
+    
+\end{itemize}
+
+Por fim aplicamos o princípio da inclusão-exclusão para dar um limitante inferior para a probabilidade que todos as projeções sucederam em transformar as fórmulas de profundidade 2 computada por cada porta lógica de $C$ em uma árvore de decisão de baixa profundidade, obtendo o seguinte.
+
+\begin{equation*}
+    \Pr[\cand(\Psi(C)) < 10] \geq 1 - \frac{S^{*}}{S^{* 2}} - \widetilde{\mathcal{O}}(w^{-1/2}) \geq 1 - \frac{1}{2^{w^{1/5}}} - \widetilde{\mathcal{O}}(w^{-1/2}) = 1 - \widetilde{\mathcal{O}}(w^{-1/2}).
+\end{equation*}
+
+%Vamos assumir sem perda de generalidade que as portas lógicas no nível mais baixo de $C$ são portas $\land$. No que segue nós iremos considerar que para $m$ suficientemente grande é verdade que $\widetilde{\mathcal{O}}(r2^{r}w^{-1/4})$ e $\widetilde{\mathcal{O}}(r2^{r\frac{t_{i - 1}}{1 - t_{i - 1}}}w^{-1/4})$ são menores do que $1/2$ sempre que $r \leq m/5$ e $r \leq \log(120S^{*})$, respectivamente (lembrando que $w$ e $t_{i - 1}$ dependem de $m$).
+
+%Ao aplicarmos $\rho_{1}$ às variáveis em $A_{0}$ temos pelo Lema \ref{projection_switching_lemma_P1} com os parâmetros $r = m/5$ e $s = \log(120S^{*})$ que com probabilidade pelo menos $1 - S_{2}\widetilde{\mathcal{O}}(\frac{1}{5}m2^{\frac{1}{5}m}w^{-1/4})^{\log(120S^{*})} \geq 1 - S_{2}2^{-\log(120S^{*})} = 1 - \frac{S_{2}}{120S^{*}}$ podemos trocar cada porta $\lor$ no segundo nível de $C$ por uma árvore de decisão de profundidade no máximo $\log(120S^{*})$ e daí podemos colapsar os segundo e terceiro níveis obtendo um circuito sobre as variáveis em $A_{1}$ com profundidade $d - 1$ e com fan-in $\log(120S^{*})$ no seu nível mais baixo que computa $\proj_{\rho_1}C$.
+
+%Depois disso aplicamos o lema \ref{projection_switching_lemma_Pi} com os parâmetros $r = s = \log(120S^{*})$ $d - 3$ vezes e com probabilidade pelo menos $1 - (S_{3} + S_{4} + \dots + S_{d - 2})\widetilde{\mathcal{O}}(\log(120S^{*})2^{\log(120S^{*})\frac{t_{i - 1}}{1 - t_{i - 1}}}w^{-1/4})^{\log(120S^{*})} \geq 1 - (S^{*} - S_{2})2^{-\log(120S^{*})} = 1 - \frac{S^{*} - S_{2}}{120S^{*}}$ todas as projeções $\rho_{i} \leftarrow P_{i}$, para $i = 2, 3, \dots, d - 2$, sucederam em reduzir a profundidade de $C$ em um obtendo então um circuito sobre as variáveis em $A_{d - 2}$ de profundidade 2 e fan-in no nível mais baixo igual a $\log(120S^{*})$ que computa $\proj_{\rho_{1}\rho_{2}\dots\rho_{d - 2}}C$. Por fim aplicamos o lema \ref{projection_switching_lemma_Pi} com os parâmetros $r = \log(120S^{*})$ e $s = 10$ e temos que com probabilidade pelo menos $1 - 2^{-10}$ podemos converter $\proj_{\rho_{1}\rho_{2}\dots\rho_{d - 2}}C$ em uma árvore de decisão com profundidade 10 que computa $\Psi(C) = \proj_{\rho_{1}\rho_{2}\dots\rho_{d - 1}}C$.
+
+%Portanto temos que com probabilidade pelo menos $1 - \frac{1}{120} - 2^{-10} \geq 0,99$ a função $\Psi(C)$ tem uma árvore de decisão de profundidade 10.
 
 \end{proof}
 
-\section{Provas Naturais}
+Então nós já temos por \ref{struct_preserve} e \ref{circuit_simplifies} que $f^{m, d}$ não pode ser computada por um circuito de tamanho $2^{w^{1/5}}$, profundidade $d$ e fan-in $m/5$ no nível mais baixo pois com probabilidade positiva teremos que $\Psi(f^{m, d})$ é uma função que depende em um grande número de variáveis enquanto que $\Psi(C)$ depende apenas de um número constante de variáveis. Por completude a prova do teorema \ref{Sipser_f_lb_2} segue abaixo:
 
-\section{Limites inferiores a partir de algoritmos eficientes}
+\begin{proof} (Prova do teorema \ref{Sipser_f_lb}, \ref{Sipser_f_lb_2})
 
-\section{Circuitos algebráicos}
+Seja $C$ um circuito de profundidade $d$, tamanho menor do que $2^{w^{1/5}}$ e com fan-in no nível mais baixo menor do que $m/5$. Por \ref{circuit_simplifies} sabemos que com probabilidade maior do que $1 - \widetilde{\mathcal{O}}(w^{-1/2})$, $\Psi(C)$ é representável por uma árvore de decisão de profundidade no máximo 10. Por outro lado, por \ref{struct_preserve} temos que com probabilidade maior do que $1 - e^{-\widetilde{\Omega}(w^{1/6})}$ nós temos que $\Psi(f^{m, d})$ é um circuito de profundidade 1 que depende de $n^{\prime}
+$ variáveis, onde $n^{\prime} \in [qw_{d} - w^{g(d - 1, d)}, qw_{d} + w^{g(d - 1, d)}]$. Portanto, pelo Princípio da Inclusão-Exclusão com probabilidade maior do que $1 - \widetilde{\mathcal{O}}(w^{-1/2}) - e^{-\widetilde{\Omega}(w^{1/6})}$ temos que ambos os eventos acontecem. Como o $\lor$ de $n^{\prime} >> 10$ variáveis não pode ser representado por um árvore de decisão de profundidade 10, temos pelo método probabilístico que $C$ não pode ser um circuito para a função $f^{m, d}$.
+
+\end{proof}
+
+Para provar o teorema \ref{Sipser_f_lb_app_2} nosso objetivo agora é mostrar que $\Psi(f^{m, d})$ e $\Psi(C)$ com alta probabilidade nem sequer são correlacionadas.
+
+\begin{prop} \label{depth_1_circuit_low_depth_dt_uncorrelated}
+
+Seja $f: A_{d - 1} \to \binalph$ o $\lor$ de $n^{\prime}$ variáveis, onde $n^{\prime} \in [qw_{d} - w^{g(d - 1, d)}, qw_{d} + w^{g(d - 1, d)}]$, e $g: A_{d - 1} \to \binalph$ uma função computável por uma árvore de decisão de profundidade 10, então temos que
+
+\begin{equation*}
+	\Pr_{\boldsymbol{x} \sim \{0_{1 - t_{d - 1}}, 1_{t_{d - 1}}\}}[f(\boldsymbol{x}) \neq g(\boldsymbol{x})] \geq 1/2 - \widetilde{\mathcal{O}}(w^{-1/12}).
+\end{equation*}
+
+\end{prop}
+
+\begin{proof}
+
+Seja $T$ uma árvore de decisão com profundidade 10 que melhor aproxima $f$. Para alguma entrada $x \leftarrow \{0_{1 - t_{d - 1}}, 1_{t_{d - 1}}\}^{A_{d - 1}}$ temos que $T$ vê um 1 com probabilidade no máximo $10t_{d - 1}$ e nesse caso $T$ pode sempre dar como saída o valor correto de $f(x)$ (no caso teriamos $T(x) = f(x) = 1$). 
+
+Por outro lado, com probabilidade maior do que $1 - 10t_{d - 1}$, $T$ vê somente 0s após fazer 10 consultas às suas variáveis de entrada. Vamos considerar então a função $f^{\prime}$ que é o $\lor$ das $n^{\prime} - 10$ variáveis em $A_{d - 1}$ que não foram consultadas por $T$ no caso em que todas as 10 consultas retornaram 0. Então, a melhor estratégia que $T$ pode fazer é adivinhar o valor de $f^{\prime}$ sobre uma entrada tirada da distribuição $\{0_{1 - t_{d - 1}}, 1_{t_{d - 1}}\}^{A_{d - 1}}$. Mais especificamente, a melhor estratégia que $T$ pode tomar é dar como saída um valor $b \in \binalph$ tal que com respeito à distribuição $\{0_{1 - t_{d - 1}} 1_{t_{d - 1}}\}^{A_{d - 1}}$ é verdade que $\Pr[f^{\prime} = b] \geq \Pr[f^{\prime} = 1 - b]$. Nós temos que
+
+\begin{equation*}
+    \Pr_{\boldsymbol{x} \sim \{0_{1 - t_{d - 1}}, 1_{t_{d - 1}}\}}[f^{\prime}(\boldsymbol{x}) = 0] = (1 - t_{d - 1})^{n^{\prime} - 10},
+\end{equation*}
+
+o qual podemos ver satisfaz
+
+\begin{equation*}
+    1/2 - \widetilde{\mathcal{O}}(w^{-1/12}) \leq (1 - t_{d - 1})^{n^{\prime} - 10} \leq 1/2 + \widetilde{\mathcal{O}}(w^{-1/12}).
+\end{equation*}
+
+Segue então que qualquer que for a estratégia que $T$ pode tomar, $T$ irá dar como saída o valor correto de $f(x)$ com probabilidade no máximo $1/2 + \widetilde{\mathcal{O}}(w^{-1/12})$. Ao todo, $T$ corretamente computa $f$ com probabilidade no máximo
+
+\begin{equation*}
+    10t_{d - 1} + 1/2 + \widetilde{\mathcal{O}}(w^{-1/12}) = 1/2 + \widetilde{\mathcal{O}}(w^{-1/12}).
+\end{equation*}
+
+Podemos então concluir que
+
+\begin{equation*}
+    \Pr_{\boldsymbol{x} \sim \{0_{1 - t_{d - 1}}, 1_{t_{d - 1}}\}}[f(\boldsymbol{x}) \neq T(\boldsymbol{x})] \geq 1/2 - \widetilde{\mathcal{O}}(w^{-1/12}).
+\end{equation*}
+
+Pela forma que definimos $T$ o resultado da proposição segue como consequência.
+
+\end{proof}
+
+A partir de \ref{circuit_simplifies}, \ref{struct_preserve} e \ref{depth_1_circuit_low_depth_dt_uncorrelated} podemos provar o teorema \ref{Sipser_f_lb_app_2}.
+
+\begin{proof} (Prova do teorema \ref{Sipser_f_lb_app}, \ref{Sipser_f_lb_app_2})
+
+Na prova do teorema \ref{Sipser_f_lb_2} nós vimos que com probabilidade $1 - \widetilde{\mathcal{O}}(w^{-1/2})$ é verdade que $\Psi(C)$ e $\Psi(f^{m, d})$ caem no caso da proposição \ref{depth_1_circuit_low_depth_dt_uncorrelated}. Portanto temos que
+
+\begin{equation*}
+    E_{\Psi}\bigg[ \Pr_{\boldsymbol{x} \sim \{0_{1 - t_{d - 1}}, 1_{t_{d - 1}}\}}[\Psi(C) \neq \Psi(f^{m, d})] \bigg] \geq \Big( 1 - \widetilde{\mathcal{O}}(w^{-1/ 2}) \Big) \Big( 1/2 - \widetilde{\mathcal{O}}(w^{-1/12}) \Big) = 1/2 - \widetilde{\mathcal{O}}(w^{-1/2}).
+\end{equation*}
+
+Daí segue por \ref{complete_to_uniform_cor} que
+
+\begin{equation*}
+    \Pr_{\boldsymbol{x} \sim \binalph^{n}}[C(\boldsymbol{x}) \neq f^{m, d}(\boldsymbol{x})] \geq 1/2 - \widetilde{\mathcal{O}}(w^{-1/2}).
+\end{equation*}
+
+\end{proof}

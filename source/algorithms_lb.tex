@@ -1,0 +1,15 @@
+\chapter{Teoremas de transferência}
+
+Logo no começo da introdução deste trabalho nós mencionamos uma dicotomia entre complexidade computacional, o estudo de quão difíceis problemas computacionais são, e  o design de algoritmo eficientes. Pode parecer que achar um algoritmo eficiente para um problema não nos diria nada a respeito da dificuldade de outros problemas, porém, a existência de hierarquias de classes de complexidade como as que vimos em (...) na verdade impõem limitações para a existência de algoritmos rápidos para determinados problemas e colapsos de algumas classes de complexidade. Para nos convecermos disto nós podemos considerar o seguinte teorema:
+
+\begin{teo} [Meyer] \label{meyer_theorem}
+
+Se $\EXP \subseteq \Ppoly$ então $\EXP = \Sigma_{2}^{p}$.
+
+\end{teo}
+
+Agora, assuma que $EXP \subseteq \Ppoly$ e $\P = \NP$. Nós podemos generalizar o teorema \ref{teo: phcollapse} e obter que $\P = \NP$ implica em $\P = \PH = \Sigma_{2}^{p}$, e então pelo teorema \ref{meyer_theorem} nós teriamos que $\P = \EXP$, o que é uma contradição pelo teorema da hierarquia de tempo determinístico que nós vimos em \ref{dtime_hierarchy}. Portanto, achar um circuito de tamanho polinomial para um problema $\EXP$-completo nós daria um limitante inferior para o tempo necessário para decidir um problema $\NP$-completo como $\SAT$. O que está por trás deste exemplo e de todos outros resultados deste tipo que veremos é que uma vez que não sabemos a relação exata entre $\P$, $\Sigma_{2}^{p}$ e $\EXP$, com a exceção que sabemos que $\EXP$ não pode estar contido em $\P$, então dizer que $\EXP$ é tão ``fácil'' quanto $\Sigma_{2}^{p}$ também nos diz sobre a perspectiva da classe $\P$ que $\Sigma_{2}^{p}$ não pode ser uma classe tão fraca quanto $\P$, e daí obtemos que $\P \neq NP$.
+
+Antes de falar sobre teoremas de transferência nós iremos ver o porquê precisamos destas técnica, ou equivalentemente iremos ver o porquê que o método de restrições/projeções aleatórias do capítulo anterior não são capazes de provar limitantes inferiores para classes maiores do que $\AC^{0}$.
+
+\section{Provas Naturais} 

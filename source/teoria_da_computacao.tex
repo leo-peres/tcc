@@ -1,11 +1,120 @@
-\chapter{Fundamentos}
+\chapter{Fundamentos} \label{chapter_fundaments}
 
 Neste capítulo nós introduzimos algumas convenções e conceitos fundamentais para entender este trabalho. Muitas das convenções usadas aqui são as mesmas encontradas em alguns dos principais livros de teoria da computação~\cite{arora2009computational, goldreich2000computational, savage1998models, lewis1997elements, sipser2012introduction}. 
 
-Introduzimos primeiro linguagens e como representar problemas computacionais como linguagens. Depois falamos de máquinas de Turings e suas variantes, e mostramos alguns resultados de fundamental importância. Na seção \ref{circuitos} nós vemos circuitos Booelanos como um modelo de computação. Nas seções \ref{complexidade} e \ref{complexidade_circuitos} nós discutiremos complexidade computacional pela primeira vez em algum detalhe. Finalmente, na seção \ref{funcoes_booleanas} veremos um introdução elementar à análise de Fourier de funções Booleanas.
+Introduzimos primeiro na seção \ref{section_mathematical_definitions} algumas definições matemáticas que serão importante ao longo deste texto e também linguagens e como representar problemas computacionais como linguagens na seção \ref{section_languages}. Depois falamos de máquinas de Turings e suas variantes em \ref{section_turing_machines}. Máquinas de Turing foram introduzidas por Alan Turing em \cite{turing1936computable} e são a partir delas que iremos introduzir as principais classes de complexidade. Na seção \ref{section_boolean_circuits} nós vemos circuitos Booleanos como um modelo de computação. Nas seções \ref{section_computational_complexity} e \ref{section_circuit_complexity} nós discutiremos complexidade computacional pela primeira vez em algum detalhe.
 
+\section{Definições matemáticas} \label{section_mathematical_definitions}
 
-\section{Linguagens} \label{linguagens}
+Ao longo deste trabalho nós vamos usar a notação $[n]$ quando queremos expressar o conjunto $\{1, 2, \dots, n\}$ de todos os números naturais menores ou iguais a $n$. Também, sempre que tivermos uma sequência $x_{1}, x_{2}, \dots, x_{n}$ nós podemos sucintamente usar a notação $\{x_{i}\}_{i \in [n]}$. Se $f$ é uma função qualquer e $S$ é um conjunto, então denotamos por $f^{-1}(S)$ o conjunto $\{ x \lvert f(x) \in S\}$. Se $S = \{y\}$ contém apenas um elemento então podemos escrever $f^{-1}(y)$ ao invés de $f^{-1}(S)$.
+
+Ao longo do texto iremos várias vezes usar as seguintes desigualdades.
+
+\begin{enumerate}
+
+    \item $(1 + x)^{r} \geq 1 + rx$, para todo número real $x \geq -1$ e todo número inteiro $r \geq 1$.
+    
+    \item $1 + x \leq e^{x}$, para todo número real $x \in \mathbb{R}$.
+
+\end{enumerate}
+
+O item (1) segue do teorema binomial que diz que $(1 + a)^{r} = \sum_{k = 0}^{r} \binom{r}{k} x^{k} = 1 + ar + \frac{r(r - 1)}{2}a^{2} + \dots$. Para a segunda desigualdade nós temos que os casos em que $x < -1$ e $x = 0$ são triviais. Para $x > 0$, nós podemos usar a expansão de Taylor de $e^{x}$:
+
+\begin{equation} \label{taylor_expansion_ex}
+    e^{x} = 1 + x + \frac{x^{2}}{2!} + \frac{x^{3}}{3!} + \dots.
+\end{equation}
+
+Então temos que $e^{x}$ é igual a $1 + x$ mais algum valor não negativo. Para $-1 \leq x < 0$ nós fazemos o seguinte. Seja $y > 0$ tal que $x = -\frac{1}{y}$. Então é verdade que
+
+\begin{equation*}
+   1 + x =  \bigg( 1 - \frac{1}{y} \bigg)^{-yx},
+\end{equation*}
+
+e argumentamos que
+
+\begin{equation} \label{ex_limit}
+    \lim_{n \to \infty} \bigg( 1 - \frac{1}{n} \bigg)^{-nx} = e^{x}.
+\end{equation}
+
+Como o limite acima aproxima-se do limite $e^{x}$ pela esquerda teremos então que $\bigg( 1 - \frac{1}{n} \bigg)^{-nx} \leq e^{x}$, para todo $n > 0$. Em particular teremos que $1 + x = \bigg( 1 - \frac{1}{y} \bigg)^{-yx} \leq e^{x}$. Podemos provar \ref{ex_limit} usando a versão generalizado do teorema binomial que afirma que para todo $a, r \in \mathbb{R}$ é verdade que $(1 + a)^{r} = 1 + ra + \frac{r(r - 1)}{2!}a^{2} + \frac{r(r - 1)(r - 2)}{3!}a^{3} + \dots$. Então, fazendo $a = -\frac{1}{n}$ e $r = -nx$:
+
+\begin{equation*}
+    \lim_{n \to \infty} \bigg( 1 - \frac{1}{n} \bigg)^{-nx} = \lim_{n \to \infty} 1 + x + \frac{-nx(-nx - 1)}{2!}\frac{1}{n^{2}} + \frac{-nx(-nx - 1)(-nx - 2)}{3!} \bigg( -\frac{1}{n^{3}} \bigg) + \dots.
+\end{equation*}
+
+Para todo $k > 2$ o $k$-ésimo termo tende a $\frac{x^{k}}{k!}$ com $n$ indo ao infinito. Portanto temos que
+
+\begin{equation*}
+ \lim_{n \to \infty} \bigg( 1 - \frac{1}{n} \bigg)^{-nx} = 1 + x + \frac{x^{2}}{2!} + \frac{x^{3}}{3!} + \dots,
+\end{equation*}
+
+que é a expansão de Taylor de $e^{x}$.
+
+\subsubsection{Notação assintótica}
+
+Em ciência da computação é comum ao estarmos considerando funções que crescem com algum parâmetro $n$ apenas levarmos em conta o comportamento assintótico da função, que é basicamente o comportamento da função no limite dos grandes números. Assim sendo, nós a notação assintótica para classificar funções a partir de seu comportamento assintótico. Nós dizemos que
+
+\begin{itemize}
+
+    \item $f = \mathcal{O}(g)$ se existem constantes $c, n_{0} \in \mathbb{R}$ tais que para todo $n \geq n_{0}$, $f(n) \leq cg(n)$.
+    
+    \item $f = \Omega(g)$ se existem constantes $c, n_{0} \in \mathbb{R}$ tais que para todo $n \geq n_{0}$, $f(n) \geq cg(n)$.
+    
+    \item $f = \Theta(g)$ se $f = \mathcal{O}(g)$ e $f = \Omega(g)$.
+    
+    \item $f = o(g)$ se $\lim_{n \to \infty} \frac{f(n)}{g(n)} = 0$.
+    
+    \item $f = \omega(g)$ se $\lim_{n \to \infty} \frac{g(n)}{f(n)} = 0$.
+
+\end{itemize}
+
+Ao usar a notação assintótica estamos apenas pegando o termo de maior ordem de uma função, ignorando fatores constantes e termos de menor ordem. Por exemplo, se $f = 4n^{2} + 31n + 4$ então dizemos apenas que $f = \mathcal{O}(n^{2})$. Se quisermos ignorar fatores polilogaritmicos nós usamos $\widetilde{\mathcal{O}}$, $\widetilde{\Omega}$ e $\widetilde{\Theta}$. Por exemplo, temos que $n\log n = \widetilde{\Theta}(n)$ ao mesmo tempo que $n\log n = \omega(n)$.
+
+\subsubsection{Probabilidade e variáveis aleatórias}
+
+Iremos denotar por $\{0_{p}, 1_{1 - p}\}$ e $\{0_{1 - p}, 1_{p}\}$ a distribuição de bits aleatórios onde o bit 0 é tirado com probabilidade $p$ e $1 - p$, respectivamente. Para a distribuição uniforme podemos alternativamente usar as notações $\{0, 1\}$ ou $\{0_{\frac{1}{2}}, 1_{\frac{1}{2}}\}$.
+
+Sempre que quisermos denotar objetos aleatórios nós iremos destacar este objeto em negrito. Por exemplo, denotamos por $\boldsymbol{x}$ uma string aleatória tirada de $\{0, 1\}^{n}$, o que pode ser denotado por $\boldsymbol{x} \sim \{0, 1\}^{n}$.
+
+Em geral, um espaço de probabilidade $\Omega$ é um conjunto $\{\boldsymbol{\omega}_{1}, \boldsymbol{\omega}_{2}, \dots \}$ e associamos a $\Omega$ uma distribuição de probabilidade $\mathcal{D} = \{p_{1}, p_{2}, \dots \}$ em que cada elemento $\boldsymbol{\omega}_{i} \in \Omega$ tem uma probabilidade $p_{i}$ associada a ele e $\sum_{\boldsymbol{\omega}_{i} \in \Omega} p_{i} = 1$. Como já fizemos no parágrafo anterior, nós denotamos que $\boldsymbol{\omega} \in \Omega$ é tirada da distribuição $\mathcal{D}$ por $\boldsymbol{\omega} \sim \mathcal{D}$. Uma variável aleatória $\boldsymbol{X}$ em um espaço de probabilidade $\Omega$ é uma função $\boldsymbol{X}: \Omega \to \mathbb{R}$ e denotamos o valor esperado de $\boldsymbol{X}$ por $E_{\boldsymbol{\omega}_{i} \sim \Omega}[\boldsymbol{X}(\boldsymbol{\omega}_{i})] = \sum_{\boldsymbol{\omega}_{i}} p_{i}\boldsymbol{X}(\boldsymbol{\omega}_{i})$. Nós geralmente iremos apenas escrever $\boldsymbol{X}$ ao invés de $\boldsymbol{X}(\boldsymbol{\omega}_{i})$, e algumas vezes iremos até mesmo omitir a distribuição quando o contexto for claro o suficiente.
+
+As seguintes desigualdades serão de grande importância para nós. Seja $\boldsymbol{X}$ uma variável aleatória satisfazendo $E[\boldsymbol{X}] = \mu$. A desigualdade de Chernoff diz que
+
+\begin{equation} \label{chernoff_bound_1}
+    \Pr \bigg[ \Big\lvert \boldsymbol{X} - \mu \Big\rvert \geq (1 + \delta)\mu \bigg] \leq e^{-\frac{\delta^{2}}{2 + \delta}\mu}.
+\end{equation}
+
+E também, para $0 \leq \delta < 1$,
+
+\begin{equation}
+    \Pr \bigg[ \Big\lvert \boldsymbol{X} - \mu \Big\rvert \leq (1 - \delta)\mu \bigg] \leq e^{-\frac{\delta^{2}}{2}\mu}.
+\end{equation}
+
+No primeiro caso podemos relaxar a desigualdade para uma forma mais conveniente.
+
+\begin{equation*}
+    \Pr \bigg[ \Big\lvert \boldsymbol{X} - \mu \Big\rvert \geq (1 + \delta)\mu \bigg] \leq e^{-\frac{\delta^{2}}{3}\mu}, \text{ se } 0 \leq \delta \leq 1.
+\end{equation*}
+
+e também
+
+\begin{equation*}
+    \Pr \bigg[ \Big\lvert \boldsymbol{X} - \mu \Big\rvert \geq (1 + \delta)\mu \bigg] \leq e^{-\frac{\delta}{3}\mu}, \text{ se } \delta \geq 1.
+\end{equation*}
+
+A desigualdade de Hoeffding nos dá um limitante superior para a probabilidade que a soma de variáveis aleatórias se afastem demais de suas médias. Sejam $\boldsymbol{X}_{1}, \boldsymbol{X}_{2}, \dots, \boldsymbol{X}_{n}$ variáveis aleatórias tais que cada $\boldsymbol{X}_{i} \in [a, b]$. Então, para $t > 0$: 
+
+\begin{equation} \label{hoeffding_bound}
+    \Pr \bigg[\frac{1}{n} \Big( \sum_{i = 1}^{n} \boldsymbol{X}_{i} - \E\big[ \boldsymbol{X}_{i} \big] \Big) \geq t \bigg] \leq e^{-\frac{2nt^{2}}{(b - a)^{2}}}.
+\end{equation}
+
+Uma variável aleatória indicadora $\boldsymbol{X}$ para algum evento é 1 se este evento acontece e 0 caso contrário. Uma variável aleatória indicadora para algum evento convenientemente satisfaz $E[\boldsymbol{X}] = \Pr[\boldsymbol{X} = 1] = \Pr[\text{o evento acontece}]$. Além do mais, sejam $\boldsymbol{X}_{1}, \boldsymbol{X}_{2}, \dots, \boldsymbol{X}_{n}$ varíaveis aleatórias indicadoras. Então, a desigualdade de Hoeffding (\ref{hoeffding_bound}) nos diz que
+
+\begin{equation} \label{hoeffding_bound_irv}
+    \Pr \bigg[ \frac{1}{n}\Big( \sum_{i = 1}^{n} \boldsymbol{X}_{i} - E\big[ \boldsymbol{X}_{i} \big] \Big) \geq t \bigg] \leq e^{-2nt^{2}}.
+\end{equation}
+
+\section{Linguagens} \label{section_languages}
 
 Um \emph{alfabeto} $\Sigma$ é um conjunto finito e não vazio de símbolos como $\{0, 1\}$ ou $\{a, b, c\}$. Uma \emph{palavra} construída sobre um alfabeto $\Sigma$ é uma sequência de símbolos de $\Sigma$. Como exemplo, se $\Sigma$ for o alfabeto binário $\{0, 1\}$, então $0011$ e $0101$ são palavras sobre $\Sigma$. Finalmente, denotamos por $\Sigma^{*}$ o conjunto de todas as palavras formada por símbolos de $\Sigma$ e definimos uma \emph{linguagem} como um subconjunto qualquer de $\Sigma^{*}$.
 
@@ -13,7 +122,10 @@ Permitimos uma palavra vazia que não contém nenhum símbolo e denotamos esta p
 
 Nós também queremos representar objetos como grafos, vetores, etc, através de palavras. Neste caso, se $x$ é um objeto qualquer, então sua representação em binário será denotada por $\langle x \rangle$.
 
-O que mais nos importa aqui é que podemos representar problemas computacionais através de linguagens, o que nos chamamos de problemas de decisão. Após problemas de decisão, nós veremos problemas de busca que diferem de problemas de decisão na maneira em que ele são representados e no número de soluções admitidas.
+%O que mais nos importa aqui é que podemos representar problemas computacionais através de linguagens, o que nos chamamos de problemas de decisão. Após problemas de decisão, nós veremos problemas de busca que diferem de problemas de decisão na maneira em que ele são representados e no número de soluções admitidas.
+
+
+O que mais nos importa aqui é que podemos representar problemas computacionais através de linguagens, o que nos chamamos de problemas de decisão.
 
 \subsection{Problemas de decisão}
 
@@ -21,19 +133,19 @@ Em problemas de decisão nós queremos decidir se um determinado elemento perten
 
 Para solucionar o problema de decisão de $S \subseteq \{0, 1\}^{*}$ nós usamos uma função $f: \{0, 1\}^{*} \to \{0, 1\}$ tal que $S = \{x \mid f(x) = 1\}$. Chamamos $f$ de \emph{função característica} de $S$. Dessa forma, solucionar um problema de decisão é análogo a decidir se uma palavra pertence à uma linguagem, dado uma representação das instâncias do problema como strings binárias.
 
-\subsection{Problemas de busca}
+%\subsection{Problemas de busca}
 
-Em problemas de busca, é dada uma instância e queremos achar uma solução do problema para aquela instância. Por exemplo, dado um grafo $G$ e vértices $u$ e $v$, achar o caminho mais curto entre $u$ e $v$ seguindo as arestas de $G$.
+%Em problemas de busca, é dada uma instância e queremos achar uma solução do problema para aquela instância. Por exemplo, dado um grafo $G$ e vértices $u$ e $v$, achar o caminho mais curto entre $u$ e $v$ seguindo as arestas de $G$.
 
-Nós vamos representar um problema de busca por uma relação $R \subseteq \{0, 1\}^{*} \times \{0, 1\}^{*}$, onde $R(x, y)$ sse $y$ é uma solução para a instância $x$, e para cada $x$ temos $R(x) = \{y \mid R(x, y)$\}, ou seja, $R(x)$ é conjunto de todas as soluções para $x$. Um solucionador para $R$ é uma função $f: \{0, 1\}^{*} \to \{0, 1\}^{*} \cup \{ \perp \}$ onde
+%Nós vamos representar um problema de busca por uma relação $R \subseteq \{0, 1\}^{*} \times \{0, 1\}^{*}$, onde $R(x, y)$ sse $y$ é uma solução para a instância $x$, e para cada $x$ temos $R(x) = \{y \mid R(x, y)$\}, ou seja, $R(x)$ é conjunto de todas as soluções para $x$. Um solucionador para $R$ é uma função $f: \{0, 1\}^{*} \to \{0, 1\}^{*} \cup \{ \perp \}$ onde
 
-\begin{equation*}
-    f(x) =
-    \begin{cases}
-        y \in R(x) & \text{ se } R(x) \neq \emptyset \\
-        \perp & \text{ caso contrário}.
-    \end{cases}
-\end{equation*}
+%\begin{equation*}
+%    f(x) =
+%    \begin{cases}
+%        y \in R(x) & \text{ se } R(x) \neq \emptyset \\
+%        \perp & \text{ caso contrário}.
+%    \end{cases}
+%\end{equation*}
 
 
 %\section{Algoritmos e modelos de computação}
@@ -46,14 +158,14 @@ Nós vamos representar um problema de busca por uma relação $R \subseteq \{0, 
 
 
 
-\section{Máquinas de Turing} \label{MT}
+\section{Máquinas de Turing} \label{section_turing_machines}
 
 
 Uma visão intuitiva de uma máquina de Turing é a de um matemático que tem consigo uma folha de rascunho em que ele pode escrever os resultados parciais de sua computação e um conjunto finito de instruções que ele deve seguir. Formalmente, uma máquina de Turing é composta por três unidades:
 
 \begin{itemize}
 
-\item $k$ fitas infinitas à direita que contêm células adjacentes e um cabeçote que em um dado momento se localiza em uma única célula de sua fita e que pode realizar as seguintes funções: a) escrever ou apagar um símbolo na célula em que ele se encontra b) se mover para uma das células adjacentes à sua célula atual;
+\item $k$ fitas infinitas à direita que contêm células adjacentes e um cabeçote que em um dado momento se encontra em uma única célula de sua fita e que pode realizar as seguintes funções: a) escrever ou apagar um símbolo na célula em que ele se encontra b) se mover para uma das células adjacentes à sua célula atual;
 
 \item um registrador que guarda o estado atual da computação;
 
@@ -61,7 +173,7 @@ Uma visão intuitiva de uma máquina de Turing é a de um matemático que tem co
 
 \end{itemize}
 
-A computação inicia com os $k$ cabeçotes na célula mais à esquerda de suas respectivas fitas e em um estado inicial que é o mesmo para todas as entradas. Daí em cada passo da computação os $k$ cabeçotes irão ler o conteúdo atual das células em que eles se encontram e conforme o estado atual e o conjunto de instruções eles decidem se escrevem ou apagam um símbolo na sua célula atual (sendo que o símbolo escrito pode ser o mesmo que já se encontra naquela célula) e para qual direção eles irão se movimentar (ou se permanecerão na mesma célula). Após cada passo o registrador de estado passa a guardar um novo estado (ou seja, o próximo estado da computação) que depende do estado atual e o símbolo lido pelos cabeçotes. A computação termina quando o registrador de estado guarda um estado de parada.
+A computação inicia com os $k$ cabeçotes na célula mais à esquerda de suas respectivas fitas e em um estado inicial que é o mesmo para todas as entradas. Daí em cada passo da computação os $k$ cabeçotes irão ler o conteúdo atual das células em que eles se encontram e conforme o estado atual, o símbolo lido e o conjunto de instruções eles decidem se escrevem ou apagam um símbolo na sua célula atual (sendo que o símbolo escrito pode ser o mesmo que já se encontra naquela célula) e para qual direção eles irão se movimentar (ou se permanecerão na mesma célula). Após cada passo o registrador de estado passa a guardar um novo estado (ou seja, o próximo estado da computação) que depende do estado atual e o símbolo lido pelos cabeçotes. A computação termina quando o registrador de estado guarda um estado de parada.
 
 Das $k$ fitas da máquina de Turing, a primeira é de somente leitura e a chamaremos de \emph{fita de entrada}. As últimas $k - 1$ fitas são de escrita e leitura e elas são chamadas de \emph{fitas de trabalho}, sendo a última fita a \emph{fita de saída}.
 
@@ -71,7 +183,7 @@ A seguir nós vemos uma definição formal de máquina de Turing.
 
 Uma máquina de Turing $M$ é uma tripla $(\Gamma, Q, \delta)$ onde $\Gamma$ é o alfabeto de fita, $Q$ é o conjunto de estados de $M$ que contém o estado inicial $q_{0}$ e o estado de parada $q_{h}$ e $\delta: Q \times \Gamma^{k} \to Q \times \Gamma^{k - 1} \times \{E, N, D\}^{k}$ é a função de transição.
 
-A função de transição e interpretada como $\delta(q, (\sigma_{1}, \text{ ..., } \sigma_{k})) = (q^{\prime}, (\sigma_{2}^{\prime}, \text{ ..., } \sigma_{k}^{\prime}), z)$, $z \in \{E, N, D\}^{k}$, significando que quando o estado atual de $M$ for $q$ e os símbolos sendo lidos pelos cabeçotes das $k$ fitas forem $\sigma_{1}, \text{ ..., } \sigma_{k}$ então $M$ muda o seu estado atual para $q^{\prime}$, muda o conteúdo das suas últimas $k - 1$ fitas para $\sigma_{2}^{\prime}, \text{ ..., } \sigma_{k}^{\prime}$ e os $k$ cabeçotes da fita se movimentam conforme $z$ (a i-ésima fita se move para a esquerda, permanece na mesma célula ou se move para direita se o valor de $z_{i}$ for $E$, $N$ ou $D$, respectivamente). Sempre que um cabeçote que estiver na célula mais à esquerda de sua fita tentar se mover para esquerda, este permanecerá na mesma célula.
+A função de transição é interpretada como $\delta(q, (\sigma_{1}, \text{ ..., } \sigma_{k})) = (q^{\prime}, (\sigma_{2}^{\prime}, \text{ ..., } \sigma_{k}^{\prime}), z)$, $z \in \{E, N, D\}^{k}$, significando que quando o estado atual de $M$ for $q$ e os símbolos sendo lidos pelos cabeçotes das $k$ fitas forem $\sigma_{1}, \text{ ..., } \sigma_{k}$ então $M$ muda o seu estado atual para $q^{\prime}$, muda o conteúdo das suas últimas $k - 1$ fitas para $\sigma_{2}^{\prime}, \text{ ..., } \sigma_{k}^{\prime}$ e os $k$ cabeçotes da fita se movimentam conforme $z$ (a i-ésima fita se move para a esquerda, permanece na mesma célula ou se move para direita se o valor de $z_{i}$ for $E$, $N$ ou $D$, respectivamente). Sempre que um cabeçote que estiver na célula mais à esquerda de sua fita tentar se mover para esquerda, este permanecerá na mesma célula.
 
 A entrada de uma máquina de Turing é o conteúdo da fita de entrada antes do ínicio da computação. Denotamos o resultado da computação de $M$ sobre uma entrada $x$ por $M(x)$.
 
@@ -108,7 +220,7 @@ A primeira condição pode ser alcançada se mapearmos todas as strings que não
 
 De acordo com a nossa notação, denotaremos a string que descreve uma máquina de Turing $M$ por $\langle M \rangle$. Se $\alpha$ é uma string, então denotaremos por $M_{\alpha}$ a máquina de Turing descrita por $\alpha$.
 
-Essa representação de máquinas de Turing como strings é útil quando queremos usar descrições de máquinas de Turing como entrada para uma máquina de Turing. O teorema a seguir nos diz que existe uma máquina de Turing capaz de simular a execução de qualquer máquina de Turing sobre uma entrada arbitrária.
+Essa representação de máquinas de Turing como strings é útil quando queremos usar descrições de máquinas de Turing como entrada para uma outra máquina de Turing. O teorema a seguir nos diz que existe uma máquina de Turing capaz de simular a execução de qualquer máquina de Turing sobre uma entrada arbitrária.
 
 \begin{teo}(Máquina de Turing universal) \label{teo:MTuni1}
 
@@ -182,7 +294,7 @@ Pelo teorema seguinte nós vemos que nenhuma máquina de Turing convencional dec
 
 \end{proof}
 
-\begin{teo}
+\begin{teo} [\cite{turing1936computable}]
 
 $\HALT$ não é decidida por nenhuma máquina de Turing sem acesso a um oráculo.
 
@@ -230,7 +342,7 @@ uma contradição.
 
 A técnica de prova usada acima se chama \emph{diagonalização}. Esta técnica foi inventada por Georg Cantor que a usou para provar que existe diferente níveis de infinito. Mais precisamente, ele provou que a cardinalidade do conjuntos de todas as string binárias de tamanho infinito tem cardinalidade maior do que o conjunto de todos os números naturais, apesar de ambos os conjuntos serem infinitos.
 
-\section{Circuitos booleanos} \label{circuitos}
+\section{Circuitos booleanos} \label{section_boolean_circuits}
 
 Agora nós vamos ver circuitos booleanos que é o principal modelo de computação para o propósito deste trabalho. Nós também iremos ver como circuito booleanos estão naturalmente relacionados com fórmulas booleanas. Ambos os modelos são ``flexíveis'' no sentido em que eles não estão somente restritos a um conjunto fixo de operações permitidas. Também iremos ver que os dois modelos são equivalentes dado que as operações primitivas permitidas são as mesmas.
 
@@ -262,7 +374,7 @@ Para superar a limitação de circuitos aceitarem somente entradas de um tamanho
 
 \begin{defi} (Família de circuitos)
 
-Uma família de circuitos é uma sequência $\{C_{n}\}_{n \in \mathbb{N}}$\footnote{A notação $\{\}_{n \in \mathbb{N}}$ significa uma sequência $\{C_{1}, C_{2}, \dots \}$} de circuitos booleanos onde cada $C_{n}$ computa uma função $f_{n}: \{0, 1\}^{n} \to \{0, 1\}$.
+Uma família de circuitos é uma sequência $\{C_{n}\}_{n \in \mathbb{N}}$ de circuitos booleanos onde cada $C_{n}$ computa uma função $f_{n}: \{0, 1\}^{n} \to \{0, 1\}$.
 
 Dizemos que $\{C_{n}\}_{n \in \mathbb{N}}$ computa uma função $f: \{0, 1\}^{*} \to \{0, 1\}$ se $f(x) = C_{\lvert x \rvert}(x)$, $\forall x \in \{0, 1\}^{*}$.
 
@@ -351,7 +463,7 @@ Uma fórmula é dita ser uma $\text{k-FNC}$ se ela estar na forma normal conjunt
 
 Uma fórmula lógica sobre as variáveis $x_{1}, \dots , x_{n}$ é dita estar na forma normal disjuntiva (ou FND) se ela é o $OU$ de $\text{Es}$ de variáveis em $\{x_{1}, \dots , x_{n}\}$ ou as suas negações.
 
-Os $\text{Es}$ são chamados de termos. Se o número de termos na fórmula for $m$ e \linebreak $c_{i} = x_{i_{1}} \land \dots \land x_{i_{k(i)}}$, $i \in [m]$\footnote{$[n]$ é simplesmente o conjunto de todos os números naturais menores ou igual a $n$}, forem termos então uma fórmula na FND pode ser escrita como
+Os $\text{Es}$ são chamados de termos. Se o número de termos na fórmula for $m$ e \linebreak $c_{i} = x_{i_{1}} \land \dots \land x_{i_{k(i)}}$, $i \in [m]$, forem termos então uma fórmula na FND pode ser escrita como
 
 \begin{equation*}
 \bigvee_{i = 1}^{m} c_{i}
@@ -387,4 +499,71 @@ Então podemos escrever um mintermo sobre as variáveis $x_{1}, \dots, x_{n}$ de
 
 Então, para cada função booleana $f$ com $n$ variáveis, o $n\text{-FND}$ onde cada termo é um mintermo associado às atribuições que satisfazem $f(x) = 1$ é uma fórmula que computa $f$, consequentemente todas funções booleanas podem ser computadas por um circuito booleano e todas linguagens em $\{0, 1\}^{*}$ são decididas por alguma família de circuitos, incluindo a linguagem $\HALT$ que não é computável por máquinas de Turing convencionais.
 
-Algumas vezes nós vamos chamar mintermos de monômios e podemos denotar eles por algo como $x_{1}^{\alpha_{1}}\dots x_{n}^{\alpha_{n}}$, onde $\alpha_{i} \in \{0, 1\}$. 
+Algumas vezes nós vamos chamar mintermos de monômios e podemos denotar eles por algo como $x_{1}^{\alpha_{1}}\dots x_{n}^{\alpha_{n}}$, onde $\alpha_{i} \in \{0, 1\}$.
+
+\subsubsection{Árvores de decisão}
+
+Árvores de decisão são uma outra forma de representar funções Booleanas. Uma árvore de decisão que computa uma função $f: \binalph^{n} \to \binalph$ pode ser vista como um algoritmo de consulta $T$ que funciona da seguinte forma.
+
+\begin{enumerate}
+
+    \item Existe uma consulta inicial $q_{1}$ à uma variável $x_{i_{1}}$ para algum $i_{1} \in [n]$ e duas consultas $T(q_{1}, 0)$ e $T(q_{1}, 1)$ em que a próxima consulta é $T(q_{1}, b)$ se for o caso que a consulta à variável $x_{i_{1}}$ retorna o bit $b$ (ou seja $x_{i_{1}} = b$).
+    
+    \item Para todas as outras consultas $q_{j}$ subsequentes, nós definimos $T(q_{j}, b)$ de forma que a próxima consulta é $T(q_{j}, b)$ se a consulta à variável $x_{i_{j}}$ retorna $b$.
+    
+    \item Eventualmente, após $T$ ter feito um número suficiente de consultas às variáveis ele dá como saída o valor $f(x) = b$ de forma que toda as strings $x^{\prime} \in \binalph^{n}$ que são consistentes com as respostas às consultas feitas por $T$ satisfazem $f(x^{\prime}) = b$.
+
+\end{enumerate}
+
+Uma sequência $(q_{1}, r_{1}), (q_{2}, r_{2}), \dots, (q_{l}, r_{l})$ de consultas e respostas forma um caminho de tamanho $l$. Uma árvore de decisão é definida da seguinte forma.
+
+\begin{defi} [Árvores de decisão] \label{decision_tree_defi}
+
+    Uma árvore de decisão que computa a função $f: \binalph^{n} \to \binalph$ é um algoritmo de consulta em que a primeira consulta é a raíz da árvore e todo caminho acaba em um nodo chamado de folha. Todos os outros nodos da árvore são chamados de nodos internos. Cada nodo que não é uma folha guarda uma variável $x_{i}$, para $i \in [n]$ e cada folha guarda um bit $b \in \binalph$.  Nós exigimos que
+    
+    \begin{enumerate}
+    
+        \item Cada nodo que não é uma folha tenha exatamente dois descendentes e cada aresta que liga este nodo a seus dois descendentes devem estar marcado com 0 ou 1.
+        
+        \item Se um nodo interno estiver marcado com a variável $x_{j}$ então o caminho pela árvore segue a aresta marcada com o bit $b$ em que $x_{j} = b$.
+        
+        \item Nenhuma variável é consultada mais do que uma vez em qualquer caminho da árvore.
+        
+        \item Se $x \in \binalph^{n}$ segue um caminho que acaba em uma folha que guarda o bit $b$ então $f(x) = b$.
+        
+    
+    \end{enumerate}
+
+\end{defi}
+
+\begin{center}
+\begin{tikzpicture}[->, scale=.7, level/.style={sibling distance=60mm/#1, level distance = 1.3cm}]  
+
+	\node [c_node] (root) {$x_{1}$}
+		child { node [c_node] (n0) {$x_{2}$}
+			child { node [s_node] (n00) {0} edge from parent node [above, scale=.7] {0}}
+			child { node [c_node] (n01) {$x_{3}$}
+				child { node [s_node] (n010) {0} edge from parent node [above, scale=.7] {0}}
+				child {node [s_node] (n011) {1} edge from parent node [above, scale=.7] {1}}
+				edge from parent node [above, scale=.7] {1}
+			}
+			edge from parent node [above, scale=.7] {0}
+                     }
+		child{ node [c_node] (n1) {$x_{2}$}
+			child{ node [c_node] (n10) {$x_{3}$}
+				child { node [s_node] (n100) {0} edge from parent node [above, scale=.7] {0}}
+				child { node [s_node] (n101) {1} edge from parent node [above, scale=.7] {1}}
+				edge from parent node [above, scale=.7] {0}
+			}
+			child{ node [s_node] (n11) {1} edge from parent node [above, scale=.7] {1}}
+			edge from parent node [above, scale=.7] {1}
+		};
+	
+\end{tikzpicture}
+\end{center}
+
+A figura (...) dá um exemplo de uma árvore de decisão. Pode-se verifica que esta árvore de decisão computa a função $\majority_{3}$ em que $\majority_{3}(x)$ é 1 se e somente se o número de 1s em $x$ é maior do que 1.
+
+A profundidade de uma árvore de decisão é o tamanho do maior caminho da raiz até uma folha. O tamanho de uma árvore de decisão é o número de folhas que ela tem.
+
+Nós podemos ver que toda árvore de decisão pode ser convertida em uma fórmula FNC ou FND.

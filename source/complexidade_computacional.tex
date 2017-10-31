@@ -1,10 +1,18 @@
-\section{Complexidade computacional} \label{complexidade}
+\section{Complexidade computacional} \label{section_computational_complexity}
 
-Na seção anterior nós vimos que Turing nos deu uma definição formal do que nós intuitivamente pensamos ser computável. Porém, no mundo real, um problema ter um processo computacional finito que o resolva não é suficiente. Também queremos que a computação seja feita num tempo que seja útil para nós. O que foi observado é que o tempo de execução de algoritmos em computadores cresce a medida em que o tamanho da entrada também cresce. Pense no tamanho da entrada sendo medido como, por exemplo, o número de bits na representação binária de um número ou o número de vértices em um grafo. Como normalmente é desejável que um algoritmo seja eficiente para entradas de tamanho razoavelmente grande (em alguns casos o tamanho da entrada pode ser $10^6$, por exemplo), nós queremos que a função de crescimento do algoritmo não cresça muito rápido --- para que até para entradas de tamanho ``razoavelmente grande'' o número de passos necessários para realizar o algoritmo não seja muito grande. Portanto foi importante definir uma forma de medir a complexidade de algoritmos e também o que nos queremos dizer por uma "função eficiente" para o tempo de execução de um algoritmo.
+Na seção anterior nós vimos que Turing nos deu uma definição formal do que nós intuitivamente pensamos ser computável. Porém, no mundo real, um problema ter um processo computacional finito que o resolva não é suficiente. Também queremos que a computação seja feita num tempo que seja útil para nós. O que foi observado é que o tempo de execução de algoritmos em computadores cresce a medida em que o tamanho da entrada também cresce. Pense no tamanho da entrada sendo medido como, por exemplo, o número de bits na representação binária de um número ou o número de vértices em um grafo. Como normalmente é desejável que um algoritmo seja eficiente para entradas de tamanho razoavelmente grande (em alguns casos o tamanho da entrada pode ser $10^6$, por exemplo), nós queremos que a função de crescimento do algoritmo não cresça muito rápidamente --- para que até para entradas de tamanho ``razoavelmente grande'' o número de passos necessários para realizar o algoritmo não seja excessivamente grande. Portanto foi importante definir uma forma de medir a complexidade de algoritmos e também o que nos queremos dizer por uma "função eficiente" para o tempo de execução de um algoritmo.
 
-Talvez o primeiro artigo que definiu uma medição de complexidade para problema computacionais foi~\cite{hartmanis1965computational}, onde Hartmarnis e Stearns definiram que uma sequência binária $\alpha$ é computável em tempo $T$, onde $T$ é uma função computável monotônica crescente de $\mathbb{N}$ para $\mathbb{N}$, se existe uma máquina de Turing que dá como saída o n-ésimo bit de $\alpha$ em menos do que $T(n)$ passos. Em \cite{edmonds1965paths}, Edmonds propõe que devemos considerar funções polinomiais como sendo sinônimo de eficiência.
+Talvez o primeiro artigo que definiu uma medida de complexidade para problema computacionais foi~\cite{hartmanis1965computational}, onde Hartmarnis e Stearns definiram que uma sequência binária $\alpha$ é computável em tempo $T$, onde $T$ é uma função computável monotônica crescente de $\mathbb{N}$ para $\mathbb{N}$, se existe uma máquina de Turing que dá como saída o n-ésimo bit de $\alpha$ em menos do que $T(n)$ passos. Em \cite{edmonds1965paths}, Edmonds propõe que devemos considerar funções polinomiais como sendo sinônimo de eficiência.
 
-Nós dizemos que uma máquina de Turing $M$ roda em tempo $T(n)$ se $M$, ao receber uma entrada de tamanho $n$, executa no máximo $T(n)$ passos (um passo da computação da máquina de Turing envolve escrever símbolos em suas fitas de trabalho, movimentar os cabeçotes de suas fitas e mudar o seu estado atual).
+Nós dizemos que uma máquina de Turing $M$ roda em tempo $T(n)$ se $M$, ao receber uma entrada de tamanho $n$, executa no máximo $T(n)$ passos (um passo da computação da máquina de Turing envolve escrever símbolos em suas fitas de trabalho, movimentar os cabeçotes de suas fitas e mudar o seu estado atual). Ao longo deste trabalho nós vamos assumir que esta função $T$ e qualquer outra função que estivermos usando para medir a complexidade de um problema computacional é \emph{tempo-construtível} da forma definida a seguir.
+
+\begin{defi} [Funções tempo-construtíveis] \label{time_constructive_functions}
+
+Uma função $f: \mathbb{N} \to \mathbb{N}$ é dita ser tempo-construtível se existe uma máquina de Turing $M_{f}$ que ao receber a string unária $1^{n}$ em sua entrada, $M_{f}$ escreve a representação binária de $f(n)$ em sua fita de saída em $\mathcal{O}(f(n))$ passos.
+
+\end{defi}
+
+Todas funções que nos interessam como as funções polinomiais, $\log n$, $2^{n^{c}}$, etc. são tempo construtíveis.
 
 Nós vimos no teorema~\ref{teo:MTuni1} que existe uma máquina de Turing que pode simular a execução de todas as outras máquinas de Turing sobre qualquer entrada. Também foi dito que a simulação é ``eficiente'' e que segundo Edmonds isto deveria significar que a simulação pode ser feito em tempo polinomial. E nós podemos verificar que o número de passos que $\mathcal{U}$ precisa para simular uma máquina de Turing $M$ de tempo $T(n)$ é $\mathcal{O}(T(n)^{2})$. Para provar isto temos que ver quanto passos $\mathcal{U}$ necessita para simular um único passo de $M$. Em cada simulação de um passo, $\mathcal{U}$ visita cada ``espaço'' que representa uma fita de $M$, e como uma computação que executa menos do que $T(n)$ passos não pode usar mais do que $T(n)$ células de sua fita, temos que cada espaço contém no máximo $T(n)$ células. Então para simular um passo de $M$, $\mathcal{U}$ visita algo em torno de $kT(n)$ células de sua fita de trabalho, onde $k$ é o número de fitas de $M$, e portanto o ``slowdown'' de simular $M$ é apenas $\mathcal{O}(T(n))$.
 
@@ -24,7 +32,7 @@ Construindo sobre o resultado acima nós podemos provar o seguinte resultado que
 
 \begin{defi} \label{defi: oblivious}
 
-Uma máquina de Turing \emph{oblivious} é uma máquina de Turing cuja o movimento de seus cabeçotes de fita só dependem do tamanho da entrada, e não no conteúdo das células e estado atual.
+Uma máquina de Turing \emph{oblivious} é uma máquina de Turing cuja o movimento de seus cabeçotes de fita só dependem do tamanho da entrada, e não no conteúdo das células e o estado atual.
 
 \end{defi}
 
@@ -44,9 +52,7 @@ Então, $A$ simplesmente executa a simulação de $\mathcal{U}^{*}$ sobre entrad
 
 \end{proof}
 
-\subsection{Classes de complexidade}
-
-Uma das contribuições de Hartmanis e Stearns em~\cite{hartmanis1965computational} foi que eles mostraram como podemos agrupar problemas computacionais de acordo com o número de passos que um máquina de Turing necessita para resolve-los. Nesta seção iremos nos preocupar apenas com o tempo e espaço necessários para resolver problemas computacionais. Algumas classes de complexidade de tempo são definidas a seguir, e no fim desta seção iremos ver algumas classes de complexidade de espaço. Ao longo deste trabalho nós sempre vamos deixar implícito que todas as funções $T$ que usamos para definir uma classe de complexidade é \emph{tempo-construtivel}, o que significa que $T(n) \geq n$ e existe uma máquina de Turing que computa o valor $T(\lvert x \rvert)$ sobre a entrada $x$ em menos do que $T(\lvert x \rvert)$ passos.
+Uma das contribuições de Hartmanis e Stearns em~\cite{hartmanis1965computational} foi que eles mostraram como podemos agrupar problemas computacionais de acordo com o número de passos que um máquina de Turing necessita para resolvê-los. Nesta seção iremos nos preocupar apenas com o tempo e espaço necessários para resolver problemas computacionais. Algumas classes de complexidade de tempo são definidas a seguir, e no fim desta seção iremos ver algumas classes de complexidade de espaço.
 
 \begin{defi}
 
@@ -56,7 +62,7 @@ Para uma função $T: \mathbb{N} \to \mathbb{N}$, nós definimos as seguintes cl
 
 \item $\text{\DTIME}(T(n))$: a classe de todas linguagens $L$ tal que existe uma máquina de Turing determinística $M$ de tempo $T(n)$ que decide $L$.
 
-\item $\text{\NTIME}(T(n))$: a classe de todas linguagens $L$ tal que existe uma máquina de Turing não-determinística $N$ que decide $L$ e que $N$ executa no máximo $T(n)$ passos ao receber uma entrada de tamanho $n$, indepedente das escolhas das funções de transição que $N$ faça.
+\item $\text{\NTIME}(T(n))$: a classe de todas linguagens $L$ tal que existe uma máquina de Turing não-determinística $N$ que decide $L$ e $N$ executa no máximo $T(n)$ passos ao receber uma entrada de tamanho $n$, indepedente das escolhas das funções de transição de $N$.
 
 \item $\text{\co\DTIME}(T(n))$: a classe de todas linguagens $L$ tal que $\overline{L} \in \text{\DTIME}(T(n))$, onde $\overline{L}$ é o complemento da linguagem $L$ (ou seja, $x \in L \iff x \notin \overline{L}$). Da mesma forma nós definimos $\text{\co\NTIME}(T(n))$.
 
@@ -364,12 +370,172 @@ também é verdade. Ou seja, $\phi_{x^{\prime}} \in \Sigma_{k}^{p}\SAT$ se e som
 
 \end{proof}
 
+\subsubsection{Complexidade de espaço}
+
+Além de tempo, uma outra medida de complexidade de máquinas de Turing importante é o número de células da fita de trabalho utilizadas, o que denominamos por complexidade de espaço. Analogamente a como fizemos para complexidade de tempo, nós definimos classes de complexidade que agrupam problemas de acordo com a sua complexidade de espaço. Ao definir classes de complexidade para problemas que usam menos do que $S(n)$ células nós iremos assumir que a função $S(n)$ é espaço construtível, que é definidada de forma análoga a como definimos funções tempo-construtível.
+
+\begin{defi} [Funções espaço-construtíveis] \label{space_constructible_functions_defi}
+
+    Uma função $f: \mathbb{N} \to \mathbb{N}$ é dita ser espaço-construtível se existe uma máquina de Turing $M_{f}$ tal que ao receber a string unária $1^{n}$ em sua entrada, $M_{f}$ escreve a representação binária de $f(n)$ em sua fita de saída e utiliza $\mathcal{O}(f(n))$ células da sua fita de trabalho.
+
+\end{defi}
+
+De novo temos que todas as funções que iremos usar ao longo deste trabalho para descrever a complexidade de espaço de uma máquina de Turing são espaço-contrutíveis. Então definimos classes de complexidade de espaço da seguinte forma.
+
+\begin{defi} [Classes de complexidade de espaço] \label{space_complexity_classes_defi}
+
+    Para uma função (espaço-construtível) $S: \mathbb{N} \to \mathbb{N}$ nós definimos as seguintes classes de complexidade de espaço.
+
+    \begin{itemize}
+    
+        \item $\SPACE(S(n))$: a classe de todas as linguangens $L$ tais que existe uma máquina de Turing determinística $M$ que decide $L$ em complexidade de espaço $S(n)$.
+        
+        \item $\NSPACE(S(n)$: a classe de todas as linguagens $L$ tais que existe uma máquina de Turing não-determinística $N$ que decide $L$ e todos os possíveis ramos da computação de $N$ computam em complexidade de espaço $S(n)$.
+        
+        \item $\co\SPACE(S(n))$: uma linguagem $L$ é dita estar em $\co\SPACE(S(n))$ se e somente se a linguagem $\overline{L}$ está em $\SPACE(S(n))$. Também podemos definir $\co\NSPACE(S(n))$ de forma similar.       
+        
+    \end{itemize}
+
+\end{defi}
+
+Nós então podemos definir a classe de problemas com complexidade de espaço polinomial.
+
+\begin{defi} [A classe $\PSPACE$] \label{pspace_defi}
+
+    A classe $\PSPACE$ é $\bigcup_{c > 0} \SPACE(n^{c})$. Ou seja, uma linguagem $L$ está em $\PSPACE$ se e somente se $L \in \SPACE(n^{c})$, para algum $c > 0$.
+
+\end{defi}
+
+A classe $\PSPACE$ é a versão da classe $\P$ para complexidade de espaço. Da mesma forma também temos a versão $\NP$ de complexidade de espaço que é a classe $\NPSPACE$.
+
+\begin{defi} [A classe $\NPSPACE$] \label{npspace_defi}
+
+    $\NPSPACE = \bigcup_{c > 0} \NTIME(n^{c})$.
+
+\end{defi}
+
+Nós temos que $P \subseteq \PSPACE$ pois uma máquina de Turing que para após um número polinomial de passos só pode ter usado um número polinomial de células da sua fita de trabalho. Indo na outra direção, temos que $\PSPACE \subseteq \bigcup_{c > 0} \DTIME(2^{n^{c}})$ (mais pra frente iremos ver que isto pode ser denotado como $\PSPACE \subseteq \EXP$) pelo seguinte argumento. Cada passo de uma máquina de Turing que usa apenas um número polinomial de células da sua fita de trabalho pode ser descrito por uma configuração usando um número polinomial de bits que iremos denotar por $n^{c}$, para algum $c > 0$. No entanto, por se tratar de uma máquina de Turing determinística temos que se ela repetir alguma das possívels $2^{n^{c}}$ configurações ela necessariamente entrou em um loop infinito. Como estamos considerando máquinas de Turing que param após um número finito de passos temos que isto não pode acontecer e portanto há de ser o caso que a máquina de Turing pare após no máximo $2^{n^{c}}$ passos.
+
+Da mesma forma temos que $\NP \subseteq \PSPACE$ pois podemos reutilizar a fita de trabalho para simular cada escolha não-determinística, e também $\NPSPACE \subseteq \bigcup_{c > 0} \SPACE(2^{n^{c}})$ (equivalentemente, $\NPSPACE \subseteq \EXP$) pelo mesmo argumento que usamos para mostrar que $\PSPACE \subseteq \bigcup_{c > 0} \DTIME(2^{n^{c}})$. Na verdade, no caso geral temos que
+
+\begin{equation} \label{space_complexity_relations}
+    \DTIME(S(n)) \subseteq \NTIME(S(n)) \subseteq \SPACE(S(n)) \subseteq \NSPACE(S(n)) \subseteq \DTIME(2^{\mathcal{O}(S(n))}).
+\end{equation}
+
+O fato que máquinas de Turing podem reutilizar as células de sua fita de trabalho pode ser usada para generalizar a afirmação $\NP \subseteq \PSPACE$ para $\PH \subseteq \PSPACE$. 
+
+\begin{teo} \label{ph_subset_pspace}
+
+$\PH \subseteq \PSPACE$.
+
+\end{teo}
+
+\begin{proof}
+
+    Seja $L \in \Sigma_{k}^{p}$, para algum $k > 0$. temos então que existe uma máquina de Turing $M$ que roda em tempo $p(n)$ tal que $L$ pode ser descrita da seguinte forma. Para todo $x \in \binalph^{n}$,
+    
+    \begin{equation*}
+        x \in L \iff \exists z_{1} \in \binalph^{p(n)} \forall x_{2} \in \binalph^{p(n)} \dots Q_{k} z_{k} \in \binalph^{p(n)} M(x, z_{1}, z_{2}, \dots, z_{k}) = 1. 
+    \end{equation*}
+    
+    Então podemos construir uma máquina de Turing que usa não mais do que $\mathcal{O}(p(n))$ células de sua fita de trabalho que verifica se existe alguma escolha $z_{1}^{\prime}$ para a string $z_{1}$ tal que
+    
+    \begin{equation*}
+        \exists z_{1}^{\prime} \in \binalph^{p(n)} \forall x_{2} \in \binalph^{p(n)} \dots Q_{k} z_{k} \in \binalph^{p(n)} M(x, z_{1}, z_{2}, \dots, z_{k}) = 1.
+    \end{equation*}
+
+    Para cada escolha de $z_{1}$, $M^{\prime}$ pode reutilizar o espaço de sua fita de trabalho então o espaço que $M^{\prime}$ usa ao todo é simplesmente o espaço que ela usa para uma única escolha de $z_{1}$. O que basicamente estamos fazendo é descrever um procedimento recursivo, então podemos desenrolar a recursão e ver que o espaço utilizado é o espaço necessário para guardar as atribuições para as strings $z_{1}, z_{2}, \dots, z_{k}$ mais o espaço para simular a execução de $M$. Temos que ambos o termo são $\mathcal{O}(p(n)$ e portanto $M^{\prime}$ tem complexidade de espaço $\mathcal{O}(p(n))$. Portanto podemos concluir que $L \in \PSPACE$.
+
+\end{proof}
+
+Nós podemos usar o argumento acima para argumentar que a seguinte linguagem está em $\PSPACE$.
+
+\begin{defi} \label{tbqf_defi}
+
+    Seja $\TBQF$ a linguagem que contém todas as fórmulas livres de quantificadores $\phi$ tais que
+    
+    \begin{equation*}
+        Q_{1} x_{1} Q_{2} x_{2} \dots Q_{n} x_{n} \phi(x_{1}, x_{2}, \dots, x_{n}) = 1,    
+    \end{equation*}
+    
+    onde cada $Q_{i}$ é $\exists$ ou $\forall$.
+
+\end{defi}
+
+Não só temos que $\TBQF$ está em $\PSPACE$ mas também é verdade que $\TBQF$ é $\PSPACE$-completa.
+
+\begin{defi} [Linguagens $\PSPACE$-completas] \label{pspace_complete_defi}
+
+    Uma linguagem $L$ é dita ser $\PSPACE$-difícil se existe uma máquina de Turing $R$ que roda em tempo polinomial e para toda linguagem $L^{\prime} \in \PSPACE$,
+    
+    \begin{equation*}
+        x \in L^{\prime} \iff R(x) \in L.
+    \end{equation*}
+
+    Se também for o caso que $L \in \PSPACE$ então dizemos que $L$ é $\PSPACE$-completa.
+
+\end{defi}
+
+Então agora mostramos que $\TBQF$ é $\PSPACE$-completa. Em \ref{ph_subset_pspace} nós vimos que $\TBQF \in \PSPACE$ então agora basta mostrar que $\TBQF$ é $\PSPACE$-difícil. Ou seja, só precisamos mostrar que para toda linguagem $L \in \PSPACE$, $L$ é redutível em tempo polinomial para $\TBQF$.
+
+\begin{teo} \label{tbqf_pspace_complete}
+
+    A linguagem $\TBQF$ é $\PSPACE$-completa.
+
+\end{teo}
+
+\begin{proof}
+
+\end{proof}
+
+Nós definimos complexidade de espaço como sendo a quantidade de células da \emph{fita de trabalho} que uma máquina de Turing utliza durante a sua computação. Portanto, nada nos impede de definir classes de complexidade para funções sublineares. Por exemplo, uma classe de complexidade importante é a classe de todos os problemas com complexidade de espaço logaritmico.
+
+\begin{defi} [As classes $\L$ e $\NL$.] \label{l_nl_defi}
+
+    Uma linguagem $L$ é dita estar em $\L$ se existe uma máquina de Turing $M$ com complexidade de espaço $\mathcal{O}(\log n)$ que decide $L$. Ou seja, $\L = \SPACE(\log n)$.
+    
+    Uma linguagem $L$ é dita estar em $\NL$ se existe uma máquina de Turing $N$ com complexidade de espaço não-determinística $\mathcal{O}(\log n)$ que decide $L$. Ou seja, $\NL = \NSPACE(\log n)$.
+
+\end{defi}
+
+A partir de \ref{space_complexity_relations} podemos afirmar que $\L \subseteq \NL \subseteq \SPACE(2^{\mathcal{O}(\log n)}) = \P$. Ainda é um problema em aberto se $\P \subseteq \NL$ o que implicaria em $\P = \NL$~\footnote{Também não se sabe se $\L = \NL$, no entanto o teorema de Savitch~\cite{savitch1970relationships} afirma que $\SPACE(S(n)) = \NSPACE(S(n)^{2})$ para funções $S(n) \geq \log n$, o que implica em, por exemplo, $\PSPACE = \NPSPACE$.}.
+
+Nós podemos definir linguagens $\NL$-completas usando o seguinte tipo de reduções.
+
+\begin{defi} [Reduções logspace] \label{logspace_reductions}
+
+    Seja $L, L^{\prime}$. Nós dizemos que $L$ é logspace-redutível à $L^{\prime}$ se existe uma redução $f$ tal que $x \in L \iff f(x) \in L^{\prime}$ e além disso, existe uma máquina de Turing $R$ com complexidade de espaço $\mathcal{O}(\log n)$ que satisfaz o seguinte. Para todo $\langle x, i \rangle$ em que $x \in \binalph^{*}$ e $i \in \mathbb{N}$, ao receber $\langle x, i \rangle$ em sua entrada, $R$:
+
+    \begin{enumerate}
+    
+        \item Rejeita a entrada se $i > \lvert f(x) \rvert$.
+        
+        \item Dá como saída o bit $f(x)_{i}$ e mais um bit indicando que a entrada $\langle x, i \rangle$ não foi rejeitada caso $1 \leq i \leq \lvert f(x) \rvert$. 
+    
+    \end{enumerate}
+
+\end{defi}
+
+Nós podemos provar que se redefinirmos problemas $\NP$-completos usando reduções logspaces então a linguagem $\SAT$ continua sendo $\NP$-completa. A idéia é usar o fato que a redução de Cook-Levin é estruturada de maneira bem repetitiva, então podemos calcular a partir do tamanho da entrada $x$ da redução o bit que aparece na $i$-ésima fórmula que resultou da redução se escolhermos uma codificação apropriada para a fórmula.
+
+\begin{prop} [$\SAT$ é $\NP$-completa com respeito a reduções logspace] \label{sat_logspace_reduction}
+
+    Vamos dizer que uma linguagem $L^{\prime}$ é $\NP$-completa se $L^{\prime} \in \NP$ e toda linguagem $L \in \NP$ é logspace-redutível à $L^{\prime}$. Então, sob esta definição de $\NP$-completude a linguagem $\SAT$ é $\NP$-completa.
+
+\end{prop}
+
+\begin{proof}
+
+\end{proof}
+
+\subsubsection{Classes de complexidade de tempo exponencial}
+
 \subsubsection{Teoremas de hierarquia}
 
-Como foi dito na introdução, um dos principais desafios da complexidade computacional é demonstrar limites inferiores para problemas computacionais. Intuitivamente podemos acreditar que problemas intrinsecamente difíceis devem existir pois se dermos mais recursos para uma máquina de Turing computar deveriamos também sermos capaz de decidir mais linguagens. Os teoremas de hierarquia é uma série de teoremas que provam exatamente isso. Geralmente, iremos usar o fato que máquinas de Turing que usam mais tempo podem simular máquinas de Turing que usam menos tempo para montar uma máquina de Turing ``diagonalizadora'', e então mostramos que essa máquina deve discordar com todas as máquinas que usam menos tempo em pelo menos um ponto.
+Como foi dito na introdução, um dos principais desafios da complexidade computacional é demonstrar limites inferiores para problemas computacionais. Intuitivamente podemos acreditar que problemas intrinsecamente difíceis devem existir pois se dermos mais recursos para uma máquina de Turing computar deveriamos também sermos capaz de decidir mais linguagens. Os teoremas de hierarquia é uma série de teoremas que provam exatamente isso. Geralmente, iremos usar o fato que máquinas de Turing que usam mais tempo podem simular máquinas de Turing que usam menos tempo para montar uma máquina de Turing ``diagonalizadora'', e então mostramos que esta máquina deve discordar com todas as máquinas que usam menos tempo em pelo menos um ponto.
 
 
-\begin{teo} (Teorema da hierarquia de tempo determinístico~\cite{hartmanis1965computational})
+\begin{teo} (Teorema da hierarquia de tempo determinístico~\cite{hartmanis1965computational}) \label{dtime_hierarchy}
 
 Para todas funções $f, g: \mathbb{N} \to \mathbb{N}$ tempo-construtíveis satisfazendo $g(n)\log g(n) = o(f(n))$, temos que $\DTIME(g(n)) \subsetneq \DTIME(f(n))$.
 
@@ -381,7 +547,7 @@ Seja $L \in \DTIME(g(n))$, note que pelo teorema \ref{teo:MTuni2} existe uma má
 
 \begin{itemize}
 
-\item Sobre entrada $\langle M \rangle$:
+\item Sobre a entrada $\langle M \rangle$:
 
 \item Simule $M$ sobre a entrada $\langle M \rangle$ por $g(\lvert \langle M \rangle \rvert)$ passos.
 
@@ -395,17 +561,19 @@ Nós afirmamos que $L(\mathcal{D}) \notin \DTIME(g(n))$. Assuma o contrário, qu
 
 \begin{itemize}
 
-\item Se $\mathcal{D}^{\prime}(\langle \mathcal{D}^{\prime} \rangle) = 1$ então $\mathcal{D}(\langle \mathcal{D}^{\prime} \rangle) = 0$
+\item Se $\mathcal{D}^{\prime}(\langle \mathcal{D}^{\prime} \rangle) = 1$ então $\mathcal{D}$ pela sua definição deve rejeitar a entrada $\langle \mathcal{D}^{\prime} \rangle \Rightarrow \mathcal{D}(\langle \mathcal{D}^{\prime} \rangle) = 0$
 
-\item Se $\mathcal{D}^{\prime}(\langle \mathcal{D}^{\prime} \rangle) = 0$ então $\mathcal{D}(\langle \mathcal{D}^{\prime} \rangle) = 1$
+\item Se $\mathcal{D}^{\prime}(\langle \mathcal{D}^{\prime} \rangle) = 0$ então $\mathcal{D}$ aceita a entrada $\langle \mathcal{D} \rangle \Rightarrow \mathcal{D}(\langle \mathcal{D}^{\prime} \rangle) = 1$
 
 \end{itemize}
 
 Nos dois itens acima nós temos que assumir que a descrição de $\mathcal{D}^{\prime}$ seja grande o suficiente para que $D$ possa simular a toda a tua execução sobre a entrada $\langle \mathcal{D}^{\prime} \rangle$, mas isso não é problema já que $D^{\prime}$ possui descrições arbitrariamente grandes.
 
+Ambos os casos são contradições e portanto temos que $L(\mathcal{D}) \not\in \DTIME(g(n))$ e $\DTIME(g(n)) \subsetneq \DTIME(f(n))$.
+
 \end{proof}
 
-Agora nós vamos considerar o caso não-determinístico. Se tentarmos provar da mesma forma um teorema de hierarquia de tempo não-determinístico nós esbarrariamos no seguinte problema: não é óbvio o modo como podemos negar uma computação não-determinística, pois deveriamos ter um conhecimento ''universal`` sobre todas os ramos da computação. A única forma óbvia de fazer isso seria simular todos os ramos da computação, o que leva tempo exponencial. Porém, ainda pode-se usar essa simulação determinística para diagonalizar máquinas de Turing não-determinística, dado que a simulação seja feita numa entrada exponencialmente menor do que a entrada original. O truque é fazer que uma máquina ''diagonalizadora`` $\mathcal{D}$ ou discorde com uma máquina de Turing não-determinística $M$ em alguma string unária de tamanho em um intervalo de comprimento exponencial ou que ela discorde nos extremos deste intervalo. Na prova do teorema abaixo nós usamos o fato que uma simulação não-deterministica pode ser feita com ''slowdown`` constante.
+Agora nós vamos considerar o caso não-determinístico. Se tentarmos provar da mesma forma um teorema de hierarquia de tempo não-determinístico nós esbarrariamos no seguinte problema: não é óbvio o modo como podemos negar uma computação não-determinística, pois deveriamos ter um conhecimento ''universal`` sobre todas os ramos da computação. A única forma óbvia de fazer isso seria simular todos os ramos da computação, o que leva tempo exponencial. Porém, ainda pode-se usar essa simulação determinística para diagonalizar máquinas de Turing não-determinística, dado que a simulação seja feita numa entrada exponencialmente menor do que a entrada original. O truque é fazer que uma máquina ''diagonalizadora`` $\mathcal{D}$ ou discorde de uma máquina de Turing não-determinística $M$ em alguma string unária de tamanho em um intervalo de comprimento exponencial ou que ela discorde nos extremos deste intervalo. Na prova do teorema abaixo nós usamos o fato que uma simulação não-deterministica pode ser feita com ''slowdown`` constante.
 
 \begin{teo} (Teorema da hierarquia de tempo não-determinístico~\cite{cook1973hierarchy})
 
@@ -429,8 +597,23 @@ Considere a função $h$ definida como $h(1) = 2$ e $h(i + 1) = 2^{g(h(i) + 1)}$
 
 \end{enumerate}
 
-Dessa forma, como estamos assumindo que $\mathcal{D}$ e $M_{i}$ concordam em todas as entradas $1^{n}$ com $h(i) < n < h(i + 1)$, nós temos que $M_{i}(1^{h(i) + 1}) = \mathcal{B}(1^{h(i + 1)})$, uma contradição. 
+Primeiro, nós temos que $\mathcal{D}$ roda em tempo não-determinístico $\mathcal{O}(f(n))$, pois estamos assumindo que $g(n + 1) = o(f(n))$. Vamos assumir que exista uma máquina de Turing não-determinística $\mathcal{D}^{\prime}$ que roda em tempo $\mathcal{O}(g(n))$ e $L(\mathcal{D}^{\prime}) = L(\mathcal{D})$. Seja $i$ suficientemente grande tal que $\mathcal{D}^{\prime} = M_{i}$. Se existe algum $h(i) < n \leq h(i + 1)$ tal que $\mathcal{D}^{\prime}(1^{n}) \neq \mathcal{D}(1^{n})$  então estamos feitos. Caso contrário, considere a entrada $1^{h(i + 1)}$. Nós temos o seguinte.
 
+\begin{itemize}
+
+    \item Se $\mathcal{D}^{\prime}(1^{h(i) + 1}) = 1$ então $\mathcal{D}$ deve rejeitar a entrada $1^{h(i + 1)}$.
+    
+    \item Se $\mathcal{D}^{\prime}(1^{h(i) + 1}) = 0$ então $\mathcal{D}$ deve aceitar a entrada $1^{h(i + 1)}$.
+
+\end{itemize}
+
+Então se quisermos evitar uma contradição precisamos ter $\mathcal{D}^{\prime}(1^{h(i) + 1}) \neq \mathcal{D}(1^{h(i + 1)})$. Mas temos pelo item (2) na descrição de $\mathcal{D}$ e pela nossa suposição que
+
+\begin{equation*}
+    \mathcal{D}^{\prime}(1^{h(i) + 1}) = \mathcal{D}(1^{h(i) + 2}) = \mathcal{D}^{\prime}(1^{h(i) + 2}) = \mathcal{D}(1^{h(i) + 3}) = \dots = \mathcal{D}^{\prime}(1^{h(i + 1) - 1}) = \mathcal{D}(1^{h(i + 1)}).
+\end{equation*}
+
+E portanto temos uma contradição.
 
 \end{proof}
 
@@ -438,7 +621,7 @@ Dessa forma, como estamos assumindo que $\mathcal{D}$ e $M_{i}$ concordam em tod
 
 Podemos nos perguntar se a estratégia de diagonalização usadas nas provas dos teoremas de hierarquia pode também nos dar limites inferiores mais interessantes. Podemos separar as classes $\P$ e $\NP$ usando diagonalização?
 
-Vamos imaginar que nós temos uma prova que $\P \neq \NP$ que usa diagonalização da forma que usamos para provar o teoremas de hierarquia. Ou seja, nós temos uma máquina de Turing $\mathcal{D}$ construida de forma que ela difere de todas as máquina de Turing $M$ ``em $\P$'' em pelo menos um ponto, simulando a execução de $M$ e depois invertendo a saída de $M$ sobre alguma entrada. Como podemos também enumerar e simular máquinas de Turing com qualquer oráculo $\mathcal{O}$ da mesma forma que podemos enumerar e simular máquinas de Turing convencionais, ao adicionar o oráculo $\mathcal{O}$ à $\mathcal{D}$ nós podemos também separar $\mathcal{D}^{\mathcal{O}}$ de todas as outras máquinas de Turing em $\P^{\mathcal{O}}$ de forma análoga. Portanto uma prova que $\P \neq \NP$ que usa diagonalização deve também provar que $\P^{\mathcal{O}} \neq \NP^{\mathcal{O}}$. Porém, o objetivo desta seção é mostrar que existem oráculos $\mathcal{A}$ e $\mathcal{B}$ tal que $\P^{\mathcal{A}} = \NP^{\mathcal{A}}$ e $\P^{\mathcal{B}} \neq \NP^{\mathcal{B}}$.
+Vamos imaginar que nós temos uma prova que $\P \neq \NP$ que usa diagonalização da forma que usamos para provar o teoremas de hierarquia. Ou seja, nós temos uma máquina de Turing $\mathcal{D}$ construida de forma que ela difere de todas as máquina de Turing $M$ ``em $\P$'' em pelo menos um ponto, simulando a execução de $M$ e depois invertendo a saída de $M$ sobre alguma entrada. Como podemos também enumerar e simular máquinas de Turing com qualquer oráculo $\mathcal{O}$ da mesma forma que podemos enumerar e simular máquinas de Turing convencionais, ao adicionar o oráculo $\mathcal{O}$ à $\mathcal{D}$ nós podemos também separar $\mathcal{D}^{\mathcal{O}}$ de todas as outras máquinas de Turing em $\P^{\mathcal{O}}$ de forma análoga. Portanto, uma prova que $\P \neq \NP$ que usa diagonalização deve também provar que $\P^{\mathcal{O}} \neq \NP^{\mathcal{O}}$. Porém, o objetivo desta seção é mostrar que existem oráculos $\mathcal{A}$ e $\mathcal{B}$ tal que $\P^{\mathcal{A}} = \NP^{\mathcal{A}}$ e $\P^{\mathcal{B}} \neq \NP^{\mathcal{B}}$.
 
 \begin{teo} \label{teo: bgs}
 
@@ -471,20 +654,28 @@ e por redução,
 O oráculo $B$ nós vamos contruí-lo de forma que nenhuma máquina de Turing que executa menos do que $2^{n}/10$ passos possa decidir a linguagem $L_{\mathcal{B}}$ definida como
 
 \begin{equation*}
-    L_{\mathcal{B}} = \{x \lvert \exists y \in \mathcal{B} \text{ satisfazendo } \lvert y \rvert = \lvert x \rvert \}
+    L_{\mathcal{B}} = \{1^{n} \lvert \exists y \in \mathcal{B} \text{ tal que } \lvert y \rvert = n \}
 \end{equation*}
 
 Note que $L_{\mathcal{B}} \in \NP^{\mathcal{B}}$.
 
-Nós contruimos $\mathcal{B}$ em estágios onde no $i$-ésimo estágio nós apenas decidimos a pertinência de um número finito de strings em $\mathcal{B}$. Daí, seja $n$ o menor inteiro tal que nenhuma string de tamanho pelo menos $n$ esteja em $\mathcal{B}$ no começo do estágio $i$, então consideramos a execução de $M_{i}$ sobre a entrada $1^{n}$ e para cada consulta ao oráculo $\mathcal{B}$ à pertinência de uma string de tamanho pelo menos $n$, declaramos $x$ como não estando em $\mathcal{B}$. Se $M_{i}$ para em menos do que $2^{n}/10$ passos sobre a entrada $1^{n}$ nós temos o seguinte:
+Seja $\{M_{i}\}_{i \in \mathbb{N}}$ uma enumeração de todas máquinas de Turing de tempo polinomial e $\{p_{i}\}_{i \in \mathbb{N}}$ o tempo de execução de cada uma das $M_{i}s$.
 
-\begin{enumerate}
+Para $M_{1}$, escolhemos um número $n_{1}$ grande o suficiente de forma que $p_{1}(n_{1}) < 2^{n_{1}}$. Seja $q_{1}, q_{2}, \dots, q_{l}$, com $l < p_{1}(n_{1})$, as strings consultadas por $M_{1}$ na entrada $1^{n_{1}}$ e declaramos que cada $q_{i} \not\in \mathcal{B}$. Então,
 
-    \item $M_{i}$ aceita $1^{n} \rightarrow$ declare cada string de tamanho $n$ como não estando em $\mathcal{B}$.
+\begin{itemize}
 
-    \item $M_{i}$ rejeita $1^{n} \rightarrow$ declare alguma das (pelo menos) $2^{n} - 2^{n}/10$ strings de tamanho $n$ que não foram consultadas como estando em $\mathcal{B}$.
+    \item Se $M_{1}(1^{n_{1}}) = 1 \Rightarrow$ declare todas as strings de tamanho $n_{1}$ como não estando em $\mathcal{B}$.
+    
+    \item Se $M_{1}(1^{n_{1}}) = 0 \Rightarrow$ declare pelo menos uma string não consultada por $M_{1}$ como estando em $\mathcal{B}$.
 
-\end{enumerate} 
+\end{itemize}
+
+Como $p_{1}(n_{1}) < 2^{n_{1}}$ temos que tal string deve existir.
+
+Para $i > 1$ nós fazemos a mesma coisa. Nós definimos $n_{i}$ como sendo o menor número em $\mathbb{N}$ tal que $p_{i}(n_{i}) < 2^{n_{i}}$ e $n_{i} > n_{i - 1}$. Como podemos assumir que nos passos anteriores nenhuma string de tamanho maior do que $n_{i - 1}$ já esteve sua pertinência em $\mathcal{B}$ resolvida, podemos proceder da mesma forma como fizemos no primeiro estágio.
+
+Então, para cada $M_{i}$ nós descrevemos uma string $1^{n_{i}}$ tal que $M_{i}(1^{n_{i}}) = 1 \iff 1^{n_{i}} \not\in L_{\mathcal{B}}$. Portanto, nenhuma das máquinas de Turing de tempo polinomial $M_{i}$ é um decisor para $L_{\mathcal{B}}$ e consequentemente $L_{\mathcal{B}} \not\in \P^{\mathcal{B}}$.
 
 \end{proof}
 

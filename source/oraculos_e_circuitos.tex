@@ -1,34 +1,12 @@
-\chapter{Computação relativizada e complexidade de circuitos}
+\chapter{Computação relativizada e complexidade de circuitos} \label{chapter_oracles_and_circuit_complexity}
 
-Neste capítulo nós vemos como circuitos e complexidade ``relativizada'' se relacionam. Antes de tudo definiremos rapidamente o que queremos dizer por complexidade de espaço.
+Neste capítulo nós vemos como circuitos e complexidade ``relativizada'' se relacionam.
 
-\begin{defi}(Complexidade de espaço)
-
-Uma linguagem $L$ é dita estar em SPACE($T(n)$) para uma função $T: \mathbb{N} \to \mathbb{N}$ se existe uma máquina de Turing $M$ que decide $L$ usando menos do que $T(n)$ células da fita.
-
-\end{defi}
-
-\begin{defi} (Classe PSPACE)
-
-Uma linguagem $L$ é dita estar em PSPACE se e somente se $L \in \text{SPACE}(p(n))$, para algum polinômio $p$.
-
-\end{defi}
-
-Uma linguagem $L$ é PSPACE-completa se $L \in $ PSPACE e todas linguagens em PSPACE são redutíveis à $L$ em tempo polinomial. Um exemplo de linguagem PSPACE-completa é QUANT-SAT, satisfazibilidade de fórmulas quantificadas. Aqui nós percebemos uma relação entre a classe PSPACE e a hierarquia polinomial.
-
-\begin{teo}
-
-    PH $\subseteq$ PSPACE.
-
-\end{teo}
-
-Isso é verdade pois todas as linguagens em PH podem ser expressas através de uma fórmula quantificada mais a redução de Cook-Levin.
-
-\section{Uma prova alternativa do teorema \ref{teo: bgs}}
+\section{Uma prova alternativa do teorema \ref{teo: bgs}} \label{section_alternative_proof_bgs}
 
 Nós já vimos que existem oráculos $A$ e $B$ satisfazendo $\P^{A} = \NP^{A}$ e $\P^{B} \neq \NP^{B}$. Neste capítulo nós vemos uma outra prova do segundo resultado que mostra a idéia geral de como conectamos limites inferiores a resultados em complexidade relativizada. Basicamente, nós usamos a incapacidade de certos dispositivos computacionais (por exemplo, circuitos de baixa profundidade) de computar certas funções mais o fato que certas classes de complexidade podem ser expressas por estes mesmos dispositivos computacionais para, ironicamente, diagonalizar e provar separação por oráculo. Note que essa é a mesma idéia que usamos anteriormente para provar o teorema \ref{teo: bgs}, porém se tentassemos generalizar aquele argumento para provar que $\PH^{A} \neq \PSPACE^{A}$ nós esbarrariamos em alguns problemas como por exemplo ter que simular cada máquina de Turing um número exponencial de vezes o que destroi a nossa hipótese que uma máquina de Turing de tempo polinomial só faz uma quantidade polinomial de consultas ao oráculo, e também podemos ver que trabalhar com modelos que apresentam uma estrutura combinatórica como circuitos Booleanas é muito menos problemático.
 
-Vamos considerar de novo a função Tribes$_{n}$ que nós vimos no capítulo anterior. Uma das propriedades de Tribes$_{n}$ é que ela é \emph{evasiva}, o que significa que ter conhecimento apenas parcial dos bits da entrada não é suficiente para avaliar a função. Para formalizar isso, suponha que nós temos uma função $f: \{0, 1\}^{n} \to \{0, 1\}$ e queremos computar $f(x)$ para alguma entrada $x$. Nós podemos fazer isso somente consultando cada bit de $x$ sem nos preocuparmos com a complexidade das computações intermediárias. Desta formas podemos definir diversas medidas de complexidade de $f$. A medida que nos interessa no momento é a complexidade de consulta determinística:
+Nós iremos considerar a função Tribes$_{n}$ que vimos na introdução. Uma das propriedades de Tribes$_{n}$ é que ela é \emph{evasiva}, o que significa que ter conhecimento apenas parcial dos bits da entrada não é suficiente para avaliar a função. Para formalizar isso, suponha que nós temos uma função $f: \{0, 1\}^{n} \to \{0, 1\}$ e queremos computar $f(x)$ para alguma entrada $x$. Nós podemos fazer isso somente consultando cada bit de $x$ sem nos preocuparmos com a complexidade das computações intermediárias. Desta formas podemos definir diversas medidas de complexidade de $f$. A medida que nos interessa no momento é a complexidade de consulta determinística:
 
 \begin{defi}
 
@@ -42,7 +20,7 @@ A partir de agora quando dissermos complexidade de consulta fica implícito que 
 
 Nós podemos representar as consultas feita pelo algoritmo através de uma árvore de decisão, onde em cada consulta o algoritmo ramifica para a esquerda ou para direita dependendo do valor do bit consultado. Desta forma $D(f)$ é a profundidade mínima entre todas as árvores de decisão que computam $f$.
 
-Para ver que Tribes$_{n}$ é evasiva bastar considerar o cenário em que nenhuma consulta revela o valor de uma das tribos (isto é, a consulta sempre retorna 1) até que o último bit da tribo seja consultado e acaba sendo 0, assim mesmo que todas exceto uma tribo tenha todos seus bits revelados o valor desta última tribo vai ser incerto até que a última consulta seja feita. Isso pode ser traduzido como $D(\text{Tribes}_{n}) = n$. Também poderiamos ter usado o seguinte fato:
+Para ver que Tribes$_{n}$ é evasiva bastar considerar o cenário em que nenhuma consulta revela o valor de uma das tribos (isto é, a consulta sempre retorna 1) até que o último bit da tribo seja consultado e acaba sendo 0. Assim mesmo que todas exceto uma tribo tenha todos seus bits revelados o valor desta última tribo vai ser incerto até que a última consulta seja feita. Isso pode ser traduzido como $D(\text{Tribes}_{n}) = n$. Também poderiamos ter usado o seguinte fato:
 
 \begin{fato}
 Para todas funções $f: \{0, 1\}^{n} \to \{0, 1\}$, $deg(f) \leq D(f)$.
@@ -50,7 +28,7 @@ Para todas funções $f: \{0, 1\}^{n} \to \{0, 1\}$, $deg(f) \leq D(f)$.
 
 E como vimos em \ref{prop: tribes_fourier_coef}, deg(Tribes$_{n}$) = n.
 
-Agora, seja $M$ uma máquina de Turing que pode fazer consultas a algum oráculo, e seja $x \in \binalph^{*}$. O que $M$ faz antes de tua primeira consulta é independente de qual oráculo ela tem acesso, e o que $M$ faz entre a primeira e segunda consulta só depende da resposta à primeira consulta, e por aí vai. Isto sugere que a computação de $M$ sobre a entrada $x$ pode ser representada por um algoritmo de consulta que ramifica sobre as respostas às tuas consultas ao oráculo.
+Agora, seja $M$ uma máquina de Turing que pode fazer consultas a algum oráculo, e seja $x \in \binalph^{*}$. O que $M$ faz antes de tua primeira consulta é independente de qual oráculo ela tem acesso, e o que $M$ faz entre a primeira e segunda consulta só depende da resposta à primeira consulta, e por aí vai. Isto sugere que a computação de $M$ sobre a entrada $x$ pode ser representada por um algoritmo de consulta que ramifica sobre as respostas às suas consultas ao oráculo.
 
 Seja $\mathcal{X}$ um subconjunto finito de $\binalph^{*}$ e $A \subseteq \binalph^{*}$ um oráculo que inicialmente está definido apenas nas strings que não estão em $\mathcal{X}$. Sejam $M$ e $x$ os mesmos do parágrafo anterior, então o algoritmo de consulta $T_{M^{A}, x}^{\mathcal{X}}$ ramifica sobre consultas ao oráculo por strings em $\mathcal{X}$. Podemos ver a entrada de $T_{M^{A}, x}^{\mathcal{X}}$ como um vetor característica $v$ onde $v_{j} = 1$ significa que a $j$-ésima string na ordem lexicográfica em $\mathcal{X}$ está em $A$. Desta forma, temos que $T_{M^{A}, x}^{\mathcal{X}}(v) = 1 \iff M^{A \cup v}(x) = 1$, permitindo um pequeno abuso de notação. Em particular, se $M$ roda em tempo polinomial e $\mathcal{X} = \binalph^{\lvert x \rvert}$ então $T_{M^{A}, x}^{\mathcal{X}}$ tem complexidade de consulta polilogarítmica se $\lvert x \rvert$ for suficientemente grande.
 
@@ -109,11 +87,11 @@ Como o algoritmo de consulta de $M_{i}$ sobre a entrada $1^{n_{i}}$ tem complexi
 
 \end{proof}
 
-Na prova que acabamos de ver nós usamos dois fatos a respeito da função Tribes$_{N}$: 1) ela é evasiva (na verdade só precisamos do fato que Tribes$_{n}$ não pode ser computada por um algoritmo que faz $\Omega(n^{c})$ consultas, para qualquer $c > 0$) e 2) ela admite 1-certificados (em algum lugar eu explico o que é isso) pequenos. Portanto poderiamos substituir Tribes$_{n}$ por qualquer função que satisfaça 1 e 2, como por exemplo a função $Or_{n}$, a disjunção de $N$ variáveis. Porém, a função $Or_{n}$ não é balanceada, uma propriedade que nós vamos precisar na seção seguinte.
+Na prova que acabamos de ver nós usamos dois fatos a respeito da função Tribes$_{N}$: 1) ela é evasiva (na verdade só precisamos do fato que Tribes$_{n}$ não pode ser computada por um algoritmo que faz $\Omega(n^{c})$ consultas, para qualquer $c > 0$) e 2) nós podemos verificar que $\Tribes_{N} = 1$ olhando para um número polinomial das variáveis de entrada de $\Tribes_{N}$. Portanto poderiamos substituir Tribes$_{n}$ por qualquer função que satisfaça 1 e 2, como por exemplo a função $Or_{n}$, a disjunção de $N$ variáveis. Porém, a função $Or_{n}$ não é balanceada., ou seja, com probabilidade muito maior do que $1/2$ temos que $Or_{n}(x) = 1$. enquanto que nós iremos precisar de uma função balanceada para provar o resultado da próxima seção.
 
-\section{P $\neq$ NP para oráculos aleatórios}
+\section{P $\neq$ NP para oráculos aleatórios} \label{section_p_neq_np_random_oracles}
 
-Um dos objetivos de estudar complexidade relativizada é enteder a relação entres classes de complexidades quando não conseguimos dizer nada de muito útil no mundo não-relativizado. Porém, como já vimos pelo teorema \ref{teo: bgs}, provar que P $\neq$ NP para algum oráculo não é nenhuma evidência que P $\neq$ NP no mundo não-relativizado, até porque a construção do oráculo $A$ em ambas provas que vimos é só uma especialização do método da diagonalização que por sua vez é basicamente só uma forma de ``trapacear o sistema'' construido uma asserção que codifica a tua própria falsidade. Então, com o objetivo de conseguir algum tipo de evidência que P $\neq$ NP poderiamos nos perguntar se é o caso que P e NP são diferentes no mundo relativizado típico. E de fato, o próximo teorema é o assunto desta subseção:
+Um dos objetivos de estudar complexidade relativizada é enteder a relação entres classes de complexidades quando não conseguimos dizer nada de muito útil no mundo não-relativizado. Porém, como já vimos pelo teorema \ref{teo: bgs}, provar que P $\neq$ NP para algum oráculo não é nenhuma evidência que P $\neq$ NP no mundo não-relativizado, até porque a construção do oráculo $A$ em ambas provas que vimos é só uma especialização do método da diagonalização que por sua vez é basicamente só uma forma de ``trapacear o sistema'' construido uma asserção que codifica a sua própria falsidade. Então, com o objetivo de conseguir algum tipo de evidência que P $\neq$ NP poderiamos nos perguntar se é o caso que P e NP são diferentes no mundo relativizado típico. E de fato, o próximo teorema é o assunto desta subseção:
 
 \begin{teo} \label{teo: P_NP_random_oracles}
 
@@ -137,40 +115,14 @@ A idéia principal do teorema \ref{teo: P_NP_random_oracles} é que a função $
 Seja $A$ qualquer algoritmo de consulta com complexidade de consulta $o(\frac{n}{logn})$, então:
 
 \begin{equation*}
-    \Pr_{x \sim \binalphn}[A(x) = \Tribes_{n}(x)] < 0,65 
+    \Pr_{x \sim \binalphn}[A(x) = \Tribes_{n}(x)] \leq 0,567 
 \end{equation*}
 
 \end{prop}
 
 \begin{proof}
 
-É suficiente provar que qualquer algoritmo de consulta que faz consultas a no máximo $\frac{1}{10}s$ das tribos não pode aproximar $\Tribes_{n}$.
-
-Seja $A$ tal algoritmo de consultas. Nós usamos o fato que para qualquer entrada $x$ em que $A$ não ``descobre'' uma tribo que é unanimamente $1$, o melhor que $A$ pode fazer é adivinhar o valor de $Tribes_{n}(x)$. Chamamos tal entrada $x$ de ``má''. Então:
-
-\begin{equation*}
-    \Pr_{x \in \binalphn}[x \text{ é má}] \geq 9/10
-\end{equation*}
-
-Se $x$ é má então $Tribes_{n}(x) = 1$ se e somente se pelo menos uma das $\frac{9}{10}s$ tribos restantes é unanimamente 1. Isso acontece com probabilidade $1 - (1 - 2^{-w})^{\frac{9}{10}s}$, mas temos que para $w$ suficientemente grande e $\varepsilon > 0$:
-
-\begin{equation*}
-    1/2 \leq (1 - 2^{-w})^{\frac{9}{10}s} \leq (1/2 + \varepsilon)^{\frac{9}{10}}
-\end{equation*}
-
- Ou seja, condicionando em nenhuma das primeiros $\frac{1}{10}s$ tribos serem unanimamente 1, o melhor que $A$ pode fazer é adivinhar que $\Tribes_{n}(x) = 0$ e ainda assim $A$ não poderá fazer melhor do que acertar numa fração maior do que, por exemplo, 0,55 das vezes. Então:
-
-\begin{equation*}
-	\Pr_{x \sim \binalphn}[A(x) = \Tribes_{n}(x)] < 1/10 + 0,55 = 0,65.
-\end{equation*}
-
-\end{proof}
-
-\color{red} Alternativamente podemos provar o teorema anterior da seguinte forma:
-
-\begin{proof}
-
-De novo nós provamos que qualquer algoritmo $A$ que só faz consultas às primeiras $\frac{1}{10}s$ tribos não pode aproximar a função $\Tribes_{n}$. Podemos notar que neste caso o melhor que podemos fazer é fazer $A$ computar a função $\Tribes_{\frac{1}{10}s, w}$, ou seja, se $g$ é a função computada por $A$, então
+É suficiente provar que qualquer algoritmo $A$ que só faz consultas às primeiras $\frac{1}{10}s$ tribos não pode aproximar a função $\Tribes_{n}$. Podemos notar que neste caso o melhor que podemos fazer é fazer $A$ computar a função $\Tribes_{\frac{1}{10}s, w}$, ou seja, se $g$ é a função computada por $A$, então
 
 \begin{equation*}
 	g(x) = 1 \iff \text{pelo menos uma das primeiras } \frac{1}{10}s \text{ tribos é unanimamente 1}.
@@ -187,7 +139,6 @@ Mas como $\Tribes_{n}(x) \geq g(x)$, para todos $x \in \binalphn$, temos que
 \begin{IEEEeqnarray*}{rCl}
 	\Pr_{x \sim \binalphn}[\Tribes_{n}(x) \neq g(x)] & = & \E_{x \sim \binalphn}[\Tribes_{n}(x) - g(x)] \\
 	                                                                             & = & \E_{x \sim \binalphn}[\Tribes_{n}(x)] - \E_{x \sim \binalphn}[g(x)] \\
-	                                                                             & = & \widehat{\Tribes_{n}}(\emptyset) - \widehat{g}(\emptyset) \\
 	                                                                             & = & 1 - (1 - 2^{-w})^{s} - 1  + (1 - 2^{-w})^{\frac{1}{10}s} \\
 	                                                                             & = & (1 - 2^{-w})^{\frac{1}{10}s} - (1 - 2^{-w})^{s}
 \end{IEEEeqnarray*}
@@ -199,10 +150,6 @@ Com $w$ tendendo ao infinito isso é igual a $2^{-\frac{1}{10}} - 1/2 \approx 0,
 \end{equation*}
 
 \end{proof}
-
-Na verdade, como nós só precisamos provar que algoritmos que fazem uma quantidade polilogarítmica de consultas não podem aproximar $\Tribes_{n}$ nós podemos mudar a fração de tribos consultadas para algo como $\frac{\log^{d} n}{n}$ e daí temos que a probabilidade que $A$ coincide com $\Tribes_{n}$ seria algo como $1/2 + o(1)$.
-
-\color{black}
 
 Então podemos provar o teorema \ref{teo: P_NP_random_oracles}.
 
@@ -291,7 +238,7 @@ Suponha que uma das $M_{i}s$ decida $L(A)$ com $k$ quantificadores alternantes e
 Ambos os casos são contradições pois $1^{n} \in L(A) \iff \Parity_{2^{n}}(A) = 1$.
 \end{proof}
 
-\section{Separando a hierarquia polinomial}
+\section{Separando a hierarquia polinomial} \label{section_separating_PH}
 
 Como vimos na seção anterior, podemos representar $\Sigma_{k}^{p}$ por circuitos $\AC^{0}$ com profundidade $k + 1$. Portanto, se queremos provar que existe $A \subseteq \binalph^{*}$ tal que $\Sigma_{k}^{p, A} \not\subseteq \Sigma_{k - 1}^{p. A}$ nós temos que demonstrar a existência de uma ''hierarquia de profundidade``, ou seja, que existe, para cada $k > 1$ uma função $f_{k}$ tal que existe um circuito de tamanho polinomial e profundidade $k + 1$ que computa $f_{k}$ mas que qualquer circuito com profundidade $k$ que computa $f_{k}$ tem tamanho exponencial. Note que pelo teorema \ref{teo: parity_lb} a função paridade não pode ser computada por circuitos $\AC^{0}$ de tamanho polinomial e profundidade $k$ para \emph{todas} as constantes $k \geq 1$ e portanto temos que provar limites inferior para funções diferentes da função paridade. Para isso, definiremos as funções de Sipser:
 
@@ -374,6 +321,12 @@ Se a prova acima estiver basicamente correta então nós provamos que para todo 
 \subsubsection{Separando a hierarquia polinomial com oráculos aleatórios}
 
 Recentemente, Rossman, Servedio e Tan (referência) provaram que a hierarquia polinomial não colapsa relativa a um oráculo aleatório. Por ser um trabalho bem técnico e longo nós não tivemos tempo para estudá-lo, porém antes de terem provado o resultado absoluto já haviam alguns resultados parciais, como o que nós iremos ver a seguir.
+
+\begin{teo} \label{Sipser_f_lb_app}
+
+Seja $d > 2$ e $m$ suficientemente grande, então qualquer circuito de tamanho $S \leq 2^{w^{1/5}}$ e profundidade $d - 1$ falha em computar a função $f^{m, d}$ corretamente numa fração maior do que $1/2 + n^{-\Omega(1/d)}$ das entradas.
+
+\end{teo}
 
 \begin{teo} \label{np_vs_sigma2_r}
 	$\Pr_{A \sim \binalph^{*}}[\NP^{A} \neq \Sigma_{2}^{p, A}] = 1$.

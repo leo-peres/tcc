@@ -1,29 +1,24 @@
 \BOOKMARK [0][-]{chapter.1}{Introdu\347\343o}{}% 1
 \BOOKMARK [1][-]{section.1.1}{Objetivo}{chapter.1}% 2
 \BOOKMARK [0][-]{chapter.2}{Fundamentos}{}% 3
-\BOOKMARK [1][-]{section.2.1}{Linguagens}{chapter.2}% 4
-\BOOKMARK [2][-]{subsection.2.1.1}{Problemas de decis\343o}{section.2.1}% 5
-\BOOKMARK [2][-]{subsection.2.1.2}{Problemas de busca}{section.2.1}% 6
-\BOOKMARK [1][-]{section.2.2}{M\341quinas de Turing}{chapter.2}% 7
-\BOOKMARK [2][-]{subsection.2.2.1}{M\341quina de Turing universal}{section.2.2}% 8
-\BOOKMARK [2][-]{subsection.2.2.2}{M\341quina de Turing n\343o-determin\355stica}{section.2.2}% 9
-\BOOKMARK [2][-]{subsection.2.2.3}{M\341quinas de Turing com or\341culo}{section.2.2}% 10
-\BOOKMARK [1][-]{section.2.3}{Circuitos booleanos}{chapter.2}% 11
-\BOOKMARK [2][-]{subsection.2.3.1}{F\363rmulas booleanas}{section.2.3}% 12
-\BOOKMARK [1][-]{section.2.4}{Complexidade computacional}{chapter.2}% 13
-\BOOKMARK [2][-]{subsection.2.4.1}{Classes de complexidade}{section.2.4}% 14
-\BOOKMARK [1][-]{section.2.5}{Complexidade de circuitos}{chapter.2}% 15
-\BOOKMARK [0][-]{chapter.3}{An\341lise de Fourier de Fun\347\365es Booleanas}{}% 16
-\BOOKMARK [1][-]{section.3.1}{Algumas aplica\347\365es}{chapter.3}% 17
-\BOOKMARK [2][-]{subsection.3.1.1}{Teste de propriedade}{section.3.1}% 18
-\BOOKMARK [0][-]{chapter.4}{Computa\347\343o relativizada e complexidade de circuitos}{}% 19
-\BOOKMARK [1][-]{section.4.1}{Uma prova alternativa do teorema 2.32}{chapter.4}% 20
-\BOOKMARK [1][-]{section.4.2}{P = NP para or\341culos aleat\363rios}{chapter.4}% 21
-\BOOKMARK [1][-]{section.4.3}{PH vs PSPACE}{chapter.4}% 22
-\BOOKMARK [1][-]{section.4.4}{Separando a hierarquia polinomial}{chapter.4}% 23
-\BOOKMARK [0][-]{chapter.5}{Limites inferiores de circuitos Booleanos}{}% 24
-\BOOKMARK [1][-]{section.5.1}{Restri\347\365es aleat\363rias}{chapter.5}% 25
-\BOOKMARK [2][-]{subsection.5.1.1}{Proje\347\365es aleat\363rias e prova dos teoremas 4.15 e \(...\)}{section.5.1}% 26
-\BOOKMARK [1][-]{section.5.2}{Provas Naturais}{chapter.5}% 27
-\BOOKMARK [1][-]{section.5.3}{Limites inferiores a partir de algoritmos eficientes}{chapter.5}% 28
-\BOOKMARK [1][-]{section.5.4}{Circuitos algebr\341icos}{chapter.5}% 29
+\BOOKMARK [1][-]{section.2.1}{Defini\347\365es matem\341ticas}{chapter.2}% 4
+\BOOKMARK [1][-]{section.2.2}{Linguagens}{chapter.2}% 5
+\BOOKMARK [2][-]{subsection.2.2.1}{Problemas de decis\343o}{section.2.2}% 6
+\BOOKMARK [1][-]{section.2.3}{M\341quinas de Turing}{chapter.2}% 7
+\BOOKMARK [2][-]{subsection.2.3.1}{M\341quina de Turing universal}{section.2.3}% 8
+\BOOKMARK [2][-]{subsection.2.3.2}{M\341quina de Turing n\343o-determin\355stica}{section.2.3}% 9
+\BOOKMARK [2][-]{subsection.2.3.3}{M\341quinas de Turing com or\341culo}{section.2.3}% 10
+\BOOKMARK [1][-]{section.2.4}{Circuitos booleanos}{chapter.2}% 11
+\BOOKMARK [2][-]{subsection.2.4.1}{F\363rmulas booleanas}{section.2.4}% 12
+\BOOKMARK [1][-]{section.2.5}{Complexidade computacional}{chapter.2}% 13
+\BOOKMARK [1][-]{section.2.6}{Complexidade de circuitos}{chapter.2}% 14
+\BOOKMARK [0][-]{chapter.3}{Computa\347\343o relativizada e complexidade de circuitos}{}% 15
+\BOOKMARK [1][-]{section.3.1}{Uma prova alternativa do teorema 2.45}{chapter.3}% 16
+\BOOKMARK [1][-]{section.3.2}{P = NP para or\341culos aleat\363rios}{chapter.3}% 17
+\BOOKMARK [1][-]{section.3.3}{PH vs PSPACE}{chapter.3}% 18
+\BOOKMARK [1][-]{section.3.4}{Separando a hierarquia polinomial}{chapter.3}% 19
+\BOOKMARK [0][-]{chapter.4}{Restri\347\365es e proje\347\365es aleat\363rias}{}% 20
+\BOOKMARK [1][-]{section.4.1}{Restri\347\365es aleat\363rias e a prova de H\345stad dos teoremas 3.8 e 3.9}{chapter.4}% 21
+\BOOKMARK [1][-]{section.4.2}{Proje\347\365es aleat\363rias e a prova de RST dos teoremas 3.12 e 3.14}{chapter.4}% 22
+\BOOKMARK [0][-]{chapter.5}{Teoremas de transfer\352ncia}{}% 23
+\BOOKMARK [1][-]{section.5.1}{Provas Naturais}{chapter.5}% 24

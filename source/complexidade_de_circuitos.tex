@@ -1,6 +1,4 @@
-\section{Complexidade de circuitos} \label{complexidade_circuitos}
-
-Agora discutimos complexidade de circuitos.
+\section{Complexidade de circuitos} \label{section_circuit_complexity}
 
 O \emph{tamanho} de um circuito booleano $C$ é o número de portas lógicas que o compõem e a sua profundidade é o maior caminho de uma das variáveis de entrada até a saída de $C$. Denotamos o tamanho de $C$ por $\lvert C \rvert$. 
 
@@ -56,9 +54,9 @@ Podemos provar este teorema mostrando que para todas máquinas de Turing que par
 
 \begin{proof}
 
-Seja $L$ uma linguagem em $\DTIME(T(n))$. Nós sabemos que existe uma máquina de Turing oblivious $A = (\Gamma, Q, \delta)$ de duas fitas que computa $L$ em menos do que $T^{\prime}(n) = T(n)\log T(n)$ passos. Nós podemos usar $A$ para construir circuitos $C_{n}$ de tamanho $\mathcal{O}(T^{\prime}(n))$ que decidem $L$ restrita à strings de tamanho $n$, para todos $n > 0$. $C_{n}$ tem $T^{\prime}(n)$ níveis em que cada nível tem um número constante de portas lógicas e portanto $\lvert C_{n} \rvert = \mathcal{O}(T^{\prime}(n)) = \mathcal{O}(T(n) \log T(n))$.
+Seja $L$ uma linguagem em $\DTIME(T(n))$. Nós sabemos que existe uma máquina de Turing oblivious $A = (\Gamma, Q, \delta)$ de duas fitas que computa $L$ em menos do que $T^{\prime}(n) = \mathcal{O}(T(n)\log T(n))$ passos. Nós podemos usar $A$ para construir circuitos $C_{n}$ de tamanho $\mathcal{O}(T^{\prime}(n))$ que decidem $L$ restrita à strings de tamanho $n$, para todos $n > 0$. $C_{n}$ tem $T^{\prime}(n)$ níveis em que cada nível tem um número constante de portas lógicas e portanto $\lvert C_{n} \rvert = \mathcal{O}(T^{\prime}(n)) = \mathcal{O}(T(n) \log T(n))$.
 
-Cada nível de $C_{n}$ é composto por um subcircuito que computa a função de transição de $A$. Chamaremos este subcircuito de $C_{\delta}$ e nós escreveremos $C_{\delta}^{i}$ quando queremos especificar o subcircuito que se encontra no $i$-ésimo nível. O que nós queremos é que o $i$-ésimo nível de $C_{n}$ compute a configuração que $A$ entra no ($i + 1$)-ésimo passo. As entradas do subcircuito $C_{\delta}$ é dividida em três partes que representam o estado atual e os símbolos sendo lidos pelos dois cabeçotes de $A$, no total a entrada tem $\log\lvert Q\rvert + 3$ bits.\footnote{Para representar o símbolo sendo lido na fita de entrada precisamos de somente um bit, para representar o símbolo sendo lido pela fita de trabalho precisamos de um bit adicional porque este símbolo pode ser $\square$.} As saídas são particionada em duas partes que representam o estado de $A$ no próximo passo e o símbolo escrito na fita de trabalho. O estado na entrada de $C_{\delta}^{i}$ é o estado na saída de $C_{\delta}^{i - 1}$, o símbolo na fita de entrada de $C_{\delta}^{i}$ vem de uma das entradas de $C_{n}$ e o símbolo na fita de trabalho vem da saída de $C_{\delta}^{j}$, onde $j$ é o maior número menor do que $i$ tal que no passo $j$ o cabeçote da fita de trabalho esteve na mesma posição em que ele se encontra no passo $i$. A entrada de $C_{\delta}^{1}$ é o estado inicial de $A$ e caso o ``$j$'' não exista então o símbolo sendo lido na fita de trabalho é $\square$, ambos podem ser implementados usando as constantes `1' e `0' usando um número constante de portas lógicas. Como $C_{\delta}$ depende somente da função de transição de $A$ temos que $\lvert C_{\delta} \vert = \mathcal{O}(1)$.
+Cada nível de $C_{n}$ é composto por um subcircuito que computa a função de transição de $A$. Chamaremos este subcircuito de $C_{\delta}$ e nós escreveremos $C_{\delta}^{i}$ quando queremos especificar o subcircuito que se encontra no $i$-ésimo nível. O que nós queremos é que o $i$-ésimo nível de $C_{n}$ compute a configuração que $A$ entra no ($i + 1$)-ésimo passo. As entradas do subcircuito $C_{\delta}$ é dividida em três partes que representam o estado atual e os símbolos sendo lidos pelos dois cabeçotes de $A$. No total a entrada tem $\log\lvert Q\rvert + 3$ bits.\footnote{Para representar o símbolo sendo lido na fita de entrada precisamos de somente um bit, para representar o símbolo sendo lido pela fita de trabalho precisamos de um bit adicional porque este símbolo pode ser $\square$.} As saídas são particionada em duas partes que representam o estado de $A$ no próximo passo e o símbolo escrito na fita de trabalho. O estado na entrada de $C_{\delta}^{i}$ é o estado na saída de $C_{\delta}^{i - 1}$, o símbolo na fita de entrada de $C_{\delta}^{i}$ vem de uma das entradas de $C_{n}$ e o símbolo na fita de trabalho vem da saída de $C_{\delta}^{j}$, onde $j$ é o maior número menor do que $i$ tal que no passo $j$ o cabeçote da fita de trabalho esteve na mesma posição em que ele se encontra no passo $i$. A entrada de $C_{\delta}^{1}$ é o estado inicial de $A$ e caso o ``$j$'' não exista então o símbolo sendo lido na fita de trabalho é $\square$, ambos podem ser implementados usando as constantes `1' e `0' usando um número constante de portas lógicas. Como $C_{\delta}$ depende somente da função de transição de $A$ temos que $\lvert C_{\delta} \vert = \mathcal{O}(1)$.
 
 \end{proof}
 
@@ -172,7 +170,7 @@ Para ver que $M_{n}$ roda em tempo menor do que $p(n)$, para algum polinômio $p
 
 \end{proof}
 
-\begin{teo} [Teorema de Karp-Lipton \cite{karp1982turing}]
+\begin{teo} [Teorema de Karp-Lipton \cite{karp1982turing}] \label{karp_lipton}
 
 $\NP \subseteq \Ppoly \Longrightarrow \PH = \Sigma_{2}^{p}$.
 
@@ -230,7 +228,7 @@ Ou seja, \ref{eq:karplipton2} é uma formulação equivalente do problema $\Pi_{
 
 \end{proof}
 
-\subsubsection{Limites inferior e superior no tamanho de circuitos}
+\subsubsection{Limitantes inferiores e superiores para tamanho de circuitos}
 
 Nós já vimos que usando a base $\Omega = \{\lor, \land, \lnot\}$ nós podemos implementar qualquer função booleana de $n$ entradas usando circuitos de tamanho $\mathcal{O}(n2^{n})$ através de mintermos. E também acabamos de ver que acredita-se que algumas linguagens em $\NP$ exigem circuitos de tamanho superpolinomial.
 
@@ -238,7 +236,7 @@ Agora nós vamos ver que nem todas funções podem ser computadas por circuitos 
 
 O limite inferior foi descoberto por Shannon em dos primeiros resultados em complexidade de circuitos. Em 1949, Shannon estava interessado no problema de minimização de circuitos quando ele publicou o resultado que nos vamos ver em seguida em \cite{shannon1949synthesis}, a prova que eu apresento aqui foi tirada de \cite{arora2009computational}.
 
-\begin{teo}
+\begin{teo} \label{ckt_lower_bound}
 
 Para todo $n > 1$, existem uma constante $d$ e funções booleanas $f: \{0, 1\}^{n} \to \{0, 1\}$ tal que $f$ não é computada por circuitos de tamanho menor do que $\frac{2^{n}}{dn}$.
 
@@ -261,7 +259,48 @@ O número de funções booleanas de $n$ entradas que têm circuitos de tamanho $
 
 Nós também podemos notar que $\frac{2^{\frac{c}{d}2^{n}}}{2^{2^{n}}} = 2^{2^{n}(\frac{c}{d} - 1)} = 2^{-\Theta(2^{n})}$, o que significa que a fração de funções booleanas que têm circuitos de tamanho menor do que $\frac{2^{n}}{dn}$ é bem pequena.
 
-Esse limite inferior é bem preciso na verdade. Em \cite{lupanov1958method} Lupanov apresenta uma representeção de funções booleanas que nos levam a um limite superior de $(1 + o(1))\frac{2^{n}}{n}$.
+Indo na mesma direção nós podemos nos perguntar se é possível obter um limitante inferior para o tamanho de circuitos que aproximem uma função $f$. Seja $f: \binalph^{n} \to \binalph$ uma função Booleana qualquer, nós dizemos que $g: \binalph^{n} \to \binalph$ aproxima $f$ com vantagem $\varepsilon > 0$ se
+
+\begin{equation*}
+    \big\lvert \Pr[f(x) = g(x)] - 1/2 \big\rvert > \varepsilon.
+\end{equation*}
+
+Se tratarmos $g$ como uma função aleatória, ou seja para cada $x \in \binalph^{n}$ nós fazemos $g(x) = 1$ com probabilidade $1/2$ e $g(x) = 0$ com probabilidade 1/2, e denotarmos por $Z_{f, x}$ a variável aleatória indicadora que é 1 se e somente se $f(x) = g(x)$, então usando a desigualdade de Hoeffding:
+
+\begin{equation} \label{random_function_likely_far}
+    \Pr\Bigg[2^{-n} \sum_{x \in \binalph^{n}} \Big( Z_{f, x} - E[Z_{f, x}] \Big) \geq \varepsilon \Bigg] \leq e^{-2\varepsilon^{2}2^{n}}.
+\end{equation}
+
+O que significa que com probabilidade muito alta uma função aleatória $g$ vai falhar em aproximar $f$ com vantagem maior do que $\varepsilon$. Usando a desigualdade acima podemos provar o segunte teorema.
+
+\begin{teo} \label{ckt_lower_bound_approx}
+
+    Para todo $\varepsilon > 0$, existe uma constante $d$ e função $f: \binalph^{n} \to \binalph$ tal que para todas funções $g: \binalph^{n} \to \binalph$ que admitem circuitos de tamanho no máximo $S = \frac{2^{n}}{dn}$ é verdade que
+    
+    \begin{equation*}
+        \Pr[f(\boldsymbol{x}) \neq g(\boldsymbol{x})] \geq 1/2 + \varepsilon.
+    \end{equation*}
+
+\end{teo}
+
+\begin{proof}
+
+    Seja $c$ a constante tal que todo circuito de tamanho no máximo $S$ pode ser representado por uma string de comprimento $cS\log S$ e para $\varepsilon > 0$ seja $d = d(\varepsilon) > \frac{c}{2log(e)\varepsilon^{2}}$.
+
+    Para todas funções $g: \binalph^{n} \to \binalph$ que admitem circuitos de tamanho menor do que $S = \frac{2^{n}}{dn}$ e para toda função Booleana $f: \binalph^{n} \to \binalph$, seja $Z_{f, g}$ a variável aleatória indicadora que é 1 se e somente se $\Pr[f(x) \neq g(x)] \geq 1/2 + \varepsilon$. Nós podemos notar que a desigualdade \ref{random_function_likely_far} implica em $E_{\boldsymbol{g}}[Z_{f,\boldsymbol{g}}] \geq 1 - e^{-2\varepsilon^{2}2^{n}}$, quando fixamos uma função $f$ arbitrária. Logo, pelo princípio da inclusão-exclusão a probabilidade que existe uma função $f$ que satisfaz $Z_{f, g} = 1$ para todas funções $g$ com circuitos de tamanho no máximo $S$ é limitada por baixo por
+    
+    \begin{IEEEeqnarray*} {rCl}
+        1 - 2^{cS\log S}e^{-2\varepsilon^{2}2^{n}} & = & 1 - 2^{cS\log S - 2\log(e)\varepsilon^{2}2^{n}} \\
+                                                   & = & 1 - 2^{c \frac{2^{n}}{dn}(n - \log(dn)) - 2\log(e)\varepsilon^{2}2^{n} } \\
+                                                   & > & 1 - 2^{2\log(e)\varepsilon^{2}2^{n} - 2\log(e)\varepsilon^{2}2^{n}} \\
+                                                   & = & 0.
+    \end{IEEEeqnarray*}    
+
+    Portanto, pelo método probabilístico, deve haver um $g$ que falha em ser aproximada com vantagem $\varepsilon$ por todos circuitos de tamanho no máximo $S$.
+    
+\end{proof}
+
+Os dois limitantes inferiores em \ref{ckt_lower_bound} e \ref{ckt_lower_bound_approx} são bem precisos na verdade. Em \cite{lupanov1958method} Lupanov apresenta uma representação de funções booleanas que nos leva a um limite superior de $(1 + o(1))\frac{2^{n}}{n}$.
 
 %\begin{teo}
 
@@ -326,7 +365,7 @@ O ``j'' pode ser qualquer inteiro menor do que $\lvert A_{i} \rvert$.
 Então podemos escrever $f(x_{1}, \dots, x_{n})$ como
 
 \begin{equation} \label{eq:lupanov}
-  \bigvee_{i = 1}^{p} \bigvee_{s \in \{0, 1\}^{s}} (g_{iw}(x_{1}, \dots, x_{k}) \land h_{iw}(x_{k + 1}, \dots, x_{n}))
+  \bigvee_{i = 1}^{p} \bigvee_{w \in \{0, 1\}^{s}} (g_{iw}(x_{1}, \dots, x_{k}) \land h_{iw}(x_{k + 1}, \dots, x_{n}))
 \end{equation}
 
 \end{defi}
@@ -415,30 +454,44 @@ Ignorando os termos de menores ordem dentro dos $\mathcal{O}()$ nós temos que o
 
 \subsubsection{Circuitos de profundidade logaritmica e P vs NC}
 
-Mas pra frente nós vamos discutir um pouco mais sobre circuitos com profundidade logaritmica, nesta subseção nós vamos conhecer duas classes de circuitos com circuitos de profundidade logaritmica e além disso nós iremos discutir como elas se relacionam com computação paralela.
+Nesta subseção nós vamos conhecer duas classes de circuitos que contêm apenas circuitos de profundidade logaritmica. Nós também rapidamente fazemos alguns comentários a respeito de como essas classes de complexidade de circuitos se relacionam com computação paralela.
 
-Nós dizemos que um problema é eficientemente paralelizável se ele pode ser computado em tempo polilogaritmico usando um número polinomial de processadores. Nós vimos na seção 2.5 que um problema é eficientemente computável se existe uma máquina de Turing que é capaz de decidir tal problema em tempo polinomial. Agora, o que se espera é que aumentar o número de ''máquinas de Turing`` nos permite decidir um dado problema mais rapidamente. O quão mais rapidamente? Saber se todos os problemas em $P$ podem ser \emph{altamente paralelizáveis} ainda é um problema em aberto pelo menos quase tão interessante quanto a questão $P$ vs $NP$. A seguir nós vemos que a classe $NC$ proposta por Pippenger - o primeiro nome dele é Nick, daí que veio o nome $NC$: \emph{Nick's class} - que é equivalente à classe de problemas eficientemente paralelizáveis. 
+Nós dizemos que um problema é eficientemente paralelizável se ele pode ser computado em tempo polilogaritmico usando um número polinomial de processadores. Nós vimos na seção \ref{section_computational_complexity} que um problema é eficientemente computável se existe uma máquina de Turing que é capaz de decidir tal problema em tempo polinomial. Agora, o que se espera é que aumentar o número de ''máquinas de Turing`` nos permite decidir um dado problema mais rapidamente. O quão mais rapidamente? Saber se todos os problemas em $P$ podem ser \emph{altamente paralelizáveis} ainda é um problema em aberto pelo menos quase tão interessante quanto a questão $P$ vs $NP$. A seguir nós vemos que a classe $NC$ proposta por Pippenger - o primeiro nome dele é Nick, daí que veio o nome $NC$: \emph{Nick's class} - que é equivalente à classe de problemas eficientemente paralelizáveis. 
 
 %discutir mais sobre modelos de computação paralela.
 
 \begin{defi} (A classe NC)
 
-Uma linguage $L$ é dita estar em $NC^{i}$ se $L$ é decidida por uma família de circuitos $\{C_{n}\}_{n \in \mathbb{N}}$ de tamanho polinomial tal que $\text{DEPTH}(C_{n}) = \mathcal{O}(\log^{i} n)$, para todo $n$.
+Uma linguage $L$ é dita estar em $NC^{i}$ se $L$ é decidida por uma família de circuitos logspace-uniforme $\{C_{n}\}_{n \in \mathbb{N}}$ de tamanho polinomial tal que $\text{DEPTH}(C_{n}) = \mathcal{O}(\log^{i} n)$, para todo $n$.
 
 A classe $NC$ é $\bigcup_{i \geq 1}NC^{i}$.
 
 \end{defi}
 
-Se $L \in NC$ então $L$ é eficientemente paralelizável: se $L$ é decidida por uma família de circuitos $\{C_{n}\}_{n \in \mathbb{N}}$ com profundidade $\mathcal{O}(\log^{d}n)$ então para entradas de tamanho $n$ nós temos um único processador que computa a descrição de $C_{n}$ e daí para cada porta lógica $p$ de $C_{n}$ nós temos um processador que irá computar $val(p)$ e enviar o resultado para o processador de cada porta lógica que depende de $p$. Nós precisamos de tempo $\mathcal{O}(\log^{d}n)$ para computar a descrição de $C_{n}$ e também para computar o valor de cada porta lógica. E pelo tamanho de $C_{n}$ ser polinomial temos que o número de processadores também é polinomial.
+Se $L \in NC$ então $L$ é eficientemente paralelizável: se $L$ é decidida por uma família de circuitos $\{C_{n}\}_{n \in \mathbb{N}}$ com profundidade $\mathcal{O}(\log^{d}n)$ então para entradas de tamanho $n$ nós temos um único processador que computa a descrição de $C_{n}$ e daí para cada porta lógica $a$ de $C_{n}$ nós temos um processador que irá computar $val(a)$ e enviar o resultado para o processador de cada porta lógica que depende de $a$. Nós precisamos de tempo $\mathcal{O}(\log^{d}n)$ para computar a descrição de $C_{n}$ e também para computar o valor de cada porta lógica. E pelo tamanho de $C_{n}$ ser polinomial temos que o número de processadores também é polinomial.
 
 Para ver que a outra direção também é verdade nós contruimos um circuito que nós vemos como um grid onde a porta lógica $c_{ij}$ simula o $i$-ésimo processador no $j$-ésimo passo. Este circuito tem tamanho $\mathcal{O}(n^{c}\log^{d}n)$ e profundidade $\mathcal{O}(\log^{d}n)$.
 
+Um exemplo de linguagem em $\NC$ é multiplicação de matrizes, que contém todas triplas $\langle M_{1}, M_{2}, M_{1}M_{2} \rangle$, e o problema de decidir a determinante de uma matrix que contém $\langle M, \text{DET}(M) \rangle$. Ou seja, os problemas de multiplicar matrizes e computar a determinante de uma dada matriz são problemas eficientementes paralelizáveis.
+
 %AC
+
+A classe $\AC$  é definida como uma modificação de $\NC$ que permite fan-in arbitrário para suas portas lógicas.
 
 \begin{defi}
 
-Uma linguagem $L$ é dita estar em $AC^{i}$ se $L$ é decidida por uma família de circuitos $\{C_{n}\}_{n \in \mathbb{N}}$ de tamanho polinomial tal que $\text{DEPTH}(C_{n}) = \mathcal{O}(\log^{i} n)$, para todo $n$, e além disso o fan-in das portas lógicas são arbitrários.
+Uma linguagem $L$ é dita estar em $AC^{i}$ se $L$ é decidida por uma família de circuitos logspace-uniforme $\{C_{n}\}_{n \in \mathbb{N}}$ de tamanho polinomial tal que $\text{DEPTH}(C_{n}) = \mathcal{O}(\log^{i} n)$, para todo $n$, e além disso o fan-in das portas lógicas são arbitrários.
 
 A classe $AC$ é $\bigcup_{i \geq 1}AC^{i}$
 
 \end{defi}
+
+Note que apesar do fan-in ser arbitrário, não faz sentido ter fan-in maior do que o número de variáveis de entrada e portanto podemos assumir que o fan-in máximo permitido pela classe $\AC$ é $n$ quando $n$ for o tamanho da entrada. Uma consequência disso é que podemos substituir uma porta lógica com fan-in $k \leq n$ por uma árvore de portas lógicas do mesmo tipo em que esta árvore tem profundidade $\log k \leq \log n$, o número adicional de portas lógicas é menor do que $2^{\log k} \leq 2^{\log n} = n$ e cada porta tem fan-in 2. O que isso significa é que podemos pegar um circuito $C_{n}$ para uma linguagem em em $\AC^{i}$ e transformá-lo de forma que toda porta lógica no circuito resultante tenha fan-in 2 e a profundidade do circuito cresce por um fator logaritmico enquanto que o tamanho do circuito cresce por um fator linear. Então temos a seguinte relação entre $\NC$ e $\AC$.
+
+\begin{equation*}
+    \NC^{0} \subseteq \AC^{0} \subseteq NC^{1} \subseteq \AC^{1} \subseteq NC^{2} \subseteq \dots,
+\end{equation*}
+
+o que nos dá $\AC = \NC$.
+
+Mais pra frente a classe $\AC^{0}$ será importante para nós pois vamos querer provar que certas linguagens não estão em $\AC^{0}$~\footnote{Note que apesar de $\AC^{0}$ ser uma classe que por sua definição parece ser bem fraca ela ainda está na fronteira de onde limitantes inferiores para problemas naturais foram obtidos. Por exemplo, ainda está em aberto se $\NEXP \subseteq AC^{1}$, muito menos é conhecido se $\SAT$ ou qualquer outra linguagem $\NP$-completa não estão em $\AC^{1}$}. Nós vamos aproveitar esta seção para definirmos o que é um circuito $\AC^{0}$ e também alguns termos que iremos usar extensivamente ao longo deste trabalho.

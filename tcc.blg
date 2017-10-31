@@ -1,0 +1,51 @@
+This is BibTeX, Version 0.99d (TeX Live 2015/Debian)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: tcc.aux
+The style file: amsalpha.bst
+Database file #1: ref.bib.bib
+Warning--missing journal name in haastad1987computational
+Warning--missing journal, volume, and year in haastad1987computational
+Warning--missing pages in haastad1987computational
+Warning--missing pages in savage1998models
+You've used 30 entries,
+            2624 wiz_defined-function locations,
+            739 strings with 8281 characters,
+and the built_in function-call counts, 10647 in all, are:
+= -- 1003
+> -- 364
+< -- 20
++ -- 116
+- -- 107
+* -- 857
+:= -- 1659
+add.period$ -- 30
+call.type$ -- 30
+change.case$ -- 163
+chr.to.int$ -- 29
+cite$ -- 34
+duplicate$ -- 483
+empty$ -- 907
+format.name$ -- 155
+if$ -- 2181
+int.to.chr$ -- 2
+int.to.str$ -- 0
+missing$ -- 63
+newline$ -- 101
+num.names$ -- 87
+pop$ -- 197
+preamble$ -- 1
+purify$ -- 192
+quote$ -- 0
+skip$ -- 359
+stack$ -- 0
+substring$ -- 713
+swap$ -- 61
+text.length$ -- 20
+text.prefix$ -- 19
+top$ -- 0
+type$ -- 220
+warning$ -- 4
+while$ -- 110
+width$ -- 33
+write$ -- 327
+(There were 4 warnings)

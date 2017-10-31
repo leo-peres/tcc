@@ -15,7 +15,12 @@
 
 \usepackage{xcolor}
 
+\usepackage{tikz}
+\usetikzlibrary{arrows,positioning}
+\usetikzlibrary{shapes.geometric}
+
 \newtheorem{teo}{Teorema}[chapter]
+\newtheorem{teoo}{Teorema}
 \newtheorem{defi}[teo]{Definição}
 \newtheorem{lema}[teo]{Lema}
 \newtheorem{cor}[teo]{Corolário}
@@ -45,6 +50,7 @@
 \newcommand{\Stab}{\text{Stab}}
 \newcommand{\Tribes}{\text{Tribes}}
 \newcommand{\Parity}{\text{Parity}}
+\newcommand{\majority}{\text{Majority}}
 \newcommand{\supp}{\text{supp}}
 \newcommand{\dist}{\text{dist}}
 \newcommand{\sgn}{\text{sgn}}
@@ -58,7 +64,8 @@
 \newcommand{\expp}{\text{exp}}
 \newcommand{\proj}{\text{Proj}}
 \newcommand{\inputt}{\text{input}}
-\newcommand{\block}{\text{bloco}}
+\newcommand{\block}{\text{block}}
+\newcommand{\bias}{\text{bias}}
 
 \mathchardef\mhyphen="2D
 
@@ -87,6 +94,24 @@
 \setlength{\hoffset}{-60pt}
 \setlength{\parskip}{4pt}
 
+\tikzset{
+	treenode/.style = {align=center, inner sep=0pt, text centered, font=\sffamily, size=1cm},
+	c_node/.style = {circle, draw, scale=.7, black},
+	c_node2/.style = {circle, draw, scale=.4, black},
+	s_node/.style = {draw, scale=.7, black},
+	s_node2/.style = {draw, scale=.4, black},
+	v_node/.style = {scale=.7, black},
+	g_node/.style = {circle, draw, scale=.5, black},
+	o_node/.style = {ellipse, draw, scale=.5, black},
+	t_node/.style = {scale=.5},
+	dots_node/.style = {scale=.8},
+	r_edge/.style = {red!100},
+	b_edge/.style = {black},
+	triangle/.style = {fill=blue!20, regular polygon, regular polygon sides=3},
+           border rotated/.style = {shape border rotate=180},
+           dt_node/.style = {triangle, border rotated, draw, scale=1.4},
+}
+
 \input{source/capa}
 
 \input{source/abstract}
@@ -95,7 +120,8 @@
 \input{source/teoria_da_computacao}
 \input{source/complexidade_computacional}
 \input{source/complexidade_de_circuitos}
-\input{source/funcoes_booleanas}
+%\input{source/funcoes_booleanas}
 \input{source/oraculos_e_circuitos}
 \input{source/limites_inferiores}
+\input{source/algorithms_lb}
 \input{source/ref}

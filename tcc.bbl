@@ -1,3 +1,140 @@
-\begin{thebibliography}{}
+\newcommand{\etalchar}[1]{$^{#1}$}
+\providecommand{\bysame}{\leavevmode\hbox to3em{\hrulefill}\thinspace}
+\providecommand{\MR}{\relax\ifhmode\unskip\space\fi MR }
+% \MRhref is called by the amsart/book/proc definition of \MR.
+\providecommand{\MRhref}[2]{%
+  \href{http://www.ams.org/mathscinet-getitem?mr=#1}{#2}
+}
+\providecommand{\href}[2]{#2}
+\begin{thebibliography}{RST15b}
+
+\bibitem[AB09]{arora2009computational}
+Sanjeev Arora and Boaz Barak, \emph{Computational complexity: a modern
+  approach}, Cambridge University Press, 2009.
+
+\bibitem[Bea94]{beame1994switching}
+Paul Beame, \emph{A switching lemma primer}, Tech. report, Technical Report
+  UW-CSE-95-07-01, Department of Computer Science and Engineering, University
+  of Washington, 1994.
+
+\bibitem[Coo71]{cook1971complexity}
+Stephen~A Cook, \emph{The complexity of theorem-proving procedures},
+  Proceedings of the third annual ACM symposium on Theory of computing, ACM,
+  1971, pp.~151--158.
+
+\bibitem[Coo73]{cook1973hierarchy}
+\bysame, \emph{A hierarchy for nondeterministic time complexity}, Journal of
+  Computer and System Sciences \textbf{7} (1973), no.~4, 343--353.
+
+\bibitem[Edm65]{edmonds1965paths}
+Jack Edmonds, \emph{Paths, trees, and flowers}, Canadian Journal of mathematics
+  \textbf{17} (1965), no.~3, 449--467.
+
+\bibitem[FM05]{frandsen2005reviewing}
+Gudmund~Skovbjerg Frandsen and Peter~Bro Miltersen, \emph{Reviewing bounds on
+  the circuit size of the hardest functions}, Information Processing Letters
+  \textbf{95} (2005), no.~2, 354--357.
+
+\bibitem[For94]{fortnow1994role}
+Lance Fortnow, \emph{The role of relativization in complexity theory}, Bulletin
+  of the EATCS \textbf{52} (1994), 229--243.
+
+\bibitem[For09]{beyondNP}
+\bysame, \emph{The status of the p versus np problem}, Communications of the
+  ACM \textbf{52} (2009), no.~9, 78--86.
+
+\bibitem[GJ02]{garey2002computers}
+Michael~R Garey and David~S Johnson, \emph{Computers and intractability},
+  vol.~29, wh freeman, 2002.
+
+\bibitem[Gol00]{goldreich2000computational}
+Oded Goldreich, \emph{Computational complexity}, In The Princeton Companion,
+  Citeseer, 2000.
+
+\bibitem[H{\aa}s87]{haastad1987computational}
+Johan H{\aa}stad, \emph{Computational limitations of small-depth circuits}.
+
+\bibitem[HS65]{hartmanis1965computational}
+Juris Hartmanis and Richard~E Stearns, \emph{On the computational complexity of
+  algorithms}, Transactions of the American Mathematical Society (1965),
+  285--306.
+
+\bibitem[HS66]{hennie1966two}
+Fred~C Hennie and Richard~Edwin Stearns, \emph{Two-tape simulation of multitape
+  turing machines}, Journal of the ACM (JACM) \textbf{13} (1966), no.~4,
+  533--546.
+
+\bibitem[Kar72]{karp1972reducibility}
+Richard~M Karp, \emph{Reducibility among combinatorial problems}, Springer,
+  1972.
+
+\bibitem[KL82]{karp1982turing}
+Richard~M Karp and Richard Lipton, \emph{Turing machines that take advice},
+  Enseign. Math \textbf{28} (1982), no.~2, 191--209.
+
+\bibitem[Ko]{ko1989constructing}
+Ker-I Ko, \emph{Constructing oracles by lower bound techniques for circuits}.
+
+\bibitem[Lev73]{levin1973universal}
+Leonid~A Levin, \emph{Universal sequential search problems}, Problemy Peredachi
+  Informatsii \textbf{9} (1973), no.~3, 115--116.
+
+\bibitem[LP97]{lewis1997elements}
+Harry~R Lewis and Christos~H Papadimitriou, \emph{Elements of the theory of
+  computation}, Prentice Hall PTR, 1997.
+
+\bibitem[Lup58]{lupanov1958method}
+Oleg~B Lupanov, \emph{A method of circuit synthesis}, Izvestia vuz Radio zike
+  \textbf{1} (1958), 120--140.
+
+\bibitem[RR94]{natural}
+Alexander~A Razborov and Steven Rudich, \emph{Natural proofs}, Proceedings of
+  the twenty-sixth annual ACM symposium on Theory of computing, ACM, 1994,
+  pp.~204--213.
+
+\bibitem[RST15a]{rossman2015average}
+Benjamin Rossman, Rocco~A Servedio, and Li-Yang Tan, \emph{An average-case
+  depth hierarchy theorem for boolean circuits}, Foundations of Computer
+  Science (FOCS), 2015 IEEE 56th Annual Symposium on, IEEE, 2015,
+  pp.~1030--1048.
+
+\bibitem[RST15b]{DBLP:journals/sigact/RossmanST15}
+Benjamin Rossman, Rocco~A. Servedio, and Li{-}Yang Tan, \emph{Complexity theory
+  column 89: The polynomial hierarchy, random oracles, and boolean circuits},
+  {SIGACT} News \textbf{46} (2015), no.~4, 50--68.
+
+\bibitem[S{\etalchar{+}}49]{shannon1949synthesis}
+Claude Shannon et~al., \emph{The synthesis of two-terminal switching circuits},
+  Bell System Technical Journal \textbf{28} (1949), no.~1, 59--98.
+
+\bibitem[Sav70]{savitch1970relationships}
+Walter~J Savitch, \emph{Relationships between nondeterministic and
+  deterministic tape complexities}, Journal of computer and system sciences
+  \textbf{4} (1970), no.~2, 177--192.
+
+\bibitem[Sav98]{savage1998models}
+John~E Savage, \emph{Models of computation}, Exploring the Power of Computing
+  (1998).
+
+\bibitem[Sip12]{sipser2012introduction}
+Michael Sipser, \emph{Introduction to the theory of computation}, Cengage
+  Learning, 2012.
+
+\bibitem[Sub61]{subbotovskaya1961realizations}
+Bella~Abramovna Subbotovskaya, \emph{Realizations of linear functions by
+  formulas using+}, Doklady Akademii Nauk SSSR \textbf{136} (1961), no.~3,
+  553--555.
+
+\bibitem[Tur36]{turing1936computable}
+Alan~Mathison Turing, \emph{On computable numbers, with an application to the
+  entscheidungsproblem}, J. of Math \textbf{58} (1936), 345--363.
+
+\bibitem[Wil13]{RW1}
+Ryan Williams, \emph{Improving exhaustive search implies superpolynomial lower
+  bounds}, SIAM Journal on Computing \textbf{42} (2013), no.~3, 1218--1244.
+
+\bibitem[Wil14]{RW2}
+\bysame, \emph{Nonuniform acc circuit lower bounds}, Journal of the ACM (JACM)
+  \textbf{61} (2014), no.~1, 2.
 
 \end{thebibliography}

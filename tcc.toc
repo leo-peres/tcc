@@ -1,53 +1,55 @@
 \select@language {brazil}
 \contentsline {chapter}{\numberline {1}Introdu\IeC {\c c}\IeC {\~a}o}{1}{chapter.1}
-\contentsline {section}{\numberline {1.1}Objetivo}{2}{section.1.1}
-\contentsline {chapter}{\numberline {2}Fundamentos}{3}{chapter.2}
-\contentsline {section}{\numberline {2.1}Linguagens}{3}{section.2.1}
-\contentsline {subsection}{\numberline {2.1.1}Problemas de decis\IeC {\~a}o}{3}{subsection.2.1.1}
-\contentsline {subsection}{\numberline {2.1.2}Problemas de busca}{4}{subsection.2.1.2}
-\contentsline {section}{\numberline {2.2}M\IeC {\'a}quinas de Turing}{4}{section.2.2}
-\contentsline {subsection}{\numberline {2.2.1}M\IeC {\'a}quina de Turing universal}{5}{subsection.2.2.1}
-\contentsline {subsection}{\numberline {2.2.2}M\IeC {\'a}quina de Turing n\IeC {\~a}o-determin\IeC {\'\i }stica}{6}{subsection.2.2.2}
-\contentsline {subsection}{\numberline {2.2.3}M\IeC {\'a}quinas de Turing com or\IeC {\'a}culo}{6}{subsection.2.2.3}
-\contentsline {section}{\numberline {2.3}Circuitos booleanos}{8}{section.2.3}
-\contentsline {subsection}{\numberline {2.3.1}F\IeC {\'o}rmulas booleanas}{9}{subsection.2.3.1}
-\contentsline {section}{\numberline {2.4}Complexidade computacional}{11}{section.2.4}
-\contentsline {subsection}{\numberline {2.4.1}Classes de complexidade}{12}{subsection.2.4.1}
-\contentsline {subsubsection}{As classes ${\ensuremath {\mathsf {P}}}$ e ${\ensuremath {\mathsf {NP}}}$}{13}{section*.2}
-\contentsline {subsubsection}{Redu\IeC {\c c}\IeC {\~o}es}{13}{section*.3}
-\contentsline {subsubsection}{${\ensuremath {\mathsf {NP}}}$-completude e o teorema de Cook-Levin}{14}{section*.4}
-\contentsline {subsubsection}{Hierarquia polinomial}{15}{section*.5}
-\contentsline {subsubsection}{Teoremas de hierarquia}{18}{section*.6}
-\contentsline {subsubsection}{Limites da diagonaliza\IeC {\c c}\IeC {\~a}o}{19}{section*.7}
-\contentsline {section}{\numberline {2.5}Complexidade de circuitos}{20}{section.2.5}
-\contentsline {subsubsection}{Circuitos de tamanho polinomial}{21}{section*.8}
-\contentsline {subsubsection}{O problema ${\ensuremath {\mathsf {CIRCUIT\mhyphen SAT}}}$}{22}{section*.9}
-\contentsline {subsubsection}{Fam\IeC {\'\i }lias de circuitos uniforme}{22}{section*.10}
-\contentsline {subsubsection}{Teorema de Karp-Lipton}{23}{section*.11}
-\contentsline {subsubsection}{Limites inferior e superior no tamanho de circuitos}{25}{section*.12}
-\contentsline {subsubsection}{Circuitos de profundidade logaritmica e P vs NC}{28}{section*.13}
-\contentsline {chapter}{\numberline {3}An\IeC {\'a}lise de Fourier de Fun\IeC {\c c}\IeC {\~o}es Booleanas}{29}{chapter.3}
-\contentsline {subsubsection}{Influ\IeC {\^e}ncia individual e total}{31}{section*.14}
-\contentsline {subsubsection}{Estabilidade de ru\IeC {\'\i }do}{33}{section*.15}
-\contentsline {subsubsection}{Hipercontratividade}{34}{section*.16}
-\contentsline {subsubsection}{Tribes$_{N}$}{37}{section*.17}
-\contentsline {section}{\numberline {3.1}Algumas aplica\IeC {\c c}\IeC {\~o}es}{40}{section.3.1}
-\contentsline {subsection}{\numberline {3.1.1}Teste de propriedade}{40}{subsection.3.1.1}
-\contentsline {subsubsection}{Testando simetria}{43}{section*.18}
-\contentsline {subsubsection}{Testando 1-juntas}{45}{section*.19}
-\contentsline {chapter}{\numberline {4}Computa\IeC {\c c}\IeC {\~a}o relativizada e complexidade de circuitos}{49}{chapter.4}
-\contentsline {section}{\numberline {4.1}Uma prova alternativa do teorema \ref {teo: bgs}}{49}{section.4.1}
-\contentsline {section}{\numberline {4.2}P $\not =$ NP para or\IeC {\'a}culos aleat\IeC {\'o}rios}{51}{section.4.2}
-\contentsline {subsubsection}{A lei zero-um de Kolmogorov}{52}{section*.20}
-\contentsline {subsubsection}{Prova do teorema \ref {teo: P_NP_random_oracles}}{52}{section*.21}
-\contentsline {section}{\numberline {4.3}PH vs PSPACE}{53}{section.4.3}
-\contentsline {section}{\numberline {4.4}Separando a hierarquia polinomial}{55}{section.4.4}
-\contentsline {subsubsection}{Separando a hierarquia polinomial com or\IeC {\'a}culos aleat\IeC {\'o}rios}{57}{section*.22}
-\contentsline {chapter}{\numberline {5}Limites inferiores de circuitos Booleanos}{60}{chapter.5}
-\contentsline {section}{\numberline {5.1}Restri\IeC {\c c}\IeC {\~o}es aleat\IeC {\'o}rias}{60}{section.5.1}
-\contentsline {subsubsection}{O lema de H\IeC {\r a}stad}{61}{section*.23}
-\contentsline {subsection}{\numberline {5.1.1}Proje\IeC {\c c}\IeC {\~o}es aleat\IeC {\'o}rias e prova dos teoremas \ref {Sipser_f_lb} e (...)}{68}{subsection.5.1.1}
-\contentsline {subsubsection}{Lema da troca para proje\IeC {\c c}\IeC {\~o}es aleat\IeC {\'o}rias}{76}{section*.24}
-\contentsline {section}{\numberline {5.2}Provas Naturais}{82}{section.5.2}
-\contentsline {section}{\numberline {5.3}Limites inferiores a partir de algoritmos eficientes}{82}{section.5.3}
-\contentsline {section}{\numberline {5.4}Circuitos algebr\IeC {\'a}icos}{82}{section.5.4}
+\contentsline {subsubsection}{Computa\IeC {\c c}\IeC {\~a}o relativizada e complexidade de circuitos}{2}{section*.2}
+\contentsline {subsubsection}{Restri\IeC {\c c}\IeC {\~o}es e proje\IeC {\c c}\IeC {\~o}es aleat\IeC {\'o}rias}{3}{section*.3}
+\contentsline {section}{\numberline {1.1}Objetivo}{4}{section.1.1}
+\contentsline {chapter}{\numberline {2}Fundamentos}{5}{chapter.2}
+\contentsline {section}{\numberline {2.1}Defini\IeC {\c c}\IeC {\~o}es matem\IeC {\'a}ticas}{5}{section.2.1}
+\contentsline {subsubsection}{Nota\IeC {\c c}\IeC {\~a}o assint\IeC {\'o}tica}{6}{section*.4}
+\contentsline {subsubsection}{Probabilidade e vari\IeC {\'a}veis aleat\IeC {\'o}rias}{7}{section*.5}
+\contentsline {section}{\numberline {2.2}Linguagens}{8}{section.2.2}
+\contentsline {subsection}{\numberline {2.2.1}Problemas de decis\IeC {\~a}o}{8}{subsection.2.2.1}
+\contentsline {section}{\numberline {2.3}M\IeC {\'a}quinas de Turing}{8}{section.2.3}
+\contentsline {subsection}{\numberline {2.3.1}M\IeC {\'a}quina de Turing universal}{9}{subsection.2.3.1}
+\contentsline {subsection}{\numberline {2.3.2}M\IeC {\'a}quina de Turing n\IeC {\~a}o-determin\IeC {\'\i }stica}{10}{subsection.2.3.2}
+\contentsline {subsection}{\numberline {2.3.3}M\IeC {\'a}quinas de Turing com or\IeC {\'a}culo}{11}{subsection.2.3.3}
+\contentsline {section}{\numberline {2.4}Circuitos booleanos}{12}{section.2.4}
+\contentsline {subsection}{\numberline {2.4.1}F\IeC {\'o}rmulas booleanas}{13}{subsection.2.4.1}
+\contentsline {subsubsection}{\IeC {\'A}rvores de decis\IeC {\~a}o}{15}{section*.6}
+\contentsline {section}{\numberline {2.5}Complexidade computacional}{16}{section.2.5}
+\contentsline {subsubsection}{As classes ${\ensuremath {\mathsf {P}}}$ e ${\ensuremath {\mathsf {NP}}}$}{18}{section*.7}
+\contentsline {subsubsection}{Redu\IeC {\c c}\IeC {\~o}es}{19}{section*.8}
+\contentsline {subsubsection}{${\ensuremath {\mathsf {NP}}}$-completude e o teorema de Cook-Levin}{19}{section*.9}
+\contentsline {subsubsection}{Hierarquia polinomial}{20}{section*.10}
+\contentsline {subsubsection}{Complexidade de espa\IeC {\c c}o}{23}{section*.11}
+\contentsline {subsubsection}{Classes de complexidade de tempo exponencial}{26}{section*.12}
+\contentsline {subsubsection}{Teoremas de hierarquia}{26}{section*.13}
+\contentsline {subsubsection}{Limites da diagonaliza\IeC {\c c}\IeC {\~a}o}{28}{section*.14}
+\contentsline {section}{\numberline {2.6}Complexidade de circuitos}{29}{section.2.6}
+\contentsline {subsubsection}{Circuitos de tamanho polinomial}{29}{section*.15}
+\contentsline {subsubsection}{O problema ${\ensuremath {\mathsf {CIRCUIT\mhyphen SAT}}}$}{30}{section*.16}
+\contentsline {subsubsection}{Fam\IeC {\'\i }lias de circuitos uniforme}{31}{section*.17}
+\contentsline {subsubsection}{Teorema de Karp-Lipton}{32}{section*.18}
+\contentsline {subsubsection}{Limitantes inferiores e superiores para tamanho de circuitos}{33}{section*.19}
+\contentsline {subsubsection}{Circuitos de profundidade logaritmica e P vs NC}{37}{section*.20}
+\contentsline {chapter}{\numberline {3}Computa\IeC {\c c}\IeC {\~a}o relativizada e complexidade de circuitos}{39}{chapter.3}
+\contentsline {section}{\numberline {3.1}Uma prova alternativa do teorema \ref {teo: bgs}}{39}{section.3.1}
+\contentsline {section}{\numberline {3.2}P $\not =$ NP para or\IeC {\'a}culos aleat\IeC {\'o}rios}{41}{section.3.2}
+\contentsline {subsubsection}{A lei zero-um de Kolmogorov}{41}{section*.21}
+\contentsline {subsubsection}{Prova do teorema \ref {teo: P_NP_random_oracles}}{42}{section*.22}
+\contentsline {section}{\numberline {3.3}PH vs PSPACE}{43}{section.3.3}
+\contentsline {section}{\numberline {3.4}Separando a hierarquia polinomial}{44}{section.3.4}
+\contentsline {subsubsection}{Separando a hierarquia polinomial com or\IeC {\'a}culos aleat\IeC {\'o}rios}{46}{section*.23}
+\contentsline {chapter}{\numberline {4}Restri\IeC {\c c}\IeC {\~o}es e proje\IeC {\c c}\IeC {\~o}es aleat\IeC {\'o}rias}{50}{chapter.4}
+\contentsline {section}{\numberline {4.1}Restri\IeC {\c c}\IeC {\~o}es aleat\IeC {\'o}rias e a prova de H{\r a}stad dos teoremas \ref {teo: parity_lb} e \ref {teo: parity_lb_app}}{50}{section.4.1}
+\contentsline {subsubsection}{O lema da troca de H\IeC {\r a}stad}{51}{section*.24}
+\contentsline {subsubsection}{Prova do Lema da troca de H\.{a}stad usando o m\IeC {\'e}todo de Razborov}{55}{section*.25}
+\contentsline {subsubsection}{Prova dos teoremas \ref {teo: parity_lb} e \ref {teo: parity_lb_app}}{57}{section*.26}
+\contentsline {subsubsection}{Circuitos de profundidade $d$ para $\text {Parity}_{n}$}{60}{section*.27}
+\contentsline {section}{\numberline {4.2}Proje\IeC {\c c}\IeC {\~o}es aleat\IeC {\'o}rias e a prova de RST dos teoremas \ref {Sipser_f_lb} e \ref {Sipser_f_lb_app}}{61}{section.4.2}
+\contentsline {subsubsection}{O espa\IeC {\c c}o de proje\IeC {\c c}\IeC {\~o}es $P_{1}$}{63}{section*.28}
+\contentsline {subsubsection}{Os espa\IeC {\c c}os de proje\IeC {\c c}\IeC {\~o}es $P_{i}$}{67}{section*.29}
+\contentsline {subsubsection}{Lema da troca para proje\IeC {\c c}\IeC {\~o}es aleat\IeC {\'o}rias}{71}{section*.30}
+\contentsline {subsubsection}{Prova dos Teoremas \ref {Sipser_f_lb} e \ref {Sipser_f_lb_app}}{76}{section*.31}
+\contentsline {chapter}{\numberline {5}Teoremas de transfer\IeC {\^e}ncia}{80}{chapter.5}
+\contentsline {section}{\numberline {5.1}Provas Naturais}{80}{section.5.1}
