@@ -30,15 +30,15 @@ E como vimos em \ref{prop: tribes_fourier_coef}, deg(Tribes$_{n}$) = n.
 
 Agora, seja $M$ uma máquina de Turing que pode fazer consultas a algum oráculo, e seja $x \in \binalph^{*}$. O que $M$ faz antes de tua primeira consulta é independente de qual oráculo ela tem acesso, e o que $M$ faz entre a primeira e segunda consulta só depende da resposta à primeira consulta, e por aí vai. Isto sugere que a computação de $M$ sobre a entrada $x$ pode ser representada por um algoritmo de consulta que ramifica sobre as respostas às suas consultas ao oráculo.
 
-Seja $\mathcal{X}$ um subconjunto finito de $\binalph^{*}$ e $A \subseteq \binalph^{*}$ um oráculo que inicialmente está definido apenas nas strings que não estão em $\mathcal{X}$. Sejam $M$ e $x$ os mesmos do parágrafo anterior, então o algoritmo de consulta $T_{M^{A}, x}^{\mathcal{X}}$ ramifica sobre consultas ao oráculo por strings em $\mathcal{X}$. Podemos ver a entrada de $T_{M^{A}, x}^{\mathcal{X}}$ como um vetor característica $v$ onde $v_{j} = 1$ significa que a $j$-ésima string na ordem lexicográfica em $\mathcal{X}$ está em $A$. Desta forma, temos que $T_{M^{A}, x}^{\mathcal{X}}(v) = 1 \iff M^{A \cup v}(x) = 1$, permitindo um pequeno abuso de notação. Em particular, se $M$ roda em tempo polinomial e $\mathcal{X} = \binalph^{\lvert x \rvert}$ então $T_{M^{A}, x}^{\mathcal{X}}$ tem complexidade de consulta polilogarítmica se $\lvert x \rvert$ for suficientemente grande.
+Seja $\mathcal{X}$ um subconjunto finito de $\binalph^{*}$ e $A \subseteq \binalph^{*} \setminus \mathcal{X}$ um oráculo que inicialmente está definido apenas nas strings que não estão em $\mathcal{X}$. Sejam $M$ e $x$ os mesmos do parágrafo anterior, então o algoritmo de consulta $T_{M^{A}, x}^{\mathcal{X}}$ ramifica sobre consultas ao oráculo por strings em $\mathcal{X}$. Podemos ver a entrada de $T_{M^{A}, x}^{\mathcal{X}}$ como um vetor característica $v$ onde $v_{j} = 1$ significa que a $j$-ésima string na ordem lexicográfica em $\mathcal{X}$ está em $A$. Desta forma, temos que $T_{M^{A}, x}^{\mathcal{X}}(v) = 1 \iff M^{A \cup v}(x) = 1$, permitindo um pequeno abuso de notação. Em particular, se $M$ roda em tempo polinomial e $\mathcal{X} = \binalph^{\lvert x \rvert}$ então $T_{M^{A}, x}^{\mathcal{X}}$ tem complexidade de consulta polilogarítmica se $\lvert x \rvert$ for suficientemente grande.
 
 Então, para cada oráculo $A \subseteq \{0, 1\}^{*}$, considere a seguinte linguagem.
 
 \begin{equation*}
-L_{A} = \{1^{n} \lvert \text{Tribes}_{N}(A) = 1\}
+L_{A} = \{1^{w} \lvert \text{Tribes}_{w, s}(A) = 1\},
 \end{equation*}
 
-Com $N$ satisfazendo $2^{n - 1} \leq N \leq 2^{n}$ e Tribes$_{N}(A)$ significando a função Tribes$_{N}$ com o vetor característica de $A^{=n}$ em seu argumento, mas como $N$ pode ser menor do que $2^{n}$ nós na verdade truncamos a string para que ela tenha tamanho igual a $N$. $L_{A} \in \NP^{A}$ para todos $A \subseteq \{0, 1\}^{*}$ pois precisamos apenas verificar que para algum $i$ múltiplo de $w$, $x_{i}, x_{i + 1}, \dots, x_{i + w - 1} \in A$, em que $x_{i}$ é a $i$-ésima string de tamanho $n$ na ordem lexicográfica. Com isso dito, podemos provar o teorema \ref{teo: bgs} novamente:
+em que $s \approx 2{^w}\ln(2)$. Se $N = ws$, o número de variáveis de entrada de $\Tribes_{w, s}$, então $\Tribes_{w, s}(A)$ siginifica a função $\Tribes_{w, s}$ com o vetor característica de $A^{= \log N}$ em seu argumento. $L_{A} \in \NP^{A}$ para todos $A \subseteq \{0, 1\}^{*}$ pois precisamos apenas verificar que para algum $i$ múltiplo de $w$, $x_{i + 1}, x_{i + 2}, \dots, x_{i + w} \in A$, em que aqui $x_{i}$ é a $i$-ésima string de tamanho $\log N$ na ordem lexicográfica. Como $\log N \approx w + \log w$ também temos que pode-se em tempo polinomial escrever cada uma dessas strings na fita de oráculo. Com isso dito, podemos provar o teorema \ref{teo: bgs} novamente:
 
 \begin{prop} \label{prop: p_vs_np_r}
 
@@ -50,44 +50,29 @@ Existe um oráculo $A \subseteq \{0, 1\}^{*}$ tal que $L_{A} \notin P^{A}$.
 
 Seja $\{M_{i}\}_{i \geq 1}$ uma enumeração de todas as máquinas de Turing de tempo polinomial, e $\{p_{i}\}_{i \geq 1}$ o tempo de execução das respectivas máquinas de Turing.
 
-Assim como fizemos na primeira prova do teorema \ref{teo: bgs}, vamos construir o oráculo $A$ em estágios. Inicialmente $A = \emptyset$ e $n_{1}$ é o menor inteiro tal que $2^{n_{1}} > p_{1}(n_{1})$ para todos $n \geq n_{1}$. Consideramos então o $i$-ésimo estágio e fazemos as seguintes definições:
+Seja $w_{1}, w_{2}, \dots$ uma sequência de números naturais em que $p_{1}(w_{1}) < 2^{w_{1}}$ e para cada $i \geq 1$ temos que $w_{i} > p_{i - 1}(w_{i - 1})$ e $p_{i}(w_{i}) < 2^{w_{i}}$.
+
+Assim como fizemos na prova original que aparece na seção \ref{section_computational_complexity} nós iremos construir o oráculo $A$ em estágios. Nós descrevemos o $i$-ésimo estágio para algum $i \geq 1$ arbitrário. Inicialmente fazemos $A(0) = \emptyset$ e iremos assumir que no fim do $(i -1)$-ésimo a construção descrita abaixo já obteve o oráculo $A(i - 1)$ definido sobre strings de tamanho no máximo $p_{i - 1}(w_{i - 1})$
+
+Estágio $i$:
+
+Seja $D(i) subseteq \bigcup_{k \in I_{i}} \binalph^{k}$, em que $I_{i} = \{p_{i - 1}(w_{i - 1}) + 1, p_{i - 1}(w_{i - 1}) + 2, \dots, p_{i}(w^{i}) \} \setminus \binalph^{\log N_{i}}$ e $N_{i} \approx w_{i} + \log w_{i}$. Seja $T_{i}$ a árvore de decisão da computação de $M_{i}$ sobre a entrada $1^{w_{i}}$ com acesso ao oráculo $A(i - 1)$.  Como $T_{i}$ tem profundidade polilogaritmica e $\Tribes_{N_{i}}$ é evasiva, segue que existe um oráculo $A^{\prime} \subseteq \binalph^{\log N}$ tal que $T_{i}(A^{\prime}) \neq \Tribes_{N}(A^{\prime})$. Nós então fazemos $A(i) = A(i - 1) \cup A^{\prime} \cup D(i)$.
+
+Então agora argumentamos que $A = \bigcup_{i \geq 1} A(i)$ satisfaz $\NP^{A} \subseteq P^{A}$. Nós iremos assumir que para algum $i \geq 1$ a máquina de Turing $M_{i}$ decide $L_{A}$ com acesso à $A$ em tempo polinomial. Nós fazemos $A^{\prime} = A \cap \binalph^{\log N_{i}}$. Este $A^{\prime}$ apareceu no $i$-ésimo estágio e é tal que $A(i - 1) = A(i) \setminus (A^{\prime} \cup D(i))$. Nós temos o seguinte.
 
 \begin{itemize}
 
-    \item $A(i - 1)$ é o conjuto (finito) de todas as strings que já foram declaradas em $A$ após o estágio $i - 1$.
+    \item $1^{w_{i}} \in L_{A} \Rightarrow T_{i}(A^{\prime}) = 1 \Rightarrow \Tribes_{N_{i}}(A) = 0 \Rightarrow 1^{w_{i}} \not\in L_{A}$.
 
-    \item $n_{i}$ é um inteiro que satisfaz
-
-    \begin{enumerate}
-
-        \item é maior do que o tamanho de todas as strings já declaradas em $A(i - 1)$;
-
-        \item $2^{n_{i}} > p_{i}(n_{i})$;
-
-        \item $2^{n_{i} - 1} \leq N \leq 2^{n_{i}}$, para algum $N$ que pode ser definido como em \ref{prop: tribes_n} (lembrando que este $N$ é único).
-
-    \end{enumerate}
-
-    \item $D(i) = \bigcup_{k = n_{i}}^{p_{i}(n_{i})}\{0, 1\}^{k}$.
-
+    \item $1^{w_{i}} \not\in L_{A} \Rightarrow T_{i}(A^{\prime}) = 0 \Rightarrow \Tribes_{N_{i}}(A) = 1 \Rightarrow 1^{w^{i}} \not\in L_{A}$.
 
 \end{itemize}
 
-Como o algoritmo de consulta de $M_{i}$ sobre a entrada $1^{n_{i}}$ tem complexidade de consulta polilogaritmica e Tribes$_{N}$ é evasiva, segue que existe um oráculo $A^{\prime} \subseteq \{0, 1\}^{*}$ tal que $T_{M_{i}^{A(i - 1)}, 1^{n_{i}}}^{\binalph^{n_{i}}}(A^{\prime}) \neq \text{Tribes}_{N}(A^{\prime})$. Seja $B = A^{\prime} \cap D_{i}$ e $A(i) = A(i - 1) \cup B$, nós podemos argumentar que $M_{i}$ não pode ser uma máquina de Turing que decide $L_{A(i)}$ pois:
-
-\begin{itemize}
-
-    \item Se $M_{i}^{A^{\prime}}(1^{n_{i}}) = 0 \Rightarrow \text{Tribes}_{N}(A^{\prime}) = 1$ e portanto $1^{n_{i}} \in L_{A(i)}$.
-
-    \item Se $M_{i}^{A^{\prime}}(1^{n_{i}}) = 1 \Rightarrow \text{Tribes}_{N}(A^{\prime}) = 0$ e portanto $1^{n_{i}} \notin L_{A(i)}$.
-
-\end{itemize}
-
-    Por fim, nós fazemos $A = \bigcup_{i \geq 1}A(i)$ e pelo nosso argumento todas as máquinas de Turing de tempo polinomial com acesso a $A$ deixam de computar $L_{A}$ corretamente em pelo menos uma entrada e portanto $L_{A} \notin P^{A}$.
+    Ambos os casos são construções e portanto tal máquina $M_{i}$ pode existir e $\NP^{A} \nsubseteq P^{A}$.
 
 \end{proof}
 
-Na prova que acabamos de ver nós usamos dois fatos a respeito da função Tribes$_{N}$: 1) ela é evasiva (na verdade só precisamos do fato que Tribes$_{n}$ não pode ser computada por um algoritmo que faz $\Omega(n^{c})$ consultas, para qualquer $c > 0$) e 2) nós podemos verificar que $\Tribes_{N} = 1$ olhando para um número polinomial das variáveis de entrada de $\Tribes_{N}$. Portanto poderiamos substituir Tribes$_{n}$ por qualquer função que satisfaça 1 e 2, como por exemplo a função $Or_{n}$, a disjunção de $N$ variáveis. Porém, a função $Or_{n}$ não é balanceada., ou seja, com probabilidade muito maior do que $1/2$ temos que $Or_{n}(x) = 1$. enquanto que nós iremos precisar de uma função balanceada para provar o resultado da próxima seção.
+Na prova que acabamos de ver nós usamos dois fatos a respeito da função Tribes$_{N}$: 1) ela é evasiva (na verdade só precisamos do fato que Tribes$_{n}$ não pode ser computada por um algoritmo que faz $\Omega(n^{c})$ consultas, para qualquer $c > 0$) e 2) nós podemos verificar que $\Tribes_{N} = 1$ olhando para um número polinomial das variáveis de entrada de $\Tribes_{N}$. Portanto poderiamos substituir Tribes$_{n}$ por qualquer função que satisfaça 1 e 2, como por exemplo a função $Or_{n}$, a disjunção de $N$ variáveis. Porém, a função $Or_{n}$ não é balanceada., ou seja, com probabilidade muito maior do que $1/2$ temos que $Or_{n}(x) = 1$, enquanto que nós iremos precisar de uma função balanceada para provar o resultado da próxima seção.
 
 \section{P $\neq$ NP para oráculos aleatórios} \label{section_p_neq_np_random_oracles}
 
@@ -103,7 +88,7 @@ Antes de ver a prova do teorema \ref{teo: P_NP_random_oracles} nós vamos discut
 
 \subsubsection{A lei zero-um de Kolmogorov}
 
-A lei zero-um de Kolmogorov nos diz que certos eventos sempre acontecem com probabilidade 0 ou com probabilidade 1. O que isso quer dizer, e que eventos são esses? 
+Um oráculo aleátorio é gerado incluindo cada $x \in \binalph^{n}$ independentemente com probabilidade 1/2. 
 
 
 \subsubsection{Prova do teorema \ref{teo: P_NP_random_oracles}}
@@ -155,7 +140,7 @@ Então podemos provar o teorema \ref{teo: P_NP_random_oracles}.
 
 \begin{proof} (Prova do teorema \ref{teo: P_NP_random_oracles})
 
-Pela proposição \ref{prop: tribes_inaproximability} nós temos que para uma fração significativa das entradas, $T_{M^{A(i - 1)}, 1^{n_{i}}}^{\binalph^{n_{i}}}(A^{\prime}) \neq Tribes_{N}(A^{\prime})$ e portanto o conjunto $\{A \subseteq \binalph^{*} \lvert \P^{A} \neq \NP^{A}\}$ tem medida (de Lebesgue?) positiva.
+Pela proposição \ref{prop: tribes_inaproximability} nós temos que para uma fração significativa das entradas, $T_{i}(A^{\prime}) \neq Tribes_{N}(A^{\prime})$ e portanto o conjunto $\{A \subseteq \binalph^{*} \lvert \P^{A} \neq \NP^{A}\}$ tem medida (de Lebesgue?) positiva.
 
 \end{proof}
 
@@ -163,7 +148,11 @@ Pela proposição \ref{prop: tribes_inaproximability} nós temos que para uma fr
 
 Agora nós generalizamos a idéia que usamos para separar $\P$ e $\NP$ nas seções anteriores para podermos separar $\PSPACE$ e a hierarquia polinomial. Da mesma forma que usamos árvores de decisão para representar $\P$ nós iremos usar circuitos $\AC^{0}$ para representar $\PH$.
 
-Fixe $k \geq 1$. Seja $L \subseteq \binalph^{*}$ uma linguagem em $\Sigma_{k}^{p}$, o que significa que existe uma máquina de Turing $M$ de tempo polinomial tal que para todo $x \in \binalph^{*}$, $x \in L \iff \exists y_{1} \forall y_{2} \dots Q_{k} y_{k} M(x, y_{1}, y_{2}, \dots, y_{k}) = 1$. Fixando ${y}_{1}, y_{2}, \dots, y_{k}$, podemos representar a computação de $M$ sobre $x, {y}_{1}, y_{2}, \dots, y_{k}$ por uma árvore de decisão da forma que vimos anteriormente. Então o circuito $\AC^{0}$ $C_{M, x}^{\mathcal{X}}$ que usamos para representar $L$ tem profundidade $k + 1$ onde cada quantificador $\exists$ é representado por uma porta $\lor$ e $\forall$ é representado por uma porta $\land$, a profundidade é $k + 1$ porque no nível mais baixo nós temos árvores de decisão que podem ser representadas por fórmulas FNC ou FND. Também vemos que o fan-in das portas no primeiro nível é $\polylog(n)$ e o fan-in nas demais portas é $2^{p(n)}$, o tamanho do circuito é $N^{\polylog(N)}$, onde $N = 2^{n}$, o tamanho da entrada de $C_{M, x}^{\mathcal{X}}$.
+Fixe $k \geq 1$. Seja $L \subseteq \binalph^{*}$ uma linguagem em $\Sigma_{k}^{p}$, o que significa que existe uma máquina de Turing $M$ de tempo polinomial tal que para todo $x \in \binalph^{*}$, $x \in L \iff \exists y_{1} \forall y_{2} \dots Q_{k} y_{k} M(x, y_{1}, y_{2}, \dots, y_{k}) = 1$. Fixando ${y}_{1}, y_{2}, \dots, y_{k}$, podemos representar a computação de $M$ sobre $x, {y}_{1}, y_{2}, \dots, y_{k}$ por uma árvore de decisão da forma que vimos anteriormente. Então o circuito $\AC^{0}$ $C_{M, x}^{\mathcal{X}}$ que usamos para representar $L$ tem profundidade $k + 1$ onde cada quantificador $\exists$ é representado por uma camada de portas $\lor$ e $\forall$ é representado por uma camada de portas $\land$, a profundidade é $k + 1$ porque no nível mais baixo nós temos árvores de decisão que podem ser representadas por fórmulas FNC ou FND. Também vemos que o fan-in das portas no primeiro nível é $\polylog(n)$ e o fan-in nas demais portas é $2^{p(n)}$, o tamanho do circuito é $N^{\polylog(N)}$, onde $N = 2^{n}$, o tamanho da entrada de $C_{M, x}^{\mathcal{X}}$.
+
+Assim como as árvores de decisão que vimos nas seções \ref{section_alternative_proof_bgs} e \ref{section_p_neq_np_random_oracles}, o circuito $C_{M, x}^{\mathcal{X}}$ satisfaz $C_{M, x}^{\mathcal{X}}(A) = 1 \iff M^{\mathcal{X} \cup A}(x) = 1$, onde nós vemos $A$ como sendo o vetor caratecterísica de um oráculo $A$.
+
+O objetivo desta seção é provar o seguinte teorema.
 
 \begin{teo} \label{teo: pspace_vs_ph_r}
 
@@ -171,7 +160,7 @@ Existe $A \subseteq \binalph^{*}$ tal que $\PSPACE^{A} \neq \PH^{A} = \bigcup_{k
 
 \end{teo}
 
-Nós provamos \ref{prop: p_vs_np_r} a partir de um limite inferior para a função $\Tribes_{N}$. Para provar o teorema \ref{teo: pspace_vs_ph_r} nós iremos usar um limite inferior para a função paridade de $n$ variáveis.
+Nós também temos que $\PH^{\TBQF} = \PSPACE^{\TBQF}$, e portanto o teorema \ref{teo: pspace_vs_ph_r} também nós diz que $\PH \text{ vs } \PSPACE$ assim como $\P \text{ vs } \NP$ necessariamente precisa de um argumento que não relativiza. Nós provamos \ref{prop: p_vs_np_r} a partir de um limitante inferior para a função $\Tribes_{N}$. Para provar o teorema \ref{teo: pspace_vs_ph_r} nós iremos usar um limitante inferior para a função paridade de $n$ variáveis.
 
 \begin{defi} (Paridade) \label{parity}
 
@@ -185,25 +174,23 @@ Consideremos para cada oráculo $A \subseteq \binalph^{*}$ a seguinte linguagem:
     L(A) = \{1^{n} \lvert A(x) = 1 \text{ para um número ímpar de } x \in \binalphn\}.
 \end{equation*}
 
-E temos que $L(A) \in \PSPACE^{A}$ já que só precisamos de espaço para escrever cada string de $n$ bits na fita de oráculo mais uma célula para guardar a paridade de $\lvert \{x \in \binalphn \lvert A(x) = 1)\} \rvert$.
-
-O teorema a seguir nos dá o limite inferior necessário para podermos provar que $L(A) \not\in \PH^{A}$ para algum oráculo $A \subseteq \binalph^{*}$. 
+E temos que $L(A) \in \PSPACE^{A}$ já que só precisamos de espaço para escrever cada string de $n$ bits na fita de oráculo mais uma célula para guardar a paridade de $\lvert \{x \in \binalphn \lvert A(x) = 1)\} \rvert$. Uma outra forma de descrever $L$ é dado uma string unária $1^{n}$ e oráculo $A$, então $1^{n} \in L(A) \iff \Parity_{2^{n}}(A^{= n}) = 1$ em que $A^{=n} = A \cap \binalph^{n}$. Nós iremos usar esta caracterização de $L(A)$ mais o teorema \ref{teo: parity_lb} que é enunciado logo abaixo para provar o teorema \ref{teo: pspace_vs_ph_r}.
 
 \begin{teo} \label{teo: parity_lb}
 
-Seja $d > 0$ um inteiro. Para $n$ suficientemente grande temos que qualquer circuito de profundidade $d$ com fan-in $\polylog(n)$ no teu primeiro nível e tamanho $< 2^{\mathcal{O}\big(n^{\frac{1}{d - 1}}\big)}$ não pode computar a função paridade de $n$ variáveis corretamente em todas as entradas. 
+Seja $d > 0$ um inteiro. Para $n$ suficientemente grande temos que qualquer circuito de profundidade $d$ com fan-in $\polylog(n)$ no teu primeiro nível e tamanho $< 2^{\mathcal{O}\big(n^{\frac{1}{d - 1}}\big)}$ não pode computar a função $\Parity_{n}$ corretamente em todas as entradas. 
 
 \end{teo}
 
-Nós iremos provar o teorema \ref{teo: parity_lb} no próximo capítulo. Na verdade, iremos ganhar de grátis o seguinte teorema.
+Nós iremos provar o teorema \ref{teo: parity_lb} no próximo capítulo (\ref{chapter_random_restrictions_and_projections}) quando formos ver restrições aleatórias e o lema da troca de H{\aa}stad. Na verdade, iremos ganhar de grátis o seguinte teorema.
 
 \begin{teo} \label{teo: parity_lb_app}
 
-Seja $d > 0$ um inteiro. Então qualquer circuito com profundidade $d$, fan-in do primeiro nível $\polylog(n)$ que computa a função paridade de $n$ variáveis corretamente numa fração maior do que $1/2 + \Omega(n^{-d})$ das entradas deve ter tamanho maior do que $2^{\Theta\big(n^{\frac{1}{d - 1}}\big)}$.
+Seja $d > 0$ um inteiro. Então, para $n$ suficientemente grande, qualquer circuito com profundidade $d$, fan-in do primeiro nível $\polylog(n)$ que computa $\Parity_{n}$ corretamente numa fração maior do que $1/2 + \Omega(n^{-d})$ das entradas deve ter tamanho maior do que $2^{\Theta\big(n^{\frac{1}{d - 1}}\big)}$.
 
 \end{teo}
 
-E portanto temos o seguinte.
+E portanto, usando a lei zero-um de Kolmogorv e um argumento semelhante ao que usamos para provar \ref{teo: P_NP_random_oracles}, nós temos o seguinte.
 
 \begin{teo} \label{teo: pspace_vs_ph_random}
 
@@ -213,78 +200,83 @@ $\Pr_{A}[\PSPACE^{A} \neq \PH^{A}] = 1$.
 
 \begin{proof} (Prova do Teorema \ref{teo: pspace_vs_ph_r})
 
-Nós usamos o argumento usual.
+Nós usamos um argumento paracido com o da prova do teorema \ref{prop: p_vs_np_r}.
 
-Seja $\{M_{i}\}_{i \geq 1}$ uma enumeração de todas as máquinas de Turing de tempo polinomial e $\{p_{i}\}_{i \geq 1}$ o tempo de execução dessas máquinas de Turing. Fixe algum $k \geq 1$ e provaremos que existe $A \subseteq \binalph^{*}$ tal que $\PSPACE^{A} \neq \Sigma_{k}^{p, A}$.
+Seja $\{M_{i}\}_{i \geq 1}$ uma enumeração de todas as máquinas de Turing de tempo polinomial e $\{p_{i}\}_{i \geq 1}$ o tempo de execução dessas máquinas de Turing. Fixe algum $k \geq 1$ e provaremos que existe $A \subseteq \binalph^{*}$ tal que $\Sigma_{k}^{p, A} \neq \PSPACE^{A}$. Por estarmos escolhendo um $k$ arbitrário, após provarmos que $\Sigma_{k}^{p, A} \neq \PSPACE^{A}$ teremos também provado que $\PH^{A} \neq \PSPACE^{A}$.
 
-Inicialmente faça $A = \emptyset$ e seja $n_{1}$ tal que $p_{1}(n_{1}) < 2^{n_{1}}$, seja $D(1) = \bigcup_{l = n_{1}}^{p_{1}(n_{1})} \binalph^{l}$. Seja $A^{\prime}$ tal que $C_{M, 1^{n_{1}}}^{\binalph^{n_{1}}}(A^{\prime}) \neq \Parity_{p_{1}(n_{1})}(A^{\prime})$ (tal $A^{\prime}$ deve existir por $C_{M, 1^{n_{1}}}^{\binalph^{n_{1}}}$ ter tamanho $\subexp(n_{1})$ e pelo Teorema \ref{teo: parity_lb}). Daí fazemos $A(1) = A \cup (D(1) \cap A^{\prime})$ e finalizamos o primeiro estágio.
+Seja $n_{0}$ a constante tal que para todo $n \geq n_{0}$ o resultado do teorema \ref{teo: parity_lb} para circuitos de profundidade $k + 1$ vale -- ou seja, para todo $n \geq n_{0}$ e todo circuito $C$ de profundidade $k + 1$ e tamanho subexponencial existe um $x \in \binalph^{n}$ tal que $C(x) \neq \Parity_{n}(x)$. Nós definimos uma sequência $n_{0}, n_{1}, n_{2}, \dots$ de números naturais tais que para todo $i \geq 1$ é verdade que $n_{i} > p_{i - 1}(n_{i - 1})$ e $p_{i}(n_{i}) < 2^{n_{i}}$.
+
+Nós construimos $A$ em estágios e descreveremos o $i$-ésimo estágio para algum $i \geq 1$ arbitrário. Seja $A(0) = \emptyset$.
 
 Estágio $i$:
 
-Escolha $n_{i}$ tal que $n_{i} > p_{i - 1}(n_{i - 1})$ e $p_{i}(n_{i}) < 2^{n_{i}}$, seja $A(i - 1)$ o conjunto de todas as strings declarada em $A$ antes do $i$-ésimo estágio e $D(i) = \bigcup_{l = n_{i}}^{p_{i}(n_{i})}$. De novo, escolha $A^{\prime}$ tal que $C_{M_{i}, 1^{n_{i}}}^{\binalph^{n_{i}}}(A^{\prime}) \neq \Parity_{p_{i}(n_{i})}(A^{\prime})$. Então fazemos $A(i) = A(i - 1) \cup (D(i) \cap A^{\prime})$.
+Seja $D(i) \subseteq \bigcup_{k = n_{i} + 1}^{p_{i}(n_{i})} \binalph^{k}$ algum oráculo arbitrário. Seja $C_{i}$ o circuito da computação de $M_{i}$ sobre a entrada $1^{n_{i}}$ e com acesso ao oráculo $A(i - 1) \cup D(i)$. Pelo teorema \ref{teo: parity_lb} deve haver um oráculo $A^{\prime} \subseteq \binalph^{n_{i}}$ tal que $C_{i}(A^{\prime}) \neq \Parity_{2^{n_{i}}}(A^{\prime})$. Então fazemos $A(i) = A(i - 1) \cup A^{\prime} \cup D(i)$.
 
-Argumentaremos que $A = \bigcup_{i = 1}^{\infty}A(i)$ satisfaz $L(A) \not\in \Sigma_{k}^{p, A}$.
-
-Suponha que uma das $M_{i}s$ decida $L(A)$ com $k$ quantificadores alternantes e com acesso a $A$. Então:
+Argumentaremos que $A = \bigcup_{i = 1}^{\infty}A(i)$ satisfaz $L(A) \not\in \Sigma_{k}^{p, A}$. Suponha que uma máquina de Turing de tempo polinomial $M_{i}$ decida $L(A)$ com $k$ quantificadores alternantes e com acesso a $A$. Seja $A^{\prime}$ o oráculo que apareceu no $i$-ésimo estágio que é tal que $A(i - 1) = A(i) \setminus (A^{\prime} \cup D(i))$. Note que também é verdade que $A \cap \binalph^{n_{i}} = A^{\prime}$. Então nós temos o seguinte.
 
 \begin{itemize}
 
-    \item $1^{n_{i}} \in L(A) \Rightarrow C_{M_{i}, 1^{n_{i}}}(A) = 1 \Rightarrow C_{M_{i}, 1^{n_{i}}}(A(i)) = 1 \Rightarrow \Parity_{p_{i}(n_{i})} = 0$.
+    \item $1^{n_{i}} \in L(A) \Rightarrow C_{i}(A^{\prime}) = 1 \Rightarrow \Parity_{2^{n_{i}}}(A^{\prime}) = 0 \Rightarrow 1^{n_{i}} \not\in L(A)$.
 
-    \item $1^{n_{i}} \not\in L(A) \Rightarrow C_{M_{i}, 1^{n_{i}}}(A) = 0 \Rightarrow C_{M_{i}, 1^{n_{i}}}(A(i)) = 0 \Rightarrow \Parity_{p_{i}(n_{i})} = 1$.
+    \item $1^{n_{i}} \not\in L(A) \Rightarrow C_{i}(A^{\prime}) = 0 \Rightarrow \Parity_{2^{n_{i}}}(A^{\prime}) = 1 \Rightarrow 1^{n_{i}} \in L(A)$.
 
 \end{itemize}
 
-Ambos os casos são contradições pois $1^{n} \in L(A) \iff \Parity_{2^{n}}(A) = 1$.
+Ambos os casos são contradições e portanto não existe tal máquina de Turing de tempo polinomial que decida $L(A)$ com $k$ quantificadores alternantes. Como $L(A) \in \PSPACE^{A}$ podemos concluir que $\Sigma_{k}^{p, A} \neq \PSPACE^{A}$.
+
 \end{proof}
+
+
 
 \section{Separando a hierarquia polinomial} \label{section_separating_PH}
 
-Como vimos na seção anterior, podemos representar $\Sigma_{k}^{p}$ por circuitos $\AC^{0}$ com profundidade $k + 1$. Portanto, se queremos provar que existe $A \subseteq \binalph^{*}$ tal que $\Sigma_{k}^{p, A} \not\subseteq \Sigma_{k - 1}^{p. A}$ nós temos que demonstrar a existência de uma ''hierarquia de profundidade``, ou seja, que existe, para cada $k > 1$ uma função $f_{k}$ tal que existe um circuito de tamanho polinomial e profundidade $k + 1$ que computa $f_{k}$ mas que qualquer circuito com profundidade $k$ que computa $f_{k}$ tem tamanho exponencial. Note que pelo teorema \ref{teo: parity_lb} a função paridade não pode ser computada por circuitos $\AC^{0}$ de tamanho polinomial e profundidade $k$ para \emph{todas} as constantes $k \geq 1$ e portanto temos que provar limites inferior para funções diferentes da função paridade. Para isso, definiremos as funções de Sipser:
+Como vimos na seção anterior, podemos representar $\Sigma_{k}^{p}$ por circuitos $\AC^{0}$ com profundidade $k + 1$. Portanto, se queremos provar que existe $A \subseteq \binalph^{*}$ tal que $\Sigma_{k}^{p, A} \not\subseteq \Sigma_{k - 1}^{p. A}$ nós temos que demonstrar a existência de uma ''hierarquia de profundidade``, ou seja, que existe, para cada $k > 1$ uma função $f_{k}$ tal que existe um circuito de tamanho polinomial e profundidade $k + 1$ que computa $f_{k}$ mas que qualquer circuito com profundidade $k$ que computa $f_{k}$ tem tamanho exponencial. Note que pelo teorema \ref{teo: parity_lb} a função paridade não pode ser computada por circuitos $\AC^{0}$ de tamanho polinomial e profundidade $k$ para \emph{todas} as constantes $k \geq 1$ e portanto temos que provar limites inferior para funções diferentes da função paridade. Para este fim define-se as funções de Sipser:
 
 \begin{defi} (As funções de Sipser) \label{Sipser_f}
 
-Para $d \geq 2$ a função de Sipser $f^{d, n}$ é uma fórmula monotônica e \emph{read-once} onde o nível mais baixo tem fan-in $\sqrt{\frac{1}{2}dn\log n}$, as portas lógicas nos níveis 2 até d - 1 têm fan-in $n$ e a porta lógica no nível mais alto tem fan-in $\sqrt{\frac{n}{\log n}}$. Ou seja, podemos escrever $f^{d, n}$ como
+Para $d \geq 2$ a função de Sipser $f^{m, d}$ é uma fórmula monotônica e \emph{read-once}~\footnote{Nós dizemos que um circuito ou fórmula é \emph{read-once} se cada variável de entrada só alimenta uma única porta lógica} onde o nível mais baixo tem fan-in $m$, as portas lógicas nos níveis 2 até d - 1 têm fan-in $w = 2^{m}m \ln(2)$ e a porta lógica no nível mais alto tem fan-in $w_{d} \approx 2^{m} ln(2)$. Ou seja, podemos escrever $f^{m, d}$ como
 
-\begin{equation}
-	\bigwedge_{i_{d}  = 1}^{\sqrt{\frac{n}{\log n}}}\bigvee_{i_{d - 1} = 1}^{n} \dots \bigvee_{i_{2} = 1}^{n} \bigwedge_{i_{1} = 1}^{\sqrt{\frac{1}{2}dn\log n}} x_{i_{1}, i_{2}, \dots, i_{d}}, \text{ se } d \text{ é par.}
+\begin{equation} \label{Sipser_f_defi_1}
+	\bigwedge_{i_{d}  = 1}^{w_{d}}\bigvee_{i_{d - 1} = 1}^{w} \dots \bigvee_{i_{2} = 1}^{w} \bigwedge_{i_{1} = 1}^{m} x_{i_{1}, i_{2}, \dots, i_{d}}, \text{ se } d \text{ é par.}
 \end{equation}
 
 e
 
-\begin{equation}
-	\bigwedge_{i_{d}  = 1}^{\sqrt{\frac{n}{\log n}}}\bigvee_{i_{d - 1} = 1}^{n} \dots \bigwedge_{i_{2} = 1}^{n} \bigvee_{i_{1} = 1}^{\sqrt{\frac{1}{2}dn\log n}} x_{i_{1}, i_{2}, \dots, i_{d}}, \text{ se } d \text{ é ímpar.}
+\begin{equation} \label{Sipser_f_defi_2}
+	\bigwedge_{i_{d}  = 1}^{w_{d}}\bigvee_{i_{d - 1} = 1}^{w} \dots \bigwedge_{i_{2} = 1}^{w} \bigvee_{i_{1} = 1}^{m} x_{i_{1}, i_{2}, \dots, i_{d}}, \text{ se } d \text{ é ímpar.}
 \end{equation}
 
 \end{defi}
 
-Segue direto da definição que o número $m$ de variáveis de entrada da função $f^{d, n}$ é
+Segue direto da definição que o número $n$ de variáveis de entrada da função $f^{m, d}$ é simplesmente o produto dos fan-ins de cada nível.
 
 \begin{equation*}
-	m = n^{d - 2}\sqrt{\frac{n}{\log n}}\sqrt{\frac{1}{2}dn\log n} = n^{d - 1}\sqrt{d/2}.
+	n = mw^{d - 2}w_{d} = \Theta(w^{d - 1}).
 \end{equation*}
 
-Também segue que pela definição de $f^{d, n}$ exposta em \ref{Sipser_f_def_1} e \ref{Sipser_f_def_2} que ela pode ser computada por um circuito de profunidade $d$ e tamanho
+E portanto também temos que $w = \Theta(n^{\frac{1}{d - 1}})$.
+
+Segue também pela definição de $f^{m, d}$ exposta em \ref{Sipser_f_defi_1} e \ref{Sipser_f_defi_2} que ela pode ser computada por um circuito de profundidade $d$ e tamanho
 
 \begin{equation*}
-	S = 1 + \sum_{i = 0}^{d - 2} n^{i}\sqrt{\frac{n}{\log n}} = 1 + \Big(\frac{n^{d - 1} - 1}{n - 1}\Big)\sqrt{\frac{n}{\log n}},
+	S = 1 + \frac{n}{m}\sum_{i = 0}^{d - 2} n^{i} = 1 + \frac{n}{m}\Big(\frac{w^{d - 1} - 1}{w - 1}\Big) = \widetilde{\Theta}(n^{2 - \frac{1}{d - 1}}),
 \end{equation*}
 
-e como $m = \poly(n)$ temos que $S = \poly(m)$. Agora o resultado que nós precisamos para separar cada nível da hierarquia polinomial relativa à um oráculo segue do seguinte resultado, também provado por Håstad em tua tese de doutorado.
+Agora o resultado que nós precisamos para separar cada nível da hierarquia polinomial relativa à um oráculo segue do seguinte resultado, que também foi provado pela primeira vez por Håstad em sua tese de doutorado.
 
 \begin{teo} \label{Sipser_f_lb}
 
-Seja $d > 2$ e $n$ suficientemente grande, qualquer circuito de tamanho $< 2^{\Theta\big(\sqrt{\frac{n}{d\log n}}\big)}$ não computa a função $f^{d, n}$ corretamente em todas as entradas.
+Seja $d > 2$ e $m$ suficientemente grande, qualquer circuito de tamanho no máximo $2^{w^{1/5}}$ e profundidade $d - 1$ não computa a função $f^{m, d}$ corretamente em todas as entradas.
 
 \end{teo}
 
-De novo, deixaremos a prova do teorema \ref{Sipser_f_lb} para o próximo capítulo, por enquanto só estamos preocupados na seguinte aplicação deste teorema.
+Como $w = \Theta(n^{\frac{1}{d - 1}})$, o teorema \ref{Sipser_f_lb} nos dá um limitante inferior de $2^{n^{\Omega \big(\frac{1}{d - 1} \big)}}$ para o tamanho de qualquer circuito de profundidade $d - 1$ que computa a função $f^{m, d}$. De novo, deixaremos a prova do teorema \ref{Sipser_f_lb} para o próximo capítulo, por enquanto só estamos preocupados na seguinte aplicação deste teorema.
 
 \begin{teo} \label{ph_no_collapse_r}
 Existe um oráculo $A \subseteq \binalph^{*}$ tal que para todo $k \geq 2$, $\Sigma_{k}^{p, A} \neq \Sigma_{k - 1}^{p, A}$.
 \end{teo}
 
-Ou seja, para este oráculo $A$, $PH^{A} \neq \Sigma_{k}^{p, A}$, para todos $k \geq 1$. Logo, em particular, $P^{A} \neq PH^{A} \Rightarrow P^{A} \neq NP^{A}$, então podemos ver a prova do teorema \ref{ph_no_collapse_r} como a terceira prova do teorema de Baker-Gill-Solovay em \ref{teo: bgs} e \ref{prop: p_vs_np_r} que iremos ver, mas desta vez também estaremos provando algo bem mais forte usando basicamente a mesma estratégia.
+Ou seja, para este oráculo $A$, $\PH^{A} \neq \Sigma_{k}^{p, A}$, para todos $k \geq 1$. Logo, em particular, $\NP^{A} \neq \PH^{A} \Rightarrow \P^{A} \neq \NP^{A}$, então podemos ver a prova do teorema \ref{ph_no_collapse_r} como a terceira prova do teorema de Baker-Gill-Solovay em \ref{teo: bgs} e \ref{prop: p_vs_np_r} que iremos ver, mas desta vez também estaremos provando algo bem mais forte usando basicamente a mesma estratégia.
 
 Desta vez, seja $L(A) = \{1^{n} \lvert f^{k + 1, n}(A) = 1\}$, para algum $k \geq 2$ fixo.
 
