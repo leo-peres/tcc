@@ -36,10 +36,11 @@
 \contentsline {section}{\numberline {3.1}Uma prova alternativa do teorema \ref {teo: bgs}}{39}{section.3.1}
 \contentsline {section}{\numberline {3.2}P $\not =$ NP para or\IeC {\'a}culos aleat\IeC {\'o}rios}{41}{section.3.2}
 \contentsline {subsubsection}{A lei zero-um de Kolmogorov}{41}{section*.21}
-\contentsline {subsubsection}{Prova do teorema \ref {teo: P_NP_random_oracles}}{41}{section*.22}
-\contentsline {section}{\numberline {3.3}PH vs PSPACE}{42}{section.3.3}
+\contentsline {subsubsection}{Prova do teorema \ref {teo: P_NP_random_oracles}}{42}{section*.22}
+\contentsline {section}{\numberline {3.3}PH vs PSPACE}{43}{section.3.3}
 \contentsline {section}{\numberline {3.4}Separando a hierarquia polinomial}{44}{section.3.4}
 \contentsline {subsubsection}{Separando a hierarquia polinomial com or\IeC {\'a}culos aleat\IeC {\'o}rios}{46}{section*.23}
+\contentsline {section}{\numberline {3.5}A hip\IeC {\'o}tese dos or\IeC {\'a}culo aleat\IeC {\'o}rio}{49}{section.3.5}
 \contentsline {chapter}{\numberline {4}Restri\IeC {\c c}\IeC {\~o}es e proje\IeC {\c c}\IeC {\~o}es aleat\IeC {\'o}rias}{50}{chapter.4}
 \contentsline {section}{\numberline {4.1}Restri\IeC {\c c}\IeC {\~o}es aleat\IeC {\'o}rias e a prova de H{\r a}stad dos teoremas \ref {teo: parity_lb} e \ref {teo: parity_lb_app}}{50}{section.4.1}
 \contentsline {subsubsection}{O lema da troca de H\IeC {\r a}stad}{51}{section*.24}
