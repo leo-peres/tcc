@@ -40,17 +40,17 @@
 \contentsline {section}{\numberline {3.3}PH vs PSPACE}{43}{section.3.3}
 \contentsline {section}{\numberline {3.4}Separando a hierarquia polinomial}{44}{section.3.4}
 \contentsline {subsubsection}{Separando a hierarquia polinomial com or\IeC {\'a}culos aleat\IeC {\'o}rios}{46}{section*.23}
-\contentsline {section}{\numberline {3.5}A hip\IeC {\'o}tese dos or\IeC {\'a}culo aleat\IeC {\'o}rio}{51}{section.3.5}
-\contentsline {chapter}{\numberline {4}Restri\IeC {\c c}\IeC {\~o}es e proje\IeC {\c c}\IeC {\~o}es aleat\IeC {\'o}rias}{52}{chapter.4}
-\contentsline {section}{\numberline {4.1}Restri\IeC {\c c}\IeC {\~o}es aleat\IeC {\'o}rias e a prova de H{\r a}stad dos teoremas \ref {teo: parity_lb} e \ref {teo: parity_lb_app}}{52}{section.4.1}
-\contentsline {subsubsection}{O lema da troca de H\IeC {\r a}stad}{53}{section*.24}
-\contentsline {subsubsection}{Prova do Lema da troca de H\.{a}stad usando o m\IeC {\'e}todo de Razborov}{57}{section*.25}
-\contentsline {subsubsection}{Prova dos teoremas \ref {teo: parity_lb} e \ref {teo: parity_lb_app}}{59}{section*.26}
-\contentsline {subsubsection}{Circuitos de profundidade $d$ para $\text {Parity}_{n}$}{62}{section*.27}
-\contentsline {section}{\numberline {4.2}Proje\IeC {\c c}\IeC {\~o}es aleat\IeC {\'o}rias e a prova de RST dos teoremas \ref {Sipser_f_lb} e \ref {Sipser_f_lb_app}}{63}{section.4.2}
-\contentsline {subsubsection}{O espa\IeC {\c c}o de proje\IeC {\c c}\IeC {\~o}es $P_{1}$}{65}{section*.28}
-\contentsline {subsubsection}{Os espa\IeC {\c c}os de proje\IeC {\c c}\IeC {\~o}es $P_{i}$}{69}{section*.29}
-\contentsline {subsubsection}{Lema da troca para proje\IeC {\c c}\IeC {\~o}es aleat\IeC {\'o}rias}{73}{section*.30}
-\contentsline {subsubsection}{Prova dos Teoremas \ref {Sipser_f_lb} e \ref {Sipser_f_lb_app}}{78}{section*.31}
-\contentsline {chapter}{\numberline {5}Teoremas de transfer\IeC {\^e}ncia}{82}{chapter.5}
-\contentsline {section}{\numberline {5.1}Provas Naturais}{82}{section.5.1}
+\contentsline {section}{\numberline {3.5}A hip\IeC {\'o}tese dos or\IeC {\'a}culo aleat\IeC {\'o}rio}{52}{section.3.5}
+\contentsline {chapter}{\numberline {4}Restri\IeC {\c c}\IeC {\~o}es e proje\IeC {\c c}\IeC {\~o}es aleat\IeC {\'o}rias}{53}{chapter.4}
+\contentsline {section}{\numberline {4.1}Restri\IeC {\c c}\IeC {\~o}es aleat\IeC {\'o}rias e a prova de H{\r a}stad dos teoremas \ref {teo: parity_lb} e \ref {teo: parity_lb_app}}{53}{section.4.1}
+\contentsline {subsubsection}{O lema da troca de H\IeC {\r a}stad}{54}{section*.24}
+\contentsline {subsubsection}{Prova do Lema da troca de H\.{a}stad usando o m\IeC {\'e}todo de Razborov}{58}{section*.25}
+\contentsline {subsubsection}{Prova dos teoremas \ref {teo: parity_lb} e \ref {teo: parity_lb_app}}{60}{section*.26}
+\contentsline {subsubsection}{Circuitos de profundidade $d$ para $\text {Parity}_{n}$}{63}{section*.27}
+\contentsline {section}{\numberline {4.2}Proje\IeC {\c c}\IeC {\~o}es aleat\IeC {\'o}rias e a prova de RST dos teoremas \ref {Sipser_f_lb} e \ref {Sipser_f_lb_app}}{64}{section.4.2}
+\contentsline {subsubsection}{O espa\IeC {\c c}o de proje\IeC {\c c}\IeC {\~o}es $P_{1}$}{66}{section*.28}
+\contentsline {subsubsection}{Os espa\IeC {\c c}os de proje\IeC {\c c}\IeC {\~o}es $P_{i}$}{70}{section*.29}
+\contentsline {subsubsection}{Lema da troca para proje\IeC {\c c}\IeC {\~o}es aleat\IeC {\'o}rias}{74}{section*.30}
+\contentsline {subsubsection}{Prova dos Teoremas \ref {Sipser_f_lb} e \ref {Sipser_f_lb_app}}{79}{section*.31}
+\contentsline {chapter}{\numberline {5}Teoremas de transfer\IeC {\^e}ncia}{83}{chapter.5}
+\contentsline {section}{\numberline {5.1}Provas Naturais}{83}{section.5.1}

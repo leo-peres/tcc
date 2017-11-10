@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.8.25)  8 NOV 2017 06:07
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.8.25)  10 NOV 2017 04:32
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1415,9 +1415,9 @@ Package babel Info: Redefining portuges shorthand "|
 (babel)             in language append on input line 330.
  [46]
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language append on input line 379.
+(babel)             in language append on input line 382.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language append on input line 379.
+(babel)             in language append on input line 382.
  [47]
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language append on input line 428.
@@ -1425,24 +1425,29 @@ Package babel Info: Redefining portuges shorthand "|
 (babel)             in language append on input line 428.
  [48]
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language append on input line 481.
+(babel)             in language append on input line 483.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language append on input line 481.
+(babel)             in language append on input line 483.
  [49]
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language append on input line 531.
+(babel)             in language append on input line 543.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language append on input line 531.
+(babel)             in language append on input line 543.
  [50]
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language append on input line 544.
+(babel)             in language append on input line 587.
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language append on input line 587.
+ [51]
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language append on input line 625.
 ) (./source/limites_inferiores.tex
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language append on input line 1.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language append on input line 1.
 
-[51]
+[52]
 Cap\'{\i }tulo 4.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language append on input line 1.
@@ -1452,19 +1457,19 @@ Package babel Info: Redefining portuges shorthand "|
 (babel)             in language append on input line 21.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language append on input line 21.
-[52
+[53
 
 ]
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language append on input line 62.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language append on input line 62.
- [53]
-Package babel Info: Redefining portuges shorthand "|
-(babel)             in language append on input line 126.
-Package babel Info: Redefining portuges shorthand "|
-(babel)             in language append on input line 126.
  [54]
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language append on input line 126.
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language append on input line 126.
+ [55]
 Overfull \hbox (19.8282pt too wide) detected at line 157
 [] []\OT1/cmr/m/n/10 [\OML/cmm/m/it/10 D\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 F[]\O
 T1/cmr/m/n/10 ) \OMS/cmsy/m/n/10 ^^U \OML/cmm/m/it/10 s\OMS/cmsy/m/n/10 j[] 2 \
@@ -1483,7 +1488,7 @@ Package babel Info: Redefining portuges shorthand "|
 (babel)             in language append on input line 178.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language append on input line 178.
-[55]
+[56]
 LaTeX Font Info:    Font shape `U/lasy/b/n' in size <8> not available
 (Font)              Font shape `U/lasy/m/n' tried instead on input line 200.
 LaTeX Font Info:    Font shape `U/lasy/b/n' in size <6> not available
@@ -1492,27 +1497,27 @@ Package babel Info: Redefining portuges shorthand "|
 (babel)             in language append on input line 224.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language append on input line 224.
- [56]
-Package babel Info: Redefining portuges shorthand "|
-(babel)             in language append on input line 279.
-Package babel Info: Redefining portuges shorthand "|
-(babel)             in language append on input line 279.
  [57]
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language append on input line 309.
+(babel)             in language append on input line 279.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language append on input line 309.
+(babel)             in language append on input line 279.
  [58]
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language append on input line 348.
+(babel)             in language append on input line 309.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language append on input line 348.
+(babel)             in language append on input line 309.
  [59]
 Package babel Info: Redefining portuges shorthand "|
+(babel)             in language append on input line 348.
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language append on input line 348.
+ [60]
+Package babel Info: Redefining portuges shorthand "|
 (babel)             in language append on input line 386.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language append on input line 386.
- [60]
+ [61]
 Overfull \hbox (34.25319pt too wide) in paragraph at lines 431--432
 []\OT1/cmr/m/n/10 Isto ^^Se ver-dade pois se con-si-de-rar-mos um ca-mi-nho $\O
 ML/cmm/m/it/10 ^^Y$ \OT1/cmr/m/n/10 de $\OML/cmm/m/it/10 T$ \OT1/cmr/m/n/10 e o
@@ -1525,7 +1530,7 @@ Package babel Info: Redefining portuges shorthand "|
 (babel)             in language append on input line 441.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language append on input line 441.
-[61]
+[62]
 Overfull \hbox (10.20255pt too wide) in paragraph at lines 464--465
 [][]\OT1/cmr/bx/n/10 Teorema 4.15. []\OT1/cmr/m/it/10 Seja $\OML/cmm/m/it/10 d 
 \OMS/cmsy/m/n/10 ^^U \OT1/cmr/m/n/10 2$ \OT1/cmr/m/it/10 uma cons-tante. Ent~ao
@@ -1537,49 +1542,49 @@ Package babel Info: Redefining portuges shorthand "|
 (babel)             in language append on input line 493.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language append on input line 493.
-[62]
+[63]
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language append on input line 519.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language append on input line 522.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language append on input line 522.
- [63]
-Package babel Info: Redefining portuges shorthand "|
-(babel)             in language append on input line 577.
-Package babel Info: Redefining portuges shorthand "|
-(babel)             in language append on input line 577.
  [64]
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language append on input line 619.
+(babel)             in language append on input line 577.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language append on input line 619.
+(babel)             in language append on input line 577.
  [65]
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language append on input line 664.
+(babel)             in language append on input line 619.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language append on input line 664.
+(babel)             in language append on input line 619.
  [66]
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language append on input line 718.
+(babel)             in language append on input line 664.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language append on input line 718.
+(babel)             in language append on input line 664.
  [67]
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language append on input line 779.
+(babel)             in language append on input line 718.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language append on input line 779.
+(babel)             in language append on input line 718.
  [68]
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language append on input line 844.
+(babel)             in language append on input line 779.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language append on input line 844.
+(babel)             in language append on input line 779.
  [69]
 Package babel Info: Redefining portuges shorthand "|
+(babel)             in language append on input line 844.
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language append on input line 844.
+ [70]
+Package babel Info: Redefining portuges shorthand "|
 (babel)             in language append on input line 894.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language append on input line 894.
- [70]
+ [71]
 Overfull \hbox (8.79706pt too wide) in paragraph at lines 954--955
 []\OT1/cmr/m/it/10 Da^^S^^P se-gue pelo Princ^^S^^Ppio da In-clus~ao-Exclus~ao 
 que $\OML/cmm/m/it/10 ^^Z[]$ \OT1/cmr/m/it/10 ^^Se t^^S^^Ppica com pro-ba-bi-li
@@ -1603,58 +1608,58 @@ Package babel Info: Redefining portuges shorthand "|
 (babel)             in language append on input line 973.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language append on input line 973.
-[71]
+[72]
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language append on input line 1027.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language append on input line 1027.
- [72]
-Package babel Info: Redefining portuges shorthand "|
-(babel)             in language append on input line 1087.
-Package babel Info: Redefining portuges shorthand "|
-(babel)             in language append on input line 1087.
  [73]
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language append on input line 1140.
+(babel)             in language append on input line 1087.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language append on input line 1140.
+(babel)             in language append on input line 1087.
  [74]
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language append on input line 1189.
+(babel)             in language append on input line 1140.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language append on input line 1189.
+(babel)             in language append on input line 1140.
  [75]
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language append on input line 1234.
+(babel)             in language append on input line 1189.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language append on input line 1234.
+(babel)             in language append on input line 1189.
  [76]
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language append on input line 1285.
+(babel)             in language append on input line 1234.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language append on input line 1285.
+(babel)             in language append on input line 1234.
  [77]
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language append on input line 1335.
+(babel)             in language append on input line 1285.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language append on input line 1335.
+(babel)             in language append on input line 1285.
  [78]
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language append on input line 1385.
+(babel)             in language append on input line 1335.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language append on input line 1385.
+(babel)             in language append on input line 1335.
  [79]
 Package babel Info: Redefining portuges shorthand "|
+(babel)             in language append on input line 1385.
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language append on input line 1385.
+ [80]
+Package babel Info: Redefining portuges shorthand "|
 (babel)             in language append on input line 1443.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language append on input line 1443.
- [80]) (./source/algorithms_lb.tex
+ [81]) (./source/algorithms_lb.tex
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language append on input line 1.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language append on input line 1.
 
-[81]
+[82]
 Cap\'{\i }tulo 5.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language append on input line 1.
@@ -1665,21 +1670,21 @@ Package babel Info: Redefining portuges shorthand "|
 (babel)             in language append on input line 9.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language append on input line 9.
- [82
+ [83
 
 ]
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language append on input line 86.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language append on input line 86.
- [83
+ [84
 
 ])
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language append on input line 4.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language append on input line 4.
- [84]
+ [85]
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 4.
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 4.
  (./tcc.aux)
@@ -1694,10 +1699,10 @@ LaTeX Warning: There were undefined references.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 4.
  ) ) 
 Here is how much of TeX's memory you used:
- 19526 strings out of 494888
- 358223 string characters out of 6179127
- 433181 words of memory out of 5000000
- 22017 multiletter control sequences out of 15000+600000
+ 19538 strings out of 494888
+ 358410 string characters out of 6179127
+ 433499 words of memory out of 5000000
+ 22024 multiletter control sequences out of 15000+600000
  23735 words of font info for 92 fonts, out of 8000000 for 9000
  38 hyphenation exceptions out of 8191
  55i,12n,59p,1811b,1294s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1733,10 +1738,10 @@ fonts/type1/public/amsfonts/cm/cmti8.pfb></usr/share/texlive/texmf-dist/fonts/t
 ype1/public/amsfonts/symbols/msam10.pfb></usr/share/texlive/texmf-dist/fonts/ty
 pe1/public/amsfonts/symbols/msbm10.pfb></usr/share/texlive/texmf-dist/fonts/typ
 e1/public/amsfonts/symbols/msbm7.pfb>
-Output written on tcc.pdf (88 pages, 759607 bytes).
+Output written on tcc.pdf (89 pages, 764207 bytes).
 PDF statistics:
- 1332 PDF objects out of 1440 (max. 8388607)
- 1196 compressed objects within 12 object streams
- 412 named destinations out of 1000 (max. 500000)
+ 1354 PDF objects out of 1440 (max. 8388607)
+ 1216 compressed objects within 13 object streams
+ 417 named destinations out of 1000 (max. 500000)
  213 words of extra memory for PDF output out of 10000 (max. 10000000)
 

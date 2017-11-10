@@ -326,7 +326,7 @@ Recentemente, Rossman, Servedio e Tan (referência) provaram uma versão do teor
 
 \begin{teo} \label{Sipser_f_lb_app}
 
-Seja $d > 2$ e $m$ suficientemente grande, então qualquer circuito de tamanho $S \leq 2^{w^{1/5}}$ e profundidade $d - 1$ falha em computar a função $f^{m, d}$ corretamente numa fração maior do que $1/2 + n^{-\Omega(1/d)}$ das entradas.
+Seja $d > 2$ e $m$ suficientemente grande, então qualquer circuito de tamanho $S \leq 2^{w^{1/5}}$ e profundidade $d - 1$ falha em computar a função $f^{m, d}$ corretamente numa fração maior do que $1/2 - n^{-\Omega(1/d)}$ das entradas.
 
 \end{teo}
 
@@ -358,98 +358,108 @@ Então iremos exibir a prova do seguinte teorema de O'Donnell e Wimmer.
 
 \begin{teo} (O'Donnell, Wimmer) \label{odonnell_wimmer}
 
-Seja $b \geq 1$ e $m = b2^{b}$, e consideramos a função $F_{m} = \Tribes_{b, 2^{b}} \lor \Tribes_{b, 2^{b}}^{\dagger}$. Qualquer circuito FNC (ou FND) $C$ que  0,04-aproxima $f$ deve ter tamanho $s = 2^{\Omega(m/\log m)}$.
+Seja $b \geq 1$ e $m = b2^{b}$, e consideramos a função $F_{m} = \Tribes_{b, 2^{b}} \lor \Tribes_{b, 2^{b}}^{\dagger}$. Qualquer fórmula $g: \binalph^{m} \times \binalph^{m} \to \binalph$ de profundidade 2 e largura $w < \frac{3}{10}2^{b} = \mathcal{O}(m/\log m)$ deve satisfazer
+
+\begin{equation*}
+    \Pr_{\boldsymbol{x}_{1}, \boldsymbol{x}_{2} \sim \binalph^{m}}[g(\boldsymbol{x}_{1}, \boldsymbol{x}_{2}) \neq F_{m}(\boldsymbol{x}_{1}, \boldsymbol{x}_{2})] \geq 1/10.
+\end{equation*}
 
 \end{teo}
 
-O teorema \ref{odonnell_wimmer} implica que qualquer circuito $\AC^{0}$ de profundidade 2 com tamanho subexponencial deve falhar e computar $F_{m}$ corretamente em uma fração maior do que $0,04$ das entradas. Como $f$ pode ser computada por um circuito de tamanho polinomial e profundidade 3, o teorema \ref{np_vs_sigma2_r} segue diretamente de \ref{odonnell_wimmer}.
+O teorema \ref{odonnell_wimmer} implica que qualquer circuito $\AC^{0}$ de profundidade 2 com largura $\mathcal{O}(m/logm)$ deve falhar em computar $F_{m}$ corretamente em uma fração maior do que $1/10$ das entradas. Como $f$ pode ser computada por um circuito de tamanho polinomial e profundidade 3, o teorema \ref{np_vs_sigma2_r} segue diretamente de \ref{odonnell_wimmer}.
 
-Para o provar o teorema \ref{odonnell_wimmer} nós primeiro precisamos de algumas observações. Nós iremos primeiro focar em mostrar que uma uma fórmula FNC $g$ não pode aproximar a função $\Tribes_{b, 2^{b}}$ e pra fazer isso nós vamos ver como reduzir $g$ e $\Tribes_{b, 2^{b}}$ para fórmulas mais simples de forma que o limitante que estamos querendo provar é preservado pelas simplificações que faremos.
+Para o provar o teorema \ref{odonnell_wimmer} nós primeiro precisamos de algumas observações. Nós iremos primeiro focar em mostrar que uma fórmula FNC $g$ com largura $\mathcal{O}(m/\log m)$ não pode aproximar a função $\Tribes_{b, 2^{b}}$ e pra fazer isso nós vamos ver como reduzir $g$ e $\Tribes_{b, 2^{b}}$ para fórmulas mais simples de forma que o limitante que estamos querendo provar é preservado por estas simplificações.
 
-Primeiro nós notamos que para computar a função $\Tribes_{b, 2^{n}}$ só precisamos dos valores de cada tribo, sem ter que conhecer as atribuições específicas às variáveis dentro de cada tribo. Seja $\{y_{i}\}_{i \in [2^{b}]}$ um espaço de variáveis formais em que quando tiramos $\boldsymbol{x} \sim \binalph^{m}$ nós fazemos cada $\boldsymbol{y}_{i} = \bigwedge_{j = 1}^{b} \boldsymbol{x}_{i, j}$, o que significa que cada $\boldsymbol{y}_{i}$ recebe o valor da $i$-ésima tribo sobre uma atribuição às variaveis $\boldsymbol{x}_{i, j}$s. Desta forma temos que $\Tribes_{b, 2^{b}}$ é equivalente à função $\orr_{2^{b}}$ sobre as variáveis $\{y_{i}\}_{i \in [2^{b}]}$. Como cada atribuição $\boldsymbol{y} \in \binalph^{2^{b}}$ pode ser vista como uma string tirada de $\{0_{1 - 2^{-b}}, 1_{2^{-b}}\}^{2^{b}}$, nós temos a seguinte identidade.
+Primeiro nós notamos que para computar a função $\Tribes_{b, 2^{n}}$ nós só precisamos dos valores de cada tribo, sem ter que conhecer em detalhe os valores das variáveis dentro de cada tribo. Seja $\{y_{i}\}_{i \in [2^{b}]}$ um espaço de variáveis formais em que ao tirar $\boldsymbol{x} \sim \binalph^{m}$ nós fazemos cada $\boldsymbol{y}_{i} = \bigwedge_{j = 1}^{b} \boldsymbol{x}_{i, j}$, o que significa que cada $\boldsymbol{y}_{i}$ recebe o valor da $i$-ésima tribo sobre uma atribuição às variaveis $\boldsymbol{x}_{i, j}$s. Desta forma temos que $\Tribes_{b, 2^{b}}$ é equivalente à função $\orr_{2^{b}}$ sobre as variáveis $\{y_{i}\}_{i \in [2^{b}]}$. Como cada atribuição $\boldsymbol{y} \in \binalph^{2^{b}}$ pode ser vista como uma string tirada de $\{0_{1 - 2^{-b}}, 1_{2^{-b}}\}^{2^{b}}$, nós temos a seguinte identidade.
 
-\begin{equation*}
+\begin{equation} \label{or_equals_tribes}
     \Pr_{\boldsymbol{y} \sim \{0_{1 - 2^{-b}}, 1_{2^{-b}}\}^{2^{b}}} [\orr_{2^{b}}(\boldsymbol{y}) = 1] = \Pr_{\boldsymbol{x} \sim \binalph^{m}}[\Tribes_{b, 2^{b}}(\boldsymbol{x}) = 1].
-\end{equation*}
+\end{equation}
 
-Agora temos uma estratégia para provar que uma fórmula FNC $g$ com largura $w$ não pode aproximar a função $\Tribes_{b, 2^{b}}$. Nós iremos achar uma forma de aplicar à $g$ a mesma transformação que aplicamos à $\Tribes_{b, 2^{b}}$ para obter uma função $g^{\prime}$ de forma que teremos também que
+Durante o resto desta seção, sempre que $\boldsymbol{y}$ ou $\boldsymbol{x}$ aparecer nós iremos assumir que $\boldsymbol{y} \sim \{0_{1 - 2^{-b}}, 1_{2^{-b}}\}^{2^{b}}$ e também $\boldsymbol{x} \sim \binalph^{m}$.
+
+A partir da igualdade \ref{or_equals_tribes} nós temos uma estratégia para provar que uma fórmula FNC $g$ com largura $\mathcal{O}(m/\log m)$ não pode aproximar a função $\Tribes_{b, 2^{b}}$. Nós iremos achar uma forma de aplicar à $g$ a mesma transformação que aplicamos à $\Tribes_{b, 2^{b}}$ para obter uma função $g^{\prime}$ de forma que teremos também que
 
 \begin{equation*}
-    \Pr_{\boldsymbol{y} \sim \{0_{1 - 2^{-b}}, 1_{2^{-b}} \}^{2^{b}}}[g^{\prime}(\boldsymbol{y}) = 1] = \Pr_{\boldsymbol{x} \sim \binalph^{m}}[g(\boldsymbol{x}) = 1],
+    \Pr[g^{\prime}(\boldsymbol{y}) = 1] = \Pr[g(\boldsymbol{x}) = 1],
 \end{equation*}
 
 e portanto
 
 \begin{equation*}
-    \Pr_{\boldsymbol{y} \sim \{0_{1 - 2^{-b}}, 1_{2^{-b}} \}^{2^{b}}}[g^{\prime}(\boldsymbol{y}) \neq \orr_{2^{b}}(\boldsymbol{y})] = \Pr_{\boldsymbol{x} \sim \binalph^{m}}[g(\boldsymbol{x}) \neq \Tribes_{b, 2^{b}}(\boldsymbol{x})].
+    \Pr[g^{\prime}(\boldsymbol{y}) \neq \orr_{2^{b}}(\boldsymbol{y})] = \Pr[g(\boldsymbol{x}) \neq \Tribes_{b, 2^{b}}(\boldsymbol{x})].
 \end{equation*}
 
-Então, se mostrarmos que $g^{\prime}$ não consegue $\varepsilon$-aproximar $\orr_{2^{b}}$ nós imediatamente obtemos que $g$ não consegue $\varepsilon$-aproximar $\Tribes_{b, 2^{b}}$. Então agora nos concentramos em como obter $g^{\prime}$ a partir de $g$.
+Então, se mostrarmos que $g^{\prime}$ não consegue $\frac{1}{10}$-aproximar $\orr_{2^{b}}$ nós imediatamente obtemos que $g$ não consegue $\frac{1}{10}$-aproximar $\Tribes_{b, 2^{b}}$. Então agora nos concentramos em como obter $g^{\prime}$ a partir de $g$.
 
-Nós estamos querendo aplicar à $g$ a mesma transformação que aplicamos à $\Tribes_{b, 2^{b}}$, e o que basicamente fizemos com $\Tribes_{b, 2^{b}}$ foi substituir cada variável $x_{i, j}$ por uma única variável $y_{i}$ que leva o valor de $\bigwedge_{j = 1}^{b} x_{i, j}$. Como $g$ é uma fórmula FNC de largura $w$ arbitrária temos que substituir diretamente cada $x_{i, j}$ por $y_{i}$ pode não nos dar uma função equivalente à $g$. Por exemplo, tome a seguinte fórmula FNC.
+Nós estamos querendo aplicar à $g$ a mesma transformação que aplicamos à $\Tribes_{b, 2^{b}}$, e o que basicamente fizemos com $\Tribes_{b, 2^{b}}$ foi substituir cada variável $x_{i, j}$ por uma única variável $y_{i}$ que leva o valor de $\bigwedge_{j = 1}^{b} x_{i, j}$. Como $g$ é uma fórmula FNC de largura $\mathcal{O}(m/\log m)$ arbitrária temos que substituir diretamente cada $x_{i, j}$ por $y_{i}$ pode não nos dar uma função equivalente à $g$. Por exemplo, tome a seguinte fórmula FNC.
 
 \begin{equation} \label{counter_example_formula}
     (x_{1, 1} \lor x_{1, 2}) \land (x_{1, 3} \lor x_{1, 4}).
 \end{equation}
 
-Se trocarmos cada $x_{1, j}$ por uma única variável $y_{1}$ que toma o valor $\bigwedge_{j = 1}^{4} x_{1, j}$ nós obtemos a fórmula $y_{1} \equiv x_{1, 1} \land x_{1, 2} \land x_{1, 3} \land x_{1, 4}$ que certamente não é equivalente a \ref{counter_example_formula}. Mas observe que $y_{i} \bigwedge_{j = 1}^{b} x_{i, j}$ implica na seguinte implicação ser uma tautologia:
+Se trocarmos cada $x_{1, j}$ por uma única variável $y_{1}$ que toma o valor $\bigwedge_{j = 1}^{4} x_{1, j}$ nós obtemos a fórmula $y_{1} \equiv x_{1, 1} \land x_{1, 2} \land x_{1, 3} \land x_{1, 4}$ que certamente não é equivalente a \ref{counter_example_formula}. Mas observe que $y_{i} = \bigwedge_{j = 1}^{b} x_{i, j}$ implica na seguinte implicação ser uma tautologia:
 
 \begin{equation} \label{y_i_implies_x_ij}
     y_{i} \Rightarrow x_{i, j}.
 \end{equation}
 
-E também temos que podemos substituir cada aparição de $x_{i, j}$ na fórmula $g$ por $(x_{i, j} \lor \mathcal{F})$, em que $\mathcal{F}$ é qualquer asserção falsa. Em particular $\mathcal{F}$ pode ser a negação de \ref{y_i_implies_x_ij}, $(\overline{x_{i, j}} \land y_{i})$, e daí temos que
+E também temos que podemos substituir cada aparição de $x_{i, j}$ na fórmula $g$ por $(x_{i, j} \lor \mathcal{F})$, em que $\mathcal{F}$ é qualquer asserção falsa. Em particular $\mathcal{F}$ pode ser a negação de \ref{y_i_implies_x_ij}, que no caso seria $(\overline{x_{i, j}} \land y_{i})$, e daí temos que
 
 \begin{equation*}
     x_{i, j} \equiv x_{i, j} \lor (\overline{x_{i, j}} \land y_{i}) \equiv (x_{i, j} \lor y_{i}).
 \end{equation*}
 
-Então definimos $g^{\prime}: \binalph^{m} \times \binalph^{2^{b}} \to \binalph$ como sendo a fórmula $g$ com cada aparição de $x_{i, j}$ substituida por $(x_{i, j} \lor y_{i})$, e cada aparição de $\overline{x_{i, j}}$ é substituida por $\overline{(x_{i, j} \lor y_{i})}$. Neste caso temos que
+Então definimos $g^{\prime}: \binalph^{m} \times \binalph^{2^{b}} \to \binalph$ como sendo a fórmula $g$ com cada aparição de $x_{i, j}$ substituida por $(x_{i, j} \lor y_{i})$, e cada aparição de $\overline{x_{i, j}}$ substituida por $\overline{(x_{i, j} \lor y_{i})}$. Neste caso temos que
 
 \begin{equation*}
-    \Pr_{ \substack{\boldsymbol{x} \sim \binalph^{m} \\ \boldsymbol{y} \leftarrow \boldsymbol{x}} }[g^{\prime}(x, y) = 1] = \Pr_{\boldsymbol{x} \sim \binalph^{m}}[g(x) = 1],
+    \Pr_{ \boldsymbol{y} \leftarrow \boldsymbol{x}}[g^{\prime}(\boldsymbol{x}, \boldsymbol{y}) = 1] = \Pr[g(\boldsymbol{x}) = 1],
 \end{equation*}
 
 em que introduzimos a notação $y \leftarrow x$ que significa que $y$ foi obtida a partir de $x$ fazendo $y_{i} = \bigwedge_{j = 1}^{b} x_{i, j}$. Portanto neste ponto nós já temos o seguinte.
 
 \begin{equation*} \label{correlation_equality}
-    \Pr_{ \substack{\boldsymbol{x} \sim \binalph^{m} \\ \boldsymbol{y} \leftarrow \boldsymbol{x}} }[g^{\prime}(x, y) \neq \orr_{2^{b}}(y)] = \Pr_{\boldsymbol{x} \sim \binalph^{m}}[g(x) \neq \Tribes_{b, 2^{b}}(x)].
+    \Pr_{ \boldsymbol{y} \leftarrow \boldsymbol{x}}[g^{\prime}(\boldsymbol{x}, \boldsymbol{y}) \neq \orr_{2^{b}}(\boldsymbol{y})] = \Pr[g(\boldsymbol{x}) \neq \Tribes_{b, 2^{b}}(\boldsymbol{x})].
 \end{equation*}
 
-Por causa de algumas variáveis poderem aparecer negadas em $g$ temos que $g^{\prime}$ não é uma fórmula FNC e como veremos mais pra frente, nós vamos precisar do fato que $g^{\prime}$ é uma fórmula FNC possivelmente com largura menor do que $w$ para provar que ela não é bem correlacionada com $\orr_{2^{b}}$. Portanto precisamos de mais alguns passos.
+Por causa de algumas variáveis poderem aparecer negadas em $g$ temos que $g^{\prime}$ não é uma fórmula FNC e, como veremos mais pra frente, nós vamos precisar assumir que $g^{\prime}$ é uma fórmula FNC possivelmente com largura $\mathcal{O}(m/\log m)$ para provar que ela não é bem correlacionada com $\orr_{2^{b}}$. Portanto precisamos de mais alguns passos.
 
-Ao invés de construir $y$ a partir de $x$ podemos também construir $x$ a partir de $y$ sem mudar a distribuição de pares $(x, y)$ em que $y \leftarrow x$ da seguinte maneira:
+Ao invés de construir $y$ a partir de $x$ podemos também construir $x$ a partir de $y$ sem mudar a distribuição de pares $(x, y)$, em que $y \leftarrow x$, usando o seguinte procedimento que vem sendo chamado de o truque de O'Donnell-Wimmer:
 
-\begin{enumerate}
+\begin{odonnell_wimmer} \leavevmode \label{odonnell_wimmer_trick}
 
-	\item Para cada $i \in [2^{b}]$, faça $\boldsymbol{y}_{i} \sim \{0_{1 - 2^{-b}}, 1_{2^{-b}}\}$.
+    \begin{enumerate}
+
+	    \item Para cada $i \in [2^{b}]$, faça $\boldsymbol{y}_{i} \sim \{0_{1 - 2^{-b}}, 1_{2^{-b}}\}$.
 	
-	\item Seja $\boldsymbol{Y}$ um conjunto aleatório tirado da distribuição uniforme sobre todos os subconjuntos \emph{não vazios} de $[b]$.
+	    \item Seja $\boldsymbol{Y}$ um conjunto aleatório tirado da distribuição uniforme sobre todos os subconjuntos \emph{não vazios} de $[b]$.
 	
-	\item Para cada $j \in [b]$ faça $\boldsymbol{x}_{i, j} = 1$ se $j \not\in \boldsymbol{Y}$ e $\boldsymbol{x}_{i, j} = \boldsymbol{y}_{i}$ se $j \in \boldsymbol{Y}$.
+	    \item Para cada $j \in [b]$ faça $\boldsymbol{x}_{i, j} = 1$ se $j \not\in \boldsymbol{Y}$ e $\boldsymbol{x}_{i, j} = \boldsymbol{y}_{i}$ se $j \in \boldsymbol{Y}$.
+	
+	\end{enumerate}
 
-\end{enumerate}
+\end{odonnell_wimmer}
 
-Nós não mudamos a distribuição de pares $(\boldsymbol{x}, \boldsymbol{y})$ em que $\boldsymbol{y} \leftarrow \boldsymbol{x}$ pois 1) no passo 3 nós garantimos que para todo $i \in [2^{b}]$ é verdade que $\boldsymbol{y}_{i} = \bigwedge_{j = 1}^{b} \boldsymbol{x}_{i, j}$ e 2) temos que $\boldsymbol{x}_{i, j}$ é 0 sse $\boldsymbol{y}_{i} = 0$ e $j \in \boldsymbol{Y}$ o que acontece com probabilidade
+Nós não mudamos a distribuição de pares $(\boldsymbol{x}, \boldsymbol{y})$ em que $\boldsymbol{y} \leftarrow \boldsymbol{x}$ pois 1) no passo 3 nós garantimos que para todo $i \in [2^{b}]$ é verdade que $\boldsymbol{y}_{i} = \bigwedge_{j = 1}^{b} \boldsymbol{x}_{i, j}$ e 2) temos que $\boldsymbol{x}_{i, j}$ é 0 sse $\boldsymbol{y}_{i} = 0$ e $j \in \boldsymbol{Y}$, o que acontece com probabilidade
 
 \begin{equation*}
     \Pr[\boldsymbol{x}_{i, j} = 0] = (1 - 2^{-b})\frac{1/2}{(1 - 2^{-b})} = 1/2,
 \end{equation*}
 
-em que nós usamos que $\Pr[j \in \boldsymbol{Y}] = \frac{1/2}{(1 - 2^{-b})}$ pois estamos condicionando em $\boldsymbol{Y}$ não ser o conjunto vazio. Portanto a distribuição de $\boldsymbol{x}$ é a distribuição uniforme sobre $\binalph^{m}$. Mas agora note que trocar $\boldsymbol{x}$ por $\boldsymbol{z} \sim \binalph^{m}\setminus \{1\}^{m}$ nos dá a mesma distruibuição pois sempre que $\boldsymbol{y}_{i} = 1$ nós não precisamos dos valores de $\boldsymbol{x}_{i, j}$, para todo $j \in [b]$, pois na fórmula $g^{\prime}$ $\boldsymbol{y}_{i}$ sempre aparece como $(\boldsymbol{x}_{i, j} \lor \boldsymbol{y}_{i})$. Por $\boldsymbol{z}$ ser independente de $\boldsymbol{y}$ nós podemos agora reescrever a igualdade \ref{correlation_equality} como
+em que nós usamos que $\Pr[j \in \boldsymbol{Y}] = \frac{1/2}{(1 - 2^{-b})}$ pois estamos condicionando em $\boldsymbol{Y}$ não ser o conjunto vazio. Portanto a distribuição de $\boldsymbol{x}$ é a distribuição uniforme sobre $\binalph^{m}$. Mas agora note se $\boldsymbol{z} \sim \binalph^{m}\setminus \{1\}^{m}$ então a distribuição para valores de $(\boldsymbol{z}_{i, j}, \boldsymbol{y}_{i})$ é idêntica a distribuição para os valores de $(\boldsymbol{x}_{i, j}, \boldsymbol{y}_{i})$ quando geramos $(\boldsymbol{x}, \boldsymbol{y})$ usando o truque de O'Donnell-Wimmer. Isto se deve ao fato que sempre que $\boldsymbol{y}_{i} = 1$ então não precisamos do valor de $\boldsymbol{x}_{i, j}$, para todo $j \in [b]$. Por $\boldsymbol{z}$ ser independente de $\boldsymbol{y}$ nós podemos agora reescrever a igualdade \ref{correlation_equality} como
 
 \begin{equation} \label{correlation_equality_with_z}
-    E_{\boldsymbol{z} \sim \binalph^{m}\setminus\{1\}^{m}} \bigg[ \Pr_{\boldsymbol{y} \sim \{0_{1 - 2^{-b}}, 1_{2^{-b}} \}^{2^{b}}}[g^{\prime}(\boldsymbol{z}, \boldsymbol{y})] \neq \orr_{2^{b}}(\boldsymbol{y}) \bigg] = \Pr_{\boldsymbol{x} \sim \binalph^{m}}[g(\boldsymbol{x}) \neq \Tribes_{b, 2^{b}}(\boldsymbol{x})].
+    E_{\boldsymbol{z} \sim \binalph^{m}\setminus\{1\}^{m}} \bigg[ \Pr \big[g^{\prime}(\boldsymbol{z}, \boldsymbol{y}) \neq \orr_{2^{b}}(\boldsymbol{y}) \big] \bigg] = \Pr[g(\boldsymbol{x}) \neq \Tribes_{b, 2^{b}}(\boldsymbol{x})].
 \end{equation}
 
-Nós vamos a equação acima para finalmente provar que fórmulas FNC com largura $w$ não podem aproximar $\Tribes_{b, 2^{b}}$.
+E se fixarmos algum $z^{*} \in \binalph^{m} \setminus \{1\}^{m}$, temos que a fórmula $g_{z^{*}}^{\prime}$ que satisfaz $g_{z^{*}}^{\prime}(y) = g^{\prime}(z^{*}, y)$, para todo $y \in \binalph^{2^{b}}$, é uma fórmula FNC que podemos verificar tem largura $\mathcal{O}(m/\log m)$. Nós vamos usar a equação \ref{correlation_equality_with_z} para finalmente provar que fórmulas FNC com largura $\mathcal{O}(m/\log m)$ não podem aproximar $\Tribes_{b, 2^{b}}$.
 
 \begin{teo} \label{tribes_width_lb}
 
-Seja $m = b2^{b}$ o número de variáveis de entrada da função $\Tribes_{b, 2^{b}}$ e seja $g$ uma fórmula FNC com largura $w = \frac{3}{10}2^{b} = 2^{\Omega(m/\log m)}$. Então
+Seja $b \geq 1$ e $m = b2^{b}$ o número de variáveis de entrada da função $\Tribes_{b, 2^{b}}$. Se $g: \binalph^{m} \to \binalph$ é uma fórmula FNC com largura $w < \frac{3}{10}2^{b} = \mathcal{O}(m/\log m)$, então devemos ter que
 
 \begin{equation*}
-    \Pr_{\boldsymbol{x} \sim \binalph^{m}}[g(\boldsymbol{x}) \neq \Tribes_{b, 2^{b}}(\boldsymbol{x})] \geq 1/3.
+    \Pr[g(\boldsymbol{x}) \neq \Tribes_{b, 2^{b}}(\boldsymbol{x})] \geq 1/3.
 \end{equation*}
 
 \end{teo}
@@ -458,87 +468,158 @@ Seja $m = b2^{b}$ o número de variáveis de entrada da função $\Tribes_{b, 2^
 
 Assuma por contradição que
 
-\begin{equation*}
-    \Pr_{\boldsymbol{x} \sim \binalph^{m}}[g(x) \neq \Tribes_{b, 2^{b}}] < 1/3
-\end{equation*}
+\begin{equation} \label{contradiction_assumption}
+    \Pr[g(\boldsymbol{x}) \neq \Tribes_{b, 2^{b}}(\boldsymbol{x})] < 1/3
+\end{equation}
 
-Vamos considerar a função $g^{\prime}$ sobre as variáveis $z_{i, j}$s e $y_{i}$s como acabamos de descrever. Pela equação \ref{correlation_equality_with_z} devemos ter que existe uma string $z^{*} \in \binalph^{m} \setminus \{1\}^{m}$ tal que
-
-\begin{equation*}
-    \Pr_{\boldsymbol{y} \sim \{0_{1 - 2^{-b}}, 1_{2^{-b}} \}^{2^{b}}}[g^{\prime}(z^{*}, \boldsymbol{y}) \neq \orr_{2^{b}}(\boldsymbol{y})] < 1/3.
-\end{equation*}
-
-Vamos denotar $g^{\prime}(z^{*}, y)$ por $g_{z^{*}}^{\prime}(y)$. Nós temos que $g_{z^{*}}^{\prime}$ é uma fórmula FNC com largura no máximo $w$. Assuma então que toda cláusula de $g_{z^{*}}^{\prime}$ contém um literal negado. Então temos que a atribuição $y$ que faz $y_{i} = 0$ para todo $i \in [2^{b}]$ é tal que $g_{z^{*}}^{\prime}(y) = 1$ enquanto que $\Tribes_{b, 2^{b}}(y) = 0$. Portanto devemos ter
+Vamos considerar a função $g^{\prime}$ sobre as variáveis $z_{i, j}$s e $y_{i}$s como acabamos de descrever. Pela equação \ref{correlation_equality_with_z} e pela suposição em \ref{contradiction_assumption} devemos ter que existe uma string $z^{*} \in \binalph^{m} \setminus \{1\}^{m}$ tal que
 
 \begin{equation*}
-    \Pr_{\boldsymbol{y} \sim \{0_{1 - 2^{-b}}, 1_{2^{-b}}\}^{2^{b}}}[g_{z^{*}}^{\prime}(\boldsymbol{y}) \neq \orr_{2^{b}}(\boldsymbol{y})] \leq \Pr_{\boldsymbol{y} \sim \{0_{1 - 2^{-b}}, 1_{2^{-b}} \}^{2^{b}}}[\boldsymbol{y} = 0^{m}] = (1 - 2^{-b})^{2^{b}}.
+    \Pr[g^{\prime}(z^{*}, \boldsymbol{y}) \neq \orr_{2^{b}}(\boldsymbol{y})] < 1/3.
 \end{equation*}
 
-A probabilidade acima é igual a $1/e$ no limite dos grandes números, o que é maior do que $1/3$, o que contradiz a nossa suposição. Portanto deve haver uma cláusula na fórmula $g_{z^{*}}^{\prime}$ que só contém literais não negados. Esta cláusula em particular é falsa com probabilidade pelo menos $1 - w2^{-b}$ e portanto neste caso
+Como já comentamos, $g_{z^{*}}^{\prime}$ é uma fórmula FNC com largura no máximo $w$. Assuma então que toda cláusula de $g_{z^{*}}^{\prime}$ contém um literal negado. Então temos que a atribuição $y$ que faz $y_{i} = 0$ para todo $i \in [2^{b}]$ é tal que $g_{z^{*}}^{\prime}(y) = 1$ enquanto que $\Tribes_{b, 2^{b}}(y) = 0$. Portanto devemos ter
 
 \begin{equation*}
-    \Pr_{\boldsymbol{y} \sim \{0_{1 - 2^{-b}}, 1_{2^{-b}} \}^{2^{b}}}[g_{z^{*}}^{\prime}(\boldsymbol{y}) = 0] \geq 1 - w2^{-b}.
+    \Pr[g_{z^{*}}^{\prime}(\boldsymbol{y}) \neq \orr_{2^{b}}(\boldsymbol{y})] \geq \Pr[\boldsymbol{y} = 0^{m}] = (1 - 2^{-b})^{2^{b}}.
 \end{equation*}
 
-Mas temos a sseguinte desigualdades.
+A probabilidade acima é igual a $1/e$ no limite dos grandes números, o que é maior do que $1/3$ e então contradiz a nossa suposição. Portanto deve haver uma cláusula na fórmula $g_{z^{*}}^{\prime}$ que só contém literais não negados. Esta cláusula em particular é falsa com probabilidade pelo menos $1 - w2^{-b}$ e portanto neste caso
+
+\begin{equation*}
+    \Pr[g_{z^{*}}^{\prime}(\boldsymbol{y}) = 0] \geq 1 - w2^{-b}.
+\end{equation*}
+
+Mas temos as seguinte desigualdades.
 
 \begin{IEEEeqnarray*} {rCl}
-    \Pr_{\boldsymbol{y} \sim \{0_{1 - 2^{-b}}, 1_{2^{-b}} \}^{2^{b}}}[g_{z^{*}}^{\prime}(\boldsymbol{y}) \neq \orr_{2^{b}}(\boldsymbol{y})] & \geq & \bigg\lvert \Pr_{\boldsymbol{y} \sim \{0_{1 - 2^{-b}}, 1_{2^{-b}} \}^{2^{b}}}[g_{z^{*}}^{\prime}(\boldsymbol{y}) = 0] - \Pr_{\boldsymbol{y} \sim \{0_{1 - 2^{-b}}, 1_{2^{-b}} \}^{2^{b}}}[\orr_{2^{b}}(\boldsymbol{y})] \bigg\rvert \\
-                                                                                                                                            & \geq &  \Pr_{\boldsymbol{y} \sim \{0_{1 - 2^{-b}}, 1_{2^{-b}} \}^{2^{b}}}[g_{z^{*}}^{\prime}(\boldsymbol{y}) = 0] - \Pr_{\boldsymbol{y} \sim \{0_{1 - 2^{-b}}, 1_{2^{-b}} \}^{2^{b}}}[\orr_{2^{b}}(\boldsymbol{y})] \\
-                                                                                                                                            & \geq & 1 - w2^{-b} - 1/e.
+    \Pr[g_{z^{*}}^{\prime}(\boldsymbol{y}) \neq \orr_{2^{b}}(\boldsymbol{y})] & \geq & \Big\lvert \Pr[g_{z^{*}}^{\prime}(\boldsymbol{y}) = 0] - \Pr[\orr_{2^{b}}(\boldsymbol{y}) = 0] \Big\rvert \\
+                                                                              & \geq &  \Pr[g_{z^{*}}^{\prime}(\boldsymbol{y}) = 0] - \Pr[\orr_{2^{b}}(\boldsymbol{y}) = 0] \\
+                                                                              & \geq & 1 - w2^{-b} - 1/e.
 \end{IEEEeqnarray*}
 
-Portanto devemos ter
+Portanto, assumindo que \ref{contradiction_assumption} é verdade, devemos ter
 
 \begin{equation*}
     w \geq 2^{b}(1 - 1/e - 1/3) \geq \frac{3}{10}2^{b}.
 \end{equation*}
 
-O que é uma contradição pois $w < \frac{3}{10}2^{b}$.
+O que é uma contradição pois $w < \frac{3}{10}2^{b}$. Portanto temos que \ref{contradiction_assumption} não pode ser verdade e devemos ter
+
+\begin{equation*}
+    \Pr[g(\boldsymbol{x}) \neq \Tribes_{b, 2^{b}}(\boldsymbol{x})] \geq 1/3.
+\end{equation*}
 
 \end{proof}
 
 Note que por dualidade, o mesmo limite inferior vale para a função $\Tribes_{b. 2^{b}}^{\dagger}$.
 
-\begin{cor} \label{tribes_dagger_width_lb}
+\begin{teo} \label{tribes_dagger_width_lb}
 
-Seja $C$ um circuito FNC que 0,2-aproxima a função $\Tribes_{b, 2^{b}}^{\dagger}$ com largura $w$. Então devemos ter $w \geq (1/3)2^{b} = \Omega(m/ \log m)$.
+Seja $b \geq 1$ e $m = b2^{b}$ o número de variáveis de entrada da função $\Tribes_{b, 2^{b}}^{\dagger}$. Se $g: \binalph^{m} \to \binalph$ é uma fórmula FND com largura $w < \frac{3}{10}2^{b} = \mathcal{O}(m/\log m)$, então devemos ter que
 
-\end{cor}
+\begin{equation*}
+    \Pr[g(\boldsymbol{x}) \neq \Tribes_{b, 2^{b}}^{\dagger}(\boldsymbol{x})] \geq 1/3.
+\end{equation*}
 
-Agora podemos provar o teorema \ref{odonnell_wimmer}.
+\end{teo}
+
+Note que o limitante inferior em \ref{tribes_dagger_width_lb} é pra fórmulas FND, e não fórmulas FNC. Agora podemos provar o teorema \ref{odonnell_wimmer}.
 
 \begin{proof} (Prova do teorema \ref{odonnell_wimmer})
 
-Primeiro nos consideraremos o caso que o circuito $C$ está na FND. Por (...) sabemos que existe um circuito FND de largura $\log(100s)$ que $0,04 + 1/100 = 0,05$-aproxima $F_{m}$. Seja $x \sim \Tribes_{b, 2^{b}}^{-1}(0)$ e $y \sim \binalph^{m}$. Então temos que
+Nós iremos usar que
 
 \begin{IEEEeqnarray*} {rCl}
-	\Pr_{x \sim \Tribes_{b, 2^{b}}^{-1}(0), y}[C(x, y) \neq F_{m}(x, y)] & = & \Pr_{x, y}[C(x, y) \neq F_{m}(x, y) \big\vert x \in \Tribes_{b, 2^{b}}^{-1}(0)] \\
-	                                                                                                                 & = & \frac{\Pr_{x, y}[C(x, y) \neq F_{m}(x, y) \land x \in \Tribes_{b, 2^{b}}^{-1}(0)]}{\Pr_{x}[x \in \Tribes_{b, 2^{b}}^{-1}(0)]} \\
-	                                                                                                                 & \leq & 4\Pr_{x, y}[C(x, y) \neq F_{m}(x, y)] \\
-	                                                                                                                 &  \leq & 4\times 0,05 = 0,2.
+    \Pr_{\boldsymbol{x}_{1}, \boldsymbol{x}_{2} \sim \binalph^{m}}[g(\boldsymbol{x}_{1}, \boldsymbol{x}_{2}) \neq F_{m}(\boldsymbol{x}_{1}, \boldsymbol{x}_{2})] & \geq & \Pr_{\boldsymbol{x}_{1}, \boldsymbol{x}_{2} \sim \binalph^{m}}[g(\boldsymbol{x}_{1}, \boldsymbol{x}_{2}) \neq F_{m}(\boldsymbol{x}_{1}, \boldsymbol{x}_{2}) \land \Tribes_{b, 2^{b}}^{\dagger}(\boldsymbol{x}_{2}) = 0] \\
+                                                                                                                                                                 & =    & \Pr_{\boldsymbol{x}_{1}, \boldsymbol{x}_{2} \sim \binalph^{m}} [g(\boldsymbol{x}_{1}, \boldsymbol{x}_{2}) \neq \Tribes_{b, 2^{b}}(\boldsymbol{x}_{1}) \land \Tribes_{b, 2^{b}}^{\dagger}(\boldsymbol{x}_{2}) = 0].
 \end{IEEEeqnarray*}
 
-Donde nós usamos o fato que $\Pr[a \land b] \leq \Pr[a]$, para quaisquer eventos $a$ e $b$, e também que pelo menos uma fração de $1/4$ das strings $x \in \binalph^{m}$ fazem a função $\Tribes_{b, 2^{b}}(x) = 0$ na primeira desigualdade.
+A última igualdade é verdadeira pois se $x_{2} \in \Tribes_{b, 2^{b}}^{\dagger -1}(0)$ então $F_{m}(x_{1}, x_{2}) = \Tribes_{b, 2^{b}}(x_{1})$. Além do mais, quando $\boldsymbol{x}_{1}$ e $\boldsymbol{x}_{2}$ são tiradas de $\{0_{1/2}, 1_{1/2}\}^{m}$, nós também temos que
 
-Mas quando $\Tribes_{b, 2^{b}}(x) = 0$, $F_{m}(x, y)$ é simplesmente $\Tribes_{b, 2^{b}}^{\dagger}(y)$. Então podemos fixar um $x^{*}$ tal que
+\begin{align*}
+    \Pr[g(\boldsymbol{x}_{1}, \boldsymbol{x}_{2}) \neq \Tribes_{b, 2^{b}}(\boldsymbol{x}_{1}) \land \Tribes_{b, 2^{b}}^{\dagger}(\boldsymbol{x}_{2}) = 0] &= \Pr[g(\boldsymbol{x}_{1}, \boldsymbol{x}_{2}) \neq \Tribes_{b, 2^{b}}(\boldsymbol{x}_{1}) \lvert \Tribes_{b, 2^{b}}^{\dagger}(\boldsymbol{x}_{2}) = 0] \\
+            &\qquad \times \Pr[\Tribes_{b, 2^{b}}^{\dagger}(\boldsymbol{x}_{2}) = 0].
+\end{align*}
+
+Para todo $x_{2}^{*} \in \Tribes_{b, 2^{b}}^{\dagger - 1}(0)$ a fórmula $g_{x_{2}^{*}}(x_{1}) = g(x_{1}, x_{2}^{*})$ é uma fórmula FNC com largura no máximo $w$. Então podemos aplicar o teorema \ref{tribes_width_lb} para obter
+
+\begin{IEEEeqnarray*} {rCl}
+    \Pr[g(\boldsymbol{x}_{1}, \boldsymbol{x}_{2}) \neq \Tribes_{b, 2^{b}}(\boldsymbol{x}_{1}) \lvert \Tribes_{b, 2^{b}}^{\dagger}(\boldsymbol{x}_{2}) = 0] & =    & 2^{-m}\sum_{x_{2}^{*} \in \Tribes_{b, 2^{b}}^{\dagger -1}(0)} \Pr[g_{x_{2}^{*}}(\boldsymbol{x}_{1}) \neq \Tribes_{b, 2^{b}}(\boldsymbol{x}_{1})] \\
+                                                                                                       & \geq & 1/3.
+\end{IEEEeqnarray*}
+
+Agora, juntando o fato que $\Pr[\Tribes_{b, 2^{b}}^{\dagger}(\boldsymbol{x}_{2}) = 0] = 1/e$ (no limite dos grandes números) podemos concluir que
 
 \begin{equation*}
-	\Pr_{y \sim \binalph^{m}}[C(x^{*}, y) \neq \Tribes_{b, 2^{b}}^{\dagger}(y)] < 0,2.
+\Pr[g(\boldsymbol{x}_{1}, \boldsymbol{x}_{2}) \neq \Tribes_{b, 2^{b}}(\boldsymbol{x}_{1}) \lvert \Tribes_{b, 2^{b}}^{\dagger}(\boldsymbol{x}_{2}) = 0] \times \Pr[\Tribes_{b, 2^{b}}^{\dagger}(\boldsymbol{x}_{2}) = 0] \geq \frac{1}{3} \times \frac{1}{e} \geq 1/10.
 \end{equation*}
 
-Seja $C^{\prime}$ o circuito tal que $C^{\prime}(y) = C(x^{*}, y) = \Tribes_{b, 2^{b}}^{\dagger}(y)$. Como a largura de $C^{\prime}$ é no máximo $\log(100s)$, pelo corolário \ref{tribes_dagger_width_lb} devemos ter
+E portanto
 
-\begin{IEEEeqnarray*} {rCl}
-	\log(100s) & \geq & (1/3)2^{b} \\
-	100s         & \geq & 2^{(1/3)2^{b}} \\
-	s               & \geq & 2^{(1/3)2^{b}}/100.
-\end{IEEEeqnarray*}
+\begin{equation*}
+    \Pr[g(\boldsymbol{x}_{1}, \boldsymbol{x}_{2}) \neq F_{m}(\boldsymbol{x}_{1}, \boldsymbol{x}_{2})] \geq 1/10.
+\end{equation*}
 
-E como $2^{(1/3)2^{b}}/100 = 2^{\Omega(m/\log m)}$, nós completamos a prova para o caso em que $C$ é um circuito FND. No caso em que $C$ é um circuito FNC nós meio que trocamos o papel das funções $\Tribes_{b, 2^{b}}$ e $\Tribes_{b, 2^{b}}^{\dagger}$ e usamos os mesmos argumentos.
+Condicionando em $x_{1} \in \Tribes_{b, 2^{b}}^{-1}(0)$ e usando o teorema \ref{tribes_dagger_width_lb} podemos provar o mesmo resultado para fórmulas FND.
 
 \end{proof}
 
-Só como um comentário, o argumento que O'Donnell e Wimmer usaram para provar o teorema \ref{tribes_width_lb} é basicamente um dos últimos passos que (...) usaram para provar (...). Lembrando que eles queriam mostrar que a função $\Sipser^{\prime}_{d}$ não pode ser aproximada por circuitos de profundidade $d - 1$ e tamanho subexponencial. A estratégia deles foi definir um operador $\Psi$ de forma que com alta probabilidade $\Psi(\Sipser^{\prime})$ pode ser representada como $Or_{S}$, o ``ou'' sobre variáveis $\{y_{i}\}_{i \in S}$, enquanto que $\Psi(C)$ é representada por um uma fórmula FNC com largura ``pequena'' sobre as mesmas variáveis $\{y_{i}\}_{i \in S}$ e portanto não pode ser o caso que $C$ esteja perto de $\Sipser^{\prime}$.
+Podemos também provar um limitante inferior para o tamanho da fórmula usando o seguinte resultado mais geral que transforma um limitante inferior pra largura da fórmula em um limitante inferior para o tamanho da fórmula.
+
+\begin{teo} \label{width_to_size}
+Seja $g: \binalph^{m} \to \binalph$ uma fórmula de profundidade 2 e tamanho $s$. Então, para todo $\varepsilon > 0$, existe uma fórmula $g^{\prime}: \binalph^{m} \to \binalph$ de profundidade 2 e largura no máximo $\log(s/\varepsilon)$ tal que
+
+\begin{equation*}
+    \Pr_{\boldsymbol{x} \sim \binalph^{m}}[g(\boldsymbol{x}) \neq g^{\prime}(\boldsymbol{x})] < \varepsilon
+\end{equation*}
+
+\end{teo}
+
+\begin{proof}
+
+Vamos assumir que $g$ é uma fórmula FNC (o caso em que $g$ é uma fórmula FND é simétrico). Seja $g^{\prime}$ a fórmula $g$ com todas as cláusulas de largura pelo menos $\log(s/\varepsilon)$ removidas. Uma string $x \in \binalph^{m}$ faz $g(x)$ ser diferente de $g^{\prime}(x)$ se e somente se $g(x) = 0$ e todas as cláusulas que não são satisfeitas por $x$ têm largura pelo menos $\log(s/\varepsilon)$, o que significa que estas cláusulas não aparecem em $g^{\prime}$ e portanto $g^{\prime}(x) = 1$. Logo, a probabilidade que $g$ e $g^{\prime}$ são diferentes é menor do que a probabilidade que pelo menos uma das cláusulas removidas de $g$ não é satisfeita. Seja $C$ uma cláusula de $g$ com largura pelo menos $\log(s/\varepsilon)$. A probabilidade que uma string $\boldsymbol{x} \sim \binalph^{m}$ não satisfaz $C$ é menor do que $2^{-\log(s/\varepsilon)} = \varepsilon/s$. Como há no máximo $s$ cláusulas de largura pelo menos $\log(s/\varepsilon)$, pelo princípio da inclusão-exclusão temos que
+
+\begin{equation*}
+    \Pr_{\boldsymbol{x} \sim \binalph^{m}}[g(\boldsymbol{x}) \neq g^{\prime}(\boldsymbol{x})] < s\frac{\varepsilon}{s} = \varepsilon
+\end{equation*}
+
+\end{proof}
+
+Agora podemos usar os teoremas \ref{odonnell_wimmer} e \ref{width_to_size} para provar o seguinte.
+
+\begin{teo} [O'Donnell, Wimmer] \label{odonnel_wimmer_size}
+
+Seja $b \geq 1$ e $m = b2^{b}$. Então, para todo $\varepsilon > 0$,  qualquer fórmula $g: \binalph^{m} \times \binalph^{m} \to \binalph$ de profundidade 2 e tamanho $s < \varepsilon2^{\frac{1}{3}2^{b}} = 2^{\mathcal{O}(m/\log m)}$ satisfaz
+
+\begin{equation*}
+    \Pr_{\boldsymbol{x}_{1}, \boldsymbol{x}_{2} \sim \binalph^{m}}[g(\boldsymbol{x}_{1}, \boldsymbol{x}_{2}) \neq F_{m}(\boldsymbol{x}_{1}, \boldsymbol{x}_{2})] \geq 1/10 - \varepsilon.
+\end{equation*}
+
+\end{teo}
+
+\begin{proof}
+
+Pelo teorema \ref{width_to_size}, existe uma fórmula de $g^{\prime}: \binalph^{m} \times \binalph^{m} \to \binalph$ de profundidade 2 e com largura no máximo $\log(s/\varepsilon)$ tal que
+
+\begin{equation*}
+    \Pr[g(\boldsymbol{x}_{1}. \boldsymbol{x}_{2}) \neq g^{\prime}(\boldsymbol{x}_{1}, \boldsymbol{x}_{2})] < \varepsilon.
+\end{equation*}
+
+Como $\log(s/\varepsilon) < \frac{1}{3}2^{b}$, pelo teorema \ref{odonnell_wimmer} nós devemos ter
+
+\begin{equation*}
+    \Pr[g^{\prime}(\boldsymbol{x}_{1}, \boldsymbol{x}_{2}) \neq F_{m}(\boldsymbol{x}_{1}, \boldsymbol{x}_{2})] \geq 1/10.
+\end{equation*}
+
+E portanto,
+
+\begin{equation*}
+    \Pr[g(\boldsymbol{x}_{1}, \boldsymbol{x}_{2}) \neq F_{m}(\boldsymbol{x}_{1}, \boldsymbol{x}_{2})] \geq 1/10 - \varepsilon.
+\end{equation*}
+
+\end{proof}
+
+Na seção \ref{section_RST_proof} nós iremos revisitar o truque de O'Donnel-Wimmer, que vimos em \ref{odonnell_wimmer_trick}, para generalizar os resultados de O'Donnell e Wimmer que vimos nesta seção para circuitos de profundidade constante maior do que 2.
 
 \section{A hipótese dos oráculo aleatório} \label{section_random_oracle_hypothesis}
